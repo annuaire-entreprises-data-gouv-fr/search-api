@@ -1,0 +1,35 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12
+    user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
+    volumes:
+      - ./pg-airflow:/var/lib/postgresql/data
+    env_file:
+      - ./airflow/.env
+    network_mode: host
+  webserver:
+    build:
+      context: ./airflow
+      dockerfile: Dockerfile
+    hostname: webserver
+    restart: always
+    depends_on:
+      - postgres
+    command: webserver
+    env_file:
+      - ./airflow/.env
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/scripts:/opt/airflow/scripts
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/ssh:/home/airflow/.ssh
+      - ./airflow/requirements.txt:/opt/airflow/requirements.txt
+    entrypoint: ./scripts/airflow-entrypoint.sh
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /opt/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 32
+    network_mode: host

@@ -1,0 +1,15 @@
+minio
+boto3
+emails
+pandas
+cchardet
+papermill
+plotly
+plotly_express
+kaleido
+ipykernel
+nbconvert
+openpyxl
+elasticsearch_dsl
+elasticsearch
+requests

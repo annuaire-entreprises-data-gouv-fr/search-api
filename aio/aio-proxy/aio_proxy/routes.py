@@ -6,6 +6,7 @@ import aio_proxy.secrets
 from elasticsearch_dsl import connections
 import json
 from aio_proxy.search_functions import search_es
+from aio_proxy import secrets
 
 connections.create_connection(hosts=[secrets.ELASTIC_URL], http_auth=(secrets.ELASTIC_USER, secrets.ELASTIC_PASSWORD),
                               retry_on_timeout=True)

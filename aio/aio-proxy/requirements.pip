@@ -1,2 +1,4 @@
 aiohttp==3.7.3
 PyYAML==5.3.1
+elasticsearch
+elasticsearch_dsl

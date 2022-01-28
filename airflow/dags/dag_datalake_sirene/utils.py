@@ -1,6 +1,7 @@
 from datetime import datetime
 import requests
 import json
+import logging
 
 from operators.papermill_minio import PapermillMinioOperator
 from operators.elastic_create_index import ElasticCreateIndexOperator
@@ -8,7 +9,7 @@ from operators.elastic_fill_index import ElasticFillIndexOperator
 
 from dag_datalake_sirene.variables import AIO_URL
 from dag_datalake_sirene import secrets
-from dag_datalake_sirene.variables import DAG_FOLDER, DAG_NAME, TODAY
+from dag_datalake_sirene.variables import DAG_FOLDER, DAG_NAME, TODAY, AIRFLOW_DAG_HOME, TMP_FOLDER
 
 
 def get_current_color(ti):
@@ -17,6 +18,7 @@ def get_current_color(ti):
         current_color = json.loads(response.content)['CURRENT_COLOR']
     except requests.exceptions.RequestException as e:
         current_color = 'blue'
+    logging.info(f'Current color: {current_color}')
     ti.xcom_push(key='current_color', value=current_color)
 
 

@@ -19,7 +19,7 @@ with DAG(
         schedule_interval='0 23 10 * *',
         start_date=days_ago(10),
         dagrun_timeout=timedelta(minutes=60 * 8),
-        tags='siren',
+        tags=['siren'],
 ) as dag:
     get_current_color = PythonOperator(
         task_id="get_current_color",

@@ -8,7 +8,7 @@ from operators.elastic_fill_index import ElasticFillIndexOperator
 
 from dag_datalake_sirene.variables import AIO_URL
 from dag_datalake_sirene import secrets
-from variables import DAG_FOLDER, DAG_NAME, TODAY
+from dag_datalake_sirene.variables import DAG_FOLDER, DAG_NAME, TODAY
 
 
 def get_current_color(ti):

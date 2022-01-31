@@ -23,6 +23,7 @@ with DAG(
 ) as dag:
     get_current_color = PythonOperator(
         task_id="get_current_color",
+        provide_context=True,
         python_callable=get_current_color
     )
 
@@ -33,6 +34,7 @@ with DAG(
 
     format_sirene_notebook = PythonOperator(
         task_id="format_sirene_notebook",
+        provide_context=True,
         python_callable=format_sirene_notebook
     )
 
@@ -43,6 +45,7 @@ with DAG(
 
     create_elastic_index = PythonOperator(
         task_id='create_elastic_index',
+        provide_context=True,
         python_callable=create_elastic_index
     )
     '''
@@ -53,6 +56,7 @@ with DAG(
     '''
     fill_elastic_index = PythonOperator(
         task_id="fill_elastic_index",
+        provide_context=True,
         python_callable=fill_index
     )
 

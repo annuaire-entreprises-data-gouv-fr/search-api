@@ -126,10 +126,12 @@ class PapermillMinioOperator(BaseOperator):
                             self.minio_output_filepath+os.path.join(path, name).replace(self.tmp_path,''),
                             os.path.join(path, name)
                         )
-        
-        report_url = 'https://{}/{}/{}'.format(
+
+        '''
+         report_url = 'https://{}/{}/{}'.format(
                 self.minio_url,
                 self.minio_bucket,
                 self.minio_output_filepath+output_report.split('/')[-1]
             )
-        context['ti'].xcom_push(key='report_url', value=report_url)
+        # context['ti'].xcom_push(key='report_url', value=report_url)
+        '''

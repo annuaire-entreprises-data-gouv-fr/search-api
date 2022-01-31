@@ -12,19 +12,19 @@ from dag_datalake_sirene import secrets
 from dag_datalake_sirene.variables import DAG_FOLDER, DAG_NAME, TODAY, AIRFLOW_DAG_HOME, TMP_FOLDER
 
 
-def get_current_color(ti):
+def get_current_color(**kwargs):
     try:
         response = requests.get(AIO_URL + '/colors')
         current_color = json.loads(response.content)['CURRENT_COLOR']
     except requests.exceptions.RequestException as e:
         current_color = 'blue'
     logging.info(f'Current color: {current_color}')
-    ti.xcom_push(key='current_color', value=current_color)
+    kwargs['ti'].xcom_push(key='current_color', value=current_color)
 
 
-def format_sirene_notebook(ti):
+def format_sirene_notebook(**kwargs):
 
-    current_color = ti.xcom_pull(key='current_color', task_ids='get_current_color')
+    current_color = kwargs['ti'].xcom_pull(key='current_color', task_ids='get_current_color')
     elastic_index = 'siren-' + current_color
 
     format_notebook = PapermillMinioOperator(
@@ -47,8 +47,8 @@ def format_sirene_notebook(ti):
     format_notebook.execute(dict())
 
 
-def create_elastic_index(ti):
-    current_color = ti.xcom_pull(key='current_color', task_ids='get_current_color')
+def create_elastic_index(**kwargs):
+    current_color = kwargs['ti'].xcom_pull(key='current_color', task_ids='get_current_color')
     elastic_index = 'siren-' + current_color
     create_index = ElasticCreateIndexOperator(
         task_id='create_elastic_index',
@@ -60,7 +60,7 @@ def create_elastic_index(ti):
     create_index.execute(dict())
 
 
-def generate_kpi_notebook(ti):
+def generate_kpi_notebook(**kwargs):
     generate_kpi = PapermillMinioOperator(
       task_id="generate_kpi_notebook",
       input_nb=AIRFLOW_DAG_HOME+DAG_FOLDER+"generate-kpi-sirene.ipynb",
@@ -79,8 +79,8 @@ def generate_kpi_notebook(ti):
     generate_kpi.execute(dict())
 
 
-def fill_index():
-    current_color = ti.xcom_pull(key='current_color', task_ids='get_current_color')
+def fill_index(**kwargs):
+    current_color = kwargs['ti'].xcom_pull(key='current_color', task_ids='get_current_color')
     elastic_index = 'siren-' + current_color
 
     all_deps = [*'-0'.join(list(str(x) for x in range(0, 10))).split('-')[1:],
@@ -98,7 +98,7 @@ def fill_index():
         fill_elastic = ElasticFillIndexOperator(
             task_id='fill_elastic_index',
             elastic_url=secrets.ELASTIC_URL,
-            elastic_index=ELASTIC_INDEX,
+            elastic_index=elastic_index,
             elastic_user=secrets.ELASTIC_USER,
             elastic_password=secrets.ELASTIC_PASSWORD,
             elastic_bulk_size=1500,

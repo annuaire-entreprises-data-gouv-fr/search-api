@@ -4,10 +4,10 @@ import json
 AIO_URL = 'http://localhost:4500'
 
 
-def get_current_color():
+def get_next_color():
     try:
         response = requests.get(AIO_URL + '/colors')
-        current_color = json.loads(response.content)['CURRENT_COLOR']
+        next_color = json.loads(response.content)['NEXT_COLOR']
     except requests.exceptions.RequestException as e:
-        current_color = 'blue'
-    return current_color
+        next_color = 'blue'
+    return next_color

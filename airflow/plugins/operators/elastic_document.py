@@ -11,10 +11,10 @@ from elasticsearch_dsl import (
     Index,
     connections,
 )
-from operators.color import get_current_color
+from operators.color import get_next_color
 
 
-CURRENT_COLOR = get_current_color()
+NEXT_COLOR = get_next_color()
 
 # Define filters
 french_elision = token_filter('french_elision', type='elision', articles_case=True,
@@ -72,5 +72,5 @@ class Siren(Document):
     tranche_effectif_salarie_entreprise = Keyword()
 
     class Index:
-        name = 'siren-' + f'{CURRENT_COLOR}'
+        name = 'siren-' + f'{NEXT_COLOR}'
         settings = {"number_of_shards": 1, "number_of_replicas": 0}

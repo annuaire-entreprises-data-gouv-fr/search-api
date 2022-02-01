@@ -12,20 +12,20 @@ from dag_datalake_sirene import secrets
 from dag_datalake_sirene.variables import DAG_FOLDER, DAG_NAME, TODAY, AIRFLOW_DAG_HOME, TMP_FOLDER
 
 
-def get_current_color(**kwargs):
+def get_next_color(**kwargs):
     try:
         response = requests.get(AIO_URL + '/colors')
-        current_color = json.loads(response.content)['CURRENT_COLOR']
+        next_color = json.loads(response.content)['NEXT_COLOR']
     except requests.exceptions.RequestException as e:
-        current_color = 'blue'
-    logging.info(f'Current color: {current_color}')
-    kwargs['ti'].xcom_push(key='current_color', value=current_color)
+        next_color = 'blue'
+    logging.info(f'Next color: {next_color}')
+    kwargs['ti'].xcom_push(key='next_color', value=next_color)
 
 
 def format_sirene_notebook(**kwargs):
 
-    current_color = kwargs['ti'].xcom_pull(key='current_color', task_ids='get_current_color')
-    elastic_index = 'siren-' + current_color
+    next_color = kwargs['ti'].xcom_pull(key='next_color', task_ids='get_next_color')
+    elastic_index = 'siren-' + next_color
 
     format_notebook = PapermillMinioOperator(
         task_id="format_sirene_notebook",
@@ -48,8 +48,8 @@ def format_sirene_notebook(**kwargs):
 
 
 def create_elastic_index(**kwargs):
-    current_color = kwargs['ti'].xcom_pull(key='current_color', task_ids='get_current_color')
-    elastic_index = 'siren-' + current_color
+    next_color = kwargs['ti'].xcom_pull(key='next_color', task_ids='get_next_color')
+    elastic_index = 'siren-' + next_color
     create_index = ElasticCreateIndexOperator(
         task_id='create_elastic_index',
         elastic_url=secrets.ELASTIC_URL,
@@ -80,8 +80,8 @@ def generate_kpi_notebook(**kwargs):
 
 
 def fill_index(**kwargs):
-    current_color = kwargs['ti'].xcom_pull(key='current_color', task_ids='get_current_color')
-    elastic_index = 'siren-' + current_color
+    next_color = kwargs['ti'].xcom_pull(key='next_color', task_ids='get_next_color')
+    elastic_index = 'siren-' + next_color
 
     all_deps = [*'-0'.join(list(str(x) for x in range(0, 10))).split('-')[1:],
                 *list(str(x) for x in range(10, 20)),

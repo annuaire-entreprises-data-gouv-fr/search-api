@@ -7,7 +7,7 @@ from airflow.operators.python import PythonOperator
 
 from dag_datalake_sirene import secrets
 from dag_datalake_sirene.variables import AIRFLOW_DAG_HOME, TMP_FOLDER, DAG_FOLDER, DAG_NAME, TODAY
-from dag_datalake_sirene.utils import get_current_color, format_sirene_notebook, create_elastic_index, \
+from dag_datalake_sirene.utils import get_next_color, format_sirene_notebook, create_elastic_index, \
     generate_kpi_notebook, fill_index
 
 from datetime import timedelta
@@ -21,10 +21,10 @@ with DAG(
         dagrun_timeout=timedelta(minutes=60 * 8),
         tags=['siren'],
 ) as dag:
-    get_current_color = PythonOperator(
-        task_id="get_current_color",
+    get_next_color = PythonOperator(
+        task_id="get_next_color",
         provide_context=True,
-        python_callable=get_current_color
+        python_callable=get_next_color
     )
 
     clean_previous_folder = CleanFolderOperator(
@@ -60,7 +60,7 @@ with DAG(
         python_callable=fill_index
     )
 
-    clean_previous_folder.set_upstream(get_current_color)
+    clean_previous_folder.set_upstream(get_next_color)
     format_sirene_notebook.set_upstream(clean_previous_folder)
     clean_tmp_folder.set_upstream(format_sirene_notebook)
     create_elastic_index.set_upstream(clean_tmp_folder)

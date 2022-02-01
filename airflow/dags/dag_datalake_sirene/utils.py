@@ -4,8 +4,8 @@ import json
 import logging
 
 from operators.papermill_minio import PapermillMinioOperator
-from operators.elastic_create_index import ElasticCreateIndexOperator
-from operators.elastic_fill_index import ElasticFillIndexOperator
+from operators.elastic_create_siren import ElasticCreateSirenOperator
+from operators.elastic_fill_siren import ElasticFillSirenOperator
 
 from dag_datalake_sirene.variables import AIO_URL
 from dag_datalake_sirene import secrets
@@ -47,10 +47,10 @@ def format_sirene_notebook(**kwargs):
     format_notebook.execute(dict())
 
 
-def create_elastic_index(**kwargs):
+def create_elastic_siren(**kwargs):
     next_color = kwargs['ti'].xcom_pull(key='next_color', task_ids='get_next_color')
     elastic_index = 'siren-' + next_color
-    create_index = ElasticCreateIndexOperator(
+    create_index = ElasticCreateSirenOperator(
         task_id='create_elastic_index',
         elastic_url=secrets.ELASTIC_URL,
         elastic_index=elastic_index,
@@ -79,7 +79,7 @@ def generate_kpi_notebook(**kwargs):
     generate_kpi.execute(dict())
 
 
-def fill_index(**kwargs):
+def fill_siren(**kwargs):
     next_color = kwargs['ti'].xcom_pull(key='next_color', task_ids='get_next_color')
     elastic_index = 'siren-' + next_color
 
@@ -95,7 +95,7 @@ def fill_index(**kwargs):
 
     for dep in all_deps:
         print(DAG_FOLDER + DAG_NAME + '/' + TODAY + '/' + elastic_index + '_' + dep + '.csv')
-        fill_elastic = ElasticFillIndexOperator(
+        fill_elastic = ElasticFillSirenOperator(
             task_id='fill_elastic_index',
             elastic_url=secrets.ELASTIC_URL,
             elastic_index=elastic_index,

@@ -11,7 +11,7 @@ from elasticsearch_dsl import (
     Index,
     connections,
 )
-from operators.color import get_next_color
+from operators.aio_color import get_next_color
 
 
 NEXT_COLOR = get_next_color()

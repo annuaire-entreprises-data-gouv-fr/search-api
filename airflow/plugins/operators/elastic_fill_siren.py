@@ -12,7 +12,7 @@ import numpy as np
 
 from elasticsearch import helpers, Elasticsearch
 from elasticsearch_dsl import connections
-from operators.elastic_document import Siren
+from operators.elastic_mapping_siren import Siren
 
 
 def doc_generator(df: pd.DataFrame):
@@ -24,7 +24,7 @@ def doc_generator(df: pd.DataFrame):
         # Serialize the instance into a dictionary so that it can be saved in elasticsearch.
 
 
-class ElasticFillIndexOperator(BaseOperator):
+class ElasticFillSirenOperator(BaseOperator):
     """
     Fill elasticsearch Index
     :param elastic_url: endpoint url of elasticsearch
@@ -91,7 +91,7 @@ class ElasticFillIndexOperator(BaseOperator):
 
         self.elastic_connection = connections.get_connection()
 
-    def execute(self, context):
+    def execute(self):
 
         if not self.elastic_url:
             raise ValueError("Please provide elasticsearch url endpoint!")

@@ -7,8 +7,8 @@ from airflow.operators.python import PythonOperator
 
 from dag_datalake_sirene import secrets
 from dag_datalake_sirene.variables import AIRFLOW_DAG_HOME, TMP_FOLDER, DAG_FOLDER, DAG_NAME, TODAY
-from dag_datalake_sirene.utils import get_next_color, format_sirene_notebook, create_elastic_index, \
-    generate_kpi_notebook, fill_index
+from dag_datalake_sirene.utils import get_next_color, format_sirene_notebook, create_elastic_siren, \
+    generate_kpi_notebook, fill_siren
 
 from datetime import timedelta
 from datetime import datetime
@@ -43,10 +43,10 @@ with DAG(
         folder_path=TMP_FOLDER + DAG_FOLDER + DAG_NAME + "/"
     )
 
-    create_elastic_index = PythonOperator(
-        task_id='create_elastic_index',
+    create_elastic_siren = PythonOperator(
+        task_id='create_elastic_siren',
         provide_context=True,
-        python_callable=create_elastic_index
+        python_callable=create_elastic_siren
     )
     '''
     generate_kpi_notebook = PythonOperator(
@@ -54,15 +54,15 @@ with DAG(
         python_callable=generate_kpi_notebook
     )
     '''
-    fill_elastic_index = PythonOperator(
-        task_id="fill_elastic_index",
+    fill_elastic_siren = PythonOperator(
+        task_id="fill_elastic_siren",
         provide_context=True,
-        python_callable=fill_index
+        python_callable=fill_siren
     )
 
     clean_previous_folder.set_upstream(get_next_color)
     format_sirene_notebook.set_upstream(clean_previous_folder)
     clean_tmp_folder.set_upstream(format_sirene_notebook)
-    create_elastic_index.set_upstream(clean_tmp_folder)
+    create_elastic_siren.set_upstream(clean_tmp_folder)
     # generate_kpi_notebook.set_upstream(clean_tmp_folder)
-    fill_elastic_index.set_upstream(create_elastic_index)
+    fill_elastic_siren.set_upstream(create_elastic_siren)

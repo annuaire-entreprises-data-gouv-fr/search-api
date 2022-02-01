@@ -8,10 +8,10 @@ from elasticsearch_dsl import (
     Index,
     connections,
 )
-from operators.elastic_document import Siren
+from operators.elastic_mapping_siren import Siren
 
 
-class ElasticCreateIndexOperator(BaseOperator):
+class ElasticCreateSirenOperator(BaseOperator):
     """
     Create elasticsearch Index
     :param elastic_url: endpoint url of elasticsearch

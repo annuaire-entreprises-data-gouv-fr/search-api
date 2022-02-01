@@ -91,7 +91,7 @@ class ElasticFillSirenOperator(BaseOperator):
 
         self.elastic_connection = connections.get_connection()
 
-    def execute(self):
+    def execute(self, context):
 
         if not self.elastic_url:
             raise ValueError("Please provide elasticsearch url endpoint!")

@@ -1,5 +1,6 @@
 from elasticsearch_dsl import Search, query
 import json
+import requests
 
 
 def ban_words(terms):

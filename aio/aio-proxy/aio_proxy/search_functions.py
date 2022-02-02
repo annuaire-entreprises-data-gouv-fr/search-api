@@ -63,8 +63,9 @@ def search_by_adress(index, query: str, offset: int, page_size: int):
     s = s[offset:(offset + page_size)]
     # s = s.highlight('siren', fragment_size=500)
     rs = s.execute()
+    total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False) for hit in rs.hits]
-    return res
+    return total_results, res
 
 
 def search_by_partial_id(index, query: str, field: str, offset: int, page_size: int):
@@ -73,8 +74,9 @@ def search_by_partial_id(index, query: str, field: str, offset: int, page_size: 
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
     s = s[offset:(offset + page_size)]
     rs = s.execute()
+    total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return res
+    return total_results, res
 
 
 def search_by_exact_id(index, field: str, query: str, offset: int, page_size: int):  # index: Type[Siren]
@@ -83,8 +85,9 @@ def search_by_exact_id(index, field: str, query: str, offset: int, page_size: in
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
     s = s[offset:(offset + page_size)]
     rs = s.execute()
+    total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return res
+    return total_results, res
 
 
 def is_id(index, query, offset: int, page_size: int):
@@ -153,8 +156,9 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
     s = s[offset:(offset + page_size)]
     rs = s.execute()
+    total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return res
+    return total_results, res
 
 
 def search_es(index, query: str, offset: int, page_size: int):

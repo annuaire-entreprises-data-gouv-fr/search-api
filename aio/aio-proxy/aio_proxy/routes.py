@@ -1,3 +1,5 @@
+from typing import List, Union, Any
+
 from aiohttp import web
 import os
 import logging
@@ -17,10 +19,16 @@ routes = web.RouteTableDef()
 @routes.get('/search')
 async def search_endpoint(request):
     terms = request.rel_url.query['q']
-    page = request.rel_url.query.get('page', 1)
-    page_size = request.rel_url.query.get('page_size', 20)
-    res = search_es(Siren, terms, int(page), int(page_size))
-    return web.Response(text=json.dumps(res, default=str))
+    page = int(request.rel_url.query.get('page', 1)) - 1
+    per_page = int(request.rel_url.query.get('page_size', 10))
+    total_results, unite_legale = search_es(Siren, terms, page*per_page, per_page)
+    res = {}
+    res['unite_legale'] = unite_legale
+    res['total_results'] = int(total_results)
+    res['page'] = page
+    res['per_page'] = per_page
+    res['total_pages'] = int(res['total_results']/res['per_page']) + 1
+    return web.Response(text=json.dumps([res], default=str))
 
 
 @routes.get('/colors')

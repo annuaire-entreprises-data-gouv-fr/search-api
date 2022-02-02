@@ -20,7 +20,7 @@ routes = web.RouteTableDef()
 async def search_endpoint(request):
     terms = request.rel_url.query['q']
     page = int(request.rel_url.query.get('page', 1)) - 1
-    per_page = int(request.rel_url.query.get('page_size', 10))
+    per_page = int(request.rel_url.query.get('per_page', 10))
     total_results, unite_legale = search_es(Siren, terms, page*per_page, per_page)
     res = {}
     res['unite_legale'] = unite_legale

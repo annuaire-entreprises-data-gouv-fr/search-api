@@ -148,10 +148,10 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
                                                       fields=['nom_complet^15', 'siren^3', 'siret^3',
                                                               'identifiantAssociationUniteLegale^3'])]),
             functions=[
-                query.SF("field_value_factor", field="nombre_etablissements", factor=5, modifier='sqrt', missing=1),
+                query.SF("field_value_factor", field="nombre_etablissements", factor=1, modifier='sqrt', missing=1),
             ],
         ),
-        query.Match(nom_complet={"query": query_terms})  # , 'fuzziness': 'AUTO'
+        query.Match(nom_complet={"query": query_terms, "operator": "and", 'fuzziness': 'AUTO'})
     ])
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
     s = s[offset:(offset + page_size)]

@@ -17,7 +17,9 @@ routes = web.RouteTableDef()
 @routes.get('/search')
 async def search_endpoint(request):
     terms = request.rel_url.query['q']
-    res = search_es(Siren, terms)
+    page = request.rel_url.query.get('page', 1)
+    page_size = request.rel_url.query.get('page_size', 20)
+    res = search_es(Siren, terms, int(page), int(page_size))
     return web.Response(text=json.dumps(res, default=str))
 
 

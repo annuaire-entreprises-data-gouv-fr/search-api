@@ -55,59 +55,62 @@ def is_adress(terms):
     # add a timeout case 500ms (maybe 200ms)
 
 
-def search_by_adress(index, query: str):
+def search_by_adress(index, query: str, offset: int, page_size: int):
     query = ban_words(query)
     s = index.search()
     s = s.query('match', geo_adresse=query)  # .analyzer(using=annuaire_analyzer)
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, "_score")
+    s = s[offset:(offset + page_size)]
     # s = s.highlight('siren', fragment_size=500)
     rs = s.execute()
     res = [hit.to_dict(skip_empty=False) for hit in rs.hits]
-    return (res)
+    return res
 
 
-def search_by_partial_id(index, query: str, field: str):
+def search_by_partial_id(index, query: str, field: str, offset: int, page_size: int):
     s = index.search()
     s = s.query({"prefix": {field: {"value": query}}})
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
+    s = s[offset:(offset + page_size)]
     rs = s.execute()
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return (res)
+    return res
 
 
-def search_by_exact_id(index, field: str, query: str):  # index: Type[Siren]
+def search_by_exact_id(index, field: str, query: str, offset: int, page_size: int):  # index: Type[Siren]
     s = index.search()
     s = s.query({"term": {field: {"value": query}}})
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
+    s = s[offset:(offset + page_size)]
     rs = s.execute()
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return (res)
+    return res
 
 
-def is_id(index, query):
+def is_id(index, query, offset: int, page_size: int):
     for t in query.split(' '):
         try:
             int(t)
             if len(t) >= 9:
                 if len(t) == 9:
                     # recherche exact
-                    result = search_by_exact_id(index, field='siren', query=query)
+                    result = search_by_exact_id(index, field='siren', query=query, offset=offset, page_size=page_size)
                     if result:
                         return result
                 else:
                     if (len(t) < 14) & (len(t) > 6):
                         # recherche partiel siret
-                        result = search_by_partial_id(index, field='siret', query=query)
+                        result = search_by_partial_id(index, field='siret', query=query, offset=offset, page_size=page_size)
                         if result:
                             return result
                     elif len(t) == 14:
                         # recherche exact siret
-                        result = search_by_exact_id(index, field='siret', query=query)
+                        result = search_by_exact_id(index, field='siret', query=query, offset=offset, page_size=page_size)
                         if result:
                             return result
             else:  # & (len(t) > 6)
                 # recherche partielle
-                result = search_by_partial_id(index, field='siren', query=query)
+                result = search_by_partial_id(index, field='siren', query=query, offset=offset, page_size=page_size)
                 if result:
                     return result
         except:
@@ -118,13 +121,13 @@ def is_id(index, query):
                     try:
                         int(t[1:])
                         if len(t) == 10:
-                            result = search_by_exact_id(index, field='identifiantAssociationUniteLegale', query=query)
+                            result = search_by_exact_id(index, field='identifiantAssociationUniteLegale', query=query, offset=offset, page_size=page_size)
                             if not result:
                                 pass
                             else:
                                 return result
                         elif len(t) < 10:
-                            result = search_by_partial_id(index, field='identifiantAssociationUniteLegale', query=query)
+                            result = search_by_partial_id(index, field='identifiantAssociationUniteLegale', query=query, offset=offset, page_size=page_size)
                             if result:
                                 return result
                     except:
@@ -133,7 +136,7 @@ def is_id(index, query):
     return []
 
 
-def search_by_name(index, query_terms: str):
+def search_by_name(index, query_terms: str, offset: int, page_size: int):
     s = index.search()
     s = s.query('bool', should=[
         query.Q(
@@ -148,20 +151,20 @@ def search_by_name(index, query_terms: str):
         query.Match(nom_complet={"query": query_terms})  # , 'fuzziness': 'AUTO'
     ])
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
-
+    s = s[offset:(offset + page_size)]
     rs = s.execute()
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
     return res
 
 
-def search_es(index, query: str):
-    isid = is_id(index, query)
+def search_es(index, query: str, offset: int, page_size: int):
+    isid = is_id(index, query, offset, page_size)
     if len(isid) == 0:
         isadress = is_adress(query)
         if isadress:
-            result = search_by_adress(index, query=query)
+            result = search_by_adress(index, query=query, offset=offset, page_size=page_size)
         else:
-            result = search_by_name(index, query_terms=query)
+            result = search_by_name(index, query_terms=query, offset=offset, page_size=page_size)
         return result
     else:
         return isid

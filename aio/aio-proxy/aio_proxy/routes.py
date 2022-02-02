@@ -25,7 +25,7 @@ async def search_endpoint(request):
     res = {}
     res['unite_legale'] = unite_legale
     res['total_results'] = int(total_results)
-    res['page'] = page
+    res['page'] = page + 1
     res['per_page'] = per_page
     res['total_pages'] = int(res['total_results']/res['per_page']) + 1
     return web.Response(text=json.dumps([res], default=str))

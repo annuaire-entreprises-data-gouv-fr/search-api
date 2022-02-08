@@ -28,7 +28,7 @@ async def search_endpoint(request):
     res['page'] = page + 1
     res['per_page'] = per_page
     res['total_pages'] = int(res['total_results']/res['per_page']) + 1
-    return web.Response(text=json.dumps([res], default=str))
+    return web.json_response(text=json.dumps([res], default=str))
 
 
 @routes.get('/colors')

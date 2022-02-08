@@ -34,7 +34,7 @@ french_synonym = token_filter('french_synonym', type='synonym', expand=True, syn
 annuaire_analyzer = analyzer('annuaire_analyzer',
                              tokenizer=tokenizer('icu_tokenizer'),
                              filter=['lowercase', french_elision, french_stop, 'icu_folding', french_synonym,
-                                     french_stemmer]
+                                     'asciifolding', french_stemmer]
                              )
 
 
@@ -49,6 +49,7 @@ class Siren(Document):
     categorie_entreprise = Text()
     code_postal = Keyword()
     commune = Keyword()
+    concat_nom_adr_siren = Text(analyzer=annuaire_analyzer, fields={"keyword": Keyword()})
     dateDebut = Date()
     date_creation = Date()
     date_creation_entreprise = Date()

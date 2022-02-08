@@ -28,6 +28,7 @@ def get_result(hit):
     return result
 
 
+'''
 def is_adress(terms):
     l1 = terms.split(' ')
     l1 = [x.lower() for x in l1]
@@ -103,12 +104,14 @@ def is_id(index, query, offset: int, page_size: int):
                 else:
                     if (len(t) < 14) & (len(t) > 6):
                         # recherche partiel siret
-                        result = search_by_partial_id(index, field='siret', query=query, offset=offset, page_size=page_size)
+                        result = search_by_partial_id(index, field='siret', query=query, offset=offset,
+                                                      page_size=page_size)
                         if result:
                             return result
                     elif len(t) == 14:
                         # recherche exact siret
-                        result = search_by_exact_id(index, field='siret', query=query, offset=offset, page_size=page_size)
+                        result = search_by_exact_id(index, field='siret', query=query, offset=offset,
+                                                    page_size=page_size)
                         if result:
                             return result
             else:  # & (len(t) > 6)
@@ -124,19 +127,22 @@ def is_id(index, query, offset: int, page_size: int):
                     try:
                         int(t[1:])
                         if len(t) == 10:
-                            result = search_by_exact_id(index, field='identifiantAssociationUniteLegale', query=query, offset=offset, page_size=page_size)
+                            result = search_by_exact_id(index, field='identifiantAssociationUniteLegale', query=query,
+                                                        offset=offset, page_size=page_size)
                             if not result:
                                 pass
                             else:
                                 return result
                         elif len(t) < 10:
-                            result = search_by_partial_id(index, field='identifiantAssociationUniteLegale', query=query, offset=offset, page_size=page_size)
+                            result = search_by_partial_id(index, field='identifiantAssociationUniteLegale', query=query,
+                                                          offset=offset, page_size=page_size)
                             if result:
                                 return result
                     except:
                         pass
             pass
     return []
+'''
 
 
 def search_by_name(index, query_terms: str, offset: int, page_size: int):
@@ -148,10 +154,11 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
                                                       fields=['nom_complet^15', 'siren^3', 'siret^3',
                                                               'identifiantAssociationUniteLegale^3'])]),
             functions=[
-                query.SF("field_value_factor", field="nombre_etablissements", factor=1, modifier='sqrt', missing=1),
+                query.SF("field_value_factor", field="nombre_etablissements_ouverts", factor=1, modifier='sqrt',
+                         missing=1),
             ],
         ),
-        query.Match(nom_complet={"query": query_terms, "operator": "and", 'fuzziness': 'AUTO'})
+        query.Match(nom_complet={"query": query_terms, "operator": "and"})  # 'fuzziness': 'AUTO'
     ])
     s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements": {'order': "desc"}})
     s = s[offset:(offset + page_size)]
@@ -161,6 +168,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
     return total_results, res
 
 
+'''
 def search_es(index, query: str, offset: int, page_size: int):
     isid = is_id(index, query, offset, page_size)
     if len(isid) == 0:
@@ -172,3 +180,9 @@ def search_es(index, query: str, offset: int, page_size: int):
         return result
     else:
         return isid
+'''
+
+
+def search_es(index, query: str, offset: int, page_size: int):
+    result = search_by_name(index, query_terms=query, offset=offset, page_size=page_size)
+    return result

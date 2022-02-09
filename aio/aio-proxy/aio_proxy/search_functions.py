@@ -154,7 +154,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
                                                       fields=['nom_complet^15', 'siren^3', 'siret^3',
                                                               'identifiantAssociationUniteLegale^3'])]),
             functions=[
-                query.SF("field_value_factor", field="nombre_etablissements_ouverts", factor=1000, modifier='sqrt',
+                query.SF("field_value_factor", field="nombre_etablissements_ouvert", factor=10, modifier='sqrt',
                          missing=1),
             ],
         ),
@@ -163,7 +163,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
             query=query.Bool(
                 must=[query.Match(concat_nom_adr_siren={"query": query_terms, "operator": "and", "boost": 8})]),
             functions=[
-                query.SF("field_value_factor", field="nombre_etablissements_ouverts", factor=10, modifier='sqrt',
+                query.SF("field_value_factor", field="nombre_etablissements_ouvert", factor=10, modifier='sqrt',
                          missing=1),
             ],
         ),
@@ -175,22 +175,21 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
                 fields=['nom_complet^7', 'siren^7', 'siret^4', 'identifiantAssociationUniteLegale^4'],
                 operator="and")]),
             functions=[
-                query.SF("field_value_factor", field="nombre_etablissements_ouverts", factor=10, modifier='sqrt',
+                query.SF("field_value_factor", field="nombre_etablissements_ouvert", factor=10, modifier='sqrt',
                          missing=1),
             ],
         ),
 
         query.MultiMatch(query=query_terms, type='most_fields', operator="and", fields=['nom_complet', 'geo_adresse'], fuzziness='AUTO')
     ])
-    # s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"nombre_etablissements_ouvert": {'order': "desc"}})
+    s = s.extra(track_scores=True)
+    s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"_score": {'order': "desc"}})
     s = s[offset:(offset + page_size)]
     rs = s.execute()
     total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False, include_meta=True) for hit in rs.hits]
     scores = [hit.meta.to_dict() for hit in rs.hits]
     return total_results, res, scores
-
-
 
 '''
 def search_es(index, query: str, offset: int, page_size: int):

@@ -187,7 +187,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
     s = s[offset:(offset + page_size)]
     rs = s.execute()
     total_results = rs.hits.total.value
-    res = [hit.to_dict(skip_empty=False, include_meta=True) for hit in rs.hits]
+    res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
     # scores = [hit.meta.to_dict() for hit in rs.hits]
     return total_results, res
 

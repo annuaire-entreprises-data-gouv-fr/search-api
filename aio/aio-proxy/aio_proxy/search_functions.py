@@ -62,7 +62,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
         query.MultiMatch(query=query_terms, type='most_fields', operator="and", fields=['nom_complet', 'geo_adresse'], fuzziness='AUTO')
     ])
     s = s.extra(track_scores=True)
-    s = s.sort({"etat_administratif_etablissement": {'order': "asc"}}, {"_score": {'order': "desc"}})
+    s = s.sort({"_score": {'order': "desc"}}, {"etat_administratif_etablissement": {'order': "asc"}})
     s = s[offset:(offset + page_size)]
     rs = s.execute()
     total_results = rs.hits.total.value

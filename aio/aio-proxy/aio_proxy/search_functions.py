@@ -37,6 +37,27 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
                          missing=1),
             ],
         ),
+        query.Q(
+            'function_score',
+            query=query.Bool(should=[query.MultiMatch(
+                query=query_terms,
+                type='most_fields',
+                fields=['liste_enseigne^7', 'liste_adresse^7'],
+                operator="and")]),
+            functions=[
+                query.SF("field_value_factor", field="nombre_etablissements_ouvert", factor=10, modifier='sqrt',
+                         missing=1),
+            ],
+        ),
+        query.Q(
+            'function_score',
+            query=query.Bool(
+                must=[query.Match(concat_enseigne_adresse={"query": query_terms, "operator": "and", "boost": 8})]),
+            functions=[
+                query.SF("field_value_factor", field="nombre_etablissements_ouvert", factor=10, modifier='sqrt',
+                         missing=1),
+            ],
+        ),
 
         query.MultiMatch(query=query_terms, type='most_fields', operator="and", fields=['nom_complet', 'geo_adresse'], fuzziness='AUTO')
     ])

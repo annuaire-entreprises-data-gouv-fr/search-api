@@ -1,9 +1,5 @@
 name: Lint Code Base
-on:
-  push:
-    branches-ignore: [master, main]
-  pull_request:
-    branches: [master, main]
+on: [push, pull_request]
 jobs:
   build:
     name: Lint Code Base
@@ -17,6 +13,6 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,15 +1,13 @@
 import codecs
 import os
 from typing import Dict, Optional
-
+import papermill as pm
 import attr
 import nbformat
 from airflow.lineage.entities import File
 from airflow.models import BaseOperator
 from minio import Minio
 from nbconvert import HTMLExporter
-
-import papermill as pm
 
 
 @attr.s(auto_attribs=True)

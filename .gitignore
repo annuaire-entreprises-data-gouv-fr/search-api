@@ -1,2 +1,4 @@
 es-data/
 pg-airflow/
+.DS_Store
+.idea/

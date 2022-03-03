@@ -1,12 +1,13 @@
 import logging
 import time
+from typing import Optional
+
 import numpy as np
 import pandas as pd
-from typing import Optional
 from airflow.models import BaseOperator
 from elasticsearch import helpers
-from minio import Minio
 from elasticsearch_dsl import connections
+from minio import Minio
 from operators.elastic_mapping_siren import Siren
 
 

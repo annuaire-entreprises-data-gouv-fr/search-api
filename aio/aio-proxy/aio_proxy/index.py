@@ -1,4 +1,5 @@
 import os
+
 from elasticsearch_dsl import (
     Date,
     Document,
@@ -10,6 +11,7 @@ from elasticsearch_dsl import (
     token_filter,
     tokenizer,
 )
+
 # Define filters
 french_elision = token_filter(
     "french_elision",

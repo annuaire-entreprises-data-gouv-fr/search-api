@@ -4,16 +4,12 @@ from airflow.models import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from dag_datalake_sirene.utils import (
-    get_next_color,
-    format_sirene_notebook,
     create_elastic_siren,
     fill_siren,
+    format_sirene_notebook,
+    get_next_color,
 )
-from dag_datalake_sirene.variables import (
-    TMP_FOLDER,
-    DAG_FOLDER,
-    DAG_NAME,
-)
+from dag_datalake_sirene.variables import DAG_FOLDER, DAG_NAME, TMP_FOLDER
 from operators.clean_folder import CleanFolderOperator
 
 with DAG(

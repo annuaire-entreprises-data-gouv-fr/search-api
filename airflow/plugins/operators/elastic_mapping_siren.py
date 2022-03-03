@@ -1,13 +1,13 @@
 from elasticsearch_dsl import (
-    token_filter,
-    tokenizer,
-    analyzer,
+    Date,
     Document,
+    Float,
+    Integer,
     Keyword,
     Text,
-    Integer,
-    Float,
-    Date,
+    analyzer,
+    token_filter,
+    tokenizer,
 )
 from operators.aio_color import get_next_color
 

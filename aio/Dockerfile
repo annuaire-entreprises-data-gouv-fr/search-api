@@ -4,7 +4,7 @@ COPY ./aio-proxy /app
 
 WORKDIR /app
 
-RUN pip install -r requirements.pip
+RUN pip install --no-cache-dir -r requirements.pip
 
 ENV color=blue
 

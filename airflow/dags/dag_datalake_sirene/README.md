@@ -1,4 +1,4 @@
-### Dag permettant l'alimentation d'un datalake sirene
+# Dag permettant l'alimentation d'un datalake sirene
 
 Le notebook `generate-data-before-indexation` permet de formater les données de la base sirene pour optimiser son
 indexation et faciliter le requêtage elasticsearch.

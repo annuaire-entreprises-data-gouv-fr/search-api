@@ -141,7 +141,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
         {"_score": {"order": "desc"}},
         {"etat_administratif_etablissement": {"order": "asc"}},
     )
-    s = s[offset : (offset + page_size)]
+    s = s[offset: (offset + page_size)]
     rs = s.execute()
     total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]

@@ -42,4 +42,4 @@ class MattermostOperator(BaseOperator):
         if self.image_url:
             data["attachments"] = [{"image_url": self.image_url}]
 
-        r = requests.post(self.mattermost_endpoint, json=data)
+        requests.post(self.mattermost_endpoint, json=data)

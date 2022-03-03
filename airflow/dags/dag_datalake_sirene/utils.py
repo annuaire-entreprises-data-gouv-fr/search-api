@@ -3,13 +3,13 @@ import logging
 
 import requests
 from dag_datalake_sirene import secrets
-from dag_datalake_sirene.variables import AIO_URL
 from dag_datalake_sirene.variables import (
+    AIO_URL,
+    AIRFLOW_DAG_HOME,
     DAG_FOLDER,
     DAG_NAME,
-    TODAY,
-    AIRFLOW_DAG_HOME,
     TMP_FOLDER,
+    TODAY,
 )
 from operators.elastic_create_siren import ElasticCreateSirenOperator
 from operators.elastic_fill_siren import ElasticFillSirenOperator
@@ -20,7 +20,7 @@ def get_next_color(**kwargs):
     try:
         response = requests.get(AIO_URL + "/colors")
         next_color = json.loads(response.content)["NEXT_COLOR"]
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         next_color = "blue"
     logging.info(f"Next color: {next_color}")
     kwargs["ti"].xcom_push(key="next_color", value=next_color)

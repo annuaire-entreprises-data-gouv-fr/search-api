@@ -2,10 +2,7 @@ import logging
 from typing import Optional
 
 from airflow.models import BaseOperator
-from elasticsearch_dsl import (
-    Index,
-    connections,
-)
+from elasticsearch_dsl import Index, connections
 from operators.elastic_mapping_siren import Siren
 
 

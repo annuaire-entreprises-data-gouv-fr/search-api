@@ -20,6 +20,6 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 networks:
-    onlysearch:
-        driver: bridge
-        name: api-search-annuaire-entreprises
+  onlysearch:
+    driver: bridge
+    name: api-search-annuaire-entreprises

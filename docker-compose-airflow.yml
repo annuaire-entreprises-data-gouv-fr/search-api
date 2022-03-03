@@ -28,7 +28,7 @@ services:
       - ./airflow/requirements.txt:/opt/airflow/requirements.txt
     entrypoint: ./scripts/airflow-entrypoint.sh
     healthcheck:
-      test: ["CMD-SHELL", "[ -f /opt/airflow/airflow-webserver.pid ]"]
+      test: [ "CMD-SHELL", "[ -f /opt/airflow/airflow-webserver.pid ]" ]
       interval: 30s
       timeout: 30s
       retries: 32

@@ -20,14 +20,14 @@ services:
     volumes:
       - ./es-data:/usr/share/elasticsearch/data
     container_name: elastic-sirene
-    command: bash -c "zip -q -d /usr/share/elasticsearch/lib/log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class && /usr/local/bin/docker-entrypoint.sh" 
+    command: bash -c "zip -q -d /usr/share/elasticsearch/lib/log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class && /usr/local/bin/docker-entrypoint.sh"
     networks:
-       - api-search-annuaire-entreprises
+      - api-search-annuaire-entreprises
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.elasticsearch.rule=Host(`localhost`)"
       - "traefik.http.routers.elasticsearch.entrypoints=elasticsearch"
       - "traefik.port=9200"
 networks:
-    api-search-annuaire-entreprises:
-        name: api-search-annuaire-entreprises
+  api-search-annuaire-entreprises:
+    name: api-search-annuaire-entreprises

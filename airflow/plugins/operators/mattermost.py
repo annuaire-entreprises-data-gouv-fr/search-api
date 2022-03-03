@@ -1,7 +1,8 @@
-from typing import Dict, Optional
+from typing import Optional
 
-from airflow.models import BaseOperator
 import requests
+from airflow.models import BaseOperator
+
 
 class MattermostOperator(BaseOperator):
     """
@@ -16,7 +17,7 @@ class MattermostOperator(BaseOperator):
 
     supports_lineage = True
 
-    template_fields = ('mattermost_endpoint', 'text', 'image_url')
+    template_fields = ("mattermost_endpoint", "text", "image_url")
 
     def __init__(
         self,
@@ -37,12 +38,8 @@ class MattermostOperator(BaseOperator):
             raise ValueError("Not enough information to send message")
 
         data = {}
-        data['text'] = self.text
+        data["text"] = self.text
         if self.image_url:
-            data['attachments'] = [
-            { 
-                'image_url': self.image_url
-            }
-        ]
+            data["attachments"] = [{"image_url": self.image_url}]
 
-        r = requests.post(self.mattermost_endpoint, json = data)
+        r = requests.post(self.mattermost_endpoint, json=data)

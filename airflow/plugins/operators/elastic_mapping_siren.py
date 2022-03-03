@@ -8,29 +8,53 @@ from elasticsearch_dsl import (
     Integer,
     Float,
     Date,
-    Index,
-    connections,
 )
 from operators.aio_color import get_next_color
-
 
 NEXT_COLOR = get_next_color()
 
 # Define filters
-french_elision = token_filter('french_elision', type='elision', articles_case=True,
-                              articles=["l", "m", "t", "qu", "n", "s", "j", "d", "c", "jusqu", "quoiqu", "lorsqu",
-                                        "puisqu"])
-french_stop = token_filter('french_stop', type='stop', stopwords='_french_')
-french_stemmer = token_filter('french_stemmer', type='stemmer', language='light_french')
+french_elision = token_filter(
+    "french_elision",
+    type="elision",
+    articles_case=True,
+    articles=[
+        "l",
+        "m",
+        "t",
+        "qu",
+        "n",
+        "s",
+        "j",
+        "d",
+        "c",
+        "jusqu",
+        "quoiqu",
+        "lorsqu",
+        "puisqu",
+    ],
+)
+french_stop = token_filter("french_stop", type="stop", stopwords="_french_")
+french_stemmer = token_filter("french_stemmer", type="stemmer", language="light_french")
 # ignore_case option deprecated, use lowercase filter before synonym filter
-french_synonym = token_filter('french_synonym', type='synonym', expand=True, synonyms=[])
+french_synonym = token_filter(
+    "french_synonym", type="synonym", expand=True, synonyms=[]
+)
 
 # Define analyzer
-annuaire_analyzer = analyzer('annuaire_analyzer',
-                             tokenizer=tokenizer('icu_tokenizer'),
-                             filter=['lowercase', french_elision, french_stop, 'icu_folding', french_synonym,
-                                     'asciifolding', french_stemmer]
-                             )
+annuaire_analyzer = analyzer(
+    "annuaire_analyzer",
+    tokenizer=tokenizer("icu_tokenizer"),
+    filter=[
+        "lowercase",
+        french_elision,
+        french_stop,
+        "icu_folding",
+        french_synonym,
+        "asciifolding",
+        french_stemmer,
+    ],
+)
 
 
 class Siren(Document):
@@ -45,7 +69,9 @@ class Siren(Document):
     code_postal = Keyword()
     commune = Keyword()
     concat_enseigne_adresse = Text(analyzer=annuaire_analyzer)
-    concat_nom_adr_siren = Text(analyzer=annuaire_analyzer, fields={"keyword": Keyword()})
+    concat_nom_adr_siren = Text(
+        analyzer=annuaire_analyzer, fields={"keyword": Keyword()}
+    )
     dateDebut = Date()
     date_creation = Date()
     date_creation_entreprise = Date()
@@ -78,5 +104,5 @@ class Siren(Document):
     tranche_effectif_salarie_entreprise = Keyword()
 
     class Index:
-        name = 'siren-' + f'{NEXT_COLOR}'
+        name = "siren-" + f"{NEXT_COLOR}"
         settings = {"number_of_shards": 1, "number_of_replicas": 0}

@@ -1,10 +1,9 @@
-from typing import Dict, Optional
-
-from airflow.models import BaseOperator
+import logging
+from typing import Optional
 
 import emails
+from airflow.models import BaseOperator
 
-import logging
 
 class MailDatagouvOperator(BaseOperator):
     """
@@ -26,7 +25,14 @@ class MailDatagouvOperator(BaseOperator):
 
     supports_lineage = True
 
-    template_fields = ('email_user', 'email_password', 'email_recipients', 'subject', 'message', 'attachment_path')
+    template_fields = (
+        "email_user",
+        "email_password",
+        "email_recipients",
+        "subject",
+        "message",
+        "attachment_path",
+    )
 
     def __init__(
         self,
@@ -55,27 +61,30 @@ class MailDatagouvOperator(BaseOperator):
         sender = self.email_user
         message = self.message
         subject = self.subject
-        message = emails.html(html='<p>%s</p>' % message,
-                                subject=subject,
-                                mail_from=sender)
+        message = emails.html(
+            html="<p>%s</p>" % message, subject=subject, mail_from=sender
+        )
 
         smtp = {
-            'host': 'mail.data.gouv.fr',
-            'port': 587,
-            'tls': True,
-            'user': self.email_user,
-            'password': self.email_password,
-            'timeout': 60
+            "host": "mail.data.gouv.fr",
+            "port": 587,
+            "tls": True,
+            "user": self.email_user,
+            "password": self.email_password,
+            "timeout": 60,
         }
         if self.attachment_path:
-            message.attach(data=open(self.attachment_path), filename=self.attachment_path.split('/')[-1])
-        
+            message.attach(
+                data=open(self.attachment_path),
+                filename=self.attachment_path.split("/")[-1],
+            )
+
         retry = True
         tries = 0
         while retry:
             r = message.send(to=self.email_recipients, smtp=smtp)
             logging.info(r)
             tries = tries + 1
-            if((r.status_code == 250) | (tries == 5)):
+            if (r.status_code == 250) | (tries == 5):
                 retry = False
         assert r.status_code == 250

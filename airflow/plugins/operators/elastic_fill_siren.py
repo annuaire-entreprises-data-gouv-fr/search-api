@@ -1,26 +1,23 @@
-from airflow.models import BaseOperator
-
 import logging
-from minio import Minio
 import time
-from typing import Dict, Optional
-from itertools import permutations
+from typing import Optional
 
-import json
-import pandas as pd
 import numpy as np
-
-from elasticsearch import helpers, Elasticsearch
+import pandas as pd
+from airflow.models import BaseOperator
 from elasticsearch_dsl import connections
+from minio import Minio
 from operators.elastic_mapping_siren import Siren
+
+from elasticsearch import helpers
 
 
 def doc_generator(df: pd.DataFrame):
     df_iter = df.iterrows()
     for index, document in df_iter:
-        yield Siren(
-            meta={'id': document["siret"]}, **document.to_dict()
-        ).to_dict(include_meta=True)
+        yield Siren(meta={"id": document["siret"]}, **document.to_dict()).to_dict(
+            include_meta=True
+        )
         # Serialize the instance into a dictionary so that it can be saved in elasticsearch.
 
 
@@ -54,23 +51,33 @@ class ElasticFillSirenOperator(BaseOperator):
     supports_lineage = True
 
     template_fields = (
-        'elastic_url', 'elastic_index', 'elastic_user', 'elastic_password', 'elastic_bulk_size', 'minio_url',
-        'minio_bucket', 'minio_user', 'minio_password', 'minio_filepath', 'column_id')
+        "elastic_url",
+        "elastic_index",
+        "elastic_user",
+        "elastic_password",
+        "elastic_bulk_size",
+        "minio_url",
+        "minio_bucket",
+        "minio_user",
+        "minio_password",
+        "minio_filepath",
+        "column_id",
+    )
 
     def __init__(
-            self,
-            *,
-            elastic_url: Optional[str] = None,
-            elastic_index: Optional[str] = None,
-            elastic_user: Optional[str] = None,
-            elastic_password: Optional[str] = None,
-            elastic_bulk_size: Optional[int] = None,
-            minio_url: Optional[str] = None,
-            minio_bucket: Optional[str] = None,
-            minio_user: Optional[str] = None,
-            minio_password: Optional[str] = None,
-            minio_filepath: Optional[str] = None,
-            **kwargs,
+        self,
+        *,
+        elastic_url: Optional[str] = None,
+        elastic_index: Optional[str] = None,
+        elastic_user: Optional[str] = None,
+        elastic_password: Optional[str] = None,
+        elastic_bulk_size: Optional[int] = None,
+        minio_url: Optional[str] = None,
+        minio_bucket: Optional[str] = None,
+        minio_user: Optional[str] = None,
+        minio_password: Optional[str] = None,
+        minio_filepath: Optional[str] = None,
+        **kwargs,
     ) -> None:
         super().__init__(**kwargs)
 
@@ -86,8 +93,11 @@ class ElasticFillSirenOperator(BaseOperator):
         self.minio_filepath = minio_filepath
 
         # initiate the default connection to elasticsearch
-        connections.create_connection(hosts=[self.elastic_url], http_auth=(self.elastic_user, self.elastic_password),
-                                      retry_on_timeout=True)
+        connections.create_connection(
+            hosts=[self.elastic_url],
+            http_auth=(self.elastic_user, self.elastic_password),
+            retry_on_timeout=True,
+        )
 
         self.elastic_connection = connections.get_connection()
 
@@ -100,7 +110,7 @@ class ElasticFillSirenOperator(BaseOperator):
             self.minio_url,
             access_key=self.minio_user,
             secret_key=self.minio_password,
-            secure=True
+            secure=True,
         )
         obj = client.get_object(
             self.minio_bucket,
@@ -109,21 +119,30 @@ class ElasticFillSirenOperator(BaseOperator):
         df_dep = pd.read_csv(obj, dtype=str)
         df_dep = df_dep.replace({np.nan: None})
 
-        logging.info('Successfully retrieved file - ' + str(df_dep.shape[0]) + ' documents to process')
+        logging.info(
+            "Successfully retrieved file - "
+            + str(df_dep.shape[0])
+            + " documents to process"
+        )
 
         try:
-            for success, details in helpers.parallel_bulk(self.elastic_connection, doc_generator(df=df_dep),
-                                                          chunk_size=self.elastic_bulk_size):
+            for success, details in helpers.parallel_bulk(
+                self.elastic_connection,
+                doc_generator(df=df_dep),
+                chunk_size=self.elastic_bulk_size,
+            ):
                 # logging.info(f'{details} \n {success}')
                 if not success:
-                    raise Exception(f'A file_access document failed: {details}')
+                    raise Exception(f"A file_access document failed: {details}")
         except Exception as e:
-            logging.error(f'Failed to send to Elasticsearch: {e}')
+            logging.error(f"Failed to send to Elasticsearch: {e}")
 
         time.sleep(1)
 
-        doc_count = self.elastic_connection.cat.count(index=self.elastic_index, params={"format": "json"})[0]['count']
-        logging.info(f'Number of documents indexed: {doc_count}')
+        doc_count = self.elastic_connection.cat.count(
+            index=self.elastic_index, params={"format": "json"}
+        )[0]["count"]
+        logging.info(f"Number of documents indexed: {doc_count}")
 
         elastic_mapping = Siren._index.get_mapping()
-        logging.info(f'The {self.elastic_index} index mapping: {elastic_mapping}')
+        logging.info(f"The {self.elastic_index} index mapping: {elastic_mapping}")

@@ -1,8 +1,8 @@
-from typing import Dict, Optional
+import os
+import shutil
+from typing import Optional
 
 from airflow.models import BaseOperator
-
-import os, shutil
 
 
 class CleanFolderOperator(BaseOperator):
@@ -15,13 +15,13 @@ class CleanFolderOperator(BaseOperator):
 
     supports_lineage = True
 
-    template_fields = ('folder_path',)
+    template_fields = ("folder_path",)
 
     def __init__(
-            self,
-            *,
-            folder_path: Optional[str] = None,
-            **kwargs,
+        self,
+        *,
+        folder_path: Optional[str] = None,
+        **kwargs,
     ) -> None:
         super().__init__(**kwargs)
 

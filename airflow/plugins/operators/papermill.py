@@ -18,10 +18,10 @@
 from typing import Dict, Optional
 
 import attr
-import papermill as pm
-
 from airflow.lineage.entities import File
 from airflow.models import BaseOperator
+
+import papermill as pm
 
 
 @attr.s(auto_attribs=True)
@@ -31,7 +31,7 @@ class NoteBook(File):
     type_hint: Optional[str] = "jupyter_notebook"
     parameters: Optional[Dict] = {}
 
-    meta_schema: str = __name__ + '.NoteBook'
+    meta_schema: str = __name__ + ".NoteBook"
 
 
 class PapermillOperator(BaseOperator):
@@ -47,7 +47,7 @@ class PapermillOperator(BaseOperator):
 
     supports_lineage = True
 
-    template_fields = ('input_nb', 'output_nb', 'parameters')
+    template_fields = ("input_nb", "output_nb", "parameters")
 
     def __init__(
         self,

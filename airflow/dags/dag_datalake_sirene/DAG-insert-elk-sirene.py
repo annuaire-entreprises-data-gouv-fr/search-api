@@ -43,7 +43,7 @@ with DAG(
         provide_context=True,
         python_callable=create_elastic_siren,
     )
- 
+
     fill_elastic_siren = PythonOperator(
         task_id="fill_elastic_siren", provide_context=True, python_callable=fill_siren
     )

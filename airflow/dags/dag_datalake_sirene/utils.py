@@ -67,25 +67,6 @@ def create_elastic_siren(**kwargs):
     create_index.execute(dict())
 
 
-def generate_kpi_notebook(**kwargs):
-    generate_kpi = PapermillMinioOperator(
-        task_id="generate_kpi_notebook",
-        input_nb=AIRFLOW_DAG_HOME + DAG_FOLDER + "generate-kpi-sirene.ipynb",
-        output_nb=TODAY + ".ipynb",
-        tmp_path=TMP_FOLDER + DAG_FOLDER + DAG_NAME + "/",
-        minio_url=secrets.MINIO_URL,
-        minio_bucket=secrets.MINIO_BUCKET,
-        minio_user=secrets.MINIO_USER,
-        minio_password=secrets.MINIO_PASSWORD,
-        minio_output_filepath=DAG_FOLDER + DAG_NAME + "/latest/generate_kpi_notebook/",
-        parameters={
-            "msgs": "Ran from Airflow " + TODAY + "!",
-            "OUTPUT_DATA_FOLDER": TMP_FOLDER + DAG_FOLDER + DAG_NAME + "/output/",
-        },
-    )
-    generate_kpi.execute(dict())
-
-
 def fill_siren(**kwargs):
     next_color = kwargs["ti"].xcom_pull(key="next_color", task_ids="get_next_color")
     elastic_index = "siren-" + next_color

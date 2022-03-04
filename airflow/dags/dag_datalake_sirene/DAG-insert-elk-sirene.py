@@ -43,12 +43,7 @@ with DAG(
         provide_context=True,
         python_callable=create_elastic_siren,
     )
-    """
-    generate_kpi_notebook = PythonOperator(
-        task_id="generate_kpi_notebook",
-        python_callable=generate_kpi_notebook
-    )
-    """
+ 
     fill_elastic_siren = PythonOperator(
         task_id="fill_elastic_siren", provide_context=True, python_callable=fill_siren
     )
@@ -57,5 +52,4 @@ with DAG(
     format_sirene_notebook.set_upstream(clean_previous_folder)
     clean_tmp_folder.set_upstream(format_sirene_notebook)
     create_elastic_siren.set_upstream(clean_tmp_folder)
-    # generate_kpi_notebook.set_upstream(clean_tmp_folder)
     fill_elastic_siren.set_upstream(create_elastic_siren)

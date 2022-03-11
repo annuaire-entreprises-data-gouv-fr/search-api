@@ -1,2 +1,2 @@
 secrets.py filter=git-crypt diff=git-crypt
-.gitattributes !fil.cryptter !diff
+.gitattributes !filter !diff

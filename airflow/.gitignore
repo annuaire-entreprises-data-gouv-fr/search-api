@@ -1,4 +1,3 @@
-variables.py
 .env
 pg-airflow/
 logs/

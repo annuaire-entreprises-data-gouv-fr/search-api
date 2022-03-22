@@ -3,3 +3,4 @@ PyYAML==5.3.1
 elasticsearch==7.17.0
 elasticsearch_dsl==7.4.0
 requests==2.27.1
+sentry-sdk==1.5.8

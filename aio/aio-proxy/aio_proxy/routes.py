@@ -7,6 +7,14 @@ from aio_proxy.search_functions import search_es
 from aiohttp import web
 from elasticsearch_dsl import connections
 
+import sentry_sdk
+from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+
+sentry_sdk.init(
+      dsn=secrets.DSN_SENTRY,
+      integrations=[AioHttpIntegration()]
+)
+
 connections.create_connection(
     hosts=[secrets.ELASTIC_URL],
     http_auth=(secrets.ELASTIC_USER, secrets.ELASTIC_PASSWORD),

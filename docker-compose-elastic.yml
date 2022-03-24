@@ -6,6 +6,8 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
     build:
       context: ./elasticsearch
+    env_file:
+      - .env
     environment:
       - node.name=elastic-sirene
       - cluster.name=es-docker-cluster
@@ -13,7 +15,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"
       - xpack.security.enabled=true
       - ELASTICSEARCH_PORT=9200
-      - ELASTIC_PASSWORD=etalab123
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     ulimits:
       memlock:
         soft: -1

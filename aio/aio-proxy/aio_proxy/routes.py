@@ -10,10 +10,11 @@ from elasticsearch_dsl import connections
 import sentry_sdk
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
-sentry_sdk.init(
-      dsn=secrets.DSN_SENTRY,
-      integrations=[AioHttpIntegration()]
-)
+if secrets.ENV == 'prod':
+    sentry_sdk.init(
+          dsn=secrets.DSN_SENTRY,
+          integrations=[AioHttpIntegration()]
+    )
 
 connections.create_connection(
     hosts=[secrets.ELASTIC_URL],

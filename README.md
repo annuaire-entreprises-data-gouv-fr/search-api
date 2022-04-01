@@ -23,4 +23,4 @@ Ce repository fait partie d'un ensemble de services qui constituent l'[Annuaire 
 
 ## Sources de données
 
-* Base Sirene des entreprises et de leurs établissements 👉 https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/
+👉 [Base Sirene des entreprises et de leurs établissements](https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/)

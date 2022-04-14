@@ -1,26 +1,24 @@
 import json
 import os
-from dotenv import load_dotenv
-
+import sentry_sdk
 from aio_proxy.index import Siren
 from aio_proxy.search_functions import search
 from aiohttp import web
+from dotenv import load_dotenv
 from elasticsearch_dsl import connections
-
-import sentry_sdk
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
 load_dotenv()
 
-if os.getenv('ENV') == 'prod':
+if os.getenv("ENV") == "prod":
     sentry_sdk.init(
-          dsn=os.getenv('DSN_SENTRY'),
+          dsn=os.getenv("DSN_SENTRY"),
           integrations=[AioHttpIntegration()]
     )
 
 connections.create_connection(
-    hosts=[os.getenv('ELASTIC_URL')],
-    http_auth=(os.getenv('ELASTIC_USER'), os.getenv('ELASTIC_PASSWORD')),
+    hosts=[os.getenv("ELASTIC_URL")],
+    http_auth=(os.getenv("ELASTIC_USER"), os.getenv("ELASTIC_PASSWORD")),
     retry_on_timeout=True,
 )
 

@@ -19,7 +19,7 @@ jobs:
           # VALIDATE_ALL_CODEBASE: false # Only new or edited files
           VALIDATE_JSCPD: false # Copy/paste detection
           VALIDATE_GITHUB_ACTIONS: false # Due to shellcheck SC2086 issues
-          # VALIDATE_MARKDOWN: false # Due to multiple headings issue
+          VALIDATE_MARKDOWN: false # Due to multiple headings issue
           # VALIDATE_PYTHON_BLACK: false # Not using black
           VALIDATE_DOCKERFILE_HADOLINT: false
-  
+          VALIDATE_HTML: false

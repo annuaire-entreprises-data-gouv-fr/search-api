@@ -11,10 +11,7 @@ from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 load_dotenv()
 
 if os.getenv("ENV") == "prod":
-    sentry_sdk.init(
-          dsn=os.getenv("DSN_SENTRY"),
-          integrations=[AioHttpIntegration()]
-    )
+    sentry_sdk.init(dsn=os.getenv("DSN_SENTRY"), integrations=[AioHttpIntegration()])
 
 connections.create_connection(
     hosts=[os.getenv("ELASTIC_URL")],

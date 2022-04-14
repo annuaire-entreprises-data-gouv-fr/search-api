@@ -58,7 +58,8 @@ annuaire_analyzer = analyzer(
 
 class Siren(Document):
     """
-    Class used to represent a company headquarters, one siren number and the corresponding sheadquarters siret number
+    Class used to represent a company headquarters,
+    one siren number and the corresponding sheadquarters siret number
     """
 
     activite_principale = Keyword()  # Add index_prefixes option

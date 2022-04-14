@@ -6,8 +6,6 @@ WORKDIR /app
 
 RUN pip install --no-cache-dir -r requirements.pip
 
-ENV color=blue
-
 EXPOSE 4500
 
 CMD [ "make", "run" ] 

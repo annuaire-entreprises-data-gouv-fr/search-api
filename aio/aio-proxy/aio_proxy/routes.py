@@ -1,5 +1,6 @@
 import json
 import os
+
 import sentry_sdk
 from aio_proxy.index import Siren
 from aio_proxy.search_functions import search

@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 from aio_proxy.index import Siren
-from aio_proxy.search_functions import search_es
+from aio_proxy.search_functions import search
 from aiohttp import web
 from elasticsearch_dsl import connections
 
@@ -32,7 +32,7 @@ async def search_endpoint(request):
     terms = request.rel_url.query["q"]
     page = int(request.rel_url.query.get("page", 1)) - 1
     per_page = int(request.rel_url.query.get("per_page", 10))
-    total_results, unite_legale = search_es(Siren, terms, page * per_page, per_page)
+    total_results, unite_legale = search(Siren, terms, page * per_page, per_page)
     res = {
         "unite_legale": unite_legale,
         "total_results": int(total_results),

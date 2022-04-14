@@ -148,7 +148,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
     return total_results, res
 
 
-def search_es(index, query: str, offset: int, page_size: int):
+def search(index, query: str, offset: int, page_size: int):
     result = search_by_name(
         index, query_terms=query, offset=offset, page_size=page_size
     )

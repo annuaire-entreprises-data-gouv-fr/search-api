@@ -2,7 +2,7 @@
 
 Ce site est disponible en ligne : [L’Annuaire des Entreprises](https://annuaire-entreprises.data.gouv.fr)
 
-Ce repo met en place l'infrastructure de l'API de recherche sur les données d'entreprises.
+Ce repository met en place l'infrastructure de l'API de recherche sur les données d'entreprises.
 
 ## Architecture du service 🏗
 

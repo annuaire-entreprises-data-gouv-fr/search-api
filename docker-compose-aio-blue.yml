@@ -1,0 +1,20 @@
+---
+version: '3'
+services:
+  http-proxy:
+    build:
+      context: ./aio
+    environment:
+      - CURRENT_COLOR=blue
+      - NEXT_COLOR=green
+    networks:
+      - api-search-annuaire-entreprises
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.aiosearch.rule=Host(`localhost`)"
+      - "traefik.http.routers.aiosearch.entrypoints=aiosearch"
+      - "traefik.port=4500"
+    container_name: aio-blue
+networks:
+  api-search-annuaire-entreprises:
+    name: api-search-annuaire-entreprises

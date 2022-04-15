@@ -1,0 +1,26 @@
+---
+version: "3.3"
+
+services:
+
+  traefik-onlysearch:
+    image: "traefik:v2.3"
+    networks:
+      - onlysearch
+    container_name: "traefik-onlysearch"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.elasticsearch.address=:9200"
+      - "--entrypoints.aiosearch.address=:4500"
+    ports:
+      - "9200:9200"
+      - "4500:4500"
+      - "8091:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+networks:
+  onlysearch:
+    driver: bridge
+    name: api-search-annuaire-entreprises

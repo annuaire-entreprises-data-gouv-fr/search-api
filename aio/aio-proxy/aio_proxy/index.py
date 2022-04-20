@@ -107,5 +107,5 @@ class Siren(Document):
     tranche_effectif_salarie_entreprise = Keyword()
 
     class Index:
-        name = f"siren-{os.getenv('CURRENT_COLOR')}"
+        name = f'siren-{os.getenv("CURRENT_COLOR")}'
         settings = {"number_of_shards": 1, "number_of_replicas": 0}

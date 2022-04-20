@@ -6,7 +6,7 @@ from aio_proxy.helper import serialize
 labels_file_path = "aio_proxy/labels/"
 
 
-def clean_parameter(request, param: str, default_value=None) -> object:
+def clean_parameter(request, param: str, default_value=None):
     param = request.rel_url.query.get(param, default_value)
     if param is None:
         return None
@@ -48,7 +48,7 @@ def parse_and_validate_is_entrepreneur_individuel(
             (is_entrepreneur_individuel_clean != 'NO'):
         raise ValueError("Seuls les valeurs 'yes' ou bien 'no' sont possibles pour 'is_"
                          "entrepreneur_individuel'.")
-    if is_entrepreneur_individuel_clean == 'yes':
+    if is_entrepreneur_individuel_clean == 'YES':
         return True
     return False
 
@@ -58,12 +58,12 @@ def parse_and_validate_tranche_effectif_salarie_entreprise(
     if tranche_effectif_salarie_entreprise_clean is None:
         return None
     if len(tranche_effectif_salarie_entreprise_clean) != 2:
-        raise ValueError("Tranche salariés doit contenir 2 caractères!")
+        raise ValueError("Tranche salariés doit contenir 2 caractères.")
     # test the validity of tranche_effectif_salarie_entreprise
     with open(labels_file_path + "tranches-effectifs.json") as json_file:
         tranches_effectifs_decoded = json.load(json_file)
     if tranche_effectif_salarie_entreprise_clean not in tranches_effectifs_decoded:
-        raise ValueError("Tranche salariés non valide!")
+        raise ValueError("Tranche salariés non valide.")
     return tranche_effectif_salarie_entreprise_clean
 
 

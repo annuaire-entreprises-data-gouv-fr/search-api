@@ -1,8 +1,12 @@
 from elasticsearch_dsl import query
 
 
-def search_by_name(index, query_terms: str, offset: int, page_size: int):
+def search_by_name(index, query_terms: str, offset: int, page_size: int, **kwargs):
     s = index.search()
+    # use filters to reduce search results
+    for key, value in kwargs.items():
+        if value is not None:
+            s = s.filter('term', **{key: value})
     s = s.query(
         "bool",
         should=[
@@ -141,6 +145,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
         {"_score": {"order": "desc"}},
         {"etat_administratif_etablissement": {"order": "asc"}},
     )
+
     s = s[offset : (offset + page_size)]
     rs = s.execute()
     total_results = rs.hits.total.value
@@ -148,8 +153,8 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int):
     return total_results, res
 
 
-def search(index, query: str, offset: int, page_size: int):
+def search_es(index, query: str, offset: int, page_size: int, **kwargs):
     result = search_by_name(
-        index, query_terms=query, offset=offset, page_size=page_size
+        index, query_terms=query, offset=offset, page_size=page_size, **kwargs
     )
     return result

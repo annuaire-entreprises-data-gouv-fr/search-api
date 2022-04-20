@@ -68,6 +68,7 @@ class Siren(Document):
     categorie_entreprise = Text()
     code_postal = Keyword()
     commune = Keyword()
+    complement_adresse = Text()
     concat_enseigne_adresse = Text(analyzer=annuaire_analyzer)
     concat_nom_adr_siren = Text(
         analyzer=annuaire_analyzer, fields={"keyword": Keyword()}
@@ -106,5 +107,5 @@ class Siren(Document):
     tranche_effectif_salarie_entreprise = Keyword()
 
     class Index:
-        name = "siren-{}".format(os.getenv("CURRENT_COLOR"))
+        name = f"siren-{os.getenv('CURRENT_COLOR')}"
         settings = {"number_of_shards": 1, "number_of_replicas": 0}

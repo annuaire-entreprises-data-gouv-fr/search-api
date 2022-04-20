@@ -1,22 +1,35 @@
 import json
 import os
-
-import sentry_sdk
 from aio_proxy.index import Siren
-from aio_proxy.search_functions import search
+from aio_proxy.search_functions import search_es
+from aio_proxy.parameters import extract_parameters
+from aio_proxy.helper import serialize
 from aiohttp import web
 from dotenv import load_dotenv
 from elasticsearch_dsl import connections
+import elasticsearch
+import sentry_sdk
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
 load_dotenv()
 
-if os.getenv("ENV") == "prod":
-    sentry_sdk.init(dsn=os.getenv("DSN_SENTRY"), integrations=[AioHttpIntegration()])
+
+ENV = os.getenv("ENV")
+ELASTIC_PASSWORD = os.getenv("ELASTIC_PASSWORD")
+ELASTIC_USER = os.getenv("ELASTIC_USER")
+ELASTIC_URL = os.getenv("ELASTIC_URL")
+DSN_SENTRY = os.getenv("DSN_SENTRY")
+
+
+if ENV == "prod":
+    sentry_sdk.init(
+          dsn=DSN_SENTRY,
+          integrations=[AioHttpIntegration()]
+    )
 
 connections.create_connection(
-    hosts=[os.getenv("ELASTIC_URL")],
-    http_auth=(os.getenv("ELASTIC_USER"), os.getenv("ELASTIC_PASSWORD")),
+    hosts=[ELASTIC_URL],
+    http_auth=(ELASTIC_USER, ELASTIC_PASSWORD),
     retry_on_timeout=True,
 )
 
@@ -25,10 +38,21 @@ routes = web.RouteTableDef()
 
 @routes.get("/search")
 async def search_endpoint(request):
-    terms = request.rel_url.query["q"]
-    page = int(request.rel_url.query.get("page", 1)) - 1
-    per_page = int(request.rel_url.query.get("per_page", 10))
-    total_results, unite_legale = search(Siren, terms, page * per_page, per_page)
+
+    terms, page, per_page, filters = extract_parameters(request)
+
+    try:
+        total_results, unite_legale = search_es(
+            Siren,
+            terms,
+            page * per_page,
+            per_page,
+            **filters
+        )
+    except elasticsearch.exceptions.RequestError as error:
+        raise web.HTTPBadRequest(text=serialize(str(error)),
+                                 content_type="application/json")
+
     res = {
         "unite_legale": unite_legale,
         "total_results": int(total_results),

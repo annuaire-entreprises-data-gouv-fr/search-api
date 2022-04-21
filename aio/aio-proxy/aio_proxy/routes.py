@@ -1,6 +1,6 @@
+import elasticsearch
 import json
 import os
-
 import sentry_sdk
 from aio_proxy.helper import serialize
 from aio_proxy.index import Siren
@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 from elasticsearch_dsl import connections
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
-import elasticsearch
 
 load_dotenv()
 

@@ -1,6 +1,7 @@
-import elasticsearch
 import json
 import os
+
+import elasticsearch
 import sentry_sdk
 from aio_proxy.helper import serialize
 from aio_proxy.index import Siren

@@ -2,9 +2,8 @@ import json
 import re
 
 from aio_proxy.helper import serialize
+from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs
 from aiohttp import web
-
-labels_file_path = "aio_proxy/labels/"
 
 
 def clean_parameter(request, param: str, default_value=None):
@@ -33,8 +32,7 @@ def parse_and_validate_activite_principale(activite_principale_clean: str) -> ob
     if len(activite_principale_clean) != 6:
         raise ValueError("Activité principale doit contenir 6 caractères.")
     # test the validity of activite_principale
-    with open(labels_file_path + "codes-NAF.json") as json_file:
-        codes_naf_decoded = json.load(json_file)
+    codes_naf_decoded = get_codes_naf()
     if activite_principale_clean not in codes_naf_decoded:
         raise ValueError("Activité principale inconnue.")
     return activite_principale_clean
@@ -65,8 +63,7 @@ def parse_and_validate_tranche_effectif_salarie_entreprise(
     if len(tranche_effectif_salarie_entreprise_clean) != 2:
         raise ValueError("Tranche salariés doit contenir 2 caractères.")
     # test the validity of tranche_effectif_salarie_entreprise
-    with open(labels_file_path + "tranches-effectifs.json") as json_file:
-        tranches_effectifs_decoded = json.load(json_file)
+    tranches_effectifs_decoded = get_tranches_effectifs()
     if tranche_effectif_salarie_entreprise_clean not in tranches_effectifs_decoded:
         raise ValueError("Tranche salariés non valide.")
     return tranche_effectif_salarie_entreprise_clean

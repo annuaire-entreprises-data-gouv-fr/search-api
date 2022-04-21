@@ -1,7 +1,8 @@
 import json
 import re
-from aiohttp import web
+
 from aio_proxy.helper import serialize
+from aiohttp import web
 
 labels_file_path = "aio_proxy/labels/"
 

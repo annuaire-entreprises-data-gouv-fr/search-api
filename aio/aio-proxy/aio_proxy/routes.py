@@ -1,15 +1,17 @@
 import json
 import os
-from aio_proxy.index import Siren
-from aio_proxy.search_functions import search_es
-from aio_proxy.parameters import extract_parameters
+
+import sentry_sdk
 from aio_proxy.helper import serialize
+from aio_proxy.index import Siren
+from aio_proxy.parameters import extract_parameters
+from aio_proxy.search_functions import search_es
 from aiohttp import web
 from dotenv import load_dotenv
 from elasticsearch_dsl import connections
-import elasticsearch
-import sentry_sdk
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+
+import elasticsearch
 
 load_dotenv()
 

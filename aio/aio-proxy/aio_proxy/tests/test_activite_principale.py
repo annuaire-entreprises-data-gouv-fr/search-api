@@ -1,8 +1,9 @@
+from typing import Any, Tuple
+
 import index
 import parameters
 import pytest
 import requests
-from typing import Tuple, Any
 
 
 @pytest.mark.parametrize(

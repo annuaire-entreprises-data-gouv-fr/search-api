@@ -6,8 +6,7 @@ from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs
 from aiohttp import web
 
 
-def parse_and_clean_parameter(request, param: str, default_value=None) -> Union[str,
-                                                                                None]:
+def parse_and_clean_parameter(request, param: str, default_value=None):
     param = request.rel_url.query.get(param, default_value)
     if param is None:
         return None
@@ -15,7 +14,7 @@ def parse_and_clean_parameter(request, param: str, default_value=None) -> Union[
     return param_clean
 
 
-def validate_code_postal(code_postal_clean: str) -> Union[str, None]:
+def validate_code_postal(code_postal_clean: str) -> Optional[str]:
     if code_postal_clean is None:
         return None
     if len(code_postal_clean) != 5:
@@ -27,7 +26,7 @@ def validate_code_postal(code_postal_clean: str) -> Union[str, None]:
     return code_postal_clean
 
 
-def validate_activite_principale(activite_principale_clean: str) -> Union[str, None]:
+def validate_activite_principale(activite_principale_clean: str) -> Optional[str]:
     if activite_principale_clean is None:
         return None
     if len(activite_principale_clean) != 6:
@@ -41,7 +40,7 @@ def validate_activite_principale(activite_principale_clean: str) -> Union[str, N
 
 def validate_is_entrepreneur_individuel(
     is_entrepreneur_individuel_clean: str,
-) -> Union[bool, None]:
+) -> Optional[bool]:
     if is_entrepreneur_individuel_clean is None:
         return None
     if (is_entrepreneur_individuel_clean != "YES") and (
@@ -58,7 +57,7 @@ def validate_is_entrepreneur_individuel(
 
 def validate_tranche_effectif_salarie_entreprise(
     tranche_effectif_salarie_entreprise_clean: str,
-) -> Union[str, None]:
+) -> Optional[str]:
     if tranche_effectif_salarie_entreprise_clean is None:
         return None
     if len(tranche_effectif_salarie_entreprise_clean) != 2:

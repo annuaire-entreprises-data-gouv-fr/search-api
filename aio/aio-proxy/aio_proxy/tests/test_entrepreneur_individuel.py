@@ -5,11 +5,11 @@ import pytest
 @pytest.mark.parametrize(
     "is_entrepreneur_individuel, expected", [("YES", True), ("NO", False), (None, None)]
 )
-def test_parse_and_validate_is_entrepreneur_individuel(
+def test_validate_is_entrepreneur_individuel(
     is_entrepreneur_individuel: str, expected: str
 ):
     assert (
-        parameters.parse_and_validate_is_entrepreneur_individuel(
+        parameters.validate_is_entrepreneur_individuel(
             is_entrepreneur_individuel
         )
         == expected
@@ -17,7 +17,7 @@ def test_parse_and_validate_is_entrepreneur_individuel(
 
 
 @pytest.mark.parametrize("is_entrepreneur_individuel", ["NON", "OUI"])
-def test_parse_and_validate_is_entrepreneur_individuel_fail(
+def test_validate_is_entrepreneur_individuel_fail(
     is_entrepreneur_individuel: str,
 ):
     with pytest.raises(
@@ -26,6 +26,6 @@ def test_parse_and_validate_is_entrepreneur_individuel_fail(
         "possibles pour "
         "'is_entrepreneur_individuel'.",
     ):
-        parameters.parse_and_validate_is_entrepreneur_individuel(
+        parameters.validate_is_entrepreneur_individuel(
             is_entrepreneur_individuel
         )

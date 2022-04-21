@@ -1,11 +1,12 @@
 import re
+from typing import Optional
 
 from aio_proxy.helper import serialize
 from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs
 from aiohttp import web
 
 
-def clean_parameter(request, param: str, default_value=None):
+def parse_and_clean_parameter(request, param: str, default_value=None) -> Optional[str]:
     param = request.rel_url.query.get(param, default_value)
     if param is None:
         return None
@@ -13,7 +14,7 @@ def clean_parameter(request, param: str, default_value=None):
     return param_clean
 
 
-def parse_and_validate_code_postal(code_postal_clean: str) -> object:
+def validate_code_postal(code_postal_clean: str) -> object:
     if code_postal_clean is None:
         return None
     if len(code_postal_clean) != 5:
@@ -25,7 +26,7 @@ def parse_and_validate_code_postal(code_postal_clean: str) -> object:
     return code_postal_clean
 
 
-def parse_and_validate_activite_principale(activite_principale_clean: str) -> object:
+def validate_activite_principale(activite_principale_clean: str) -> object:
     if activite_principale_clean is None:
         return None
     if len(activite_principale_clean) != 6:
@@ -37,7 +38,7 @@ def parse_and_validate_activite_principale(activite_principale_clean: str) -> ob
     return activite_principale_clean
 
 
-def parse_and_validate_is_entrepreneur_individuel(
+def validate_is_entrepreneur_individuel(
     is_entrepreneur_individuel_clean: str,
 ) -> object:
     if is_entrepreneur_individuel_clean is None:
@@ -54,7 +55,7 @@ def parse_and_validate_is_entrepreneur_individuel(
     return False
 
 
-def parse_and_validate_tranche_effectif_salarie_entreprise(
+def validate_tranche_effectif_salarie_entreprise(
     tranche_effectif_salarie_entreprise_clean: str,
 ) -> object:
     if tranche_effectif_salarie_entreprise_clean is None:
@@ -87,18 +88,19 @@ def extract_parameters(request) -> object:
         )
 
     try:
-        activite_principale = parse_and_validate_activite_principale(
-            clean_parameter(request, param="activite_principale")
+        activite_principale = validate_activite_principale(
+            parse_and_clean_parameter(request, param="activite_principale")
         )
-        code_postal = parse_and_validate_code_postal(
-            clean_parameter(request, param="code_postal")
+        code_postal = validate_code_postal(
+            parse_and_clean_parameter(request, param="code_postal")
         )
-        is_entrepreneur_individuel = parse_and_validate_is_entrepreneur_individuel(
-            clean_parameter(request, param="is_entrepreneur_individuel")
+        is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
+            parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
         )
         tranche_effectif_salarie_entreprise = (
-            parse_and_validate_tranche_effectif_salarie_entreprise(
-                clean_parameter(request, param="tranche_effectif_salarie_entreprise")
+            validate_tranche_effectif_salarie_entreprise(
+                parse_and_clean_parameter(request,
+                                          param="tranche_effectif_salarie_entreprise")
             )
         )
     except (ValueError, TypeError) as error:

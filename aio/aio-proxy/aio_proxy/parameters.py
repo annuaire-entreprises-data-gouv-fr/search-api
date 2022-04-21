@@ -7,6 +7,19 @@ from aiohttp import web
 
 
 def parse_and_clean_parameter(request, param: str, default_value=None):
+    """Extract and clean param from request.
+    Remove white spaces and use upper case.
+
+    Args:
+        request: HTTP request
+        param (str): parameter to extract from request
+        default_value:
+
+    Returns:
+        None if None.
+        clean param otherwise.
+
+    """
     param = request.rel_url.query.get(param, default_value)
     if param is None:
         return None
@@ -15,11 +28,22 @@ def parse_and_clean_parameter(request, param: str, default_value=None):
 
 
 def validate_code_postal(code_postal_clean: str) -> Optional[str]:
+    """Check the validity of code_postal.
+
+    Args:
+        code_postal_clean(str, optional): code postal extracted and cleaned.
+
+    Returns:
+        None if code_postal_clean is None.
+        code_postal_clean if valid.
+
+    Raises:
+        ValueError: if code_postal_clean not valid.
+    """
     if code_postal_clean is None:
         return None
     if len(code_postal_clean) != 5:
         raise ValueError("Code postal doit contenir 5 caractères !")
-    # test the validity of a code_postal
     codes_valides = "^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$"
     if not re.search(codes_valides, code_postal_clean):
         raise ValueError("Code postal non valide.")
@@ -27,11 +51,23 @@ def validate_code_postal(code_postal_clean: str) -> Optional[str]:
 
 
 def validate_activite_principale(activite_principale_clean: str) -> Optional[str]:
+    """Check the validity of activite_principale.
+
+    Args:
+        activite_principale_clean(str, optional): activite_principale extracted and
+                                                cleaned.
+
+    Returns:
+        None if activite_principale_clean is None.
+        activite_principale_clean if valid.
+
+    Raises:
+        ValueError: if activite_principale_clean not valid.
+    """
     if activite_principale_clean is None:
         return None
     if len(activite_principale_clean) != 6:
         raise ValueError("Activité principale doit contenir 6 caractères.")
-    # test the validity of activite_principale
     codes_naf_decoded = get_codes_naf()
     if activite_principale_clean not in codes_naf_decoded:
         raise ValueError("Activité principale inconnue.")
@@ -41,6 +77,20 @@ def validate_activite_principale(activite_principale_clean: str) -> Optional[str
 def validate_is_entrepreneur_individuel(
     is_entrepreneur_individuel_clean: str,
 ) -> Optional[bool]:
+    """Check the validity of is_entrepreneur_individuel.
+
+    Args:
+        is_entrepreneur_individuel_clean(str, optional): is_entrepreneur_individuel
+                                                        extracted and cleaned.
+
+    Returns:
+        None if is_entrepreneur_individuel_clean is None.
+        True if is_entrepreneur_individuel_clean==YES.
+        False if is_entrepreneur_individuel_clean==NO.
+
+    Raises:
+        ValueError: otherwise.
+    """
     if is_entrepreneur_individuel_clean is None:
         return None
     if (is_entrepreneur_individuel_clean != "YES") and (
@@ -58,6 +108,19 @@ def validate_is_entrepreneur_individuel(
 def validate_tranche_effectif_salarie_entreprise(
     tranche_effectif_salarie_entreprise_clean: str,
 ) -> Optional[str]:
+    """Check the validity of tranche_effectif_salarie_entreprise.
+
+        Args:
+            tranche_effectif_salarie_entreprise_clean(str, optional):
+             tranche_effectif_salarie_entreprise extracted and cleaned.
+
+        Returns:
+            None if tranche_effectif_salarie_entreprise_clean is None.
+            tranche_effectif_salarie_entreprise_clean if valid.
+
+        Raises:
+            ValueError: if tranche_effectif_salarie_entreprise_clean not valid.
+        """
     if tranche_effectif_salarie_entreprise_clean is None:
         return None
     if len(tranche_effectif_salarie_entreprise_clean) != 2:
@@ -72,6 +135,20 @@ def validate_tranche_effectif_salarie_entreprise(
 def extract_parameters(
     request,
 ) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
+    """ Extract all parameters from request
+
+    Args:
+        request: request object
+
+    Returns:
+        terms (str): full text search query
+        page (int): page number
+        per_page (int): number of results per page
+        filters (dict): key/value pairs containing filter values
+
+    Raises:
+        HTTPBadRequest: if ValueError or KeyError raised
+    """
     try:
         terms = request.rel_url.query["q"]
     except KeyError:

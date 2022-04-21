@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Optional, Tuple, Any, Dict, Union
 
 from aio_proxy.helper import serialize
 from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs
@@ -14,7 +14,7 @@ def parse_and_clean_parameter(request, param: str, default_value=None) -> Option
     return param_clean
 
 
-def validate_code_postal(code_postal_clean: str) -> object:
+def validate_code_postal(code_postal_clean: str) -> Optional[str]:
     if code_postal_clean is None:
         return None
     if len(code_postal_clean) != 5:
@@ -26,7 +26,7 @@ def validate_code_postal(code_postal_clean: str) -> object:
     return code_postal_clean
 
 
-def validate_activite_principale(activite_principale_clean: str) -> object:
+def validate_activite_principale(activite_principale_clean: str) -> Optional[str]:
     if activite_principale_clean is None:
         return None
     if len(activite_principale_clean) != 6:
@@ -40,7 +40,7 @@ def validate_activite_principale(activite_principale_clean: str) -> object:
 
 def validate_is_entrepreneur_individuel(
     is_entrepreneur_individuel_clean: str,
-) -> object:
+) -> Optional[bool]:
     if is_entrepreneur_individuel_clean is None:
         return None
     if (is_entrepreneur_individuel_clean != "YES") and (
@@ -57,7 +57,7 @@ def validate_is_entrepreneur_individuel(
 
 def validate_tranche_effectif_salarie_entreprise(
     tranche_effectif_salarie_entreprise_clean: str,
-) -> object:
+) -> Optional[str]:
     if tranche_effectif_salarie_entreprise_clean is None:
         return None
     if len(tranche_effectif_salarie_entreprise_clean) != 2:
@@ -69,7 +69,9 @@ def validate_tranche_effectif_salarie_entreprise(
     return tranche_effectif_salarie_entreprise_clean
 
 
-def extract_parameters(request) -> object:
+def extract_parameters(
+    request,
+) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
     try:
         terms = request.rel_url.query["q"]
     except KeyError:

@@ -1,5 +1,5 @@
 import re
-from typing import Optional, Tuple, Any, Dict, Union
+from typing import Dict, Optional, Tuple, Union
 
 from aio_proxy.helper import serialize
 from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs

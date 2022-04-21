@@ -4,3 +4,4 @@ pg-airflow/
 .idea/
 .env
 pytest_cache/
+venv/

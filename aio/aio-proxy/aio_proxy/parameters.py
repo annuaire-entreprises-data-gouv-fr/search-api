@@ -99,8 +99,9 @@ def extract_parameters(request) -> object:
         )
         tranche_effectif_salarie_entreprise = (
             validate_tranche_effectif_salarie_entreprise(
-                parse_and_clean_parameter(request,
-                                          param="tranche_effectif_salarie_entreprise")
+                parse_and_clean_parameter(
+                    request, param="tranche_effectif_salarie_entreprise"
+                )
             )
         )
     except (ValueError, TypeError) as error:

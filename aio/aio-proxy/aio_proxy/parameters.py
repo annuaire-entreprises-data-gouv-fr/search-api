@@ -1,4 +1,3 @@
-import json
 import re
 
 from aio_proxy.helper import serialize

@@ -1,7 +1,16 @@
 import os
 
-from elasticsearch_dsl import (Date, Document, Float, Integer, Keyword, Text,
-                               analyzer, token_filter, tokenizer)
+from elasticsearch_dsl import (
+    Date,
+    Document,
+    Float,
+    Integer,
+    Keyword,
+    Text,
+    analyzer,
+    token_filter,
+    tokenizer,
+)
 
 # Define filters
 french_elision = token_filter(

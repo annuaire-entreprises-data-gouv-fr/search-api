@@ -110,17 +110,17 @@ def validate_tranche_effectif_salarie_entreprise(
 ) -> Optional[str]:
     """Check the validity of tranche_effectif_salarie_entreprise.
 
-        Args:
-            tranche_effectif_salarie_entreprise_clean(str, optional):
-             tranche_effectif_salarie_entreprise extracted and cleaned.
+    Args:
+        tranche_effectif_salarie_entreprise_clean(str, optional):
+         tranche_effectif_salarie_entreprise extracted and cleaned.
 
-        Returns:
-            None if tranche_effectif_salarie_entreprise_clean is None.
-            tranche_effectif_salarie_entreprise_clean if valid.
+    Returns:
+        None if tranche_effectif_salarie_entreprise_clean is None.
+        tranche_effectif_salarie_entreprise_clean if valid.
 
-        Raises:
-            ValueError: if tranche_effectif_salarie_entreprise_clean not valid.
-        """
+    Raises:
+        ValueError: if tranche_effectif_salarie_entreprise_clean not valid.
+    """
     if tranche_effectif_salarie_entreprise_clean is None:
         return None
     if len(tranche_effectif_salarie_entreprise_clean) != 2:

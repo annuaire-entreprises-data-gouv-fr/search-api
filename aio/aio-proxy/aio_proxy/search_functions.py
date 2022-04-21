@@ -6,7 +6,7 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int, **kwarg
     # use filters to reduce search results
     for key, value in kwargs.items():
         if value is not None:
-            s = s.filter('term', **{key: value})
+            s = s.filter("term", **{key: value})
     s = s.query(
         "bool",
         should=[

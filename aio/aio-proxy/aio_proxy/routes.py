@@ -22,10 +22,7 @@ DSN_SENTRY = os.getenv("DSN_SENTRY")
 
 
 if ENV == "prod":
-    sentry_sdk.init(
-          dsn=DSN_SENTRY,
-          integrations=[AioHttpIntegration()]
-    )
+    sentry_sdk.init(dsn=DSN_SENTRY, integrations=[AioHttpIntegration()])
 
 connections.create_connection(
     hosts=[ELASTIC_URL],
@@ -43,15 +40,12 @@ async def search_endpoint(request):
 
     try:
         total_results, unite_legale = search_es(
-            Siren,
-            terms,
-            page * per_page,
-            per_page,
-            **filters
+            Siren, terms, page * per_page, per_page, **filters
         )
     except elasticsearch.exceptions.RequestError as error:
-        raise web.HTTPBadRequest(text=serialize(str(error)),
-                                 content_type="application/json")
+        raise web.HTTPBadRequest(
+            text=serialize(str(error)), content_type="application/json"
+        )
 
     res = {
         "unite_legale": unite_legale,

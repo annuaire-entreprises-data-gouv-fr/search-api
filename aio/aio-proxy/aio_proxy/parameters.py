@@ -135,7 +135,7 @@ def validate_tranche_effectif_salarie_entreprise(
 def extract_parameters(
     request,
 ) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
-    """ Extract all parameters from request
+    """Extract all parameters from request
 
     Args:
         request: request object

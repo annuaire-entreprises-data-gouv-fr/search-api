@@ -53,8 +53,7 @@ async def search_endpoint(request):
         )
     except BaseException as error:
         raise web.HTTPInternalServerError(
-            text=serialize_error_text(str(error)),
-            content_type="application/json"
+            text=serialize_error_text(str(error)), content_type="application/json"
         )
 
 

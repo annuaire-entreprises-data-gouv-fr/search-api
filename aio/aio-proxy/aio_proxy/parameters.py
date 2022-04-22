@@ -2,7 +2,6 @@ import re
 from typing import Dict, Optional, Tuple, Union
 
 from aio_proxy.labels.helpers import codes_naf, tranches_effectifs
-from aiohttp import web
 
 
 def parse_and_clean_parameter(request, param: str, default_value=None):
@@ -124,7 +123,7 @@ def validate_tranche_effectif_salarie_entreprise(
     return tranche_effectif_salarie_entreprise_clean
 
 
-def parse_and_validate_terms(request) -> Optional[str]:
+def parse_and_validate_terms(request) -> str:
     try:
         terms = request.rel_url.query["q"]
         return terms

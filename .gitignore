@@ -3,3 +3,5 @@ pg-airflow/
 .DS_Store
 .idea/
 .env
+pytest_cache/
+venv/

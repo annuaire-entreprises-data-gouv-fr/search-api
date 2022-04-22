@@ -15,7 +15,7 @@ def parse_and_clean_parameter(request, param: str, default_value=None):
 
     Returns:
         None if None.
-        clean param otherwise.
+        clean_param otherwise.
 
     """
     param = request.rel_url.query.get(param, default_value)
@@ -124,6 +124,16 @@ def validate_tranche_effectif_salarie_entreprise(
 
 
 def parse_and_validate_terms(request) -> str:
+    """Extract search terms from request.
+
+    Args:
+        request: HTTP request.
+
+    Returns:
+        terms if given.
+    Raises:
+        ValueError: otherwise.
+    """
     try:
         terms = request.rel_url.query["q"]
         return terms
@@ -136,19 +146,19 @@ def parse_and_validate_terms(request) -> str:
 def extract_parameters(
     request,
 ) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
-    """Extract all parameters from request
+    """Extract all parameters from request.
 
     Args:
-        request: request object
+        request: request object.
 
     Returns:
-        terms (str): full text search query
-        page (int): page number
-        per_page (int): number of results per page
-        filters (dict): key/value pairs containing filter values
+        terms (str): full text search query.
+        page (int): page number.
+        per_page (int): number of results per page.
+        filters (dict): key/value pairs containing filter values.
 
     Raises:
-        HTTPBadRequest: if ValueError or KeyError raised
+        HTTPBadRequest: if ValueError or KeyError raised.
     """
     terms = parse_and_validate_terms(request)
     page = int(request.rel_url.query.get("page", 1)) - 1

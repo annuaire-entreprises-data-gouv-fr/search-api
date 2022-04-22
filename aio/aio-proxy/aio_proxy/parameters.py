@@ -162,9 +162,8 @@ def extract_parameters(
     is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
         parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
     )
-    tranche_effectif_salarie_entreprise = (validate_tranche_effectif_salarie_entreprise(
+    tranche_effectif_salarie_entreprise = validate_tranche_effectif_salarie_entreprise(
         parse_and_clean_parameter(request, param="tranche_effectif_salarie_entreprise")
-        )
     )
     filters = {
         "activite_principale_entreprise": activite_principale,

@@ -93,16 +93,12 @@ def validate_is_entrepreneur_individuel(
     """
     if is_entrepreneur_individuel_clean is None:
         return None
-    if (is_entrepreneur_individuel_clean != "YES") and (
-        is_entrepreneur_individuel_clean != "NO"
-    ):
+    if is_entrepreneur_individuel_clean not in ["YES", "NO"]:
         raise ValueError(
             "Seuls les valeurs 'yes' ou bien 'no' sont possibles pour 'is_"
             "entrepreneur_individuel'."
         )
-    if is_entrepreneur_individuel_clean == "YES":
-        return True
-    return False
+    return is_entrepreneur_individuel_clean == "YES"
 
 
 def validate_tranche_effectif_salarie_entreprise(

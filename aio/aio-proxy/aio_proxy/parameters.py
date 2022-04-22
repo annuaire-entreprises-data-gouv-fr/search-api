@@ -157,12 +157,6 @@ def extract_parameters(
     try:
         page = int(request.rel_url.query.get("page", 1)) - 1
         per_page = int(request.rel_url.query.get("per_page", 10))
-    except ValueError as error:
-        raise web.HTTPBadRequest(
-            text=serialize_error_text(str(error)), content_type="application/json"
-        )
-
-    try:
         activite_principale = validate_activite_principale(
             parse_and_clean_parameter(request, param="activite_principale")
         )
@@ -179,16 +173,15 @@ def extract_parameters(
                 )
             )
         )
+        filters = {
+            "activite_principale_entreprise": activite_principale,
+            "code_postal": code_postal,
+            "is_entrepreneur_individuel": is_entrepreneur_individuel,
+            "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
+        }
+
+        return terms, page, per_page, filters
     except (ValueError, TypeError) as error:
         raise web.HTTPBadRequest(
             text=serialize_error_text(str(error)), content_type="application/json"
         )
-
-    filters = {
-        "activite_principale_entreprise": activite_principale,
-        "code_postal": code_postal,
-        "is_entrepreneur_individuel": is_entrepreneur_individuel,
-        "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
-    }
-
-    return terms, page, per_page, filters

@@ -125,6 +125,16 @@ def validate_tranche_effectif_salarie_entreprise(
     return tranche_effectif_salarie_entreprise_clean
 
 
+def parse_and_validate_terms(request) -> Optional[str]:
+    try:
+        terms = request.rel_url.query["q"]
+        return terms
+    except KeyError:
+        raise ValueError(
+            "Veuillez indiquer la requête avec le paramètre: ?q=ma+recherche."
+        )
+
+
 def extract_parameters(
     request,
 ) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
@@ -143,15 +153,7 @@ def extract_parameters(
         HTTPBadRequest: if ValueError or KeyError raised
     """
     try:
-        terms = request.rel_url.query["q"]
-    except KeyError:
-        raise web.HTTPBadRequest(
-            text=serialize_error_text(
-                "Veuillez indiquer la requête avec le paramètre: " "?q=ma+recherche."
-            ),
-            content_type="application/json",
-        )
-    try:
+        terms = parse_and_validate_terms(request)
         page = int(request.rel_url.query.get("page", 1)) - 1
         per_page = int(request.rel_url.query.get("per_page", 10))
         activite_principale = validate_activite_principale(

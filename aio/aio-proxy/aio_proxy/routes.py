@@ -40,10 +40,20 @@ async def search_endpoint(request):
             Siren, terms, page * per_page, per_page, **filters
         )
         # Hide concatenation fields in returned results
-        hidden_fields = {'concat_nom_adr_siren', 'concat_enseigne_adresse',
-                         'liste_adresse', 'liste_enseigne'}
-        unite_legale = [{field: value for field, value in unite.items() if field not in
-                         hidden_fields} for unite in entreprises]
+        hidden_fields = {
+            "concat_nom_adr_siren",
+            "concat_enseigne_adresse",
+            "liste_adresse",
+            "liste_enseigne",
+        }
+        unite_legale = [
+            {
+                field: value
+                for field, value in unite.items()
+                if field not in hidden_fields
+            }
+            for unite in entreprises
+        ]
         res = {
             "unite_legale": unite_legale,
             "total_results": int(total_results),

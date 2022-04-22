@@ -14,13 +14,11 @@ from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
 load_dotenv()
 
-
 ENV = os.getenv("ENV")
 ELASTIC_PASSWORD = os.getenv("ELASTIC_PASSWORD")
 ELASTIC_USER = os.getenv("ELASTIC_USER")
 ELASTIC_URL = os.getenv("ELASTIC_URL")
 DSN_SENTRY = os.getenv("DSN_SENTRY")
-
 
 if ENV == "prod":
     sentry_sdk.init(dsn=DSN_SENTRY, integrations=[AioHttpIntegration()])
@@ -36,26 +34,28 @@ routes = web.RouteTableDef()
 
 @routes.get("/search")
 async def search_endpoint(request):
-
-    terms, page, per_page, filters = extract_parameters(request)
-
     try:
+        terms, page, per_page, filters = extract_parameters(request)
         total_results, unite_legale = search_es(
             Siren, terms, page * per_page, per_page, **filters
         )
-    except elasticsearch.exceptions.RequestError as error:
+        res = {
+            "unite_legale": unite_legale,
+            "total_results": int(total_results),
+            "page": page + 1,
+            "per_page": per_page,
+        }
+        res["total_pages"] = int(res["total_results"] / res["per_page"]) + 1
+        return web.json_response(text=json.dumps([res], default=str))
+    except (elasticsearch.exceptions.RequestError, ValueError, TypeError) as error:
         raise web.HTTPBadRequest(
             text=serialize_error_text(str(error)), content_type="application/json"
         )
-
-    res = {
-        "unite_legale": unite_legale,
-        "total_results": int(total_results),
-        "page": page + 1,
-        "per_page": per_page,
-    }
-    res["total_pages"] = int(res["total_results"] / res["per_page"]) + 1
-    return web.json_response(text=json.dumps([res], default=str))
+    except BaseException as error:
+        raise web.HTTPInternalServerError(
+            text=serialize_error_text(str(error)),
+            content_type="application/json"
+        )
 
 
 @routes.get("/colors")

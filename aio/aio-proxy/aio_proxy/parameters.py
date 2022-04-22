@@ -1,7 +1,6 @@
 import re
 from typing import Dict, Optional, Tuple, Union
 
-from aio_proxy.helper import serialize_error_text
 from aio_proxy.labels.helpers import codes_naf, tranches_effectifs
 from aiohttp import web
 
@@ -152,35 +151,30 @@ def extract_parameters(
     Raises:
         HTTPBadRequest: if ValueError or KeyError raised
     """
-    try:
-        terms = parse_and_validate_terms(request)
-        page = int(request.rel_url.query.get("page", 1)) - 1
-        per_page = int(request.rel_url.query.get("per_page", 10))
-        activite_principale = validate_activite_principale(
-            parse_and_clean_parameter(request, param="activite_principale")
-        )
-        code_postal = validate_code_postal(
-            parse_and_clean_parameter(request, param="code_postal")
-        )
-        is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
-            parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
-        )
-        tranche_effectif_salarie_entreprise = (
-            validate_tranche_effectif_salarie_entreprise(
-                parse_and_clean_parameter(
-                    request, param="tranche_effectif_salarie_entreprise"
-                )
+    terms = parse_and_validate_terms(request)
+    page = int(request.rel_url.query.get("page", 1)) - 1
+    per_page = int(request.rel_url.query.get("per_page", 10))
+    activite_principale = validate_activite_principale(
+        parse_and_clean_parameter(request, param="activite_principale")
+    )
+    code_postal = validate_code_postal(
+        parse_and_clean_parameter(request, param="code_postal")
+    )
+    is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
+        parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
+    )
+    tranche_effectif_salarie_entreprise = (
+        validate_tranche_effectif_salarie_entreprise(
+            parse_and_clean_parameter(
+                request, param="tranche_effectif_salarie_entreprise"
             )
         )
-        filters = {
-            "activite_principale_entreprise": activite_principale,
-            "code_postal": code_postal,
-            "is_entrepreneur_individuel": is_entrepreneur_individuel,
-            "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
-        }
+    )
+    filters = {
+        "activite_principale_entreprise": activite_principale,
+        "code_postal": code_postal,
+        "is_entrepreneur_individuel": is_entrepreneur_individuel,
+        "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
+    }
 
-        return terms, page, per_page, filters
-    except (ValueError, TypeError) as error:
-        raise web.HTTPBadRequest(
-            text=serialize_error_text(str(error)), content_type="application/json"
-        )
+    return terms, page, per_page, filters

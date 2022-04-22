@@ -3,7 +3,7 @@ import os
 
 import elasticsearch
 import sentry_sdk
-from aio_proxy.helper import serialize
+from aio_proxy.helper import serialize_error_text
 from aio_proxy.index import Siren
 from aio_proxy.parameters import extract_parameters
 from aio_proxy.search_functions import search_es
@@ -45,7 +45,7 @@ async def search_endpoint(request):
         )
     except elasticsearch.exceptions.RequestError as error:
         raise web.HTTPBadRequest(
-            text=serialize(str(error)), content_type="application/json"
+            text=serialize_error_text(str(error)), content_type="application/json"
         )
 
     res = {

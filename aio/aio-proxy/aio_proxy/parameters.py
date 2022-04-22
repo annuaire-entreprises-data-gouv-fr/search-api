@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Optional, Tuple, Union
 
-from aio_proxy.helper import serialize
+from aio_proxy.helper import serialize_error_text
 from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs
 from aiohttp import web
 
@@ -153,7 +153,7 @@ def extract_parameters(
         terms = request.rel_url.query["q"]
     except KeyError:
         raise web.HTTPBadRequest(
-            text=serialize(
+            text=serialize_error_text(
                 "Veuillez indiquer la requête avec le paramètre: " "?q=ma+recherche."
             ),
             content_type="application/json",
@@ -163,7 +163,7 @@ def extract_parameters(
         per_page = int(request.rel_url.query.get("per_page", 10))
     except ValueError as error:
         raise web.HTTPBadRequest(
-            text=serialize(str(error)), content_type="application/json"
+            text=serialize_error_text(str(error)), content_type="application/json"
         )
 
     try:
@@ -185,7 +185,7 @@ def extract_parameters(
         )
     except (ValueError, TypeError) as error:
         raise web.HTTPBadRequest(
-            text=serialize(str(error)), content_type="application/json"
+            text=serialize_error_text(str(error)), content_type="application/json"
         )
 
     filters = {

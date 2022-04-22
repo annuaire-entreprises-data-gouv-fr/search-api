@@ -9,9 +9,5 @@ def load_file(file_name: str):
     return file_decoded
 
 
-def get_codes_naf():
-    return load_file("codes-NAF.json")
-
-
-def get_tranches_effectifs():
-    return load_file("tranches-effectifs.json")
+codes_naf = load_file("codes-NAF.json")
+tranches_effectifs = load_file("tranches-effectifs.json")

@@ -2,7 +2,7 @@ import re
 from typing import Dict, Optional, Tuple, Union
 
 from aio_proxy.helper import serialize_error_text
-from aio_proxy.labels.helpers import get_codes_naf, get_tranches_effectifs
+from aio_proxy.labels.helpers import codes_naf, tranches_effectifs
 from aiohttp import web
 
 
@@ -68,8 +68,7 @@ def validate_activite_principale(activite_principale_clean: str) -> Optional[str
         return None
     if len(activite_principale_clean) != 6:
         raise ValueError("Activité principale doit contenir 6 caractères.")
-    codes_naf_decoded = get_codes_naf()
-    if activite_principale_clean not in codes_naf_decoded:
+    if activite_principale_clean not in codes_naf:
         raise ValueError("Activité principale inconnue.")
     return activite_principale_clean
 
@@ -121,9 +120,7 @@ def validate_tranche_effectif_salarie_entreprise(
         return None
     if len(tranche_effectif_salarie_entreprise_clean) != 2:
         raise ValueError("Tranche salariés doit contenir 2 caractères.")
-    # test the validity of tranche_effectif_salarie_entreprise
-    tranches_effectifs_decoded = get_tranches_effectifs()
-    if tranche_effectif_salarie_entreprise_clean not in tranches_effectifs_decoded:
+    if tranche_effectif_salarie_entreprise_clean not in tranches_effectifs:
         raise ValueError("Tranche salariés non valide.")
     return tranche_effectif_salarie_entreprise_clean
 

@@ -7,7 +7,7 @@ def search_text(index, query_terms: str, offset: int, page_size: int, **kwargs):
     for key, value in kwargs.items():
         if value is not None:
             s = s.filter("term", **{key: value})
-            
+
     s = s.query(
         "bool",
         should=[
@@ -154,17 +154,19 @@ def search_text(index, query_terms: str, offset: int, page_size: int, **kwargs):
     return total_results, res
 
 
-def search_geo(index, offset: int, page_size: int, lat: float, lon: float,
-               radius: float):
+def search_geo(
+    index, offset: int, page_size: int, lat: float, lon: float, radius: float
+):
     s = index.search()
-    s = s.filter('geo_distance', distance=f'{radius}km', coordonnees={"lat": lat,
-                                                                      "lon": lon})
+    s = s.filter(
+        "geo_distance", distance=f"{radius}km", coordonnees={"lat": lat, "lon": lon}
+    )
     s = s.extra(track_scores=True)
     s = s.sort(
         {"_score": {"order": "desc"}},
         {"etat_administratif_etablissement": {"order": "asc"}},
     )
-    s = s[offset: (offset + page_size)]
+    s = s[offset : (offset + page_size)]
     rs = s.execute()
     total_results = rs.hits.total.value
     res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]

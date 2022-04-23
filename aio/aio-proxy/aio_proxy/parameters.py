@@ -143,7 +143,7 @@ def parse_and_validate_terms(request) -> str:
         )
 
 
-def extract_parameters(
+def extract_text_parameters(
     request,
 ) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
     """Extract all parameters from request.
@@ -183,3 +183,34 @@ def extract_parameters(
     }
 
     return terms, page, per_page, filters
+
+
+def parse_and_validate_latitude(request):
+    lat = float(request.rel_url.query.get("lat", None))
+    if lat > 90 or lat < -90:
+        raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+    return lat
+
+
+def parse_and_validate_longitude(request):
+    lon = float(request.rel_url.query.get("lon", None))
+    if lon > 90 or lon < -90:
+        raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+    return lon
+
+
+def parse_and_validate_radius(request):
+    try:
+        radius = float(request.rel_url.query.get("radius", 5))  # default 5
+        return radius
+    except ValueError:
+        raise ValueError("Veuillez indiquer un radius entier ou flottant, en km.")
+
+
+def extract_geo_parameters(request):
+    lat = parse_and_validate_latitude(request)
+    lon = parse_and_validate_longitude(request)
+    radius = parse_and_validate_radius(request)
+    page = int(request.rel_url.query.get("page", 1)) - 1  # default 1
+    per_page = int(request.rel_url.query.get("per_page", 10))  # default 10
+    return lat, lon, radius, page, per_page

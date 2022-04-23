@@ -1,12 +1,13 @@
 from elasticsearch_dsl import query
 
 
-def search_by_name(index, query_terms: str, offset: int, page_size: int, **kwargs):
+def search_text(index, query_terms: str, offset: int, page_size: int, **kwargs):
     s = index.search()
     # use filters to reduce search results
     for key, value in kwargs.items():
         if value is not None:
             s = s.filter("term", **{key: value})
+            
     s = s.query(
         "bool",
         should=[
@@ -153,8 +154,18 @@ def search_by_name(index, query_terms: str, offset: int, page_size: int, **kwarg
     return total_results, res
 
 
-def search_es(index, query: str, offset: int, page_size: int, **kwargs):
-    result = search_by_name(
-        index, query_terms=query, offset=offset, page_size=page_size, **kwargs
+def search_geo(index, offset: int, page_size: int, lat: float, lon: float,
+               radius: float):
+    s = index.search()
+    s = s.filter('geo_distance', distance=f'{radius}km', coordonnees={"lat": lat,
+                                                                      "lon": lon})
+    s = s.extra(track_scores=True)
+    s = s.sort(
+        {"_score": {"order": "desc"}},
+        {"etat_administratif_etablissement": {"order": "asc"}},
     )
-    return result
+    s = s[offset: (offset + page_size)]
+    rs = s.execute()
+    total_results = rs.hits.total.value
+    res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
+    return total_results, res

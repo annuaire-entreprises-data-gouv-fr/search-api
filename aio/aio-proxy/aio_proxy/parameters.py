@@ -193,7 +193,7 @@ def parse_and_validate_latitude(request):
 
 
 def parse_and_validate_longitude(request):
-    lon = float(request.rel_url.query.get("lon", None))
+    lon = float(request.rel_url.query.get("long", None))
     if lon > 90 or lon < -90:
         raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
     return lon

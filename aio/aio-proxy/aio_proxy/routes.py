@@ -40,9 +40,9 @@ async def search_endpoint(request):
         total_results, unite_legale = search_text(
             Siren, terms, page * per_page, per_page, **filters
         )
-        unite_legale = hide_fields(entreprises)
+        unite_legale_filtered = hide_fields(unite_legale)
         res = {
-            "unite_legale": unite_legale,
+            "unite_legale": unite_legale_filtered,
             "total_results": int(total_results),
             "page": page + 1,
             "per_page": per_page,
@@ -66,8 +66,9 @@ async def near_point_endpoint(request):
         total_results, unite_legale = search_geo(
             Siren, page * per_page, per_page, lat, lon, radius
         )
+        unite_legale_filtered = hide_fields(unite_legale)
         res = {
-            "unite_legale": unite_legale,
+            "unite_legale": unite_legale_filtered,
             "total_results": int(total_results),
             "page": page + 1,
             "per_page": per_page,

@@ -37,7 +37,7 @@ routes = web.RouteTableDef()
 
 
 @routes.get("/search")
-async def search_endpoint(request):
+async def search_text_endpoint(request):
     response = api_response(
         request, extract_function=extract_text_parameters, search_function=search_text
     )

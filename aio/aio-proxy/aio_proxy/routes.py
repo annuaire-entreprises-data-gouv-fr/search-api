@@ -3,7 +3,7 @@ import os
 
 import elasticsearch
 import sentry_sdk
-from aio_proxy.helper import serialize_error_text
+from aio_proxy.helper import serialize_error_text, hide_fields
 from aio_proxy.parameters import extract_parameters
 from aio_proxy.search.index import Siren
 from aio_proxy.search.search_functions import search_es
@@ -39,21 +39,7 @@ async def search_endpoint(request):
         total_results, entreprises = search_es(
             Siren, terms, page * per_page, per_page, **filters
         )
-        # Hide concatenation fields in returned results
-        hidden_fields = {
-            "concat_nom_adr_siren",
-            "concat_enseigne_adresse",
-            "liste_adresse",
-            "liste_enseigne",
-        }
-        unite_legale = [
-            {
-                field: value
-                for field, value in unite.items()
-                if field not in hidden_fields
-            }
-            for unite in entreprises
-        ]
+        unite_legale = hide_fields(entreprises)
         res = {
             "unite_legale": unite_legale,
             "total_results": int(total_results),

@@ -15,15 +15,18 @@ from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
 load_dotenv()
 
+# Get env variables
 ENV = os.getenv("ENV")
 ELASTIC_PASSWORD = os.getenv("ELASTIC_PASSWORD")
 ELASTIC_USER = os.getenv("ELASTIC_USER")
 ELASTIC_URL = os.getenv("ELASTIC_URL")
 DSN_SENTRY = os.getenv("DSN_SENTRY")
 
+# Connect to Sentry in production
 if ENV == "prod":
     sentry_sdk.init(dsn=DSN_SENTRY, integrations=[AioHttpIntegration()])
 
+# Connect to Elasticsearch
 connections.create_connection(
     hosts=[ELASTIC_URL],
     http_auth=(ELASTIC_USER, ELASTIC_PASSWORD),

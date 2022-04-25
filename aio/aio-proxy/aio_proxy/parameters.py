@@ -186,22 +186,28 @@ def extract_text_parameters(
 
 
 def parse_and_validate_latitude(request):
-    lat = float(request.rel_url.query.get("lat", None))
-    if lat > 90 or lat < -90:
+    try:
+        lat = float(request.rel_url.query.get("lat"))
+        if lat > 90 or lat < -90:
+            raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+        return lat
+    except (TypeError, KeyError, ValueError):
         raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
-    return lat
 
 
 def parse_and_validate_longitude(request):
-    lon = float(request.rel_url.query.get("long", None))
-    if lon > 90 or lon < -90:
+    try:
+        lon = float(request.rel_url.query.get("long"))
+        if lon > 180 or lon < -180:
+            raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+        return lon
+    except (TypeError, KeyError, ValueError):
         raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
-    return lon
 
 
 def parse_and_validate_radius(request):
     try:
-        radius = float(request.rel_url.query.get("radius", 5))  # default 5
+        radius = float(request.rel_url.query.get("radius", 5)) # default 5
         return radius
     except ValueError:
         raise ValueError("Veuillez indiquer un radius entier ou flottant, en km.")

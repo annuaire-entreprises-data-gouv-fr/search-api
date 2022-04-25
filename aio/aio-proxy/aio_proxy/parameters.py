@@ -1,6 +1,5 @@
-from typing import Dict, Optional, Tuple, Union
+from typing import Optional
 
-from aio_proxy.labels.helpers import codes_naf, tranches_effectifs
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
 from aio_proxy.parsers.entrepreneur_individuel import (

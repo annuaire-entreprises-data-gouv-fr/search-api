@@ -1,11 +1,9 @@
-import json
 from typing import Callable, Dict
 
+import elasticsearch
 from aio_proxy.helpers import hide_fields, serialize_error_text
 from aio_proxy.search.index import Siren
 from aiohttp import web
-
-import elasticsearch
 
 
 def api_response(

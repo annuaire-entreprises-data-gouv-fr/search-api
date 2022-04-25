@@ -1,9 +1,10 @@
-import elasticsearch
 from aio_proxy.helpers import serialize_error_text
 from aiohttp import web
 
+import elasticsearch
 
-def exception_handler(func):
+
+def http_exception_handler(func):
     def inner_function(*args, **kwargs):
         try:
             return func(*args, **kwargs)
@@ -15,4 +16,5 @@ def exception_handler(func):
             raise web.HTTPInternalServerError(
                 text=serialize_error_text(str(error)), content_type="application/json"
             )
+
     return inner_function

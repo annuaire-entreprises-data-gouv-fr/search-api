@@ -1,17 +1,18 @@
-from typing import Callable, Dict
 import json
+from typing import Callable, Dict
 
-import elasticsearch
+from aio_proxy.decorators.http_exceptions import http_exception_handler
 from aio_proxy.helpers import serialize_error_text
 from aio_proxy.search.helpers import hide_fields
 from aio_proxy.search.index import Siren
 from aiohttp import web
-from aio_proxy.decorators import exception_handler
+
+import elasticsearch
 
 
-@exception_handler
+@http_exception_handler
 def api_response(
-        request, extract_function: Callable, search_function: Callable
+    request, extract_function: Callable, search_function: Callable
 ) -> Dict[str, int]:
     parameters, page, per_page = extract_function(request)
     total_results, unite_legale = search_function(

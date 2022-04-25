@@ -1,7 +1,7 @@
 import json
 from typing import Callable, Dict
+
 from aio_proxy.decorators.http_exception import http_exception_handler
-from aio_proxy.helpers import serialize_error_text
 from aio_proxy.search.helpers import hide_fields
 from aio_proxy.search.index import Siren
 from aiohttp import web

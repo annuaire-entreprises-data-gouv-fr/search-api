@@ -1,4 +1,5 @@
 from typing import Optional
+
 from aio_proxy.labels.helpers import tranches_effectifs
 
 

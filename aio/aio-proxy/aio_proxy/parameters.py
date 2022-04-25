@@ -5,8 +5,11 @@ from aio_proxy.labels.helpers import codes_naf, tranches_effectifs
 
 
 def parse_page_parameters(request) -> Tuple[int, int]:
-    page = int(request.rel_url.query.get("page", 1)) - 1  # default 1
-    per_page = int(request.rel_url.query.get("per_page", 10))  # default 10
+    try:
+        page = int(request.rel_url.query.get("page", 1)) - 1  # default 1
+        per_page = int(request.rel_url.query.get("per_page", 10))  # default 10
+    except (TypeError, ValueError) as error:
+        raise ValueError(str(error))
     return page, per_page
 
 
@@ -153,7 +156,7 @@ def parse_and_validate_latitude(request):
     try:
         lat = float(request.rel_url.query.get("lat"))
         if lat > 90 or lat < -90:
-            raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+            raise ValueError
         return lat
     except (TypeError, KeyError, ValueError):
         raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
@@ -163,7 +166,7 @@ def parse_and_validate_longitude(request):
     try:
         lon = float(request.rel_url.query.get("long"))
         if lon > 180 or lon < -180:
-            raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+            raise ValueError
         return lon
     except (TypeError, KeyError, ValueError):
         raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
@@ -173,7 +176,7 @@ def parse_and_validate_radius(request):
     try:
         radius = float(request.rel_url.query.get("radius", 5))  # default 5
         return radius
-    except ValueError:
+    except (TypeError, ValueError):
         raise ValueError("Veuillez indiquer un radius entier ou flottant, en km.")
 
 

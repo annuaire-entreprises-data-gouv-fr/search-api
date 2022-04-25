@@ -22,3 +22,18 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
         hit.to_dict(skip_empty=False, include_meta=False) for hit in results.hits
     ]
     return total_results, response
+
+
+def hide_fields(search_result: list) -> list:
+    """Hide concatenation fields in search results."""
+    hidden_fields = {
+        "concat_nom_adr_siren",
+        "concat_enseigne_adresse",
+        "liste_adresse",
+        "liste_enseigne",
+    }
+    unite_legale = [
+        {field: value for field, value in unite.items() if field not in hidden_fields}
+        for unite in search_result
+    ]
+    return unite_legale

@@ -4,6 +4,12 @@ from typing import Dict, Optional, Tuple, Union
 from aio_proxy.labels.helpers import codes_naf, tranches_effectifs
 
 
+def parse_page_parameters(request) -> Tuple[int, int]:
+    page = int(request.rel_url.query.get("page", 1)) - 1  # default 1
+    per_page = int(request.rel_url.query.get("per_page", 10))  # default 10
+    return page, per_page
+
+
 def parse_and_clean_parameter(request, param: str, default_value=None):
     """Extract and clean param from request.
     Remove white spaces and use upper case.
@@ -143,48 +149,6 @@ def parse_and_validate_terms(request) -> str:
         )
 
 
-def extract_text_parameters(
-    request,
-) -> Tuple[str, int, int, Dict[str, Union[str, None, bool]]]:
-    """Extract all parameters from request.
-
-    Args:
-        request: request object.
-
-    Returns:
-        terms (str): full text search query.
-        page (int): page number.
-        per_page (int): number of results per page.
-        filters (dict): key/value pairs containing filter values.
-
-    Raises:
-        HTTPBadRequest: if ValueError or KeyError raised.
-    """
-    terms = parse_and_validate_terms(request)
-    page = int(request.rel_url.query.get("page", 1)) - 1
-    per_page = int(request.rel_url.query.get("per_page", 10))
-    activite_principale = validate_activite_principale(
-        parse_and_clean_parameter(request, param="activite_principale")
-    )
-    code_postal = validate_code_postal(
-        parse_and_clean_parameter(request, param="code_postal")
-    )
-    is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
-        parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
-    )
-    tranche_effectif_salarie_entreprise = validate_tranche_effectif_salarie_entreprise(
-        parse_and_clean_parameter(request, param="tranche_effectif_salarie_entreprise")
-    )
-    filters = {
-        "activite_principale_entreprise": activite_principale,
-        "code_postal": code_postal,
-        "is_entrepreneur_individuel": is_entrepreneur_individuel,
-        "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
-    }
-
-    return terms, page, per_page, filters
-
-
 def parse_and_validate_latitude(request):
     try:
         lat = float(request.rel_url.query.get("lat"))
@@ -207,16 +171,66 @@ def parse_and_validate_longitude(request):
 
 def parse_and_validate_radius(request):
     try:
-        radius = float(request.rel_url.query.get("radius", 5)) # default 5
+        radius = float(request.rel_url.query.get("radius", 5))  # default 5
         return radius
     except ValueError:
         raise ValueError("Veuillez indiquer un radius entier ou flottant, en km.")
 
 
+def extract_text_parameters(
+    request,
+) -> Tuple[Dict[str, Union[str, None, bool]], int, int]:
+    """Extract all parameters from request.
+
+    Args:
+        request: request object.
+
+    Returns:
+        terms (str): full text search query.
+        page (int): page number.
+        per_page (int): number of results per page.
+        filters (dict): key/value pairs containing filter values.
+
+    Raises:
+        HTTPBadRequest: if ValueError or KeyError raised.
+    """
+    page, per_page = parse_page_parameters(request)
+    terms = parse_and_validate_terms(request)
+    activite_principale = validate_activite_principale(
+        parse_and_clean_parameter(request, param="activite_principale")
+    )
+    code_postal = validate_code_postal(
+        parse_and_clean_parameter(request, param="code_postal")
+    )
+    is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
+        parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
+    )
+    tranche_effectif_salarie_entreprise = validate_tranche_effectif_salarie_entreprise(
+        parse_and_clean_parameter(request, param="tranche_effectif_salarie_entreprise")
+    )
+    parameters = {
+        "terms": terms,
+        "activite_principale_entreprise": activite_principale,
+        "code_postal": code_postal,
+        "is_entrepreneur_individuel": is_entrepreneur_individuel,
+        "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
+    }
+
+    return parameters, page, per_page
+
+
 def extract_geo_parameters(request):
+    page, per_page = parse_page_parameters(request)
     lat = parse_and_validate_latitude(request)
     lon = parse_and_validate_longitude(request)
     radius = parse_and_validate_radius(request)
-    page = int(request.rel_url.query.get("page", 1)) - 1  # default 1
-    per_page = int(request.rel_url.query.get("per_page", 10))  # default 10
-    return lat, lon, radius, page, per_page
+    activite_principale = validate_activite_principale(
+        parse_and_clean_parameter(request, param="activite_principale")
+    )
+    parameters = {
+        "lat": lat,
+        "lon": lon,
+        "radius": radius,
+        "activite_principale_entreprise": activite_principale,
+    }
+    return parameters, page, per_page

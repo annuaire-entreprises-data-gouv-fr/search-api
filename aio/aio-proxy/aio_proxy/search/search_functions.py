@@ -1,13 +1,12 @@
+from aio_proxy.search.helpers import filter_search, sort_and_execute_search
 from elasticsearch_dsl import query
 
 
-def search_text(index, query_terms: str, offset: int, page_size: int, **kwargs):
+def search_text(index, offset: int, page_size: int, **kwargs):
+    query_terms = kwargs["terms"]
     s = index.search()
-    # use filters to reduce search results
-    for key, value in kwargs.items():
-        if value is not None:
-            s = s.filter("term", **{key: value})
-
+    # Use filters to reduce search results
+    s = filter_search(s, filters_to_ignore=["terms"], **kwargs)
     s = s.query(
         "bool",
         should=[
@@ -141,33 +140,16 @@ def search_text(index, query_terms: str, offset: int, page_size: int, **kwargs):
             ),
         ],
     )
-    s = s.extra(track_scores=True)
-    s = s.sort(
-        {"_score": {"order": "desc"}},
-        {"etat_administratif_etablissement": {"order": "asc"}},
-    )
-
-    s = s[offset : (offset + page_size)]
-    rs = s.execute()
-    total_results = rs.hits.total.value
-    res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return total_results, res
+    return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
 
 
-def search_geo(
-    index, offset: int, page_size: int, lat: float, lon: float, radius: float
-):
+def search_geo(index, offset: int, page_size: int, **kwargs):
     s = index.search()
+    # Use filters to reduce search results
+    s = filter_search(s, filters_to_ignore=["lat", "lon", "radius"], **kwargs)
     s = s.filter(
-        "geo_distance", distance=f"{radius}km", coordonnees={"lat": lat, "lon": lon}
+        "geo_distance",
+        distance=f'{kwargs["radius"]}km',
+        coordonnees={"lat": kwargs["lat"], "lon": kwargs["lon"]},
     )
-    s = s.extra(track_scores=True)
-    s = s.sort(
-        {"_score": {"order": "desc"}},
-        {"etat_administratif_etablissement": {"order": "asc"}},
-    )
-    s = s[offset : (offset + page_size)]
-    rs = s.execute()
-    total_results = rs.hits.total.value
-    res = [hit.to_dict(skip_empty=False, include_meta=False) for hit in rs.hits]
-    return total_results, res
+    return sort_and_execute_search(search=s, offset=offset, page_size=page_size)

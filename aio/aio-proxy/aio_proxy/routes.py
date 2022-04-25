@@ -3,7 +3,7 @@ import os
 
 import elasticsearch
 import sentry_sdk
-from aio_proxy.helper import serialize_error_text
+from aio_proxy.helper import hide_fields, serialize_error_text
 from aio_proxy.parameters import extract_parameters
 from aio_proxy.search.index import Siren
 from aio_proxy.search.search_functions import search_es
@@ -36,9 +36,10 @@ routes = web.RouteTableDef()
 async def search_endpoint(request):
     try:
         terms, page, per_page, filters = extract_parameters(request)
-        total_results, unite_legale = search_es(
+        total_results, entreprises = search_es(
             Siren, terms, page * per_page, per_page, **filters
         )
+        unite_legale = hide_fields(entreprises)
         res = {
             "unite_legale": unite_legale,
             "total_results": int(total_results),

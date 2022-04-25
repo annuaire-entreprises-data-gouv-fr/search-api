@@ -1,7 +1,6 @@
+import elasticsearch
 from aio_proxy.helpers import serialize_error_text
 from aiohttp import web
-
-import elasticsearch
 
 
 def http_exception_handler(func):

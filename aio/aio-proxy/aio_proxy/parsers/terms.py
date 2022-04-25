@@ -1,3 +1,9 @@
+from aio_proxy.decorators.value_exception import value_exception_handler
+
+
+@value_exception_handler(
+    error="Veuillez indiquer la requête avec le paramètre: ?q=ma+recherche."
+)
 def parse_and_validate_terms(request) -> str:
     """Extract search terms from request.
 
@@ -9,10 +15,5 @@ def parse_and_validate_terms(request) -> str:
     Raises:
         ValueError: otherwise.
     """
-    try:
-        terms = request.rel_url.query["q"]
-        return terms
-    except KeyError:
-        raise ValueError(
-            "Veuillez indiquer la requête avec le paramètre: ?q=ma+recherche."
-        )
+    terms = request.rel_url.query["q"]
+    return terms

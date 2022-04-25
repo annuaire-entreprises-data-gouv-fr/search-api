@@ -1,4 +1,5 @@
 from typing import Callable, Dict
+import json
 
 import elasticsearch
 from aio_proxy.helpers import hide_fields, serialize_error_text
@@ -22,7 +23,7 @@ def api_response(
             "per_page": per_page,
         }
         res["total_pages"] = int(res["total_results"] / res["per_page"]) + 1
-        return res
+        return web.json_response(text=json.dumps([res], default=str))
     except (elasticsearch.exceptions.RequestError, ValueError, TypeError) as error:
         raise web.HTTPBadRequest(
             text=serialize_error_text(str(error)), content_type="application/json"

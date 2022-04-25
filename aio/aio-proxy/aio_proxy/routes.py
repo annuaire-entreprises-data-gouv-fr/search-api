@@ -38,18 +38,16 @@ routes = web.RouteTableDef()
 
 @routes.get("/search")
 async def search_text_endpoint(request):
-    response = api_response(
+    return api_response(
         request, extract_function=extract_text_parameters, search_function=search_text
     )
-    return web.json_response(text=json.dumps([response], default=str))
 
 
 @routes.get("/near_point")
 async def near_point_endpoint(request):
-    response = api_response(
+    return api_response(
         request, extract_function=extract_geo_parameters, search_function=search_geo
     )
-    return web.json_response(text=json.dumps([response], default=str))
 
 
 @routes.get("/colors")

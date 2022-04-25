@@ -3,7 +3,7 @@ import os
 
 import elasticsearch
 import sentry_sdk
-from aio_proxy.helper import serialize_error_text, hide_fields
+from aio_proxy.helper import hide_fields, serialize_error_text
 from aio_proxy.parameters import extract_parameters
 from aio_proxy.search.index import Siren
 from aio_proxy.search.search_functions import search_es

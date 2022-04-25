@@ -16,11 +16,7 @@ def hide_fields(search_result: list) -> list:
         "liste_enseigne",
     }
     unite_legale = [
-        {
-            field: value
-            for field, value in unite.items()
-            if field not in hidden_fields
-        }
+        {field: value for field, value in unite.items() if field not in hidden_fields}
         for unite in search_result
     ]
     return unite_legale

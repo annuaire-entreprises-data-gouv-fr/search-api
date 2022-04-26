@@ -5,7 +5,6 @@ from aiohttp import web
 
 def http_exception_handler(func):
     """Handle bad request errors."""
-
     def inner_function(*args, **kwargs):
         try:
             return func(*args, **kwargs)

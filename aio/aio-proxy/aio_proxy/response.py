@@ -11,6 +11,16 @@ from aiohttp import web
 def api_response(
     request, extract_function: Callable, search_function: Callable
 ) -> Dict[str, int]:
+    """Create and format API response .
+
+    Args:
+        request: HTTP request.
+        extract_function (Callable): function used to extract parameters.
+        search_function (Callable): function used for search .
+    Returns:
+        response in json format (unite_legale, total_results, page, per_page,
+        total_pages)
+    """
     parameters, page, per_page = extract_function(request)
     total_results, unite_legale = search_function(
         Siren, page * per_page, per_page, **parameters

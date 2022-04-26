@@ -3,7 +3,7 @@ from typing import Dict, Tuple, Union
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
 from aio_proxy.parsers.entrepreneur_individuel import (
-    validate_is_entrepreneur_individuel
+    validate_is_entrepreneur_individuel,
 )
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
@@ -12,8 +12,9 @@ from aio_proxy.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.parsers.radius import parse_and_validate_radius
 from aio_proxy.parsers.string_parser import parse_and_clean_parameter
 from aio_proxy.parsers.terms import parse_and_validate_terms
-from aio_proxy.parsers.tranche_effectif import \
-    validate_tranche_effectif_salarie_entreprise
+from aio_proxy.parsers.tranche_effectif import (
+    validate_tranche_effectif_salarie_entreprise,
+)
 
 
 def extract_text_parameters(

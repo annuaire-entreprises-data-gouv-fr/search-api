@@ -1,4 +1,6 @@
 def value_exception_handler(error):
+    """Handle Value, Type and Key errors."""
+
     def decorator(func):
         def inner_function(*args, **kwargs):
             try:

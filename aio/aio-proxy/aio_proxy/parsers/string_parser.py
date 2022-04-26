@@ -10,7 +10,6 @@ def parse_and_clean_parameter(request, param: str, default_value=None):
     Returns:
         None if None.
         clean_param otherwise.
-
     """
     param = request.rel_url.query.get(param, default_value)
     if param is None:

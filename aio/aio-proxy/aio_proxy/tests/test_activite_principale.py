@@ -1,5 +1,5 @@
-from aio_proxy.parsers.activite_principale import validate_activite_principale
 import pytest
+from aio_proxy.parsers.activite_principale import validate_activite_principale
 
 
 @pytest.mark.parametrize(

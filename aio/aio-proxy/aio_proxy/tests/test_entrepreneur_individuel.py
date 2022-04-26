@@ -1,8 +1,6 @@
-from aio_proxy.parsers.entrepreneur_individuel import (
-    validate_is_entrepreneur_individuel,
-)
-
 import pytest
+from aio_proxy.parsers.entrepreneur_individuel import \
+    validate_is_entrepreneur_individuel
 
 
 @pytest.mark.parametrize(

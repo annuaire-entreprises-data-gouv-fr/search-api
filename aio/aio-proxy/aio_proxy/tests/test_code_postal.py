@@ -1,5 +1,5 @@
-from aio_proxy.parsers.code_postal import validate_code_postal
 import pytest
+from aio_proxy.parsers.code_postal import validate_code_postal
 
 
 @pytest.mark.parametrize("code_postal, expected", [("45000", "45000"), (None, None)])

@@ -2,8 +2,9 @@ from typing import Dict, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
-from aio_proxy.parsers.entrepreneur_individuel import \
+from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel
+)
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page

@@ -1,4 +1,6 @@
-import parameters
+from aio_proxy.parsers.tranche_effectif import (
+    validate_tranche_effectif_salarie_entreprise,
+)
 import pytest
 
 
@@ -10,7 +12,7 @@ def test_validate_tranche_effectif_salarie_entreprise(
     tranche_effectif_salarie_entreprise: str, expected: str
 ):
     assert (
-        parameters.validate_tranche_effectif_salarie_entreprise(
+        validate_tranche_effectif_salarie_entreprise(
             tranche_effectif_salarie_entreprise
         )
         == expected
@@ -24,7 +26,7 @@ def test_validate_tranche_effectif_salarie_entreprise_fail_1(
     with pytest.raises(
         ValueError, match="Tranche salariés doit contenir 2 " "caractères."
     ):
-        parameters.validate_tranche_effectif_salarie_entreprise(
+        validate_tranche_effectif_salarie_entreprise(
             tranche_effectif_salarie_entreprise
         )
 
@@ -34,6 +36,6 @@ def test_validate_tranche_effectif_salarie_entreprise_fail_2(
     tranche_effectif_salarie_entreprise: str,
 ):
     with pytest.raises(ValueError, match="Tranche salariés non valide."):
-        parameters.validate_tranche_effectif_salarie_entreprise(
+        validate_tranche_effectif_salarie_entreprise(
             tranche_effectif_salarie_entreprise
         )

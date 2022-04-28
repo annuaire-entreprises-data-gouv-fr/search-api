@@ -64,14 +64,12 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # VALIDATE_ALL_CODEBASE: false # Only new or edited files
+          VALIDATE_ALL_CODEBASE: false # Only new or edited files
           VALIDATE_JSCPD: false # Copy/paste detection
           VALIDATE_GITHUB_ACTIONS: false # Due to shellcheck SC2086 issues
           VALIDATE_MARKDOWN: false # Due to multiple headings issue
-          # VALIDATE_PYTHON_BLACK: false # Not using black
           VALIDATE_DOCKERFILE_HADOLINT: false
           VALIDATE_HTML: false
           PYTHON_FLAKE8_CONFIG_FILE: .flake8

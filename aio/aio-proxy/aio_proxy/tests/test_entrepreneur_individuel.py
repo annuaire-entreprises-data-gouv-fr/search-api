@@ -1,5 +1,7 @@
-import parameters
 import pytest
+from aio_proxy.parsers.entrepreneur_individuel import (
+    validate_is_entrepreneur_individuel,
+)
 
 
 @pytest.mark.parametrize(
@@ -8,10 +10,7 @@ import pytest
 def test_validate_is_entrepreneur_individuel(
     is_entrepreneur_individuel: str, expected: str
 ):
-    assert (
-        parameters.validate_is_entrepreneur_individuel(is_entrepreneur_individuel)
-        == expected
-    )
+    assert validate_is_entrepreneur_individuel(is_entrepreneur_individuel) == expected
 
 
 @pytest.mark.parametrize("is_entrepreneur_individuel", ["NON", "OUI"])
@@ -24,4 +23,4 @@ def test_validate_is_entrepreneur_individuel_fail(
         "possibles pour "
         "'is_entrepreneur_individuel'.",
     ):
-        parameters.validate_is_entrepreneur_individuel(is_entrepreneur_individuel)
+        validate_is_entrepreneur_individuel(is_entrepreneur_individuel)

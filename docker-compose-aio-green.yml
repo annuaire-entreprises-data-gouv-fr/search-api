@@ -4,6 +4,8 @@ services:
   http-proxy:
     build:
       context: ./aio
+    env_file:
+      - .env
     environment:
       - CURRENT_COLOR=green
       - NEXT_COLOR=blue

@@ -18,19 +18,19 @@ def api_response(
         extract_function (Callable): function used to extract parameters.
         search_function (Callable): function used for search .
     Returns:
-        response in json format (unite_legale, total_results, page, per_page,
+        response in json format (results, total_results, page, per_page,
         total_pages)
     """
     parameters, page, per_page = extract_function(request)
-    total_results, unite_legale = search_function(
+    total_results, results = search_function(
         Siren, page * per_page, per_page, **parameters
     )
-    unite_legale_filtered = hide_fields(unite_legale)
+    results_filtered = hide_fields(results)
     res = {
-        "unite_legale": unite_legale_filtered,
+        "results": results_filtered,
         "total_results": int(total_results),
         "page": page + 1,
         "per_page": per_page,
     }
     res["total_pages"] = int(res["total_results"] / res["per_page"]) + 1
-    return web.json_response(text=json.dumps([res], default=str))
+    return web.json_response(text=json.dumps(res, default=str))

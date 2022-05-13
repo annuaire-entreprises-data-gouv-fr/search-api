@@ -30,6 +30,7 @@ def hide_fields(search_result: list) -> list:
         "coordonnees",
         "concat_nom_adr_siren",
         "concat_enseigne_adresse",
+        "geo_adresse",
         "is_siege",
         "liste_adresse",
         "liste_enseigne",

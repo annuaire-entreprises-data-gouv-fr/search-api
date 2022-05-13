@@ -13,7 +13,7 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
     search = search.extra(track_scores=True)
     search = search.sort(
         {"_score": {"order": "desc"}},
-        {"etat_administratif_unite_legale": {"order": "asc"}},
+        {"etat_administratif_siege": {"order": "asc"}},
     )
     search = search[offset : (offset + page_size)]
     results = search.execute()

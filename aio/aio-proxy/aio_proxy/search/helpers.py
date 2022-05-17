@@ -13,7 +13,7 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
     search = search.extra(track_scores=True)
     search = search.sort(
         {"_score": {"order": "desc"}},
-        {"etat_administratif_etablissement": {"order": "asc"}},
+        {"etat_administratif_siege": {"order": "asc"}},
     )
     search = search[offset : (offset + page_size)]
     results = search.execute()
@@ -27,13 +27,16 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
 def hide_fields(search_result: list) -> list:
     """Hide concatenation fields in search results."""
     hidden_fields = {
+        "coordonnees",
         "concat_nom_adr_siren",
         "concat_enseigne_adresse",
+        "geo_adresse",
+        "is_siege",
         "liste_adresse",
         "liste_enseigne",
     }
-    unite_legale = [
+    results = [
         {field: value for field, value in unite.items() if field not in hidden_fields}
         for unite in search_result
     ]
-    return unite_legale
+    return results

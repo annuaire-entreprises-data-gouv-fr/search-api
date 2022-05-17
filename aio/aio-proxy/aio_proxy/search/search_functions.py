@@ -20,7 +20,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                             fields=[
                                 "nom_complet^15",
                                 "siren^3",
-                                "siret^3",
+                                "siret_siege^3",
                                 "identifiantAssociationUniteLegale^3",
                             ],
                         )
@@ -29,7 +29,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 functions=[
                     query.SF(
                         "field_value_factor",
-                        field="nombre_etablissements_ouvert",
+                        field="nombre_etablissements_ouverts",
                         factor=10,
                         modifier="sqrt",
                         missing=1,
@@ -52,7 +52,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 functions=[
                     query.SF(
                         "field_value_factor",
-                        field="nombre_etablissements_ouvert",
+                        field="nombre_etablissements_ouverts",
                         factor=10,
                         modifier="sqrt",
                         missing=1,
@@ -69,7 +69,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                             fields=[
                                 "nom_complet^7",
                                 "siren^7",
-                                "siret^4",
+                                "siret_siege^4",
                                 "identifiantAssociationUniteLegale^4",
                             ],
                             operator="and",
@@ -79,7 +79,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 functions=[
                     query.SF(
                         "field_value_factor",
-                        field="nombre_etablissements_ouvert",
+                        field="nombre_etablissements_ouverts",
                         factor=10,
                         modifier="sqrt",
                         missing=1,
@@ -101,7 +101,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 functions=[
                     query.SF(
                         "field_value_factor",
-                        field="nombre_etablissements_ouvert",
+                        field="nombre_etablissements_ouverts",
                         factor=10,
                         modifier="sqrt",
                         missing=1,
@@ -124,7 +124,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 functions=[
                     query.SF(
                         "field_value_factor",
-                        field="nombre_etablissements_ouvert",
+                        field="nombre_etablissements_ouverts",
                         factor=10,
                         modifier="sqrt",
                         missing=1,

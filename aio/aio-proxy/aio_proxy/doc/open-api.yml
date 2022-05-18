@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: API Recherche d’entreprises
+  version: 1.0.0
+  contact:
+    email: contact@particulier.api.gouv.fr
+    name: Contact API Recherche d’entreprises
+    url: https://api.gouv.fr/les-api/api-particulier
+  termsOfService: https://api.gouv.fr/resources/CGU%20API%20Particulier.pdf
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/betagouv/api-particulier/blob/master/LICENSE
+  description: >
+    ## Bienvenue sur la documentation interactive d'API Recherche d’entreprises.
+
+    ### Commencer à utiliser l'API
+
+    #### Comment interroger l'API
+
+    #### Format de réponse
+
+    #### Limite des requêtes
+
+    ### Documentation des endpoints
+
+    ## Recherche de
+
+paths:
+  /search:
+    get:
+      tags:
+        - Recherche textuelle
+      description: >-
+        Le service permet de récupérer les unités légales correspondantes à la 
+        recherche effectuée.
+
+
+        **Paramètres d'appel :** nom de l'entreprise, code postal, activité 
+        principale de l'entreprise, entrepreneur individuel et la tranche effectif 
+        salarié.
+
+
+        **Données disponibles :** base SIRENE
+      summary: Recherche textuelle
+      parameters:
+        - name: q
+          in: query
+          description: Termes de la recherche
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: code_postal
+          in: query
+          description: Code postal
+          required: false
+          schema:
+            type: number
+            format: string
+        - name: activite_principale_entreprise
+          in: query
+          description: Activite principale de l'entreprise
+          required: false
+          schema:
+            type: string
+            format: string
+        - name: is_entrepreneur_individuel
+          in: query
+          description: Entreprises individuelles
+          required: false
+          schema:
+            type: string
+            format: string
+        - name: tranche_effectif_salarie_entreprise
+          in: query
+          description: Tranche Salariés
+          required: false
+          schema:
+            type: string
+            format: string
+      responses:
+
+        "404":
+          description: Dossier allocataire inexistant. Le document ne peut être édité.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: not_found
+                  reason:
+                    type: string
+                    example: Dossier allocataire inexistant. Le document ne peut être édité.
+                  message:
+                    type: string
+                    example: Dossier allocataire inexistant. Le document ne peut être édité.
+
+servers:
+  - url: http://api.sirene.dataeng.etalab.studio
+    description: Serveur de test

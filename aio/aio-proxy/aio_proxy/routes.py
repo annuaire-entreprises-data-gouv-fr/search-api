@@ -8,7 +8,6 @@ from aio_proxy.parameters import (
 from aio_proxy.response import api_response
 from aio_proxy.search.search_functions import search_geo, search_text
 from aiohttp import web
-from aiohttp_swagger import *
 from dotenv import load_dotenv
 from elasticsearch_dsl import connections
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
@@ -38,7 +37,6 @@ routes = web.RouteTableDef()
 
 @routes.get("/search")
 async def search_text_endpoint(request):
-
     return api_response(
         request, extract_function=extract_text_parameters, search_function=search_text
     )

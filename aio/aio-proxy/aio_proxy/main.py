@@ -23,7 +23,7 @@ def main():
         swagger_ui_settings=SwaggerUiSettings(path="/docs/"),
         title="API Recherche d’entreprises",
         version="1.0.0",
-        components=open_api_path
+        components=open_api_path,
     )
     app["config"] = config
     web.run_app(app, host=config["host"], port=config["port"])

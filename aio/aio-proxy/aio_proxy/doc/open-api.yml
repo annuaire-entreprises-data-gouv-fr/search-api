@@ -3,15 +3,35 @@ info:
   title: API Recherche d’entreprises
   version: 1.0.0
   contact:
-    email: contact@particulier.api.gouv.fr
+    email: recherche-entreprises@api.gouv.fr
     name: Contact API Recherche d’entreprises
-    url: https://api.gouv.fr/les-api/api-particulier
+    url: https://recherche-entreprises.api.gouv.fr/
   termsOfService: https://api.gouv.fr/resources/CGU%20API%20Particulier.pdf
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/betagouv/api-particulier/blob/master/LICENSE
   description: >
-    ## Bienvenue sur la documentation interactive d'API Recherche d’entreprises.
+    ## Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
+    
+    L’API Recherche d’entreprises permet à tout le monde de rechercher et de trouver 
+    une entreprise française.
+    
+    ### Données accessibles dans l'API
+
+    L’API étant totalement ouverte d'accès, elle comporte des limitations. Ainsi ne sont pas accessibles dans l'API :
+
+    - les prédécesseurs et successeurs d'un établissement
+    
+    - les entreprises non-diffusibles
+    
+    - les entreprises qui se sont vues refuser leurs immatriculation au RCS
+    
+    
+    **Attention :** cette API ne permet pas d'accèder aux données complètes de  la 
+    base Sirene, mais uniquement de rechercher une entreprise, par sa dénomination ou
+    son adresse. Pour savoir comment obtenir les données complètes,
+    consultez [notre fiche explicative.](/guides/quelle-api-sirene)
+    
 
     ### Commencer à utiliser l'API
 
@@ -21,9 +41,6 @@ info:
 
     #### Limite des requêtes
 
-    ### Documentation des endpoints
-
-    ## Recherche de
 
 paths:
   /search:
@@ -96,6 +113,68 @@ paths:
                   message:
                     type: string
                     example: Dossier allocataire inexistant. Le document ne peut être édité.
+  /near_point:
+    get:
+      tags:
+        - Recherche géographique
+      description: >-
+        Cet endpoint prend en paramètre une latitude (:lat) et une longitude (:long) et
+        renvoie les unités légales autour de ces coordonnées.
+        
+        
+        **Paramètres d'appel :** latitude, longitude, radius et activité principale
+        de l'entreprise.
+        
+        
+        **Données disponibles :** base SIRENE
+      summary: Recherche géographique
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: float
+        - name: long
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: flaot
+        - name: radius
+          in: query
+          description: Radius de recherche
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: activite_principale_entreprise
+          in: query
+          description: Filtrage par code d’activité principale (code NAF)
+          required: false
+          schema:
+            type: string
+            format: string
+      responses:
+
+        "404":
+          description: Dossier allocataire inexistant. Le document ne peut être édité.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: not_found
+                  reason:
+                    type: string
+                    example: Le document ne peut être édité.
+                  message:
+                    type: string
+                    example: Le document ne peut être édité.
 
 servers:
   - url: http://api.sirene.dataeng.etalab.studio

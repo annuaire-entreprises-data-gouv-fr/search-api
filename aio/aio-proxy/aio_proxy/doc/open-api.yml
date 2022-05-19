@@ -5,10 +5,9 @@ info:
     email: recherche-entreprises@api.gouv.fr
     name: Contact API Recherche d’entreprises
     url: https://recherche-entreprises.api.gouv.fr/
-  termsOfService: https://api.gouv.fr/resources/CGU%20API%20Particulier.pdf
   license:
     name: GNU Affero General Public License v3.0
-    url: https://github.com/betagouv/api-particulier/blob/master/LICENSE
+    url: https://github.com/etalab/annuaire-entreprises-search-api/blob/license/LICENSE
   description: >
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
     

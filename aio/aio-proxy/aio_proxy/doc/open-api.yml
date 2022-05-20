@@ -130,11 +130,11 @@ paths:
                       properties:
                         siren:
                           type: string
-                          example: 111111111
+                          example: "111111111"
                           description: le numéro unique de l'entreprise
                         siret_siege:
                           type: string
-                          example: 11111111111111
+                          example: "11111111111111"
                           description: le numéro unique de l'établissement siège
                         date_creation_siege:
                           type: string
@@ -290,11 +290,11 @@ paths:
                       properties:
                         siren:
                           type: string
-                          example: 111111111
+                          example: "111111111"
                           description: le numéro unique de l'entreprise
                         siret_siege:
                           type: string
-                          example: 11111111111111
+                          example: "11111111111111"
                           description: le numéro unique de l'établissement siège
                         date_creation_siege:
                           type: string

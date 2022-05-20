@@ -1,0 +1,381 @@
+info:
+  title: API Recherche d’entreprises
+  version: 1.0.0
+  contact:
+    email: recherche-entreprises@api.gouv.fr
+    name: Contact API Recherche d’entreprises
+    url: https://recherche-entreprises.api.gouv.fr/
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/etalab/annuaire-entreprises-search-api/blob/license/LICENSE
+  description: >
+    # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
+    
+    L’API Recherche d’entreprises permet à tout le monde de rechercher et de trouver 
+    une entreprise française par sa dénomination, ou son adresse.
+    
+    ## Données accessibles dans l'API
+
+    L’API étant totalement ouverte d'accès, elle comporte des limitations. Ainsi ne sont pas accessibles dans l'API :
+
+    - les prédécesseurs et successeurs d'un établissement
+    
+    - les entreprises non-diffusibles
+    
+    - les entreprises qui se sont vues refuser leurs immatriculation au RCS
+    
+    
+    **Attention :** cette API ne permet pas d'accèder aux données complètes de  la 
+    base Sirene, mais uniquement de rechercher une entreprise, par sa dénomination ou
+    son adresse. Pour savoir comment obtenir les données complètes,
+    consultez [notre fiche explicative.](/guides/quelle-api-sirene)
+    
+
+    ## Commencer à utiliser l'API
+    
+    L'API est accessible à partir de cette adresse : [https://recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api.gouv.fr)
+    
+    
+    **Attention :** Vous devez rajouter votre requête sur l’adresse.
+
+    ## Limite des requêtes
+    
+      Le serveur accepte un maximum de 7 requêtes par seconde. Au delà, un code 429 est renvoyé indiquant que la volumétrie d'appels a été dépassée. 
+  
+  
+    
+    ## Monitoring de l'API
+    
+    Une supervision du service en temps réel est disponible à cette adresse : [https://stats.uptimerobot.com/kXzwzfk7BE](https://stats.uptimerobot.com/kXzwzfk7BE)
+
+
+
+openapi: 3.0.0
+paths:
+  /search:
+    get:
+      tags:
+        - Recherche textuelle
+      description: >
+        Cet endpoint permet de récupérer les unités légales correspondantes à la 
+        recherche textuelle effectuée sur la dénomination ou l'adresse.
+
+
+        **Paramètres d'appel :** dénomination de l'entreprise, code postal, activité 
+        principale de l'entreprise, entrepreneur individuel et tranche d'effectif 
+        salarié.
+
+
+      summary: Recherche textuelle
+      parameters:
+        - name: q
+          in: query
+          description: Termes de la recherche (dénomination et/ou adresse)
+          required: true
+          schema:
+            type: string
+        - name: code_postal
+          in: query
+          description: <a href=https://www.sirene.fr/sirene/public/variable/codpos>Code postal en 5 chiffres</a>
+          required: false
+          schema:
+            type: string
+        - name: activite_principale_entreprise
+          in: query
+          description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
+          required: false
+          schema:
+            type: string
+        - name: is_entrepreneur_individuel
+          in: query
+          description: Uniquement les entreprises individuelles
+          required: false
+          schema:
+            type: string
+            enum:
+             - "yes"
+             - "no"
+        - name: tranche_effectif_salarie_entreprise
+          in: query
+          description: <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche d'effectif salarié de l'entreprise</a>
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Le numéro de la page à retourner
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Le nombre de résultats par page
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: La liste des entreprises correspondantes à la recherche.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        siren:
+                          type: string
+                          example: "111111111"
+                          description: le numéro unique de l'entreprise
+                        siret_siege:
+                          type: string
+                          example: "11111111111111"
+                          description: le numéro unique de l'établissement siège
+                        date_creation_siege:
+                          type: string
+                          format: date-time
+                          description: Date de création du siège
+                        tranche_effectif_salarie_siege:
+                          type: string
+                        activite_principale_registre_metier:
+                          type: string
+                        numero_voie:
+                          type: string
+                        type_voie:
+                          type: string
+                        libelle_voie:
+                          type: string
+                        code_postale:
+                          type: string
+                          pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                        libelle_commune:
+                          type: string
+                        commune:
+                          type: string
+                        date_debut_activite_siege:
+                          type: string
+                          format: date-time
+                        etat_adiministratif_siege:
+                          type: string
+                        activite_principale_siege:
+                          type: string
+                        longitude:
+                          type: number
+                          format: float
+                        latitude:
+                          type: number
+                          format: float
+                        date_creation_unite_legale:
+                          type: string
+                          format: date-time
+                        categorie_entreprise:
+                          type: string
+                        etat_administratif_unite_legale:
+                          type: string
+                        nom_raison_sociale:
+                          type: string
+                        nature_juridique_unite_legale:
+                          type: string
+                        activite_principale_unite_legale:
+                          type: string
+                        economie_sociale_solidaire_unite_legale:
+                          type: string
+                        nom_complet:
+                          type: string
+                        nombre_etablissements:
+                          type: integer
+                        nombre_etablissements_ouverts:
+                          type: integer
+                        is_entrepreneur_individuel:
+                          type: boolean
+                          description: Entreprises individuelles
+                  total_results:
+                    type: integer
+                  page:
+                    type: integer
+                    default: 1
+                  per_page:
+                    type: integer
+                    default: 10
+                  total_pages:
+                    type: integer
+        "400":
+          description: Requête incorrecte.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erreur:
+                    type: string
+                    example: "Veuillez indiquer la requ\u00eate avec le paramètre:
+                    ?q=ma+recherche."
+
+  /near_point:
+    get:
+      tags:
+        - Recherche géographique
+      description: >-
+        Cet endpoint prend en paramètre une latitude (:lat) et une longitude (:long) et
+        renvoie les unités légales autour de ces coordonnées. 
+        
+        Vous pouvez également préciser un paramètre radius en km(défaut: 5 km).
+        
+        
+        **Paramètres d'appel :** latitude, longitude, radius et activité principale
+        de l'entreprise.
+        
+
+      summary: Recherche géographique
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude
+          required: true
+          schema:
+            type: number
+            format: float
+        - name: long
+          in: query
+          description: Longitude
+          required: true
+          schema:
+            type: number
+            format: float
+        - name: radius
+          in: query
+          description: Radius de recherche
+          required: false
+          schema:
+            type: number
+            format: float
+            default: 5
+        - name: activite_principale_entreprise
+          in: query
+          description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Le numéro de la page à retourner
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          in: query
+          description: Le nombre de résultats par page
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: La liste des entreprises correspondantes à la recherche.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        siren:
+                          type: string
+                          example: "111111111"
+                          description: le numéro unique de l'entreprise
+                        siret_siege:
+                          type: string
+                          example: "11111111111111"
+                          description: le numéro unique de l'établissement siège
+                        date_creation_siege:
+                          type: string
+                          format: date-time
+                          description: Date de création du siège
+                        tranche_effectif_salarie_siege:
+                          type: string
+                        activite_principale_registre_metier:
+                          type: string
+                        numero_voie:
+                          type: string
+                        type_voie:
+                          type: string
+                        libelle_voie:
+                          type: string
+                        code_postale:
+                          type: string
+                          pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                        libelle_commune:
+                          type: string
+                        commune:
+                          type: string
+                        date_debut_activite_siege:
+                          type: string
+                          format: date-time
+                        etat_adiministratif_siege:
+                          type: string
+                        activite_principale_siege:
+                          type: string
+                        longitude:
+                          type: number
+                          format: float
+                        latitude:
+                          type: number
+                          format: float
+                        date_creation_unite_legale:
+                          type: string
+                          format: date-time
+                        categorie_entreprise:
+                          type: string
+                        etat_administratif_unite_legale:
+                          type: string
+                        nom_raison_sociale:
+                          type: string
+                        nature_juridique_unite_legale:
+                          type: string
+                        activite_principale_unite_legale:
+                          type: string
+                        economie_sociale_solidaire_unite_legale:
+                          type: string
+                        nom_complet:
+                          type: string
+                        nombre_etablissements:
+                          type: integer
+                        nombre_etablissements_ouverts:
+                          type: integer
+                        is_entrepreneur_individuel:
+                          type: boolean
+                          description: Entreprises individuelles
+                  total_results:
+                    type: integer
+                  page:
+                    type: integer
+                    default: 1
+                  per_page:
+                    type: integer
+                    default: 10
+                  total_pages:
+                    type: integer
+        "400":
+          description: Requête incorrecte.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erreur:
+                    type: string
+                    example: "Veuillez indiquer une longitude entre -180° et 180°."
+servers:
+  - url: http://api.sirene.dataeng.etalab.studio
+    description: Serveur de test
+  - url: https://recherche-entreprises.api.gouv.fr
+    description: Serveur de production

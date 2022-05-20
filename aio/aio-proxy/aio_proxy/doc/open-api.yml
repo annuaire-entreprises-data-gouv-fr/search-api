@@ -46,7 +46,7 @@ info:
     
     ## Monitoring de l'API
     
-    Une supervision du service en temps réel est disponible à cette adresse : [https://stats.uptimerobot.com/4GgkgUJWlv/787859512](https://stats.uptimerobot.com/4GgkgUJWlv/787859512)
+    Une supervision du service en temps réel est disponible à cette adresse : [https://stats.uptimerobot.com/kXzwzfk7BE](https://stats.uptimerobot.com/kXzwzfk7BE)
 
 
 
@@ -56,7 +56,7 @@ paths:
     get:
       tags:
         - Recherche textuelle
-      description: >-
+      description: >
         Cet endpoint permet de récupérer les unités légales correspondantes à la 
         recherche textuelle effectuée sur la dénomination ou l'adresse.
 
@@ -129,11 +129,11 @@ paths:
                       type: object
                       properties:
                         siren:
-                          type: integer
+                          type: string
                           example: 111111111
                           description: le numéro unique de l'entreprise
                         siret_siege:
-                          type: integer
+                          type: string
                           example: 11111111111111
                           description: le numéro unique de l'établissement siège
                         date_creation_siege:
@@ -145,7 +145,7 @@ paths:
                         activite_principale_registre_metier:
                           type: string
                         numero_voie:
-                          type: number
+                          type: string
                         type_voie:
                           type: string
                         libelle_voie:
@@ -289,11 +289,11 @@ paths:
                       type: object
                       properties:
                         siren:
-                          type: integer
+                          type: string
                           example: 111111111
                           description: le numéro unique de l'entreprise
                         siret_siege:
-                          type: integer
+                          type: string
                           example: 11111111111111
                           description: le numéro unique de l'établissement siège
                         date_creation_siege:
@@ -305,7 +305,7 @@ paths:
                         activite_principale_registre_metier:
                           type: string
                         numero_voie:
-                          type: number
+                          type: string
                         type_voie:
                           type: string
                         libelle_voie:

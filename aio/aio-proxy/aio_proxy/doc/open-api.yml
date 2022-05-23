@@ -5,9 +5,6 @@ info:
     email: recherche-entreprises@api.gouv.fr
     name: Contact API Recherche d’entreprises
     url: https://recherche-entreprises.api.gouv.fr/
-  license:
-    name: GNU Affero General Public License v3.0
-    url: https://github.com/etalab/annuaire-entreprises-search-api/blob/license/LICENSE
   description: >
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
     
@@ -375,7 +372,5 @@ paths:
                     type: string
                     example: "Veuillez indiquer une longitude entre -180° et 180°."
 servers:
-  - url: http://api.sirene.dataeng.etalab.studio
-    description: Serveur de test
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

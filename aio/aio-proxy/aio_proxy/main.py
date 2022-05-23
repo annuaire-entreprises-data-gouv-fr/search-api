@@ -15,9 +15,9 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
 
     app = web.Application()
-
     app["http_session"] = aiohttp.ClientSession()
     app.router.add_routes(routes)
+
     swagger = SwaggerDocs(
         app,
         swagger_ui_settings=SwaggerUiSettings(path="/docs/"),
@@ -26,6 +26,7 @@ def main():
         components=open_api_path,
     )
     app["config"] = config
+
     web.run_app(app, host=config["host"], port=config["port"])
     app.on_startup.append(swagger)
 

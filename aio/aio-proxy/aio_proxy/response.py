@@ -33,4 +33,5 @@ def api_response(
         "per_page": per_page,
     }
     res["total_pages"] = int(res["total_results"] / res["per_page"]) + 1
-    return web.json_response(text=json.dumps(res, default=str))
+    headers = {"Access-Control-Allow-Origin": "*"}
+    return web.json_response(text=json.dumps(res, default=str), headers=headers)

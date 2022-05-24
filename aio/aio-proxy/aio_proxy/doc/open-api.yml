@@ -181,6 +181,7 @@ paths:
                           type: string
                         date_mise_a_jour:
                           type: string
+                          format: date-time
                         categorie_entreprise:
                           type: string
                         etat_administratif:
@@ -352,6 +353,7 @@ paths:
                           type: string
                         date_mise_a_jour:
                           type: string
+                          format: date-time
                         categorie_entreprise:
                           type: string
                         etat_administratif:

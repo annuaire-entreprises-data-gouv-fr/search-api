@@ -5,7 +5,10 @@ def format_response(results):
     """Format API response to follow a specific schema."""
     formatted_results = []
     for result in results:
-        get_field = lambda field, default=None: get_value(result, field, default)
+
+        def get_field(field, default=None):
+            get_value(result, field, default)
+
         result_formatted = {
             "siren": get_field("siren"),
             "siege": {

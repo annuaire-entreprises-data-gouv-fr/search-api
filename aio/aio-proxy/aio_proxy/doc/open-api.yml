@@ -77,7 +77,7 @@ paths:
           required: false
           schema:
             type: string
-        - name: activite_principale_entreprise
+        - name: activite_principale
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
           required: false
@@ -92,7 +92,7 @@ paths:
             enum:
              - "yes"
              - "no"
-        - name: tranche_effectif_salarie_entreprise
+        - name: tranche_effectif_salarie
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche d'effectif salarié de l'entreprise</a>
           required: false
@@ -129,58 +129,69 @@ paths:
                           type: string
                           example: "111111111"
                           description: le numéro unique de l'entreprise
-                        siret_siege:
-                          type: string
-                          example: "11111111111111"
-                          description: le numéro unique de l'établissement siège
-                        date_creation_siege:
+                        siege:
+                          type: object
+                          properties:
+                            siret:
+                              type: string
+                              example: "11111111111111"
+                              description: le numéro unique de l'établissement siège
+                            date_creation:
+                              type: string
+                              format: date-time
+                              description: Date de création du siège
+                            tranche_effectif_salarie:
+                              type: string
+                            date_debut_activite:
+                              type: string
+                              format: date-time
+                            etat_adiministratif:
+                              type: string
+                            activite_principale:
+                              type: string
+                            numero_voie:
+                              type: string
+                            type_voie:
+                              type: string
+                            libelle_voie:
+                              type: string
+                            code_postal:
+                              type: string
+                              pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                            libelle_commune:
+                              type: string
+                            indice_repetition:
+                              type: string
+                            complement_adresse:
+                              type: string
+                            commune:
+                              type: string
+                            longitude:
+                              type: number
+                              format: float
+                            latitude:
+                              type: number
+                              format: float
+                            activite_principale_registre_metier:
+                              type: string
+                        date_creation:
                           type: string
                           format: date-time
-                          description: Date de création du siège
-                        tranche_effectif_salarie_siege:
+                        tranche_effectif_salarie:
                           type: string
-                        activite_principale_registre_metier:
+                        date_mise_a_jour:
                           type: string
-                        numero_voie:
-                          type: string
-                        type_voie:
-                          type: string
-                        libelle_voie:
-                          type: string
-                        code_postale:
-                          type: string
-                          pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                        libelle_commune:
-                          type: string
-                        commune:
-                          type: string
-                        date_debut_activite_siege:
-                          type: string
-                          format: date-time
-                        etat_adiministratif_siege:
-                          type: string
-                        activite_principale_siege:
-                          type: string
-                        longitude:
-                          type: number
-                          format: float
-                        latitude:
-                          type: number
-                          format: float
-                        date_creation_unite_legale:
-                          type: string
-                          format: date-time
                         categorie_entreprise:
                           type: string
-                        etat_administratif_unite_legale:
+                        etat_administratif:
                           type: string
                         nom_raison_sociale:
                           type: string
-                        nature_juridique_unite_legale:
+                        nature_juridique:
                           type: string
-                        activite_principale_unite_legale:
+                        activite_principale:
                           type: string
-                        economie_sociale_solidaire_unite_legale:
+                        economie_sociale_solidaire:
                           type: string
                         nom_complet:
                           type: string
@@ -289,58 +300,69 @@ paths:
                           type: string
                           example: "111111111"
                           description: le numéro unique de l'entreprise
-                        siret_siege:
-                          type: string
-                          example: "11111111111111"
-                          description: le numéro unique de l'établissement siège
-                        date_creation_siege:
+                        siege:
+                          type: object
+                          properties:
+                            siret:
+                              type: string
+                              example: "11111111111111"
+                              description: le numéro unique de l'établissement siège
+                            date_creation:
+                              type: string
+                              format: date-time
+                              description: Date de création du siège
+                            tranche_effectif_salarie:
+                              type: string
+                            date_debut_activite:
+                              type: string
+                              format: date-time
+                            etat_adiministratif:
+                              type: string
+                            activite_principale:
+                              type: string
+                            numero_voie:
+                              type: string
+                            type_voie:
+                              type: string
+                            libelle_voie:
+                              type: string
+                            code_postal:
+                              type: string
+                              pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                            libelle_commune:
+                              type: string
+                            indice_repetition:
+                              type: string
+                            complement_adresse:
+                              type: string
+                            commune:
+                              type: string
+                            longitude:
+                              type: number
+                              format: float
+                            latitude:
+                              type: number
+                              format: float
+                            activite_principale_registre_metier:
+                              type: string
+                        date_creation:
                           type: string
                           format: date-time
-                          description: Date de création du siège
-                        tranche_effectif_salarie_siege:
+                        tranche_effectif_salarie:
                           type: string
-                        activite_principale_registre_metier:
+                        date_mise_a_jour:
                           type: string
-                        numero_voie:
-                          type: string
-                        type_voie:
-                          type: string
-                        libelle_voie:
-                          type: string
-                        code_postale:
-                          type: string
-                          pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                        libelle_commune:
-                          type: string
-                        commune:
-                          type: string
-                        date_debut_activite_siege:
-                          type: string
-                          format: date-time
-                        etat_adiministratif_siege:
-                          type: string
-                        activite_principale_siege:
-                          type: string
-                        longitude:
-                          type: number
-                          format: float
-                        latitude:
-                          type: number
-                          format: float
-                        date_creation_unite_legale:
-                          type: string
-                          format: date-time
                         categorie_entreprise:
                           type: string
-                        etat_administratif_unite_legale:
+                        etat_administratif:
                           type: string
                         nom_raison_sociale:
                           type: string
-                        nature_juridique_unite_legale:
+                        nature_juridique:
                           type: string
-                        activite_principale_unite_legale:
+                        activite_principale:
                           type: string
-                        economie_sociale_solidaire_unite_legale:
+                        economie_sociale_solidaire:
                           type: string
                         nom_complet:
                           type: string

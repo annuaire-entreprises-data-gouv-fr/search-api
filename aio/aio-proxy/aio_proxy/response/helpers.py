@@ -7,7 +7,7 @@ def serialize_error_text(text: str) -> str:
     return json.dumps(message)
 
 
-def set_default(dict, key, default=None):
+def get_value(dict, key, default=None):
     """Set value to value of key if key found in dict, otherwise set value to
     default."""
     value = dict[key] if key in dict else default

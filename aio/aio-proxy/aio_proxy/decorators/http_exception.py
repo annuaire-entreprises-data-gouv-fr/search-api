@@ -1,5 +1,5 @@
 import elasticsearch
-from aio_proxy.response.helpers import serialize_error_text
+from aio_proxy.helpers import serialize_error_text
 from aiohttp import web
 
 

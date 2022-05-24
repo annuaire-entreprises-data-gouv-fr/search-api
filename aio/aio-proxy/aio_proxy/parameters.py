@@ -13,7 +13,7 @@ from aio_proxy.parsers.radius import parse_and_validate_radius
 from aio_proxy.parsers.string_parser import parse_and_clean_parameter
 from aio_proxy.parsers.terms import parse_and_validate_terms
 from aio_proxy.parsers.tranche_effectif import (
-    validate_tranche_effectif_salarie,
+    validate_tranche_effectif_salarie_entreprise,
 )
 
 
@@ -46,15 +46,15 @@ def extract_text_parameters(
     is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
         parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
     )
-    tranche_effectif_salarie = validate_tranche_effectif_salarie(
-        parse_and_clean_parameter(request, param="tranche_effectif_salarie")
+    tranche_effectif_salarie_entreprise = validate_tranche_effectif_salarie_entreprise(
+        parse_and_clean_parameter(request, param="tranche_effectif_salarie_entreprise")
     )
     parameters = {
         "terms": terms,
-        "activite_principale_unite_legale": activite_principale,
+        "activite_principale_entreprise": activite_principale,
         "code_postal": code_postal,
         "is_entrepreneur_individuel": is_entrepreneur_individuel,
-        "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
+        "tranche_effectif_salarie_entreprise": tranche_effectif_salarie_entreprise,
     }
 
     return parameters, page, per_page
@@ -73,6 +73,6 @@ def extract_geo_parameters(request):
         "lat": lat,
         "lon": lon,
         "radius": radius,
-        "activite_principale_unite_legale": activite_principale,
+        "activite_principale_entreprise": activite_principale,
     }
     return parameters, page, per_page

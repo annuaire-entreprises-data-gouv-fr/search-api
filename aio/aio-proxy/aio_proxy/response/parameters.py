@@ -12,7 +12,9 @@ from aio_proxy.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.parsers.radius import parse_and_validate_radius
 from aio_proxy.parsers.string_parser import parse_and_clean_parameter
 from aio_proxy.parsers.terms import parse_and_validate_terms
-from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
+from aio_proxy.parsers.tranche_effectif import (
+    validate_tranche_effectif_salarie,
+)
 
 
 def extract_text_parameters(

@@ -1,11 +1,11 @@
 import os
 
 import sentry_sdk
+from aio_proxy.response.build_response import api_response
 from aio_proxy.response.parameters import (
     extract_geo_parameters,
     extract_text_parameters,
 )
-from aio_proxy.response.build_response import api_response
 from aio_proxy.search.search_functions import search_geo, search_text
 from aiohttp import web
 from dotenv import load_dotenv

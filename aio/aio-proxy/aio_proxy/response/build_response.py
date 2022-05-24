@@ -4,7 +4,7 @@ from typing import Callable, Dict
 from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.search.helpers import hide_fields
 from aio_proxy.search.index import Siren
-from aio_proxy.format_response import format_response
+from aio_proxy.response.format_response import format_response
 from aiohttp import web
 
 

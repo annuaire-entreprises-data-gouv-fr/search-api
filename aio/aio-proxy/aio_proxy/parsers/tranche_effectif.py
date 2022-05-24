@@ -4,7 +4,7 @@ from aio_proxy.labels.helpers import tranches_effectifs
 
 
 def validate_tranche_effectif_salarie(
-        tranche_effectif_salarie_clean: str
+    tranche_effectif_salarie_clean: str,
 ) -> Optional[str]:
     """Check the validity of tranche_effectif_salarie.
 

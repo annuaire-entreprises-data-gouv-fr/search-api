@@ -7,7 +7,7 @@ def format_response(results):
     for result in results:
 
         def get_field(field, default=None):
-            get_value(result, field, default)
+            return get_value(result, field, default)
 
         result_formatted = {
             "siren": get_field("siren"),

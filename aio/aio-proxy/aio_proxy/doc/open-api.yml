@@ -59,7 +59,8 @@ paths:
 
 
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, activité 
-        principale de l'entreprise, entrepreneur individuel et tranche d'effectif 
+        principale et section d'activité principale de l'entreprise, entrepreneur 
+        individuel et tranche d'effectif 
         salarié.
 
 
@@ -83,6 +84,58 @@ paths:
           required: false
           schema:
             type: string
+        - name: section_activite_principale
+          in: query
+          description: |
+            <a href=https://www.insee.fr/fr/information/2120875>Section de 
+            l'activité principale :</a>
+            
+              * `A` - Agriculture, sylviculture et pêche
+              * `B` - Industries extractives
+              * `C` - Industrie manufacturière
+              * `D` - Production et distribution d'électricité, de gaz, de vapeur et d'air conditionné
+              * `E` - Production et distribution d'eau ; assainissement, gestion des déchets et dépollution
+              * `F` -  Construction
+              * `G` -  Commerce ; réparation d'automobiles et de motocycles
+              * `H` -  Transports et entreposage
+              * `I` -  Hébergement et restauration
+              * `J` -  Information et communication
+              * `K` -  Activités financières et d'assurance
+              * `L` -  Activités immobilières
+              * `M` -  Activités spécialisées, scientifiques et techniques
+              * `N` -  Activités de services administratifs et de soutien
+              * `O` -  Administration publique
+              * `P` -  Enseignement
+              * `Q` -  Santé humaine et action sociale
+              * `R` -  Arts, spectacles et activités récréatives
+              * `S` -  Autres activités de services
+              * `T` -  Activités des ménages en tant qu'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre
+              * `U` -  Activités extra-territoriales
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - F
+              - G
+              - H
+              - I
+              - J
+              - K
+              - L
+              - M
+              - N
+              - O
+              - P
+              - Q
+              - R
+              - S
+              - T
+              - U
+            maxLength: 1
         - name: is_entrepreneur_individuel
           in: query
           description: Uniquement les entreprises individuelles
@@ -192,6 +245,8 @@ paths:
                           type: string
                         activite_principale:
                           type: string
+                        section_activite_principale:
+                          type: string
                         economie_sociale_solidaire:
                           type: string
                         nom_complet:
@@ -236,8 +291,8 @@ paths:
         Vous pouvez également préciser un paramètre radius en km(défaut: 5 km).
         
         
-        **Paramètres d'appel :** latitude, longitude, radius et activité principale
-        de l'entreprise.
+        **Paramètres d'appel :** latitude, longitude, radius, activité principale
+        et section d'activité principale de l'entreprise.
         
 
       summary: Recherche géographique
@@ -270,6 +325,57 @@ paths:
           required: false
           schema:
             type: string
+        - name: section_activite_principale
+          in: query
+          description: |
+            <a href=https://www.insee.fr/fr/information/2120875>Section de 
+            l'activité principale :</a>
+              * `A` - Agriculture, sylviculture et pêche
+              * `B` - Industries extractives
+              * `C` - Industrie manufacturière
+              * `D` - Production et distribution d'électricité, de gaz, de vapeur et d'air conditionné
+              * `E` - Production et distribution d'eau ; assainissement, gestion des déchets et dépollution
+              * `F` -  Construction
+              * `G` -  Commerce ; réparation d'automobiles et de motocycles
+              * `H` -  Transports et entreposage
+              * `I` -  Hébergement et restauration
+              * `J` -  Information et communication
+              * `K` -  Activités financières et d'assurance
+              * `L` -  Activités immobilières
+              * `M` -  Activités spécialisées, scientifiques et techniques
+              * `N` -  Activités de services administratifs et de soutien
+              * `O` -  Administration publique
+              * `P` -  Enseignement
+              * `Q` -  Santé humaine et action sociale
+              * `R` -  Arts, spectacles et activités récréatives
+              * `S` -  Autres activités de services
+              * `T` -  Activités des ménages en tant qu'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre
+              * `U` -  Activités extra-territoriales
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - F
+              - G
+              - H
+              - I
+              - J
+              - K
+              - L
+              - M
+              - N
+              - O
+              - P
+              - Q
+              - R
+              - S
+              - T
+              - U
+            maxLength: 1
         - name: page
           in: query
           description: Le numéro de la page à retourner
@@ -363,6 +469,8 @@ paths:
                         nature_juridique:
                           type: string
                         activite_principale:
+                          type: string
+                        section-activite_principale:
                           type: string
                         economie_sociale_solidaire:
                           type: string

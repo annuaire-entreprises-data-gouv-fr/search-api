@@ -11,3 +11,4 @@ def load_file(file_name: str):
 
 codes_naf = load_file("codes-NAF.json")
 tranches_effectifs = load_file("tranches-effectifs.json")
+sections_codes_naf = load_file("sections-codes-NAF.json")

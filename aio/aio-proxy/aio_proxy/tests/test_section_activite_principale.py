@@ -6,7 +6,7 @@ from aio_proxy.parsers.section_activite_principale import (
 
 @pytest.mark.parametrize(
     "section_activite_principale, expected",
-    [("A", "A"), ("l", "L"), (None, None)],
+    [("A", "A"), (None, None)],
 )
 def test_validate_section_activite_principale(
     section_activite_principale: str, expected: str

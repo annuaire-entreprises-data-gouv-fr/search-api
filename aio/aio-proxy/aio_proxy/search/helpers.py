@@ -1,10 +1,10 @@
-from dotenv import load_dotenv
 import json
 import logging
 import os
 from typing import Tuple
 from urllib.request import urlopen
 
+from dotenv import load_dotenv
 
 load_dotenv()
 

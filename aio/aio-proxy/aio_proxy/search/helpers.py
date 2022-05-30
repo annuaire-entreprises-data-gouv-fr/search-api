@@ -1,4 +1,24 @@
+import logging
 from typing import Tuple
+import os
+
+
+def get_current_color(color_url):
+    """Get current Elasticsearch index color from json file stored in MinIO."""
+    try:
+        with urllib.request.urlopen(color_url) as url:
+            data = json.loads(url.read().decode())
+            current_color = data["CURRENT_COLOR"]
+            logging.info(f"******************** Current color from file:"
+                         f" {current_color}")
+    except BaseException as error:
+        logging.info(f"******************** Error getting file from MINIO:"
+                     f"{error}")
+        current_color = "blue"
+    return current_color
+
+
+CURRENT_COLOR = get_current_color(os.getenv("COLOR_URL"))
 
 
 def filter_search(search, filters_to_ignore: list, **kwargs):

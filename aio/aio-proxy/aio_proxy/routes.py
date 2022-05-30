@@ -11,6 +11,7 @@ from aiohttp import web
 from dotenv import load_dotenv
 from elasticsearch_dsl import connections
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from aio_proxy.search.helpers import CURRENT_COLOR
 
 load_dotenv()
 
@@ -46,15 +47,4 @@ async def search_text_endpoint(request):
 async def near_point_endpoint(request):
     return api_response(
         request, extract_function=extract_geo_parameters, search_function=search_geo
-    )
-
-
-@routes.get("/colors")
-async def color_endpoint(request):
-    return web.json_response(
-        {
-            "CURRENT_COLOR": os.getenv("CURRENT_COLOR"),
-            "NEXT_COLOR": os.getenv("NEXT_COLOR"),
-        },
-        status=200,
     )

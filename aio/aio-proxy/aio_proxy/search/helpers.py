@@ -18,7 +18,7 @@ def get_current_color(color_url):
             data = json.loads(url.read().decode())
             current_color = data["CURRENT_COLOR"]
             logging.info(
-                f"******************** Current color from file:" f" {current_color}"
+                f"******************** Current color from file: {current_color}"
             )
     except BaseException as error:
         logging.info(

@@ -8,6 +8,8 @@ from urllib.request import urlopen
 
 load_dotenv()
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 def get_current_color(color_url):
     """Get current Elasticsearch index color from json file stored in MinIO."""

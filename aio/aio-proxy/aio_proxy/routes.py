@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 from elasticsearch_dsl import connections
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 
-
 load_dotenv()
 
 # Get env variables

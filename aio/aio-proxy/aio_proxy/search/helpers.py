@@ -17,11 +17,14 @@ def get_current_color(color_url):
         with urlopen(color_url) as url:
             data = json.loads(url.read().decode())
             current_color = data["CURRENT_COLOR"]
-            logging.info(f"******************** Current color from file:"
-                         f" {current_color}")
+            logging.info(
+                f"******************** Current color from file:" f" {current_color}"
+            )
     except BaseException as error:
-        logging.info(f"******************** Error getting file from MINIO:"
-                     f"{error}, using: blue as default!!!")
+        logging.info(
+            f"******************** Error getting file from MINIO:"
+            f"{error}, using: blue as default!!!"
+        )
         current_color = "blue"
     return current_color
 

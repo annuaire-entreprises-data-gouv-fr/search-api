@@ -1,5 +1,5 @@
-from elasticsearch_dsl import Document
 from aio_proxy.search.helpers import CURRENT_COLOR
+from elasticsearch_dsl import Document
 
 
 class Siren(Document):

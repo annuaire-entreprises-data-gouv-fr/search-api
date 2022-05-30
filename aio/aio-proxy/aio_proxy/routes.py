@@ -11,7 +11,7 @@ from aiohttp import web
 from dotenv import load_dotenv
 from elasticsearch_dsl import connections
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
-from aio_proxy.search.helpers import CURRENT_COLOR
+
 
 load_dotenv()
 

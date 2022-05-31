@@ -42,6 +42,7 @@ def format_response(results):
             "nom_raison_sociale": get_field("nom_raison_sociale"),
             "nature_juridique": get_field("nature_juridique_unite_legale"),
             "activite_principale": get_field("activite_principale_unite_legale"),
+            "section_activite_principale": get_field("section_activite_principale"),
             "economie_sociale_solidaire": get_field(
                 "economie_sociale_solidaire_unite_legale"
             ),

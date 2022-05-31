@@ -10,6 +10,9 @@ from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page
 from aio_proxy.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.parsers.radius import parse_and_validate_radius
+from aio_proxy.parsers.section_activite_principale import (
+    validate_section_activite_principale,
+)
 from aio_proxy.parsers.string_parser import parse_and_clean_parameter
 from aio_proxy.parsers.terms import parse_and_validate_terms
 from aio_proxy.parsers.tranche_effectif import (
@@ -46,6 +49,9 @@ def extract_text_parameters(
     is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
         parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
     )
+    section_activite_principale = validate_section_activite_principale(
+        parse_and_clean_parameter(request, param="section_activite_principale")
+    )
     tranche_effectif_salarie = validate_tranche_effectif_salarie(
         parse_and_clean_parameter(request, param="tranche_effectif_salarie")
     )
@@ -54,6 +60,7 @@ def extract_text_parameters(
         "activite_principale_unite_legale": activite_principale,
         "code_postal": code_postal,
         "is_entrepreneur_individuel": is_entrepreneur_individuel,
+        "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
     }
 
@@ -69,10 +76,14 @@ def extract_geo_parameters(request):
     activite_principale = validate_activite_principale(
         parse_and_clean_parameter(request, param="activite_principale")
     )
+    section_activite_principale = validate_section_activite_principale(
+        parse_and_clean_parameter(request, param="section_activite_principale")
+    )
     parameters = {
         "lat": lat,
         "lon": lon,
         "radius": radius,
         "activite_principale_unite_legale": activite_principale,
+        "section_activite_principale": section_activite_principale,
     }
     return parameters, page, per_page

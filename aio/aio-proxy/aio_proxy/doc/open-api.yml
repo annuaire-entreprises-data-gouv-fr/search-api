@@ -264,7 +264,7 @@ paths:
             type: number
             format: float
             default: 5
-        - name: activite_principale_entreprise
+        - name: activite_principale
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
           required: false

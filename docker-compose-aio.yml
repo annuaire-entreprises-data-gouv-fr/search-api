@@ -6,9 +6,6 @@ services:
       context: ./aio
     env_file:
       - .env
-    environment:
-      - CURRENT_COLOR=blue
-      - NEXT_COLOR=green
     networks:
       - api-search-annuaire-entreprises
     labels:
@@ -16,7 +13,7 @@ services:
       - "traefik.http.routers.aiosearch.rule=Host(`localhost`)"
       - "traefik.http.routers.aiosearch.entrypoints=aiosearch"
       - "traefik.port=4500"
-    container_name: aio-blue
+    container_name: aio
 networks:
   api-search-annuaire-entreprises:
     name: api-search-annuaire-entreprises

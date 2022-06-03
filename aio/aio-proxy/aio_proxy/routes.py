@@ -47,14 +47,3 @@ async def near_point_endpoint(request):
     return api_response(
         request, extract_function=extract_geo_parameters, search_function=search_geo
     )
-
-
-@routes.get("/colors")
-async def color_endpoint(request):
-    return web.json_response(
-        {
-            "CURRENT_COLOR": os.getenv("CURRENT_COLOR"),
-            "NEXT_COLOR": os.getenv("NEXT_COLOR"),
-        },
-        status=200,
-    )

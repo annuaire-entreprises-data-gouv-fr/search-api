@@ -52,6 +52,39 @@ jobs:
           cd aio/aio-proxy
           pytest -v  
 
+  run-app:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: [ 3.8.8 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache build
+        id: restore-build
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: build-${{ env.pythonLocation }}-${{ matrix.os }}
+      - name: Run app
+        run: |
+          cd aio/aio-proxy
+          python -m aio_proxy
+        env:
+          ELASTIC_URL: ${{secrets.ELASTIC_URL_DEV}}
+          ELASTIC_USER: ${{ secrets.ELASTIC_USER_DEV }}
+          ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD_DEV }}
+          ENV: ${{ secrets.ENV_DEV }}
+          COLOR_URL: ${{ secrets.COLOR_URL_DEV }}
+          DSN_SENTRY: ${{ secrets.DSN_SENTRY }}
+
   lint-files:
     name: Lint Code Base
     runs-on: ubuntu-latest

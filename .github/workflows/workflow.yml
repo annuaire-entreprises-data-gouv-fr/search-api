@@ -52,10 +52,10 @@ jobs:
           cd aio/aio-proxy
           pytest -v  
 
-  run-app:
-    name: Run Unit Tests
+  run-api:
+    name: Run API
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs: [ unit-tests ]
     strategy:
       fail-fast: true
       matrix:
@@ -75,6 +75,7 @@ jobs:
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}
       - name: Run app
         run: |
+          pip list | grep aiohttp
           cd aio/aio-proxy
           python -m aio_proxy
         env:

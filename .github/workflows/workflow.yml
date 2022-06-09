@@ -25,6 +25,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r aio/aio-proxy/requirements.pip
+          pip list
 
   unit-tests:
     name: Run Unit Tests
@@ -75,7 +76,7 @@ jobs:
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}
       - name: Run app
         run: |
-          pip list | grep aiohttp
+          pip list
           cd aio/aio-proxy
           python -m aio_proxy
         env:

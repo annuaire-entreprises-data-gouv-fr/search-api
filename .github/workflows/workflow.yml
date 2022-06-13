@@ -76,10 +76,11 @@ jobs:
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}
       - name: Run app
         run: |
-          pip list
           pip install aiohttp_swagger3
-          cd aio/aio-proxy
-          python -m aio_proxy
+          cd aio/aio-proxy && python -m aio_proxy &
+          sleep 2
+          
+          kill -9 (lsof -i:4500 -t)
         env:
           ELASTIC_URL: ${{secrets.ELASTIC_URL_DEV}}
           ELASTIC_USER: ${{ secrets.ELASTIC_USER_DEV }}

@@ -26,6 +26,8 @@ def format_response(results):
                 "indice_repetition": get_field("indice_repetition"),
                 "complement_adresse": get_field("complement_adresse"),
                 "commune": get_field("commune"),
+                "departement": get_field("departement"),
+                "geo_id": get_field("geo_id"),
                 "longitude": get_field("longitude"),
                 "latitude": get_field("latitude"),
                 "activite_principale_registre_metier": get_field(

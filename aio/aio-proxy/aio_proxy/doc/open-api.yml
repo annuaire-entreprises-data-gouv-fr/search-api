@@ -78,6 +78,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: departement
+          in: query
+          required: false
+          schema:
+            type: string
+            pattern: '\b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b'
         - name: activite_principale
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
@@ -218,6 +224,11 @@ paths:
                             complement_adresse:
                               type: string
                             commune:
+                              type: string
+                            departement:
+                              type: string
+                              pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+                            geo_id:
                               type: string
                             longitude:
                               type: number
@@ -443,6 +454,11 @@ paths:
                             complement_adresse:
                               type: string
                             commune:
+                              type: string
+                            departement:
+                              type: string
+                              pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+                            geo_id:
                               type: string
                             longitude:
                               type: number

@@ -2,6 +2,7 @@ from typing import Dict, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
+from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
@@ -46,6 +47,9 @@ def extract_text_parameters(
     code_postal = validate_code_postal(
         parse_and_clean_parameter(request, param="code_postal")
     )
+    departement = validate_departement(
+        parse_and_clean_parameter(request, param="departement")
+    )
     is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
         parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
     )
@@ -59,6 +63,7 @@ def extract_text_parameters(
         "terms": terms,
         "activite_principale_unite_legale": activite_principale,
         "code_postal": code_postal,
+        "departement": departement,
         "is_entrepreneur_individuel": is_entrepreneur_individuel,
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,

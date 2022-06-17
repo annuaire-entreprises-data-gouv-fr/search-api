@@ -214,6 +214,16 @@ paths:
                               type: string
                             libelle_voie:
                               type: string
+                            adresse_complete:
+                              type: string
+                            adresse_complete_secondaire:
+                              type: string
+                            distribution_speciale:
+                              type: string
+                            cedex:
+                              type: string
+                            libelle_cedex:
+                              type: string
                             code_postal:
                               type: string
                               pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
@@ -443,6 +453,14 @@ paths:
                             type_voie:
                               type: string
                             libelle_voie:
+                              type: string
+                            adresse_complete_secondaire:
+                              type: string
+                            distribution_speciale:
+                              type: string
+                            cedex:
+                              type: string
+                            libelle_cedex:
                               type: string
                             code_postal:
                               type: string

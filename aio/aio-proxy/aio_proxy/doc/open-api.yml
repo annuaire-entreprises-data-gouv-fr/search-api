@@ -208,15 +208,15 @@ paths:
                               type: string
                             activite_principale:
                               type: string
+                            complement_adresse:
+                              type: string
                             numero_voie:
+                              type: string
+                            indice_repetition:
                               type: string
                             type_voie:
                               type: string
                             libelle_voie:
-                              type: string
-                            adresse_complete:
-                              type: string
-                            adresse_complete_secondaire:
                               type: string
                             distribution_speciale:
                               type: string
@@ -224,17 +224,23 @@ paths:
                               type: string
                             libelle_cedex:
                               type: string
+                            commune:
+                              type: string
+                            libelle_commune:
+                              type: string
+                            code_pays_etranger:
+                              type: string
+                            libelle_commune_etranger:
+                              type: string
+                            libelle_pays_etranger:
+                              type: string
+                            adresse_complete:
+                              type: string
+                            adresse_complete_secondaire:
+                              type: string
                             code_postal:
                               type: string
                               pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                            libelle_commune:
-                              type: string
-                            indice_repetition:
-                              type: string
-                            complement_adresse:
-                              type: string
-                            commune:
-                              type: string
                             departement:
                               type: string
                               pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
@@ -448,13 +454,15 @@ paths:
                               type: string
                             activite_principale:
                               type: string
+                            complement_adresse:
+                              type: string
                             numero_voie:
+                              type: string
+                            indice_repetition:
                               type: string
                             type_voie:
                               type: string
                             libelle_voie:
-                              type: string
-                            adresse_complete_secondaire:
                               type: string
                             distribution_speciale:
                               type: string
@@ -462,17 +470,23 @@ paths:
                               type: string
                             libelle_cedex:
                               type: string
+                            commune:
+                              type: string
+                            libelle_commune:
+                              type: string
+                            code_pays_etranger:
+                              type: string
+                            libelle_commune_etranger:
+                              type: string
+                            libelle_pays_etranger:
+                              type: string
+                            adresse_complete:
+                              type: string
+                            adresse_complete_secondaire:
+                              type: string
                             code_postal:
                               type: string
                               pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                            libelle_commune:
-                              type: string
-                            indice_repetition:
-                              type: string
-                            complement_adresse:
-                              type: string
-                            commune:
-                              type: string
                             departement:
                               type: string
                               pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b

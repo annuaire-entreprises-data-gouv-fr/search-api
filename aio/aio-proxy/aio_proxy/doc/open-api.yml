@@ -186,105 +186,145 @@ paths:
                       properties:
                         siren:
                           type: string
-                          example: "111111111"
+                          example: "356000000"
                           description: le numéro unique de l'entreprise
                         siege:
                           type: object
                           properties:
                             siret:
                               type: string
-                              example: "11111111111111"
+                              example: "35600000000048"
                               description: le numéro unique de l'établissement siège
                             date_creation:
                               type: string
                               format: date-time
                               description: Date de création du siège
+                              example: "2003-01-01"
                             tranche_effectif_salarie:
                               type: string
+                              example: "41"
                             date_debut_activite:
                               type: string
                               format: date-time
+                              example: "2014-04-29"
                             etat_adiministratif:
                               type: string
+                              example: "A"
                             activite_principale:
                               type: string
+                              example: "53.10Z"
                             complement_adresse:
                               type: string
+                              example: "DIRECTION GENERALE DE LA POSTE"
                             numero_voie:
                               type: string
+                              example: "9"
                             indice_repetition:
                               type: string
+                              example: null
                             type_voie:
                               type: string
+                              example: "RUE"
                             libelle_voie:
                               type: string
+                              example: "DU COLONEL PIERRE AVIA"
                             distribution_speciale:
                               type: string
+                              example: null
                             cedex:
                               type: string
+                              example: null
                             libelle_cedex:
                               type: string
+                              example: null
                             commune:
                               type: string
+                              example: "75115"
                             libelle_commune:
                               type: string
+                              example: "PARIS 15"
                             code_pays_etranger:
                               type: string
+                              example: null
                             libelle_commune_etranger:
                               type: string
+                              example: null
                             libelle_pays_etranger:
                               type: string
+                              example: null
                             adresse_complete:
                               type: string
+                              example: "DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL PIERRE AVIA 75115 PARIS 15"
                             adresse_complete_secondaire:
                               type: string
+                              example: null
                             code_postal:
                               type: string
                               pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                              example: "75015"
                             departement:
                               type: string
                               pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+                              example: "75"
                             geo_id:
                               type: string
+                              example: "75115_2214"
                             longitude:
                               type: number
                               format: float
+                              example: "2.275688"
                             latitude:
                               type: number
                               format: float
+                              example: "48.83002"
                             activite_principale_registre_metier:
                               type: string
+                              example: null
                         date_creation:
                           type: string
                           format: date-time
+                          example: "1991-01-01"
                         tranche_effectif_salarie:
                           type: string
+                          example: "53"
                         date_mise_a_jour:
                           type: string
                           format: date-time
+                          example: "2022-05-31T08:00:12"
                         categorie_entreprise:
                           type: string
+                          example: "GE"
                         etat_administratif:
                           type: string
+                          example: "A"
                         nom_raison_sociale:
                           type: string
+                          example: "LA POSTE"
                         nature_juridique:
                           type: string
+                          example: "5510"
                         activite_principale:
                           type: string
-                        section_activite_principale:
+                          example: "53.10Z"
+                        section-activite_principale:
                           type: string
+                          example: "H"
                         economie_sociale_solidaire:
                           type: string
+                          example: "N"
                         nom_complet:
                           type: string
+                          example: "la poste"
                         nombre_etablissements:
                           type: integer
+                          example: 12694
                         nombre_etablissements_ouverts:
                           type: integer
+                          example: 9716
                         is_entrepreneur_individuel:
                           type: boolean
                           description: Entreprises individuelles
+                          example: false
                   total_results:
                     type: integer
                   page:
@@ -295,6 +335,7 @@ paths:
                     default: 10
                   total_pages:
                     type: integer
+                    example: 1000
         "400":
           description: Requête incorrecte.
           content:
@@ -432,105 +473,145 @@ paths:
                       properties:
                         siren:
                           type: string
-                          example: "111111111"
+                          example: "356000000"
                           description: le numéro unique de l'entreprise
                         siege:
                           type: object
                           properties:
                             siret:
                               type: string
-                              example: "11111111111111"
+                              example: "35600000000048"
                               description: le numéro unique de l'établissement siège
                             date_creation:
                               type: string
                               format: date-time
                               description: Date de création du siège
+                              example: "2003-01-01"
                             tranche_effectif_salarie:
                               type: string
+                              example: "41"
                             date_debut_activite:
                               type: string
                               format: date-time
+                              example: "2014-04-29"
                             etat_adiministratif:
                               type: string
+                              example: "A"
                             activite_principale:
                               type: string
+                              example: "53.10Z"
                             complement_adresse:
                               type: string
+                              example: "DIRECTION GENERALE DE LA POSTE"
                             numero_voie:
                               type: string
+                              example: "9"
                             indice_repetition:
                               type: string
+                              example: null
                             type_voie:
                               type: string
+                              example: "RUE"
                             libelle_voie:
                               type: string
+                              example: "DU COLONEL PIERRE AVIA"
                             distribution_speciale:
                               type: string
+                              example: null
                             cedex:
                               type: string
+                              example: null
                             libelle_cedex:
                               type: string
+                              example: null
                             commune:
                               type: string
+                              example: "75115"
                             libelle_commune:
                               type: string
+                              example: "PARIS 15"
                             code_pays_etranger:
                               type: string
+                              example: null
                             libelle_commune_etranger:
                               type: string
+                              example: null
                             libelle_pays_etranger:
                               type: string
+                              example: null
                             adresse_complete:
                               type: string
+                              example: "DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL PIERRE AVIA 75115 PARIS 15"
                             adresse_complete_secondaire:
                               type: string
+                              example: null
                             code_postal:
                               type: string
                               pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                              example: "75015"
                             departement:
                               type: string
                               pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+                              example: "75"
                             geo_id:
                               type: string
+                              example: "75115_2214"
                             longitude:
                               type: number
                               format: float
+                              example: "2.275688"
                             latitude:
                               type: number
                               format: float
+                              example: "48.83002"
                             activite_principale_registre_metier:
                               type: string
+                              example: null
                         date_creation:
                           type: string
                           format: date-time
+                          example: "1991-01-01"
                         tranche_effectif_salarie:
                           type: string
+                          example: "53"
                         date_mise_a_jour:
                           type: string
                           format: date-time
+                          example: "2022-05-31T08:00:12"
                         categorie_entreprise:
                           type: string
+                          example: "GE"
                         etat_administratif:
                           type: string
+                          example: "A"
                         nom_raison_sociale:
                           type: string
+                          example: "LA POSTE"
                         nature_juridique:
                           type: string
+                          example: "5510"
                         activite_principale:
                           type: string
+                          example: "53.10Z"
                         section-activite_principale:
                           type: string
+                          example: "H"
                         economie_sociale_solidaire:
                           type: string
+                          example: "N"
                         nom_complet:
                           type: string
+                          example: "la poste"
                         nombre_etablissements:
                           type: integer
+                          example: 12694
                         nombre_etablissements_ouverts:
                           type: integer
+                          example: 9716
                         is_entrepreneur_individuel:
                           type: boolean
                           description: Entreprises individuelles
+                          example: false
                   total_results:
                     type: integer
                   page:
@@ -541,6 +622,7 @@ paths:
                     default: 10
                   total_pages:
                     type: integer
+                    example: 1000
         "400":
           description: Requête incorrecte.
           content:

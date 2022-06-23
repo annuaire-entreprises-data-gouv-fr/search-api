@@ -306,7 +306,7 @@ paths:
                         activite_principale:
                           type: string
                           example: "53.10Z"
-                        section-activite_principale:
+                        section_activite_principale:
                           type: string
                           example: "H"
                         economie_sociale_solidaire:
@@ -593,7 +593,7 @@ paths:
                         activite_principale:
                           type: string
                           example: "53.10Z"
-                        section-activite_principale:
+                        section_activite_principale:
                           type: string
                           example: "H"
                         economie_sociale_solidaire:

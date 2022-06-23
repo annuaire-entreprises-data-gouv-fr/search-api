@@ -221,7 +221,7 @@ paths:
                               example: "9"
                             indice_repetition:
                               type: string
-                              example: null
+                              example: ""
                             type_voie:
                               type: string
                               example: "RUE"
@@ -230,12 +230,15 @@ paths:
                               example: "DU COLONEL PIERRE AVIA"
                             distribution_speciale:
                               type: string
+                              nullable: true
                               example: null
                             cedex:
                               type: string
+                              nullable: true
                               example: null
                             libelle_cedex:
                               type: string
+                              nullable: true
                               example: null
                             commune:
                               type: string
@@ -245,18 +248,22 @@ paths:
                               example: "PARIS 15"
                             code_pays_etranger:
                               type: string
+                              nullable: true
                               example: null
                             libelle_commune_etranger:
                               type: string
+                              nullable: true
                               example: null
                             libelle_pays_etranger:
                               type: string
+                              nullable: true
                               example: null
                             adresse_complete:
                               type: string
                               example: "DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL PIERRE AVIA 75115 PARIS 15"
                             adresse_complete_secondaire:
                               type: string
+                              nullable: true
                               example: null
                             code_postal:
                               type: string
@@ -279,6 +286,7 @@ paths:
                               example: "48.83002"
                             activite_principale_registre_metier:
                               type: string
+                              nullable: true
                               example: null
                         date_creation:
                           type: string
@@ -508,6 +516,7 @@ paths:
                               example: "9"
                             indice_repetition:
                               type: string
+                              nullable: true
                               example: null
                             type_voie:
                               type: string
@@ -517,12 +526,15 @@ paths:
                               example: "DU COLONEL PIERRE AVIA"
                             distribution_speciale:
                               type: string
+                              nullable: true
                               example: null
                             cedex:
                               type: string
+                              nullable: true
                               example: null
                             libelle_cedex:
                               type: string
+                              nullable: true
                               example: null
                             commune:
                               type: string
@@ -532,18 +544,22 @@ paths:
                               example: "PARIS 15"
                             code_pays_etranger:
                               type: string
+                              nullable: true
                               example: null
                             libelle_commune_etranger:
                               type: string
+                              nullable: true
                               example: null
                             libelle_pays_etranger:
                               type: string
+                              nullable: true
                               example: null
                             adresse_complete:
                               type: string
                               example: "DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL PIERRE AVIA 75115 PARIS 15"
                             adresse_complete_secondaire:
                               type: string
+                              nullable: true
                               example: null
                             code_postal:
                               type: string
@@ -566,6 +582,7 @@ paths:
                               example: "48.83002"
                             activite_principale_registre_metier:
                               type: string
+                              nullable: true
                               example: null
                         date_creation:
                           type: string

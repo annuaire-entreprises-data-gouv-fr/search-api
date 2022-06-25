@@ -199,14 +199,14 @@ paths:
                               type: string
                               format: date-time
                               description: Date de création du siège
-                              example: "2003-01-01"
+                              example: 2003-01-01
                             tranche_effectif_salarie:
                               type: string
                               example: "41"
                             date_debut_activite:
                               type: string
                               format: date-time
-                              example: "2014-04-29"
+                              example: 2014-04-29
                             etat_adiministratif:
                               type: string
                               example: "A"
@@ -220,8 +220,8 @@ paths:
                               type: string
                               example: "9"
                             indice_repetition:
-                              type: string
-                              example: ""
+                              nullable: true
+                              example: null
                             type_voie:
                               type: string
                               example: "RUE"
@@ -279,11 +279,11 @@ paths:
                             longitude:
                               type: number
                               format: float
-                              example: "2.275688"
+                              example: 2.275688
                             latitude:
                               type: number
                               format: float
-                              example: "48.83002"
+                              example: 48.83002
                             activite_principale_registre_metier:
                               type: string
                               nullable: true
@@ -291,14 +291,14 @@ paths:
                         date_creation:
                           type: string
                           format: date-time
-                          example: "1991-01-01"
+                          example: 1991-01-01
                         tranche_effectif_salarie:
                           type: string
                           example: "53"
                         date_mise_a_jour:
                           type: string
                           format: date-time
-                          example: "2022-05-31T08:00:12"
+                          example: 2022-05-31T08:00:12
                         categorie_entreprise:
                           type: string
                           example: "GE"
@@ -494,14 +494,14 @@ paths:
                               type: string
                               format: date-time
                               description: Date de création du siège
-                              example: "2003-01-01"
+                              example: 2003-01-01
                             tranche_effectif_salarie:
                               type: string
                               example: "41"
                             date_debut_activite:
                               type: string
                               format: date-time
-                              example: "2014-04-29"
+                              example: 2014-04-29
                             etat_adiministratif:
                               type: string
                               example: "A"
@@ -575,11 +575,11 @@ paths:
                             longitude:
                               type: number
                               format: float
-                              example: "2.275688"
+                              example: 2.275688
                             latitude:
                               type: number
                               format: float
-                              example: "48.83002"
+                              example: 48.83002
                             activite_principale_registre_metier:
                               type: string
                               nullable: true
@@ -587,14 +587,14 @@ paths:
                         date_creation:
                           type: string
                           format: date-time
-                          example: "1991-01-01"
+                          example: 1991-01-01
                         tranche_effectif_salarie:
                           type: string
                           example: "53"
                         date_mise_a_jour:
                           type: string
                           format: date-time
-                          example: "2022-05-31T08:00:12"
+                          example: 2022-05-31T08:00:12
                         categorie_entreprise:
                           type: string
                           example: "GE"

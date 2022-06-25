@@ -197,7 +197,7 @@ paths:
                               description: le numéro unique de l'établissement siège
                             date_creation:
                               type: string
-                              format: date-time
+                              format: date
                               description: Date de création du siège
                               example: 2003-01-01
                             tranche_effectif_salarie:
@@ -205,7 +205,7 @@ paths:
                               example: "41"
                             date_debut_activite:
                               type: string
-                              format: date-time
+                              format: date
                               example: 2014-04-29
                             etat_adiministratif:
                               type: string
@@ -290,7 +290,7 @@ paths:
                               example: null
                         date_creation:
                           type: string
-                          format: date-time
+                          format: date
                           example: 1991-01-01
                         tranche_effectif_salarie:
                           type: string
@@ -492,7 +492,7 @@ paths:
                               description: le numéro unique de l'établissement siège
                             date_creation:
                               type: string
-                              format: date-time
+                              format: date
                               description: Date de création du siège
                               example: 2003-01-01
                             tranche_effectif_salarie:
@@ -500,7 +500,7 @@ paths:
                               example: "41"
                             date_debut_activite:
                               type: string
-                              format: date-time
+                              format: date
                               example: 2014-04-29
                             etat_adiministratif:
                               type: string
@@ -586,7 +586,7 @@ paths:
                               example: null
                         date_creation:
                           type: string
-                          format: date-time
+                          format: date
                           example: 1991-01-01
                         tranche_effectif_salarie:
                           type: string

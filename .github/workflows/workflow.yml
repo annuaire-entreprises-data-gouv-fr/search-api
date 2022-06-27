@@ -77,9 +77,9 @@ jobs:
       - name: Run app
         run: |
           pip install aiohttp_swagger3
-          cd aio/aio-proxy && python -m aio_proxy &
+          cd aio/aio-proxy/ && python -m aio_proxy &
           sleep 2
-          pytest /aio_proxy/tests/e2e -v
+          pytest aio_proxy/tests/e2e -v
           kill -9 (lsof -i:4500 -t)
         env:
           ELASTIC_URL: ${{secrets.ELASTIC_URL_DEV}}

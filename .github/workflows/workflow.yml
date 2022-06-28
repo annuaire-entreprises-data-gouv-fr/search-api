@@ -77,7 +77,8 @@ jobs:
       - name: Run app
         run: |
           pip install aiohttp_swagger3
-          cd aio/aio-proxy/ && python -m aio_proxy &
+          cd aio/aio-proxy/ 
+          python -m aio_proxy &
           pytest aio/aio-proxy/aio_proxy/tests/e2e_tests -v
           kill -9 (lsof -i:4500 -t)
         env:

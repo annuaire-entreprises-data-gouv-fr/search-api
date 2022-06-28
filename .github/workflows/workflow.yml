@@ -80,7 +80,6 @@ jobs:
           cd aio/aio-proxy/ 
           python -m aio_proxy &
           sleep 5
-          curl -X GET "http://localhost:4500/search?q=ganymede" -H  "accept: application/json"
           pytest aio_proxy/tests/e2e_tests -v
           kill -9 (lsof -i:4500 -t)
         env:

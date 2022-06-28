@@ -14,7 +14,7 @@ def test_fetch_company():
     jsonpath_expr = parse('$.total_results')
     total_results = jsonpath_expr.find(response_json)
     assert response.status_code == 200
-    assert total_results > 10
+    assert total_results[0].value > 10
 
 
 def test_error_query():

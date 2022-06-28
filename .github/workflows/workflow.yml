@@ -81,7 +81,7 @@ jobs:
           python -m aio_proxy &
           sleep 3
           pytest aio_proxy/tests/e2e_tests -v
-          kill -9 (lsof -i:4500 -t)
+          
         env:
           ELASTIC_URL: ${{secrets.ELASTIC_URL_DEV}}
           ELASTIC_USER: ${{ secrets.ELASTIC_USER_DEV }}

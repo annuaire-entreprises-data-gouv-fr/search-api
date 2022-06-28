@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.pythonLocation }}
-          key: build-${{ env.pythonLocation }}-${{ matrix.os }}
+          key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('requirements.pip') }}
           restore-keys: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('requirements.pip') }}
       - name: Install dependencies
         run: |

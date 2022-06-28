@@ -11,8 +11,10 @@ def test_fetch_company():
     path = "search?q=ganymede"
     response = requests.get(url=base_url+path)
     response_json = json.loads(response.text)
+    jsonpath_expr = parse('$.total_results')
+    total_results = jsonpath_expr.find(response_json)
     assert response.status_code == 200
-    assert jsonpath(response_json, '$.total_results') > 10
+    assert total_results > 10
 
 
 def test_error_query():

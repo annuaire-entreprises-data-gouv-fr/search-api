@@ -7,3 +7,4 @@ sentry-sdk==1.5.8
 python-dotenv==0.20.0
 pytest
 aiohttp-swagger3
+jsonpath_ng

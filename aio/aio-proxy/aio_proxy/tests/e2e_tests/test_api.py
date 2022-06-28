@@ -12,7 +12,7 @@ def test_fetch_company():
     response = requests.get(url=base_url+path)
     response_json = json.loads(response.text)
     assert response.status_code == 200
-    assert jsonpath.jsonpath(response_json, '$.total_results') > 10
+    assert jsonpath(response_json, '$.total_results') > 10
 
 
 def test_error_query():

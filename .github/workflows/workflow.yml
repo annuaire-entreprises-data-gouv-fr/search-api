@@ -20,7 +20,8 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}
-          restore-keys: build-${{ env.pythonLocation }}-${{ matrix.os }}
+          restore-keys: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles
+          ('requirements.pip') }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -47,7 +48,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.pythonLocation }}
-          key: build-${{ env.pythonLocation }}-${{ matrix.os }}
+          key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles
+          ('requirements.pip') }}
       - name: unit tests
         run: |
           cd aio/aio-proxy/
@@ -73,12 +75,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.pythonLocation }}
-          key: build-${{ env.pythonLocation }}-${{ matrix.os }}
+          key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles
+          ('requirements.pip') }}
       - name: Run app
         run: |
           pip install aiohttp_swagger3
           cd aio/aio-proxy/ 
           python -m aio_proxy &
+          echo "Application is up"
           sleep 3
           pytest aio_proxy/tests/e2e_tests -v
         env:

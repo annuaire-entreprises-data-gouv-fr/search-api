@@ -13,7 +13,7 @@ def test_fetch_company():
     siren = response_json["results"][0]["siren"]
     assert response.status_code == 200
     assert total_results > 10
-    assert not siren
+    assert siren
 
 
 def test_error_query():

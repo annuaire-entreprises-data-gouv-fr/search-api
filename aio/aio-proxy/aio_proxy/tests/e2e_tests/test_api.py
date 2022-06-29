@@ -1,5 +1,4 @@
 # importing the requests library
-import json
 import requests
 
 # api-endpoint
@@ -14,7 +13,7 @@ def test_fetch_company():
     siren = response_json["results"][0]["siren"]
     assert response.status_code == 200
     assert total_results > 10
-    assert siren
+    assert not siren
 
 
 def test_error_query():

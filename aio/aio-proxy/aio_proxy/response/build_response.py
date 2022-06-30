@@ -12,7 +12,7 @@ from aiohttp import web
 def api_response(
     request, extract_function: Callable, search_function: Callable
 ) -> Dict[str, int]:
-    """Create and format API response .
+    """Create and format API response.
 
     Args:
         request: HTTP request.

@@ -16,7 +16,7 @@ def format_response(results):
                 "date_creation": get_field("date_creation_siege"),
                 "tranche_effectif_salarie": get_field("tranche_effectif_salarie_siege"),
                 "date_debut_activite": get_field("date_debut_activite_siege"),
-                "etat_adiministratif": get_field("etat_administratif_siege"),
+                "etat_administratif": get_field("etat_administratif_siege"),
                 "activite_principale": get_field("activite_principale_siege"),
                 "complement_adresse": get_field("complement_adresse"),
                 "numero_voie": get_field("numero_voie"),

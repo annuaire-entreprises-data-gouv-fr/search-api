@@ -65,6 +65,7 @@ def format_response(results):
                 "is_entrepreneur_individuel", default="false"
             ).lower()
             == "true",
+            "liste_dirigeants": get_field("liste_dirigeants"),
         }
         formatted_results.append(result_formatted)
     return formatted_results

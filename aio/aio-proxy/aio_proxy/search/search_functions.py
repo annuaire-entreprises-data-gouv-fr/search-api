@@ -135,7 +135,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 query=query_terms,
                 type="most_fields",
                 operator="and",
-                fields=["nom_complet", "geo_adresse"],
+                fields=["nom_complet", "geo_adresse", "liste_dirigeants"],
                 fuzziness="AUTO",
             ),
         ],

@@ -46,6 +46,9 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
         {"_score": {"order": "desc"}},
         {"etat_administratif_siege": {"order": "asc"}},
     )
+    search = search.highlight_options(order='score')
+    # or, including parameters:
+    search = search.highlight('nom_complet', fragment_size=50)
     search = search[offset : (offset + page_size)]
     results = search.execute()
     total_results = results.hits.total.value

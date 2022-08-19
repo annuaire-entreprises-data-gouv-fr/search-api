@@ -2,10 +2,16 @@ from aio_proxy.search.helpers import CURRENT_COLOR
 from elasticsearch_dsl import Document
 
 
-class Siren(Document):
+class ElasticsearchSireneIndex(Document):
     """
+
+    Model-like class for persisting documents in elasticsearch.
+    It's a wrapper around document to create specific mappings and to add settings in
+    elasticsearch.
+
     Class used to represent a company headquarters,
-    one siren number and the corresponding sheadquarters siret number
+    one siren number and the corresponding headquarters siret number
+
     """
 
     class Index:

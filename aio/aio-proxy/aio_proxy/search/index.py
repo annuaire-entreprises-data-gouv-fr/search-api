@@ -2,7 +2,7 @@ from aio_proxy.search.helpers import CURRENT_COLOR
 from elasticsearch_dsl import Document
 
 
-class Siren(Document):
+class ElasticsearchSireneIndex(Document):
     """
     Class used to represent a company headquarters,
     one siren number and the corresponding sheadquarters siret number

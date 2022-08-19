@@ -4,7 +4,7 @@ from typing import Callable, Dict
 from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.response.format_response import format_response
 from aio_proxy.search.helpers import hide_fields
-from aio_proxy.search.index import Siren
+from aio_proxy.search.index import ElasticsearchSireneIndex
 from aiohttp import web
 
 
@@ -24,7 +24,7 @@ def api_response(
     """
     parameters, page, per_page = extract_function(request)
     total_results, results = search_function(
-        Siren, page * per_page, per_page, **parameters
+        ElasticsearchSireneIndex, page * per_page, per_page, **parameters
     )
     results_filtered = hide_fields(results)
     results_formatted = format_response(results_filtered)

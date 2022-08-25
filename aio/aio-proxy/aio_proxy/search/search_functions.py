@@ -21,7 +21,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                                 "nom_complet^15",
                                 "siren^3",
                                 "siret_siege^3",
-                                "identifiantAssociationUniteLegale^3",
+                                "identifiant_association_unite_legale^3",
                             ],
                         )
                     ]
@@ -70,7 +70,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                                 "nom_complet^7",
                                 "siren^7",
                                 "siret_siege^4",
-                                "identifiantAssociationUniteLegale^4",
+                                "identifiant_association_unite_legale^4",
                             ],
                             operator="and",
                         )
@@ -93,7 +93,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                         query.MultiMatch(
                             query=query_terms,
                             type="most_fields",
-                            fields=["liste_enseigne^7", "liste_adresse^7"],
+                            fields=["liste_enseignes^7", "liste_adresses^7"],
                             operator="and",
                         )
                     ]
@@ -135,7 +135,7 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                 query=query_terms,
                 type="most_fields",
                 operator="and",
-                fields=["nom_complet", "geo_adresse"],
+                fields=["nom_complet", "adresse_etablissement"],
                 fuzziness="AUTO",
             ),
         ],

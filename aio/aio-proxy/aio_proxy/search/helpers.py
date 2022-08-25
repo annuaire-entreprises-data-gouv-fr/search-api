@@ -63,8 +63,8 @@ def hide_fields(search_result: list) -> list:
         "concat_enseigne_adresse",
         "geo_adresse",
         "is_siege",
-        "liste_adresse",
-        "liste_enseigne",
+        "liste_adresses",
+        "liste_enseignes",
     }
     results = [
         {field: value for field, value in unite.items() if field not in hidden_fields}

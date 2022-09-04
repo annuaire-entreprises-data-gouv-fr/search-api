@@ -83,8 +83,8 @@ def extract_text_parameters(
         "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
     }
-
-    if not parameters:
+    empty_parameters = all(param is None for param in parameters.values())
+    if empty_parameters:
         raise ValueError
 
     return parameters, page, per_page

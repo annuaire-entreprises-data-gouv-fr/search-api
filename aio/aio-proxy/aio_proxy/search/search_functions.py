@@ -8,10 +8,17 @@ def search_text(index, offset: int, page_size: int, **kwargs):
     query_terms = kwargs["terms"]
     s = index.search()
     # Use filters to reduce search results
-    s = filter_search(s, filters_to_ignore=["terms", "min_date_naiss_dirigeant",
-                                            "max_date_naiss_dirigeant", "nom_dirigeant",
-                                            "prenoms_dirigeant"],
-                      **kwargs)
+    s = filter_search(
+        s,
+        filters_to_ignore=[
+            "terms",
+            "min_date_naiss_dirigeant",
+            "max_date_naiss_dirigeant",
+            "nom_dirigeant",
+            "prenoms_dirigeant",
+        ],
+        **kwargs,
+    )
     # Search dirigeants
     s = search_dirigeant(s, **kwargs)
     if query_terms:

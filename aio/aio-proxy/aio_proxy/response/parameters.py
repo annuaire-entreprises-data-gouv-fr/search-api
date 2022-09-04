@@ -1,5 +1,6 @@
 from typing import Dict, Tuple, Union
 
+from aio_proxy.decorators.value_exception import value_exception_handler
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
 from aio_proxy.parsers.departement import validate_departement
@@ -23,6 +24,7 @@ from aio_proxy.parsers.tranche_effectif import (
 )
 
 
+@value_exception_handler(error="Veuillez indiquer au moins un paramètre de recherche.")
 def extract_text_parameters(
     request,
 ) -> Tuple[Dict[str, Union[str, None, bool]], int, int]:
@@ -62,8 +64,9 @@ def extract_text_parameters(
         parse_and_clean_parameter(request, param="tranche_effectif_salarie")
     )
     nom_dirigeant = parse_and_normalize_parameter(request, param="nom_dirigeant")
-    prenoms_dirigeant = parse_and_normalize_parameter(request,
-                                                      param="prenoms_dirigeant")
+    prenoms_dirigeant = parse_and_normalize_parameter(
+        request, param="prenoms_dirigeant"
+    )
     min_date_naiss_dirigeant = parse_date(request, param="date_naissance_dirigeant_min")
     max_date_naiss_dirigeant = parse_date(request, param="date_naissance_dirigeant_max")
 
@@ -75,11 +78,14 @@ def extract_text_parameters(
         "is_entrepreneur_individuel": is_entrepreneur_individuel,
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
-        "nom_dirigeant": noms_dirigeant,
+        "nom_dirigeant": nom_dirigeant,
         "prenoms_dirigeant": prenoms_dirigeant,
         "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
     }
+
+    if not parameters:
+        raise ValueError
 
     return parameters, page, per_page
 

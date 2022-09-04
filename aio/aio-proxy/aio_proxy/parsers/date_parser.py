@@ -1,6 +1,12 @@
+from aio_proxy.decorators.value_exception import value_exception_handler
+from datetime import date
+
+
+@value_exception_handler(
+    error="Veuillez indiquer une date sous format : aaaa-mm-jj. Exemple : '1990-01-02'"
+)
 def parse_date(request, param: str, default_value=None):
-    """Extract and clean param from request.
-    Remove white spaces and use upper case.
+    """Extract date param from request.
 
     Args:
         request: HTTP request
@@ -9,10 +15,9 @@ def parse_date(request, param: str, default_value=None):
 
     Returns:
         None if None.
-        clean_param otherwise.
+        param otherwise.
     """
-    param = request.rel_url.query.get(param, default_value)
-    if param is None:
+    date = request.rel_url.query.get(param, default_value)
+    if date is None:
         return None
-    param_clean = param
-    return param_clean
+    return date.fromisoformat(date)

@@ -46,7 +46,7 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
     response = []
     for hit in results.hits:
         hit_dict = hit.to_dict(skip_empty=False, include_meta=False)
-        hit_dict['meta'] = hit.meta.to_dict()
+        hit_dict["meta"] = hit.meta.to_dict()
         response.append(hit_dict)
     """
     response = [

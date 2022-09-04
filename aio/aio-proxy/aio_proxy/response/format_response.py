@@ -10,6 +10,7 @@ def format_response(results):
             return get_value(result, field, default)
 
         result_formatted = {
+            "score": get_field("meta"),
             "siren": get_field("siren"),
             "siege": {
                 "siret": get_field("siret_siege"),
@@ -65,6 +66,9 @@ def format_response(results):
                 "is_entrepreneur_individuel", default="false"
             ).lower()
             == "true",
+            "dirigeants_pp": get_field("dirigeants_pp"),
+            "dirigeants_pm": get_field("dirigeants_pm"),
+            "liste_dirigeants": get_field("liste_dirigeants"),
         }
         formatted_results.append(result_formatted)
     return formatted_results

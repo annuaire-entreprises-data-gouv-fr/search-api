@@ -2,7 +2,9 @@ import json
 import logging
 import os
 from typing import Tuple
+from datetime import datetime
 from urllib.request import urlopen
+from elasticsearch_dsl import query
 
 from dotenv import load_dotenv
 
@@ -32,14 +34,6 @@ def get_current_color(color_url):
 CURRENT_COLOR = get_current_color(os.getenv("COLOR_URL"))
 
 
-def filter_search(search, filters_to_ignore: list, **kwargs):
-    """Use filters to reduce search results."""
-    for key, value in kwargs.items():
-        if value is not None and key not in filters_to_ignore:
-            search = search.filter("term", **{key: value})
-    return search
-
-
 def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
     search = search.extra(track_scores=True)
     search = search.sort(
@@ -49,9 +43,16 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
     search = search[offset : (offset + page_size)]
     results = search.execute()
     total_results = results.hits.total.value
+    response = []
+    for hit in results.hits:
+        hit_dict = hit.to_dict(skip_empty=False, include_meta=False)
+        hit_dict['meta'] = hit.meta.to_dict()
+        response.append(hit_dict)
+    """
     response = [
         hit.to_dict(skip_empty=False, include_meta=False) for hit in results.hits
     ]
+    """
     return total_results, response
 
 

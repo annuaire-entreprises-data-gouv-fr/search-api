@@ -8,7 +8,7 @@ def search_dirigeant(search, **kwargs):
     for key, value in kwargs.items():
         if key == "nom_dirigeant" and value is not None:
             for nom in value.split(" "):
-                dirigeants_filters.append({"match": {"dirigeants_pp.noms": nom}})
+                dirigeants_filters.append({"match": {"dirigeants_pp.nom": nom}})
             boost_queries.append(
                 {
                     "match_phrase": {

@@ -65,9 +65,10 @@ def search_dirigeant(search, **kwargs):
             )
     # using a query (must and should) instead of a filter because filters do not give
     # a score which in turn does not boost certain documents over others
-    search = search.query(
-        "nested",
-        path="dirigeants_pp",
-        query=query.Bool(must=dirigeants_filters, should=boost_queries),
-    )
+    if dirigeants_filters and boost_queries:
+        search = search.query(
+            "nested",
+            path="dirigeants_pp",
+            query=query.Bool(must=dirigeants_filters, should=boost_queries),
+        )
     return search

@@ -48,11 +48,6 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
         hit_dict = hit.to_dict(skip_empty=False, include_meta=False)
         hit_dict["meta"] = hit.meta.to_dict()
         response.append(hit_dict)
-    """
-    response = [
-        hit.to_dict(skip_empty=False, include_meta=False) for hit in results.hits
-    ]
-    """
     return total_results, response
 
 

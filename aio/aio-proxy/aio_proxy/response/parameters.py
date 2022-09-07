@@ -4,13 +4,14 @@ from aio_proxy.decorators.value_exception import value_exception_handler
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
 from aio_proxy.parsers.departement import validate_departement
+from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page
-from aio_proxy.parsers.date_parser import parse_date
+from aio_proxy.parsers.date_parser import parse_date, validate_dates
 from aio_proxy.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.parsers.radius import parse_and_validate_radius
 from aio_proxy.parsers.section_activite_principale import (
@@ -24,7 +25,6 @@ from aio_proxy.parsers.tranche_effectif import (
 )
 
 
-@value_exception_handler(error="Veuillez indiquer au moins un paramètre de recherche.")
 def extract_text_parameters(
     request,
 ) -> Tuple[Dict[str, Union[str, None, bool]], int, int]:
@@ -69,6 +69,7 @@ def extract_text_parameters(
     )
     min_date_naiss_dirigeant = parse_date(request, param="date_naissance_dirigeant_min")
     max_date_naiss_dirigeant = parse_date(request, param="date_naissance_dirigeant_max")
+    validate_dates(min_date_naiss_dirigeant, max_date_naiss_dirigeant)
 
     parameters = {
         "terms": terms,
@@ -83,9 +84,8 @@ def extract_text_parameters(
         "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
     }
-    empty_parameters = all(param is None for param in parameters.values())
-    if empty_parameters:
-        raise ValueError
+
+    check_empty_params(parameters)
 
     return parameters, page, per_page
 

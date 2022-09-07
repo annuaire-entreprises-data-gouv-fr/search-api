@@ -1,4 +1,10 @@
-from aio_proxy.response.helpers import get_value
+from aio_proxy.response.helpers import get_value, format_dirigeants
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+env = os.getenv("ENV")
 
 
 def format_response(results):
@@ -66,9 +72,12 @@ def format_response(results):
                 "is_entrepreneur_individuel", default="false"
             ).lower()
             == "true",
-            "dirigeants_pp": get_field("dirigeants_pp"),
-            "dirigeants_pm": get_field("dirigeants_pm"),
-            "liste_dirigeants": get_field("liste_dirigeants"),
+            "dirigeants": format_dirigeants(
+                get_field("dirigeants_pp"), get_field("dirigeants_pm")
+            ),
         }
+        # Hide score field for non dev environments
+        if env != "dev":
+            result_formatted.pop("score", None)
         formatted_results.append(result_formatted)
     return formatted_results

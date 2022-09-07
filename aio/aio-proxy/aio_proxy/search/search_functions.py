@@ -146,6 +146,12 @@ def search_text(index, offset: int, page_size: int, **kwargs):
                         ),
                     ],
                 ),
+                query.Match(
+                    liste_dirigeants={
+                        "query": query_terms,
+                        "boost": 4,
+                    }
+                ),
                 query.MultiMatch(
                     query=query_terms,
                     type="most_fields",

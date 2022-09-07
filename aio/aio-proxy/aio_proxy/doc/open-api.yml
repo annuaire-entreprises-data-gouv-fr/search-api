@@ -195,7 +195,8 @@ paths:
           required: false
           schema:
             type: integer
-            default: 10
+            default: 1
+      minProperties: 1
       responses:
         "200":
           description: La liste des entreprises correspondantes à la recherche.
@@ -700,17 +701,20 @@ components:
             example: "1964"
           qualite:
             type: string
+            example: "Directeur général"
     dirigeant_pm:
       type: object
       properties:
           siren:
             type: string
+            example: "784824153"
           denomination:
             type: string
           sigle:
             type: string
           qualite:
             type: string
+            example: "Commissaire aux comptes titulaire"
 servers:
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

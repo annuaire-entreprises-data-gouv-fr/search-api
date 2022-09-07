@@ -69,7 +69,6 @@ paths:
         - name: q
           in: query
           description: Termes de la recherche (dénomination et/ou adresse)
-          required: true
           schema:
             type: string
         - name: code_postal
@@ -154,6 +153,32 @@ paths:
         - name: tranche_effectif_salarie
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche d'effectif salarié de l'entreprise</a>
+          required: false
+          schema:
+            type: string
+        - name: nom_dirigeant
+          in: query
+          description: Nom du dirigeant
+          required: false
+          schema:
+            type: string
+        - name: prenoms_dirigeant
+          in: query
+          description: Prenom(s) du dirigeant
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_naissance_dirigeant_min
+          in: query
+          description: Valeur minimale de la date de naissance du dirigeant
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_naissance_dirigeant_max
+          in: query
+          description: Valeur maximale de la date de naissance du dirigeant
           required: false
           schema:
             type: string
@@ -333,6 +358,12 @@ paths:
                           type: boolean
                           description: Entreprises individuelles
                           example: false
+                        dirigeants:
+                          type: array
+                          items:
+                            oneOf:
+                              - $ref: '#/components/schemas/dirigeant_pp'
+                              - $ref: '#/components/schemas/dirigeant_pm'
                   total_results:
                     type: integer
                   page:
@@ -353,8 +384,7 @@ paths:
                 properties:
                   erreur:
                     type: string
-                    example: "Veuillez indiquer la requ\u00eate avec le paramètre:
-                    ?q=ma+recherche."
+                    example: "Veuillez indiquer au moins un paramètre de recherche."
 
   /near_point:
     get:
@@ -629,6 +659,12 @@ paths:
                           type: boolean
                           description: Entreprises individuelles
                           example: false
+                        dirigeants:
+                          type: array
+                          items:
+                            oneOf:
+                              - $ref: '#/components/schemas/dirigeant_pp'
+                              - $ref: '#/components/schemas/dirigeant_pm'
                   total_results:
                     type: integer
                   page:
@@ -650,6 +686,31 @@ paths:
                   erreur:
                     type: string
                     example: "Veuillez indiquer une longitude entre -180° et 180°."
+components:
+  schemas:
+    dirigeant_pp:
+      type: object
+      properties:
+          nom:
+            type: string
+          prenoms:
+            type: string
+          annee_de_naissance:
+            type: string
+            example: "1964"
+          qualite:
+            type: string
+    dirigeant_pm:
+      type: object
+      properties:
+          siren:
+            type: string
+          denomination:
+            type: string
+          sigle:
+            type: string
+          qualite:
+            type: string
 servers:
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

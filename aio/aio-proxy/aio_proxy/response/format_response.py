@@ -1,6 +1,6 @@
 import os
 
-from aio_proxy.response.helpers import get_value, format_dirigeants
+from aio_proxy.response.helpers import format_dirigeants, get_value
 from dotenv import load_dotenv
 
 load_dotenv()

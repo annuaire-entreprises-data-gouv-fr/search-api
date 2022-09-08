@@ -6,12 +6,12 @@ from aio_proxy.parsers.date_parser import parse_date, validate_dates
     "min_date_naissance, max_date_naissance",
     [("1964-05-08", "1963-06-04")],
 )
-def test_validate_dates_fail(min_date: str, max_date: str):
+def test_validate_dates_fail(min_date_naissance: str, max_date_naissance: str):
     with pytest.raises(
         ValueError,
         match="Veuillez indiquer une date minimale inférieure à la date maximale.",
     ):
-        validate_dates(min_date, max_date)
+        validate_dates(min_date_naissance, max_date_naissance)
 
 
 @pytest.mark.parametrize("date, expected", [("1940-05-06", "1940-05-06")])

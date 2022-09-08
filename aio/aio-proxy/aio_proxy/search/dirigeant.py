@@ -63,8 +63,14 @@ def search_dirigeant(search, **kwargs):
                     }
                 }
             )
-    # using a query (must and should) instead of a filter because filters do not give
-    # a score which in turn does not boost certain documents over others
+    # Using a query (must and should) instead of a filter because filters do not give
+    # a score which in turn does not boost certain documents over others.
+    # The `must` parameter removes documents which do not contain the query terms,
+    # whereas the `should` clause gives higher scores to those documents without
+    # removing the other documents.
+    # Consequently, we use the `must` to find only the documents containing the query
+    # terms, and use the `should` clause, with keyword, to give a higher score to exact
+    # matches
     if dirigeants_filters and boost_queries:
         search = search.query(
             "nested",

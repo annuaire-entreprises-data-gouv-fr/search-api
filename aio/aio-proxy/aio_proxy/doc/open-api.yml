@@ -25,7 +25,7 @@ info:
     **Attention :** cette API ne permet pas d'accèder aux données complètes de  la 
     base Sirene, mais uniquement de rechercher une entreprise, par sa dénomination ou
     son adresse. Pour savoir comment obtenir les données complètes,
-    consultez [notre fiche explicative.](/guides/quelle-api-sirene)
+    consultez [notre fiche explicative.](https://api.gouv.fr/guides/quelle-api-sirene)
     
 
     ## Commencer à utiliser l'API
@@ -60,8 +60,9 @@ paths:
 
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
-        individuel et tranche d'effectif 
-        salarié.
+        individuel, tranche d'effectif salarié, nom de dirigeant, prénom(s) de 
+        dirigeant et les valeurs minimale et maximale de la date de naissance de 
+        dirigeant.
 
 
       summary: Recherche textuelle

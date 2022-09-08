@@ -15,7 +15,7 @@ def test_validate_dates_fail(min_date_naissance: str, max_date_naissance: str):
 
 
 @pytest.mark.parametrize("date, expected", [("1940-05-06", "1940-05-06")])
-def test_parse_date(date: str):
+def test_parse_date(date: str, expected: str):
     assert parse_date(date) == expected
 
 

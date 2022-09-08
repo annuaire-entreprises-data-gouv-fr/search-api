@@ -71,7 +71,7 @@ def search_dirigeant(search, **kwargs):
     # Consequently, we use the `must` to find only the documents containing the query
     # terms, and use the `should` clause, with keyword, to give a higher score to exact
     # matches
-    if dirigeants_filters and boost_queries:
+    if dirigeants_filters or boost_queries:
         search = search.query(
             "nested",
             path="dirigeants_pp",

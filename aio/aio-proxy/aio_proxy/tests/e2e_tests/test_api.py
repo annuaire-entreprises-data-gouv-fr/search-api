@@ -16,6 +16,22 @@ def test_fetch_company():
     assert siren == "356000000"
 
 
+def test_dirigeant_filter():
+    path = (
+        "search?nom_dirigeant=jouppe&prenoms_dirigeant=xavier "
+        "erwan&date_naissance_dirigeant_min=1970-01-01"
+        "&date_naissance_dirigeant_max"
+        "=2000-01-01"
+    )
+    response = requests.get(url=base_url + path)
+    response_json = response.json()
+    total_results = response_json["total_results"]
+    siren = response_json["results"][0]["siren"]
+    assert response.status_code == 200
+    assert total_results == 1
+    assert siren == "880878145"
+
+
 def test_error_query():
     path = "search?qs=ganymede"
     response = requests.get(url=base_url + path)

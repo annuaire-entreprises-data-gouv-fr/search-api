@@ -32,6 +32,15 @@ def test_dirigeant_filter():
     assert siren == "880878145"
 
 
+def test_format_date_naissance():
+    path = (
+        "search?date_naissance_dirigeant_min=13/09/2001"
+    )
+    response = requests.get(url=base_url + path)
+    response_json = response.json()
+    assert response.status_code == 400
+
+
 def test_error_query():
     path = "search?qs=ganymede"
     response = requests.get(url=base_url + path)

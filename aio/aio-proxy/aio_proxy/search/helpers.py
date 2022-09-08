@@ -1,13 +1,11 @@
 import json
 import logging
 import os
-from datetime import datetime
 from typing import Tuple
 
 from urllib.request import urlopen
 
 from dotenv import load_dotenv
-from elasticsearch_dsl import query
 
 load_dotenv()
 

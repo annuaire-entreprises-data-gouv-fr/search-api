@@ -33,11 +33,8 @@ def test_dirigeant_filter():
 
 
 def test_format_date_naissance():
-    path = (
-        "search?date_naissance_dirigeant_min=13/09/2001"
-    )
+    path = "search?date_naissance_dirigeant_min=13/09/2001"
     response = requests.get(url=base_url + path)
-    response_json = response.json()
     assert response.status_code == 400
 
 

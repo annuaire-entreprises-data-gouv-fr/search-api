@@ -34,7 +34,10 @@ def search_dirigeant(search, **params):
         boost_queries.append(
             {
                 "match_phrase": {
-                    "dirigeants_pp.prenoms.keyword": {"query": prenoms_dirigeant, "boost": 8}
+                    "dirigeants_pp.prenoms.keyword": {
+                        "query": prenoms_dirigeant,
+                        "boost": 8,
+                    }
                 }
             }
         )

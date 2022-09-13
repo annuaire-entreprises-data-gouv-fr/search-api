@@ -49,12 +49,8 @@ def extract_text_parameters(
     activite_principale = validate_activite_principale(
         clean_parameter(request, param="activite_principale")
     )
-    code_postal = validate_code_postal(
-        clean_parameter(request, param="code_postal")
-    )
-    departement = validate_departement(
-        clean_parameter(request, param="departement")
-    )
+    code_postal = validate_code_postal(clean_parameter(request, param="code_postal"))
+    departement = validate_departement(clean_parameter(request, param="departement"))
     is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
         clean_parameter(request, param="is_entrepreneur_individuel")
     )
@@ -65,9 +61,7 @@ def extract_text_parameters(
         clean_parameter(request, param="tranche_effectif_salarie")
     )
     nom_dirigeant = parse_parameter(request, param="nom_dirigeant")
-    prenoms_dirigeant = parse_parameter(
-        request, param="prenoms_dirigeant"
-    )
+    prenoms_dirigeant = parse_parameter(request, param="prenoms_dirigeant")
     min_date_naiss_dirigeant = parse_and_validate_date(
         request, param="date_naissance_dirigeant_min"
     )

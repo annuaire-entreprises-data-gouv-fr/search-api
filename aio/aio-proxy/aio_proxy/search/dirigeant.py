@@ -6,7 +6,7 @@ def search_dirigeant(search, **params):
     boost_queries = []
 
     # Nom
-    nom_dirigeant = params.get("nom_dirigeant", default=None)
+    nom_dirigeant = params.get("nom_dirigeant", None)
     if nom_dirigeant:
         # match queries returns any document containing the search item,
         # even if it contains another item
@@ -26,7 +26,7 @@ def search_dirigeant(search, **params):
         )
 
     # Prénoms
-    prenoms_dirigeant = params.get("prenoms_dirigeant", default=None)
+    prenoms_dirigeant = params.get("prenoms_dirigeant", None)
     if prenoms_dirigeant:
         # Same logic as "nom" is used for "prenoms"
         for prenom in prenoms_dirigeant.split(" "):
@@ -40,7 +40,7 @@ def search_dirigeant(search, **params):
         )
 
     # Date de naissance
-    min_date_naiss_dirigeant = params.get("min_date_naiss_dirigeant", default=None)
+    min_date_naiss_dirigeant = params.get("min_date_naiss_dirigeant", None)
     if min_date_naiss_dirigeant:
         dirigeants_filters.append(
             {
@@ -54,7 +54,7 @@ def search_dirigeant(search, **params):
             }
         )
 
-    max_date_naiss_dirigeant = params.get("max_date_naiss_dirigeant", default=None)
+    max_date_naiss_dirigeant = params.get("max_date_naiss_dirigeant", None)
     if max_date_naiss_dirigeant:
         dirigeants_filters.append(
             {

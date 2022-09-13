@@ -12,6 +12,8 @@ def clean_parameter(request, param: str, default_value=None):
         clean_param otherwise.
     """
     param = parse_parameter(request, param)
+    if param is None:
+        return None
     param_clean = param.replace(" ", "").upper()
     return param_clean
 

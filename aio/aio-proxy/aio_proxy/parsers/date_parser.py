@@ -1,3 +1,5 @@
+from datetime import date
+
 from aio_proxy.decorators.value_exception import value_exception_handler
 
 

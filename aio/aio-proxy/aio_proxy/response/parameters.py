@@ -19,8 +19,7 @@ from aio_proxy.parsers.radius import parse_and_validate_radius
 from aio_proxy.parsers.section_activite_principale import (
     validate_section_activite_principale,
 )
-from aio_proxy.parsers.string_normalizer import parse_and_normalize_parameter
-from aio_proxy.parsers.string_parser import parse_and_clean_parameter
+from aio_proxy.parsers.string_parser import clean_parameter, parse_parameter
 from aio_proxy.parsers.terms import parse_and_validate_terms
 from aio_proxy.parsers.tranche_effectif import (
     validate_tranche_effectif_salarie,
@@ -48,25 +47,25 @@ def extract_text_parameters(
     per_page = parse_and_validate_per_page(request)
     terms = parse_and_validate_terms(request)
     activite_principale = validate_activite_principale(
-        parse_and_clean_parameter(request, param="activite_principale")
+        clean_parameter(request, param="activite_principale")
     )
     code_postal = validate_code_postal(
-        parse_and_clean_parameter(request, param="code_postal")
+        clean_parameter(request, param="code_postal")
     )
     departement = validate_departement(
-        parse_and_clean_parameter(request, param="departement")
+        clean_parameter(request, param="departement")
     )
     is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
-        parse_and_clean_parameter(request, param="is_entrepreneur_individuel")
+        clean_parameter(request, param="is_entrepreneur_individuel")
     )
     section_activite_principale = validate_section_activite_principale(
-        parse_and_clean_parameter(request, param="section_activite_principale")
+        clean_parameter(request, param="section_activite_principale")
     )
     tranche_effectif_salarie = validate_tranche_effectif_salarie(
-        parse_and_clean_parameter(request, param="tranche_effectif_salarie")
+        clean_parameter(request, param="tranche_effectif_salarie")
     )
-    nom_dirigeant = parse_and_normalize_parameter(request, param="nom_dirigeant")
-    prenoms_dirigeant = parse_and_normalize_parameter(
+    nom_dirigeant = parse_parameter(request, param="nom_dirigeant")
+    prenoms_dirigeant = parse_parameter(
         request, param="prenoms_dirigeant"
     )
     min_date_naiss_dirigeant = parse_and_validate_date(
@@ -91,6 +90,9 @@ def extract_text_parameters(
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
     }
 
+    # Check if at least one param has been provided in the request
+    # It is easier to do it by checking if the param dict has only None values rather
+    # than parse the request to check
     check_empty_params(parameters)
 
     return parameters, page, per_page
@@ -103,10 +105,10 @@ def extract_geo_parameters(request):
     lon = parse_and_validate_longitude(request)
     radius = parse_and_validate_radius(request)
     activite_principale = validate_activite_principale(
-        parse_and_clean_parameter(request, param="activite_principale")
+        clean_parameter(request, param="activite_principale")
     )
     section_activite_principale = validate_section_activite_principale(
-        parse_and_clean_parameter(request, param="section_activite_principale")
+        clean_parameter(request, param="section_activite_principale")
     )
     parameters = {
         "lat": lat,

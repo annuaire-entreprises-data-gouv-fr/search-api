@@ -4,8 +4,8 @@ from aio_proxy.search.helpers import sort_and_execute_search
 from elasticsearch_dsl import query
 
 
-def search_text(index, offset: int, page_size: int, **kwargs):
-    query_terms = kwargs["terms"]
+def search_text(index, offset: int, page_size: int, **params):
+    query_terms = params["terms"]
     s = index.search()
     # Use filters to reduce search results
     s = filter_search(
@@ -17,10 +17,10 @@ def search_text(index, offset: int, page_size: int, **kwargs):
             "nom_dirigeant",
             "prenoms_dirigeant",
         ],
-        **kwargs,
+        **params,
     )
     # Search dirigeants
-    s = search_dirigeant(s, **kwargs)
+    s = search_dirigeant(s, **params)
     if query_terms:
         s = s.query(
             "bool",
@@ -158,13 +158,13 @@ def search_text(index, offset: int, page_size: int, **kwargs):
     return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
 
 
-def search_geo(index, offset: int, page_size: int, **kwargs):
+def search_geo(index, offset: int, page_size: int, **params):
     s = index.search()
     # Use filters to reduce search results
-    s = filter_search(s, filters_to_ignore=["lat", "lon", "radius"], **kwargs)
+    s = filter_search(s, filters_to_ignore=["lat", "lon", "radius"], **params)
     s = s.filter(
         "geo_distance",
-        distance=f'{kwargs["radius"]}km',
-        coordonnees={"lat": kwargs["lat"], "lon": kwargs["lon"]},
+        distance=f'{params["radius"]}km',
+        coordonnees={"lat": params["lat"], "lon": params["lon"]},
     )
     return sort_and_execute_search(search=s, offset=offset, page_size=page_size)

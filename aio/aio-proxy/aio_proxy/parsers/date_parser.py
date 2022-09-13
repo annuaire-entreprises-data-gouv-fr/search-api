@@ -22,7 +22,7 @@ def parse_and_validate_date(request, param: str, default_value=None):
     date_string = request.rel_url.query.get(param, default_value)
     if date_string is None:
         return None
-    return str(date.fromisoformat(date_string))
+    return date.fromisoformat(date_string)
 
 
 @value_exception_handler(
@@ -30,7 +30,5 @@ def parse_and_validate_date(request, param: str, default_value=None):
 )
 def validate_date_range(min_date=None, max_date=None):
     if min_date and max_date:
-        min_date = datetime.strptime(min_date, "%Y-%m-%d").strftime("%Y-%m-%d")
-        max_date = datetime.strptime(max_date, "%Y-%m-%d").strftime("%Y-%m-%d")
         if max_date < min_date:
             raise ValueError

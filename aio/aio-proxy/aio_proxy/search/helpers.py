@@ -42,10 +42,13 @@ def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
     results = search.execute()
     total_results = results.hits.total.value
     response = []
-    for hit in results.hits:
-        hit_dict = hit.to_dict(skip_empty=False, include_meta=False)
-        hit_dict["meta"] = hit.meta.to_dict()
-        response.append(hit_dict)
+    for matched_company in results.hits:
+        matched_company_dict = matched_company.to_dict(
+            skip_empty=False, include_meta=False
+        )
+        # Add meta field to response to retrieve score
+        matched_company_dict["meta"] = matched_company.meta.to_dict()
+        response.append(matched_company_dict)
     return total_results, response
 
 

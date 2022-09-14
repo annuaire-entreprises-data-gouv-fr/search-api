@@ -25,7 +25,7 @@ info:
     **Attention :** cette API ne permet pas d'accèder aux données complètes de  la 
     base Sirene, mais uniquement de rechercher une entreprise, par sa dénomination ou
     son adresse. Pour savoir comment obtenir les données complètes,
-    consultez [notre fiche explicative.](/guides/quelle-api-sirene)
+    consultez [notre fiche explicative.](https://api.gouv.fr/guides/quelle-api-sirene)
     
 
     ## Commencer à utiliser l'API
@@ -60,8 +60,9 @@ paths:
 
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
-        individuel et tranche d'effectif 
-        salarié.
+        individuel, tranche d'effectif salarié, nom de dirigeant, prénom(s) de 
+        dirigeant et les valeurs minimale et maximale de la date de naissance de 
+        dirigeant.
 
 
       summary: Recherche textuelle
@@ -69,7 +70,6 @@ paths:
         - name: q
           in: query
           description: Termes de la recherche (dénomination et/ou adresse)
-          required: true
           schema:
             type: string
         - name: code_postal
@@ -157,6 +157,32 @@ paths:
           required: false
           schema:
             type: string
+        - name: nom_dirigeant
+          in: query
+          description: Nom du dirigeant
+          required: false
+          schema:
+            type: string
+        - name: prenoms_dirigeant
+          in: query
+          description: Prenom(s) du dirigeant
+          required: false
+          schema:
+            type: string
+        - name: date_naissance_dirigeant_min
+          in: query
+          description: Valeur minimale de la date de naissance du dirigeant
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_naissance_dirigeant_max
+          in: query
+          description: Valeur maximale de la date de naissance du dirigeant
+          required: false
+          schema:
+            type: string
+            format: date
         - name: page
           in: query
           description: Le numéro de la page à retourner
@@ -170,7 +196,7 @@ paths:
           required: false
           schema:
             type: integer
-            default: 10
+            default: 1
       responses:
         "200":
           description: La liste des entreprises correspondantes à la recherche.
@@ -333,6 +359,12 @@ paths:
                           type: boolean
                           description: Entreprises individuelles
                           example: false
+                        dirigeants:
+                          type: array
+                          items:
+                            oneOf:
+                              - $ref: '#/components/schemas/dirigeant_pp'
+                              - $ref: '#/components/schemas/dirigeant_pm'
                   total_results:
                     type: integer
                   page:
@@ -353,8 +385,7 @@ paths:
                 properties:
                   erreur:
                     type: string
-                    example: "Veuillez indiquer la requ\u00eate avec le paramètre:
-                    ?q=ma+recherche."
+                    example: "Veuillez indiquer au moins un paramètre de recherche."
 
   /near_point:
     get:
@@ -629,6 +660,12 @@ paths:
                           type: boolean
                           description: Entreprises individuelles
                           example: false
+                        dirigeants:
+                          type: array
+                          items:
+                            oneOf:
+                              - $ref: '#/components/schemas/dirigeant_pp'
+                              - $ref: '#/components/schemas/dirigeant_pm'
                   total_results:
                     type: integer
                   page:
@@ -650,6 +687,34 @@ paths:
                   erreur:
                     type: string
                     example: "Veuillez indiquer une longitude entre -180° et 180°."
+components:
+  schemas:
+    dirigeant_pp:
+      type: object
+      properties:
+          nom:
+            type: string
+          prenoms:
+            type: string
+          annee_de_naissance:
+            type: string
+            example: "1964"
+          qualite:
+            type: string
+            example: "Directeur général"
+    dirigeant_pm:
+      type: object
+      properties:
+          siren:
+            type: string
+            example: "784824153"
+          denomination:
+            type: string
+          sigle:
+            type: string
+          qualite:
+            type: string
+            example: "Commissaire aux comptes titulaire"
 servers:
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

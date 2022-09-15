@@ -233,7 +233,7 @@ paths:
                               type: string
                               format: date
                               example: 2014-04-29
-                            etat_adiministratif:
+                            etat_administratif:
                               type: string
                               example: "A"
                             activite_principale:
@@ -533,7 +533,7 @@ paths:
                               type: string
                               format: date
                               example: 2014-04-29
-                            etat_adiministratif:
+                            etat_administratif:
                               type: string
                               example: "A"
                             activite_principale:

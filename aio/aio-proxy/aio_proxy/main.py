@@ -12,7 +12,7 @@ open_api_path = BASE_DIR / "aio_proxy" / "doc" / "open-api.yml"
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     logging.info("********Starting API")
 
     app = web.Application()

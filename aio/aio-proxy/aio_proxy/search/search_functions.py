@@ -2,7 +2,6 @@ from aio_proxy.search.dirigeant import search_dirigeant
 from aio_proxy.search.filters import filter_by_siren, filter_search
 from aio_proxy.search.helpers import is_siren, sort_and_execute_search
 from elasticsearch_dsl import query
-import logging
 
 
 def search_text(index, offset: int, page_size: int, **params):
@@ -10,7 +9,7 @@ def search_text(index, offset: int, page_size: int, **params):
     s = index.search()
 
     # Filter by siren first (if query is a `siren` number, and return search results
-    # directly
+    # directly.
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "").upper()
         s = filter_by_siren(s, query_terms_clean)

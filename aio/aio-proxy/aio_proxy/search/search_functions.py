@@ -11,7 +11,7 @@ def search_text(index, offset: int, page_size: int, **params):
     # Filter by siren first (if query is a `siren` number, and return search results
     # directly.
     if is_siren(query_terms):
-        query_terms_clean = query_terms.replace(" ", "").upper()
+        query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siren(s, query_terms_clean)
         return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
 

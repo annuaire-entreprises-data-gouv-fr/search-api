@@ -14,5 +14,5 @@ from aio_proxy.search.helpers import (
         ("12345678", False),
     ],
 )
-def test_is_siren(is_siren: str, expected: boolean):
+def test_is_siren(siren: str, expected: boolean):
     assert is_siren(siren) == expected

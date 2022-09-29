@@ -8,7 +8,7 @@ def search_text(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     s = index.search()
 
-    # Filter by siren first (if query is a `siren` number, and return search results
+    # Filter by siren first (if query is a `siren` number), and return search results
     # directly.
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "")

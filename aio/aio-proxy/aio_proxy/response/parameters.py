@@ -44,6 +44,7 @@ def extract_text_parameters(
     page = parse_and_validate_page(request)
     per_page = parse_and_validate_per_page(request)
     terms = parse_and_validate_terms(request)
+
     activite_principale = validate_activite_principale(
         clean_parameter(request, param="activite_principale")
     )

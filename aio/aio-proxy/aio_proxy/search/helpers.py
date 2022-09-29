@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import re
 from typing import Tuple
 from urllib.request import urlopen
 
@@ -30,6 +31,19 @@ def get_current_color(color_url):
 
 
 CURRENT_COLOR = get_current_color(os.getenv("COLOR_URL"))
+
+
+def is_siren(query_string: str):
+    """
+    Check if string is siren (composed of 9 digits).
+    """
+    if query_string is None:
+        return None
+    clean_query_string = query_string.replace(" ", "").upper()
+    siren_valides = r"\b\d{9}\b"
+    if re.search(siren_valides, clean_query_string):
+        return True
+    return False
 
 
 def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:

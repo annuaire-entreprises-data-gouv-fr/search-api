@@ -10,7 +10,7 @@ from aio_proxy.search.helpers import is_siren
         (None, False),
         ("mother of dragons", False),
         ("12345678", False),
-        ("12345678900000", False)
+        ("12345678900000", False),
     ],
 )
 def test_is_siren(siren: str, expected):

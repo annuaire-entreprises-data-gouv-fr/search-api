@@ -1,7 +1,5 @@
 import pytest
-from aio_proxy.search.helpers import (
-    is_siren,
-)
+from aio_proxy.search.helpers import is_siren
 
 
 @pytest.mark.parametrize(

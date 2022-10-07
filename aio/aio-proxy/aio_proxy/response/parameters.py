@@ -2,10 +2,7 @@ from typing import Dict, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
-from aio_proxy.parsers.date_parser import (
-    parse_and_validate_date,
-    validate_date_range,
-)
+from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
@@ -21,12 +18,11 @@ from aio_proxy.parsers.section_activite_principale import (
 )
 from aio_proxy.parsers.string_parser import clean_parameter, parse_parameter
 from aio_proxy.parsers.terms import (
-    parse_and_validate_terms,
     check_no_param_and_length_terms,
+    parse_and_validate_terms,
 )
-from aio_proxy.parsers.tranche_effectif import (
-    validate_tranche_effectif_salarie,
-)
+from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
+
 
 def extract_text_parameters(
     request,

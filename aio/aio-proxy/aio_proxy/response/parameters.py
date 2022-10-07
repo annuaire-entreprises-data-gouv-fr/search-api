@@ -20,11 +20,13 @@ from aio_proxy.parsers.section_activite_principale import (
     validate_section_activite_principale,
 )
 from aio_proxy.parsers.string_parser import clean_parameter, parse_parameter
-from aio_proxy.parsers.terms import parse_and_validate_terms
+from aio_proxy.parsers.terms import (
+    parse_and_validate_terms,
+    check_no_param_and_length_terms
+)
 from aio_proxy.parsers.tranche_effectif import (
     validate_tranche_effectif_salarie,
 )
-
 
 def extract_text_parameters(
     request,
@@ -88,6 +90,8 @@ def extract_text_parameters(
     # It is easier to do it by checking if the param dict has only None values rather
     # than parse the request to check
     check_empty_params(parameters)
+
+    check_no_param_and_length_terms(parameters)
 
     return parameters, page, per_page
 

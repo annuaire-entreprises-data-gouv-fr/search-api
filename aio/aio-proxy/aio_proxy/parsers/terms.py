@@ -25,11 +25,11 @@ def check_no_param_and_length_terms(params):
         ValueError.
     """
     if (
-            len(params["terms"]) < 3
-            and all(
-                val is None for val in [params[x] for x in params if x != 'terms']
+            len(params["terms"]) < 3 and all(
+                val is None for val in [params[x] for x in params if x != "terms"]
             )
     ):
         raise ValueError(
-            "3 caractères minimum pour les termes de la requête (ou utilisez au moins un filtre)"
+            "3 caractères minimum pour les termes de la requête "\
+            "(ou utilisez au moins un filtre)"
         )

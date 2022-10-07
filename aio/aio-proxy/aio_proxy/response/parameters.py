@@ -22,7 +22,7 @@ from aio_proxy.parsers.section_activite_principale import (
 from aio_proxy.parsers.string_parser import clean_parameter, parse_parameter
 from aio_proxy.parsers.terms import (
     parse_and_validate_terms,
-    check_no_param_and_length_terms
+    check_no_param_and_length_terms,
 )
 from aio_proxy.parsers.tranche_effectif import (
     validate_tranche_effectif_salarie,

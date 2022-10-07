@@ -24,7 +24,7 @@ def check_no_param_and_length_terms(params):
     Raises:
         ValueError.
     """
-    if len(params["terms"]) < 3 and all(
+    if params["terms"] and len(params["terms"]) < 3 and all(
         val is None for val in [params[x] for x in params if x != "terms"]
     ):
         raise ValueError(

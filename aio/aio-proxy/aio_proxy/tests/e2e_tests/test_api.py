@@ -60,3 +60,9 @@ def test_short_query_but_filter():
     path = "search?q=ab&code_postal=75015"
     response = requests.get(url=base_url + path)
     assert response.status_code == 200
+
+
+def test_terms_empty_only():
+    path = "search?q="
+    response = requests.get(url=base_url + path)
+    assert response.status_code == 400

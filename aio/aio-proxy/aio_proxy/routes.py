@@ -23,7 +23,12 @@ DSN_SENTRY = os.getenv("DSN_SENTRY")
 
 # Connect to Sentry in production
 if ENV == "prod":
-    sentry_sdk.init(dsn=DSN_SENTRY, integrations=[AioHttpIntegration()])
+    sentry_sdk.init(
+        dsn=DSN_SENTRY,
+        integrations=[AioHttpIntegration(transaction_style="method_and_path_pattern")],
+        # we log 10% of transactions for performance monitoring
+        traces_sample_rate=0.1,
+    )
 
 # Connect to Elasticsearch
 connections.create_connection(

@@ -2,12 +2,16 @@ from typing import Dict, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
+from aio_proxy.parsers.colter_code_insee import validate_colter_code_insee
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
+from aio_proxy.parsers.finess import validate_finess
+from aio_proxy.parsers.exist_fields import validate_is_field
+from aio_proxy.parsers.idcc import validate_idcc
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page
@@ -21,6 +25,7 @@ from aio_proxy.parsers.terms import (
     check_no_param_and_length_terms,
     parse_and_validate_terms,
 )
+from aio_proxy.parsers.uai import validate_uai
 from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
 
 
@@ -66,6 +71,18 @@ def extract_text_parameters(
     max_date_naiss_dirigeant = parse_and_validate_date(
         request, param="date_naissance_dirigeant_max"
     )
+    is_finess = validate_is_field(request, param="is_finess")
+    is_uai = validate_is_field(request, param="is_uai")
+    is_colter = validate_is_field(request, param="is_colter")
+    is_entrepreneur_spectacle = validate_is_field(request, param="is_entrepreneur_spectacle")
+    is_rge = validate_is_field(request, param="is_rge")
+    idcc = validate_idcc(clean_parameter(request, param="idcc"))
+    finess = validate_finess(clean_parameter(request, param="finess"))
+    uai = validate_uai(clean_parameter(request, param="uai"))
+    colter_code_insee = validate_colter_code_insee(clean_parameter(request, param="colter_code_insee"))
+    nom_elu = parse_parameter(request, param="nom_elu")
+    prenoms_elu = parse_parameter(request, param="prenoms_elu")
+
     validate_date_range(min_date_naiss_dirigeant, max_date_naiss_dirigeant)
 
     parameters = {
@@ -80,6 +97,17 @@ def extract_text_parameters(
         "prenoms_dirigeant": prenoms_dirigeant,
         "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
+        "is_uai": is_uai,
+        "is_finess": is_finess,
+        "is_colter": is_colter,
+        "is_entrepreneur_spectacle": is_entrepreneur_spectacle,
+        "is_rge": is_rge,
+        "idcc": idcc,
+        "finess": finess,
+        "uai": uai,
+        "colter_code_insee": colter_code_insee,
+        "nom_elu": nom_elu,
+        "prenoms_elu": prenoms_elu,
     }
 
     # Check if at least one param has been provided in the request

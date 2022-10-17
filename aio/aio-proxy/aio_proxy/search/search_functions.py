@@ -1,5 +1,11 @@
 from aio_proxy.search.dirigeant import search_dirigeant
-from aio_proxy.search.filters import filter_by_siren, filter_search
+from aio_proxy.search.elu import search_elus
+from aio_proxy.search.filters import (
+    filter_by_siren,
+    filter_search,
+    filter_search_is_exist,
+    filter_search_match_array,
+)
 from aio_proxy.search.helpers import is_siren, sort_and_execute_search
 from elasticsearch_dsl import query
 
@@ -24,11 +30,43 @@ def search_text(index, offset: int, page_size: int, **params):
             "max_date_naiss_dirigeant",
             "nom_dirigeant",
             "prenoms_dirigeant",
+            "is_finess",
+            "is_uai",
+            "is_colter",
+            "is_entrepreneur_spectacle",
+            "is_rge",
+            "idcc",
+            "uai",
+            "finess",
+            "nom_elu",
+            "prenoms_elu",
+        ],
+        **params,
+    )
+    s = filter_search_is_exist(
+        s,
+        filters_to_process=[
+            "is_finess",
+            "is_uai",
+            "is_colter",
+            "is_entrepreneur_spectacle",
+            "is_rge",
+        ],
+        **params,
+    )
+    s = filter_search_match_array(
+        s,
+        filters_to_process=[
+            "idcc",
+            "uai",
+            "finess",
         ],
         **params,
     )
     # Search dirigeants
     s = search_dirigeant(s, **params)
+    # Search élus
+    s = search_elus(s, **params)
     # Search text
     if query_terms:
         s = s.query(

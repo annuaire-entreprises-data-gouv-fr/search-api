@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 def validate_finess(finess: str) -> Optional[str]:
     """Check the validity of finess.
 

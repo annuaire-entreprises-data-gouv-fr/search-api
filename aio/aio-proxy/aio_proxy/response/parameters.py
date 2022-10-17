@@ -9,8 +9,8 @@ from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
-from aio_proxy.parsers.finess import validate_finess
 from aio_proxy.parsers.exist_fields import validate_is_field
+from aio_proxy.parsers.finess import validate_finess
 from aio_proxy.parsers.idcc import validate_idcc
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
@@ -25,8 +25,8 @@ from aio_proxy.parsers.terms import (
     check_no_param_and_length_terms,
     parse_and_validate_terms,
 )
-from aio_proxy.parsers.uai import validate_uai
 from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
+from aio_proxy.parsers.uai import validate_uai
 
 
 def extract_text_parameters(
@@ -74,12 +74,16 @@ def extract_text_parameters(
     is_finess = validate_is_field(request, param="is_finess")
     is_uai = validate_is_field(request, param="is_uai")
     is_colter = validate_is_field(request, param="is_colter")
-    is_entrepreneur_spectacle = validate_is_field(request, param="is_entrepreneur_spectacle")
+    is_entrepreneur_spectacle = validate_is_field(
+        request, param="is_entrepreneur_spectacle"
+    )
     is_rge = validate_is_field(request, param="is_rge")
     idcc = validate_idcc(clean_parameter(request, param="idcc"))
     finess = validate_finess(clean_parameter(request, param="finess"))
     uai = validate_uai(clean_parameter(request, param="uai"))
-    colter_code_insee = validate_colter_code_insee(clean_parameter(request, param="colter_code_insee"))
+    colter_code_insee = validate_colter_code_insee(
+        clean_parameter(request, param="colter_code_insee")
+    )
     nom_elu = parse_parameter(request, param="nom_elu")
     prenoms_elu = parse_parameter(request, param="prenoms_elu")
 

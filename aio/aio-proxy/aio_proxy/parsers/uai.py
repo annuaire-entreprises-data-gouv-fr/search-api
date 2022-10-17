@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 def validate_uai(uai: str) -> Optional[str]:
     """Check the validity of uai.
 

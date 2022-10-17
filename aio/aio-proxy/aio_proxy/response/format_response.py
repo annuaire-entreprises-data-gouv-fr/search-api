@@ -63,13 +63,11 @@ def format_response(results):
             "economie_sociale_solidaire": get_field(
                 "economie_sociale_solidaire_unite_legale"
             ),
-            "liste_finess": get_field("liste_finess"),
             "colter": {
                 "code": get_field("colter_code"),
                 "code_insee": get_field("colter_code_insee"),
                 "elus": get_field("colter_elus"),
                 "niveau": get_field("colter_niveau"),
-
             },
             "is_entrepreneur_spectacle": get_field("is_entrepreneur_spectacle"),
             "is_rge": get_field("is_rge"),

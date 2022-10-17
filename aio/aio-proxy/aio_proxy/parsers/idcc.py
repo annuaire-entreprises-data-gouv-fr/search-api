@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 def validate_idcc(idcc: str) -> Optional[str]:
     """Check the validity of idcc.
 
@@ -16,5 +17,7 @@ def validate_idcc(idcc: str) -> Optional[str]:
     if idcc is None:
         return None
     if len(idcc) != 4:
-        raise ValueError("L'identifiant de convention collective doit contenir 4 caractères.")
+        raise ValueError(
+            "L'identifiant de convention collective doit contenir 4 caractères."
+        )
     return idcc

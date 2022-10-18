@@ -1,12 +1,20 @@
 from aio_proxy.search.dirigeant import search_dirigeant
-from aio_proxy.search.filters import filter_search
-from aio_proxy.search.helpers import sort_and_execute_search
+from aio_proxy.search.filters import filter_by_siren, filter_search
+from aio_proxy.search.helpers import is_siren, sort_and_execute_search
 from elasticsearch_dsl import query
 
 
 def search_text(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     s = index.search()
+
+    # Filter by siren first (if query is a `siren` number), and return search results
+    # directly.
+    if is_siren(query_terms):
+        query_terms_clean = query_terms.replace(" ", "")
+        s = filter_by_siren(s, query_terms_clean)
+        return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+
     # Use filters to reduce search results
     s = filter_search(
         s,
@@ -21,6 +29,7 @@ def search_text(index, offset: int, page_size: int, **params):
     )
     # Search dirigeants
     s = search_dirigeant(s, **params)
+    # Search text
     if query_terms:
         s = s.query(
             "bool",

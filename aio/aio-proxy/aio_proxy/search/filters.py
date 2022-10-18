@@ -1,3 +1,9 @@
+def filter_by_siren(search, siren_string):
+    """Filter by `siren` number"""
+    search = search.filter("term", **{"siren": siren_string})
+    return search
+
+
 def filter_search(search, filters_to_ignore: list, **params):
     """Use filters to reduce search results."""
     # params is the list of parameters (filters) provided in the request

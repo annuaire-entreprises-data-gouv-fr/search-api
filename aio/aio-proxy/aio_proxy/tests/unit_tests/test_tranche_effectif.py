@@ -1,7 +1,5 @@
 import pytest
-from aio_proxy.parsers.tranche_effectif import (
-    validate_tranche_effectif_salarie,
-)
+from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
 
 
 @pytest.mark.parametrize(

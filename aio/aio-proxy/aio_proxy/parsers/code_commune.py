@@ -20,7 +20,6 @@ def validate_code_commune(code_commune_clean: str) -> Optional[str]:
         return None
     if len(code_commune_clean) != 5:
         raise ValueError("Code commune doit contenir 5 caractères !")
-    codes_valides = r"^(0[1-9]|[1-9][ABab\d])\d{3}$"
     if code_commune_clean not in codes_communes:
         raise ValueError("Code commune non valide.")
     return code_commune_clean

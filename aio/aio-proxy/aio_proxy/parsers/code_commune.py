@@ -1,5 +1,6 @@
-import re
 from typing import Optional
+
+from aio_proxy.labels.helpers import codes_communes
 
 
 def validate_code_commune(code_commune_clean: str) -> Optional[str]:
@@ -20,6 +21,6 @@ def validate_code_commune(code_commune_clean: str) -> Optional[str]:
     if len(code_commune_clean) != 5:
         raise ValueError("Code commune doit contenir 5 caractères !")
     codes_valides = r"^(0[1-9]|[1-9][ABab\d])\d{3}$"
-    if not re.search(codes_valides, code_commune_clean):
+    if code_commune_clean not in codes_communes:
         raise ValueError("Code commune non valide.")
     return code_commune_clean

@@ -43,6 +43,7 @@ def search_text(index, offset: int, page_size: int, **params):
                                 type="phrase",
                                 fields=[
                                     "nom_complet^15",
+                                    "liste_dirigeants^5",
                                     "siren^3",
                                     "siret_siege^3",
                                     "identifiant_association_unite_legale^3",
@@ -159,7 +160,7 @@ def search_text(index, offset: int, page_size: int, **params):
                     query=query_terms,
                     type="most_fields",
                     operator="and",
-                    fields=["nom_complet", "adresse_etablissement"],
+                    fields=["nom_complet", "adresse_etablissement", "liste_dirigeants"],
                     fuzziness="AUTO",
                 ),
             ],

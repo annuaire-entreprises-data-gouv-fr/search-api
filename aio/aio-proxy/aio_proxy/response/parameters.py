@@ -72,7 +72,7 @@ def extract_text_parameters(
     parameters = {
         "terms": terms,
         "activite_principale_unite_legale": activite_principale,
-        "code_commune": code_commune,
+        "commune": code_commune,
         "code_postal": code_postal,
         "departement": departement,
         "is_entrepreneur_individuel": is_entrepreneur_individuel,

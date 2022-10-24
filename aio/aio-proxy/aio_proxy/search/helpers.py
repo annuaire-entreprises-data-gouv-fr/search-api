@@ -114,6 +114,8 @@ def get_es_field(param_name):
         return "liste_rge"
     elif param_name == "id_rge":
         return "liste_rge"
+    elif param_name == "convention_collective_renseignee":
+        return "liste_idcc"
     elif param_name == "id_convention_collective":
         return "liste_idcc"
     else:

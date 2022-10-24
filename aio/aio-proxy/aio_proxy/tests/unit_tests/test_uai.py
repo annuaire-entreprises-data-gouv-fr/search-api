@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.uai import validate_id_uai
 
 
@@ -8,7 +8,7 @@ from aio_proxy.parsers.uai import validate_id_uai
     [("TRUE", True), ("FALSE", False), (None, None)],
 )
 def test_validate_est_uai(est_uai, expected):
-    assert validate_est_field("est_uai", est_uai) == expected
+    assert validate_bool_field("est_uai", est_uai) == expected
 
 
 @pytest.mark.parametrize("est_uai", ["NON", "OUI", "NO", "YES"])
@@ -19,7 +19,7 @@ def test_validate_est_uai_fail(
         ValueError,
         match="est_uai doit prendre la valeur 'true' or 'false' !",
     ):
-        validate_est_field("est_uai", est_uai)
+        validate_bool_field("est_uai", est_uai)
 
 
 @pytest.mark.parametrize(

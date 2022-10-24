@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.finess import validate_id_finess
 
 
@@ -8,7 +8,7 @@ from aio_proxy.parsers.finess import validate_id_finess
     [("TRUE", True), ("FALSE", False), (None, None)],
 )
 def test_validate_est_finess(est_finess, expected):
-    assert validate_est_field("est_finess", est_finess) == expected
+    assert validate_bool_field("est_finess", est_finess) == expected
 
 
 @pytest.mark.parametrize("est_finess", ["NON", "OUI", "NO", "YES"])
@@ -19,7 +19,7 @@ def test_validate_est_finess_fail(
         ValueError,
         match="est_finess doit prendre la valeur 'true' or 'false' !",
     ):
-        validate_est_field("est_finess", est_finess)
+        validate_bool_field("est_finess", est_finess)
 
 
 @pytest.mark.parametrize(

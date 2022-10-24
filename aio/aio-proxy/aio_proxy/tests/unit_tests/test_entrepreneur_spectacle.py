@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.bool_fields import validate_bool_field
 
 
 @pytest.mark.parametrize(
@@ -8,7 +8,7 @@ from aio_proxy.parsers.exist_fields import validate_est_field
 )
 def test_validate_est_entrepreneur_spectacle(est_entrepreneur_spectacle, expected):
     assert (
-        validate_est_field("est_entrepreneur_spectacle", est_entrepreneur_spectacle)
+        validate_bool_field("est_entrepreneur_spectacle", est_entrepreneur_spectacle)
         == expected
     )
 
@@ -22,4 +22,4 @@ def test_validate_est_entrepreneur_spectacle_fail(
         match="est_entrepreneur_spectacle doit prendre la valeur 'true' "
         "or 'false' !",
     ):
-        validate_est_field("est_entrepreneur_spectacle", est_entrepreneur_spectacle)
+        validate_bool_field("est_entrepreneur_spectacle", est_entrepreneur_spectacle)

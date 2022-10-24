@@ -2,7 +2,7 @@ import pytest
 from aio_proxy.parsers.collectivite_territoriale import (
     validate_code_collectivite_territoriale
 )
-from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.bool_fields import validate_bool_field
 
 
 @pytest.mark.parametrize(
@@ -14,7 +14,7 @@ def test_validate_est_collectivite_territoriale(
     expected,
 ):
     assert (
-        validate_est_field(
+        validate_bool_field(
             "est_collectivite_territoriale", est_collectivite_territoriale
         )
         == expected
@@ -33,7 +33,7 @@ def test_validate_est_collectivite_territoriale_fail(
         match="est_collectivite_territoriale doit prendre la valeur 'true' "
         "or 'false' !",
     ):
-        validate_est_field(
+        validate_bool_field(
             "est_collectivite_territoriale",
             est_collectivite_territoriale,
         )

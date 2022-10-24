@@ -215,6 +215,15 @@ paths:
           schema:
             type: string
             format: date
+        - name: convention_collective_renseignee
+          in: query
+          description: Entreprises ayant au moins un établissement dont la convention collective est renseignée.
+          required: false
+          schema:
+            type: string
+            enum:
+              - "true"
+              - "false"
         - name: est_rge
           in: query
           description: Entreprises reconnues garantes de l'Environnement (RGE)

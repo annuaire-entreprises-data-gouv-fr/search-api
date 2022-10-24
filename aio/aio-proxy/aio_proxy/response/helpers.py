@@ -83,7 +83,7 @@ def format_elus(elus=None):
     return format_elus
 
 
-def format_est_field(value):
+def format_bool_field(value):
     if value is None:
         return False
     else:

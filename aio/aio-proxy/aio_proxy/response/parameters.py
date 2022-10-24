@@ -11,7 +11,7 @@ from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
-from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
@@ -74,23 +74,27 @@ def extract_text_parameters(
     max_date_naiss_dirigeant = parse_and_validate_date(
         request, param="date_naissance_dirigeant_max"
     )
-    est_finess = validate_est_field(
+    convention_collective_renseignee = validate_bool_field(
+        "convention_collective_renseignee",
+        clean_parameter(request, param="convention_collective_renseignee")
+    )
+    est_finess = validate_bool_field(
         "est_finess",
         clean_parameter(request, param="est_finess"),
     )
-    est_uai = validate_est_field(
+    est_uai = validate_bool_field(
         "est_uai",
         clean_parameter(request, param="est_uai"),
     )
-    est_collectivite_territoriale = validate_est_field(
+    est_collectivite_territoriale = validate_bool_field(
         "est_collectivite_territoriale",
         clean_parameter(request, param="est_collectivite_territoriale"),
     )
-    est_entrepreneur_spectacle = validate_est_field(
+    est_entrepreneur_spectacle = validate_bool_field(
         "est_entrepreneur_spectacle",
         clean_parameter(request, param="est_entrepreneur_spectacle"),
     )
-    est_rge = validate_est_field(
+    est_rge = validate_bool_field(
         "est_rge",
         clean_parameter(request, param="est_rge"),
     )
@@ -137,6 +141,7 @@ def extract_text_parameters(
         "prenoms_dirigeant": prenoms_dirigeant,
         "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
+        "convention_collective_renseignee": convention_collective_renseignee,
         "est_uai": est_uai,
         "est_finess": est_finess,
         "est_collectivite_territoriale": est_collectivite_territoriale,

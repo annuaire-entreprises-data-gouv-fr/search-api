@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.rge import validate_id_rge
 
 
@@ -8,7 +8,7 @@ from aio_proxy.parsers.rge import validate_id_rge
     [("TRUE", True), ("FALSE", False), (None, None)],
 )
 def test_validate_est_rge(est_rge, expected):
-    assert validate_est_field("est_rge", est_rge) == expected
+    assert validate_bool_field("est_rge", est_rge) == expected
 
 
 @pytest.mark.parametrize("est_rge", ["NON", "OUI", "NO", "YES"])
@@ -19,7 +19,7 @@ def test_validate_est_rge_fail(
         ValueError,
         match="est_rge doit prendre la valeur 'true' or 'false' !",
     ):
-        validate_est_field("est_rge", est_rge)
+        validate_bool_field("est_rge", est_rge)
 
 
 @pytest.mark.parametrize(

@@ -3,7 +3,7 @@ import os
 from aio_proxy.response.helpers import (
     format_collectivite_territoriale,
     format_dirigeants,
-    format_est_field,
+    format_bool_field,
     get_value,
 )
 from dotenv import load_dotenv
@@ -75,15 +75,15 @@ def format_response(results):
                     get_field("colter_elus"),
                     get_field("colter_niveau"),
                 ),
-                "convention_collective_renseignee": format_est_field(
+                "convention_collective_renseignee": format_bool_field(
                     get_field("liste_idcc"),
                 ),
-                "est_entrepreneur_spectacle": format_est_field(
+                "est_entrepreneur_spectacle": format_bool_field(
                     get_field("is_entrepreneur_spectacle")
                 ),
-                "est_finess": format_est_field(get_field("liste_finess")),
-                "est_rge": format_est_field(get_field("liste_rge")),
-                "est_uai": format_est_field(get_field("liste_uai")),
+                "est_finess": format_bool_field(get_field("liste_finess")),
+                "est_rge": format_bool_field(get_field("liste_rge")),
+                "est_uai": format_bool_field(get_field("liste_uai")),
             },
             "nom_complet": get_field("nom_complet"),
             "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),

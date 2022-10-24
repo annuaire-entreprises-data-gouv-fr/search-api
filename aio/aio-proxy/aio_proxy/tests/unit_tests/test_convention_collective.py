@@ -1,6 +1,6 @@
 import pytest
-from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 from aio_proxy.parsers.bool_fields import validate_bool_field
+from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 
 
 @pytest.mark.parametrize(

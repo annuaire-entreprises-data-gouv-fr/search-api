@@ -1,19 +1,19 @@
 from typing import Dict, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
+from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.code_postal import validate_code_postal
 from aio_proxy.parsers.collectivite_territoriale import (
-    validate_code_collectivite_territoriale
+    validate_code_collectivite_territoriale,
 )
+from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
-from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.finess import validate_id_finess
-from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page
@@ -76,7 +76,7 @@ def extract_text_parameters(
     )
     convention_collective_renseignee = validate_bool_field(
         "convention_collective_renseignee",
-        clean_parameter(request, param="convention_collective_renseignee")
+        clean_parameter(request, param="convention_collective_renseignee"),
     )
     est_finess = validate_bool_field(
         "est_finess",
@@ -124,7 +124,6 @@ def extract_text_parameters(
     max_date_naiss_personne = parse_and_validate_date(
         request, param="date_naissance_personne_max"
     )
-
 
     validate_date_range(min_date_naiss_dirigeant, max_date_naiss_dirigeant)
     validate_date_range(min_date_naiss_elu, max_date_naiss_elu)

@@ -1,4 +1,3 @@
-from aio_proxy.search.person import search_person
 from aio_proxy.search.filters import (
     filter_by_siren,
     filter_search,
@@ -6,6 +5,7 @@ from aio_proxy.search.filters import (
     filter_search_match_array,
 )
 from aio_proxy.search.helpers import is_siren, sort_and_execute_search
+from aio_proxy.search.person import search_person
 from elasticsearch_dsl import query
 
 
@@ -276,7 +276,7 @@ def search_text(index, offset: int, page_size: int, **params):
         "nom_elu",
         "prenoms_personne",
         "prenoms_dirigeant",
-        "prenoms_elu"
+        "prenoms_elu",
     ]:
         if params[item]:
             is_search_fields = True

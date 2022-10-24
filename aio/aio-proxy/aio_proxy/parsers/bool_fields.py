@@ -1,7 +1,8 @@
 from typing import Optional
+from xmlrpc.client import boolean
 
 
-def validate_bool_field(param: str, param_value: str) -> Optional[str]:
+def validate_bool_field(param: str, param_value: str) -> Optional[bool]:
     """Check the validity of field.
 
     Args:

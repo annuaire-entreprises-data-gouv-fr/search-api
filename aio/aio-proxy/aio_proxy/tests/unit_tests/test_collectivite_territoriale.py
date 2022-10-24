@@ -1,6 +1,6 @@
 import pytest
 from aio_proxy.parsers.collectivite_territoriale import (
-    validate_code_collectivite_territoriale
+    validate_code_collectivite_territoriale,
 )
 from aio_proxy.parsers.bool_fields import validate_bool_field
 
@@ -62,6 +62,6 @@ def test_validate_code_collectivite_territoriale_fail(
     with pytest.raises(
         ValueError,
         match="L'identifiant code_insee d'une collectivité "
-        "territoriale doit contenir au moins 2 caractères."
+        "territoriale doit contenir au moins 2 caractères.",
     ):
         validate_code_collectivite_territoriale(code_collectivite_territoriale)

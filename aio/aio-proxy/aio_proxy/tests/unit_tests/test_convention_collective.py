@@ -2,6 +2,7 @@ import pytest
 from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 from aio_proxy.parsers.bool_fields import validate_bool_field
 
+
 @pytest.mark.parametrize(
     "convention_collective_renseignee, expected",
     [("TRUE", True), ("FALSE", False), (None, None)],

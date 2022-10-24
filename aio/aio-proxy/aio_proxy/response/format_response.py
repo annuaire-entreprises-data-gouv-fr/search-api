@@ -1,9 +1,9 @@
 import os
 
 from aio_proxy.response.helpers import (
+    format_bool_field,
     format_collectivite_territoriale,
     format_dirigeants,
-    format_bool_field,
     get_value,
 )
 from dotenv import load_dotenv

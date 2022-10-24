@@ -25,6 +25,7 @@ def test_dirigeant_filter():
     )
     response = requests.get(url=base_url + path)
     response_json = response.json()
+    print(response_json)
     total_results = response_json["total_results"]
     siren = response_json["results"][0]["siren"]
     assert response.status_code == 200

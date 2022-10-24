@@ -65,7 +65,8 @@ paths:
         dirigeant, identifiant UAI (éducation), identifiant FINESS (sanitaire et social),
         identifiant de convention collective, entreprises reconnues garantes de
         l'environnement (RGE), entrepreneurs du spectacle, collectivités territoriales,
-        noms et prénoms d'élus de collectivités territoriales.
+        noms et prénoms d'élus de collectivités territoriales et les valeurs minimale 
+        et maximale de la date de naissance de l'élu.
 
 
       summary: Recherche textuelle
@@ -160,6 +161,32 @@ paths:
           required: false
           schema:
             type: string
+        - name: nom_personne
+          in: query
+          description: Nom d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          required: false
+          schema:
+            type: string
+        - name: prenoms_personne
+          in: query
+          description: Prenom(s) d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          required: false
+          schema:
+            type: string
+        - name: date_naissance_personne_min
+          in: query
+          description: Valeur minimale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_naissance_personne_max
+          in: query
+          description: Valeur maximale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          required: false
+          schema:
+            type: string
+            format: date
         - name: nom_dirigeant
           in: query
           description: Nom du dirigeant
@@ -186,64 +213,78 @@ paths:
           schema:
             type: string
             format: date
-        - name: is_rge
+        - name: est_rge
           in: query
           description: Entreprises reconnues garantes de l'Environnement (RGE)
           required: false
           schema:
             type: string
             enum:
-             - "yes"
-        - name: is_finess
+             - "true"
+             - "false"
+        - name: est_finess
           in: query
           description: Entreprises ayant un établissement du domaine du sanitaire et social (FINESS)
           required: false
           schema:
             type: string
             enum:
-             - "yes"
-        - name: is_uai
+             - "true"
+             - "false"
+        - name: est_uai
           in: query
           description: Entreprises ayant un établissement UAI (Unité Administrative Immatriculée)
           required: false
           schema:
             type: string
             enum:
-             - "yes"
-        - name: is_colter
+             - "true"
+             - "false"
+        - name: est_collectivite_territoriale
           in: query
           description: Collectivités territoriales
           required: false
           schema:
             type: string
             enum:
-             - "yes"
-        - name: is_entrepreneur_spectacle
+             - "true"
+             - "false"
+        - name: est_entrepreneur_spectacle
           in: query
           description: Entreprises ayant une licence d'entrepreneur du spectacle
           required: false
           schema:
             type: string
             enum:
-             - "yes"
-        - name: idcc
+             - "true"
+             - "false"
+        - name: id_rge
+          in: query
+          description: Identifiant RGE (reconnues garantes de l'Environnement) d'un établissement d'une entreprise
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: id_convention_collective
           in: query
           description: Identifiant de Convention Collective d'un établissement d'une entreprise
           schema:
             type: string
-        - name: finess
+        - name: id_finess
           in: query
           description: Identifiant FINESS d'un établissement d'une entreprise
           schema:
             type: string
-        - name: uai
+        - name: id_uai
           in: query
           description: Identifiant UAI d'un établissement d'une entreprise
           schema:
             type: string
-        - name: colter_code_insee
+        - name: code_collectivite_territoriale
           in: query
-          description: Code INSEE affiliée à une collectivité territoriale (Commune, EPCI, Département, Région)
+          description: Code affiliée à une collectivité territoriale (Commune - code INSEE, EPCI - n° SIREN, Département - Code INSEE + "D", Région - Code INSEE)
           schema:
             type: string
         - name: nom_elu
@@ -258,6 +299,20 @@ paths:
           required: false
           schema:
             type: string
+        - name: date_naissance_elu_min
+          in: query
+          description: Valeur minimale de la date de naissance de l'élu
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: date_naissance_elu_max
+          in: query
+          description: Valeur maximale de la date de naissance de l'élu
+          required: false
+          schema:
+            type: string
+            format: date
         - name: page
           in: query
           description: Le numéro de la page à retourner
@@ -440,43 +495,34 @@ paths:
                             oneOf:
                               - $ref: '#/components/schemas/dirigeant_pp'
                               - $ref: '#/components/schemas/dirigeant_pm'
-                        is_rge:
-                          type: boolean
-                          description: Entreprises RGE
-                          example: true
-                        is_finess:
-                          type: boolean
-                          description: Entreprises ayant un établissement FINESS
-                          example: true
-                        is_uai:
-                          type: boolean
-                          description: Entreprises ayant un établissement UAI
-                          example: true
-                        is_entrepreneur_spectacle:
-                          type: boolean
-                          description: Entreprises ayant une licence d'entrepreneur du spectacle
-                          example: true
-                        is_colter:
-                          type: boolean
-                          description: Collectivités territoriales
-                          example: true
-                        idcc:
-                          type: string
-                          description: Identifiant de convention collective
-                          example: "1501"
-                        finess:
-                          type: string
-                          description: Identifiant FINESS
-                          example: "750046625"
-                        uai:
-                          type: string
-                          description: Identifiant UAI
-                          example: "0060027X"
-                        colter:
-                          type: array
-                          items:
-                            oneOf:
-                              - $ref: '#/components/schemas/colter'
+                        complements:
+                          type: object
+                          properties:
+                            est_rge:
+                              type: boolean
+                              description: Entreprises RGE
+                              example: true
+                            est_entrepreneur_spectacle:
+                              type: boolean
+                              description: Entreprises ayant une licence d'entrepreneur du spectacle
+                              example: true
+                            liste_convention_collective:
+                              type: string
+                              description: Liste des identifiants des conventions collectives des établissements de l'unité légale
+                              example: "1501"
+                            liste_finess:
+                              type: string
+                              description: Liste des identifiants FINESS des établissements de l'unité légale
+                              example: "750046625"
+                            uai:
+                              type: string
+                              description: Liste des identifiant UAI des établissements de l'unité légale
+                              example: "0060027X"
+                            collectivite_territoriale:
+                              type: array
+                              items:
+                                oneOf:
+                                  - $ref: '#/components/schemas/collectivite_territoriale'
                   total_results:
                     type: integer
                   page:
@@ -827,7 +873,7 @@ components:
           qualite:
             type: string
             example: "Commissaire aux comptes titulaire"
-    colter:
+    collectivite_territoriale:
       type: object
       properties:
           code_insee:
@@ -852,17 +898,17 @@ components:
       properties:
           nom:
             type: string
-          prenom:
+          prenoms:
             type: string
-          date_naissance:
+          annee_de_naissance:
             type: string
-            example: "1964-01-01"
+            example: "1964"
           fonction:
             type: string
             example: "Maire"
           sexe:
             type: string
-            example: "M"
+            example: "F"
 servers:
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

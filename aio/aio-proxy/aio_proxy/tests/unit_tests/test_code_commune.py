@@ -13,7 +13,7 @@ def test_validate_code_commune_fail_1(code_commune: str):
         validate_code_commune(code_commune)
 
 
-@pytest.mark.parametrize("code_commune", ["10001", "09343", "AAAAA"])
+@pytest.mark.parametrize("code_commune", ["093BA", "AAAAA"])
 def test_validate_code_commune_fail_2(code_commune: str):
     with pytest.raises(ValueError, match="Code commune non valide."):
         validate_code_commune(code_commune)

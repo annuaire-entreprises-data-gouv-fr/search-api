@@ -1,5 +1,5 @@
-from typing import Optional
 import re
+from typing import Optional
 
 
 def validate_code_commune(code_commune_clean: str) -> Optional[str]:

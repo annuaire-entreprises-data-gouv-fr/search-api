@@ -18,8 +18,8 @@ def test_fetch_company():
 
 def test_dirigeant_filter():
     path = (
-        "search?nom_dirigeant=jouppe&prenoms_dirigeant=xavier "
-        "erwan&date_naissance_dirigeant_min=1970-01-01"
+        "search?nom_dirigeant=jouppe&prenoms_dirigeant=xavier erwan"
+        "&date_naissance_dirigeant_min=1970-01-01"
         "&date_naissance_dirigeant_max"
         "=2000-01-01"
     )
@@ -34,8 +34,8 @@ def test_dirigeant_filter():
 
 def test_personne_filter():
     path = (
-        "search?nom_personne=jouppe&prenoms_personne=xavier "
-        "erwan&date_naissance_personne_min=1970-01-01"
+        "search?nom_personne=jouppe&prenoms_personne=xavier erwan"
+        "&date_naissance_personne_min=1970-01-01"
         "&date_naissance_personne_max"
         "=2000-01-01"
     )

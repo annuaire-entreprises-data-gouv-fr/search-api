@@ -10,16 +10,17 @@ from aio_proxy.parsers.uai import validate_id_uai
 def test_validate_est_uai(est_uai, expected):
     assert validate_est_field("est_uai", est_uai) == expected
 
+
 @pytest.mark.parametrize("est_uai", ["NON", "OUI", "NO", "YES"])
 def test_validate_est_uai_fail(
     est_uai: str,
 ):
     with pytest.raises(
         ValueError,
-        match="est_uai doit prendre la valeur 'true' "
-        "or 'false' !",
+        match="est_uai doit prendre la valeur 'true' or 'false' !",
     ):
         validate_est_field("est_uai", est_uai)
+
 
 @pytest.mark.parametrize(
     "id_uai, expected",

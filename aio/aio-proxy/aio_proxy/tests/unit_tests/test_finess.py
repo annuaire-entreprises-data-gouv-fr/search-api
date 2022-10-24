@@ -10,16 +10,17 @@ from aio_proxy.parsers.finess import validate_id_finess
 def test_validate_est_finess(est_finess, expected):
     assert validate_est_field("est_finess", est_finess) == expected
 
+
 @pytest.mark.parametrize("est_finess", ["NON", "OUI", "NO", "YES"])
 def test_validate_est_finess_fail(
     est_finess: str,
 ):
     with pytest.raises(
         ValueError,
-        match="est_finess doit prendre la valeur 'true' "
-        "or 'false' !",
+        match="est_finess doit prendre la valeur 'true' or 'false' !",
     ):
         validate_est_field("est_finess", est_finess)
+
 
 @pytest.mark.parametrize(
     "id_finess, expected",

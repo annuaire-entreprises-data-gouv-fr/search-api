@@ -1,8 +1,9 @@
 import os
 
 from aio_proxy.response.helpers import (
+    format_collectivite_territoriale,
     format_dirigeants,
-    format_elus,
+    format_est_field,
     get_value,
 )
 from dotenv import load_dotenv
@@ -68,19 +69,21 @@ def format_response(results):
                 "economie_sociale_solidaire_unite_legale"
             ),
             "complements": {
-                "collectivite_territoriale": {
-                    "code": get_field("colter_code"),
-                    "code_insee": get_field("colter_code_insee"),
-                    "elus": format_elus(
-                        get_field("colter_elus"),
-                    ),
-                    "niveau": get_field("colter_niveau"),
-                },
-                "est_entrepreneur_spectacle": get_field("is_entrepreneur_spectacle"),
-                "liste_rge": get_field("liste_rge"),
-                "liste_finess": get_field("liste_finess"),
-                "liste_convention_collective": get_field("liste_idcc"),
-                "liste_uai": get_field("liste_uai"),
+                "collectivite_territoriale": format_collectivite_territoriale(
+                    get_field("colter_code"),
+                    get_field("colter_code_insee"),
+                    get_field("colter_elus"),
+                    get_field("colter_niveau"),
+                ),
+                "convention_collective_renseignee": format_est_field(
+                    get_field("liste_idcc"),
+                ),
+                "est_entrepreneur_spectacle": format_est_field(
+                    get_field("is_entrepreneur_spectacle")
+                ),
+                "est_finess": format_est_field(get_field("liste_finess")),
+                "est_rge": format_est_field(get_field("liste_rge")),
+                "est_uai": format_est_field(get_field("liste_uai")),
             },
             "nom_complet": get_field("nom_complet"),
             "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),

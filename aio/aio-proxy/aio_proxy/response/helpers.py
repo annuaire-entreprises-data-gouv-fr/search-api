@@ -15,10 +15,7 @@ def get_value(dict, key, default=None):
 
 
 def format_collectivite_territoriale(
-    colter_code=None,
-    colter_code_insee=None,
-    colter_elus=None,
-    colter_niveau=None
+    colter_code=None, colter_code_insee=None, colter_elus=None, colter_niveau=None
 ):
     if colter_code is None:
         return None

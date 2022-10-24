@@ -22,4 +22,5 @@ def parse_parameter(request, param: str, default_value=None):
     param = request.rel_url.query.get(param, default_value)
     if param is None:
         return None
+    param = param.replace("-", " ")
     return param

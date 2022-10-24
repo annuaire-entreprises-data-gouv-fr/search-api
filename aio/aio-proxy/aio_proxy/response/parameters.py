@@ -2,21 +2,24 @@ from typing import Dict, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.code_postal import validate_code_postal
-from aio_proxy.parsers.colter_code_insee import validate_colter_code_insee
+from aio_proxy.parsers.collectivite_territoriale import (
+    validate_code_collectivite_territoriale
+)
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.entrepreneur_individuel import (
     validate_is_entrepreneur_individuel,
 )
-from aio_proxy.parsers.exist_fields import validate_is_field
-from aio_proxy.parsers.finess import validate_finess
-from aio_proxy.parsers.idcc import validate_idcc
+from aio_proxy.parsers.exist_fields import validate_est_field
+from aio_proxy.parsers.finess import validate_id_finess
+from aio_proxy.parsers.convention_collective import validate_id_convention_collective
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page
 from aio_proxy.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.parsers.radius import parse_and_validate_radius
+from aio_proxy.parsers.rge import validate_id_rge
 from aio_proxy.parsers.section_activite_principale import (
     validate_section_activite_principale,
 )
@@ -26,7 +29,7 @@ from aio_proxy.parsers.terms import (
     parse_and_validate_terms,
 )
 from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
-from aio_proxy.parsers.uai import validate_uai
+from aio_proxy.parsers.uai import validate_id_uai
 
 
 def extract_text_parameters(
@@ -71,23 +74,56 @@ def extract_text_parameters(
     max_date_naiss_dirigeant = parse_and_validate_date(
         request, param="date_naissance_dirigeant_max"
     )
-    is_finess = validate_is_field(request, param="is_finess")
-    is_uai = validate_is_field(request, param="is_uai")
-    is_colter = validate_is_field(request, param="is_colter")
-    is_entrepreneur_spectacle = validate_is_field(
-        request, param="is_entrepreneur_spectacle"
+    est_finess = validate_est_field(
+        "est_finess",
+        clean_parameter(request, param="est_finess"),
     )
-    is_rge = validate_is_field(request, param="is_rge")
-    idcc = validate_idcc(clean_parameter(request, param="idcc"))
-    finess = validate_finess(clean_parameter(request, param="finess"))
-    uai = validate_uai(clean_parameter(request, param="uai"))
-    colter_code_insee = validate_colter_code_insee(
-        clean_parameter(request, param="colter_code_insee")
+    est_uai = validate_est_field(
+        "est_uai",
+        clean_parameter(request, param="est_uai"),
     )
+    est_collectivite_territoriale = validate_est_field(
+        "est_collectivite_territoriale",
+        clean_parameter(request, param="est_collectivite_territoriale"),
+    )
+    est_entrepreneur_spectacle = validate_est_field(
+        "est_entrepreneur_spectacle",
+        clean_parameter(request, param="est_entrepreneur_spectacle"),
+    )
+    est_rge = validate_est_field(
+        "est_rge",
+        clean_parameter(request, param="est_rge"),
+    )
+    id_convention_collective = validate_id_convention_collective(
+        clean_parameter(request, param="id_convention_collective")
+    )
+    id_finess = validate_id_finess(clean_parameter(request, param="id_finess"))
+    id_uai = validate_id_uai(clean_parameter(request, param="id_uai"))
+    code_collectivite_territoriale = validate_code_collectivite_territoriale(
+        clean_parameter(request, param="code_collectivite_territoriale")
+    )
+    id_rge = validate_id_rge(clean_parameter(request, param="id_rge"))
     nom_elu = parse_parameter(request, param="nom_elu")
     prenoms_elu = parse_parameter(request, param="prenoms_elu")
+    min_date_naiss_elu = parse_and_validate_date(
+        request, param="date_naissance_elu_min"
+    )
+    max_date_naiss_elu = parse_and_validate_date(
+        request, param="date_naissance_elu_max"
+    )
+
+    nom_personne = parse_parameter(request, param="nom_personne")
+    prenoms_personne = parse_parameter(request, param="prenoms_personne")
+    min_date_naiss_personne = parse_and_validate_date(
+        request, param="date_naissance_personne_min"
+    )
+    max_date_naiss_personne = parse_and_validate_date(
+        request, param="date_naissance_personne_max"
+    )
+
 
     validate_date_range(min_date_naiss_dirigeant, max_date_naiss_dirigeant)
+    validate_date_range(min_date_naiss_elu, max_date_naiss_elu)
 
     parameters = {
         "terms": terms,
@@ -101,17 +137,24 @@ def extract_text_parameters(
         "prenoms_dirigeant": prenoms_dirigeant,
         "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
         "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
-        "is_uai": is_uai,
-        "is_finess": is_finess,
-        "is_colter": is_colter,
-        "is_entrepreneur_spectacle": is_entrepreneur_spectacle,
-        "is_rge": is_rge,
-        "idcc": idcc,
-        "finess": finess,
-        "uai": uai,
-        "colter_code_insee": colter_code_insee,
+        "est_uai": est_uai,
+        "est_finess": est_finess,
+        "est_collectivite_territoriale": est_collectivite_territoriale,
+        "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
+        "est_rge": est_rge,
+        "id_convention_collective": id_convention_collective,
+        "id_finess": id_finess,
+        "id_uai": id_uai,
+        "id_rge": id_rge,
+        "code_collectivite_territoriale": code_collectivite_territoriale,
         "nom_elu": nom_elu,
         "prenoms_elu": prenoms_elu,
+        "min_date_naiss_elu": min_date_naiss_elu,
+        "max_date_naiss_elu": max_date_naiss_elu,
+        "nom_personne": nom_personne,
+        "prenoms_personne": prenoms_personne,
+        "min_date_naiss_personne": min_date_naiss_personne,
+        "max_date_naiss_personne": max_date_naiss_personne,
     }
 
     # Check if at least one param has been provided in the request

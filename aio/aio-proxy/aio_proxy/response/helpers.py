@@ -46,3 +46,24 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
             }
             dirigeants.append(dirigeant)
     return dirigeants
+
+
+def format_elus(elus=None):
+    format_elus = []
+    if elus:
+        for elu in elus:
+            annee_de_naissance = (
+                get_value(elu, "date_naissance")[:4]
+                if get_value(elu, "date_naissance")
+                else None
+            )
+
+            format_elu = {
+                "nom": get_value(elu, "nom"),
+                "prenoms": get_value(elu, "prenom"),
+                "annee_de_naissance": annee_de_naissance,
+                "fonction": get_value(elu, "fonction"),
+                "sexe": get_value(elu, "sexe"),
+            }
+            format_elus.append(format_elu)
+    return format_elus

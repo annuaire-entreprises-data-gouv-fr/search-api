@@ -32,6 +32,22 @@ def test_dirigeant_filter():
     assert siren == "880878145"
 
 
+def test_personne_filter():
+    path = (
+        "search?nom_personne=jouppe&prenoms_personne=xavier "
+        "erwan&date_naissance_personne_min=1970-01-01"
+        "&date_naissance_personne_max"
+        "=2000-01-01"
+    )
+    response = requests.get(url=base_url + path)
+    response_json = response.json()
+    total_results = response_json["total_results"]
+    siren = response_json["results"][0]["siren"]
+    assert response.status_code == 200
+    assert total_results == 1
+    assert siren == "880878145"
+
+
 def test_format_date_naissance():
     path = "search?date_naissance_dirigeant_min=13/09/2001"
     response = requests.get(url=base_url + path)

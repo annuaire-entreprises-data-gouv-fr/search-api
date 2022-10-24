@@ -46,12 +46,23 @@ def is_siren(query_string: str) -> bool:
     return False
 
 
-def sort_and_execute_search(search, offset: int, page_size: int) -> Tuple:
+def sort_and_execute_search(
+    search,
+    offset: int,
+    page_size: int,
+    is_search_fields,
+) -> Tuple:
     search = search.extra(track_scores=True)
-    search = search.sort(
-        {"_score": {"order": "desc"}},
-        {"etat_administratif_siege": {"order": "asc"}},
-    )
+    # Sorting is very heavy on performance if there is no
+    # search terms (only filters). As there is no search terms, we can 
+    # exclude this sorting because score is the same for all results 
+    # documents. Beware, nom and prenoms are search fields.
+    if is_search_fields:
+        search = search.sort(
+            {"_score": {"order": "desc"}},
+            {"etat_administratif_siege": {"order": "asc"}},
+        )
+
     search = search[offset : (offset + page_size)]
     results = search.execute()
     total_results = results.hits.total.value
@@ -82,3 +93,28 @@ def hide_fields(search_result: list) -> list:
         for unite in search_result
     ]
     return results
+
+
+def get_es_field(param_name):
+    if param_name == "est_finess":
+        return "liste_finess"
+    elif param_name == "id_finess":
+        return "liste_finess"
+    elif param_name == "est_uai":
+        return "liste_uai"
+    elif param_name == "id_uai":
+        return "liste_uai"
+    elif param_name == "est_collectivite_territoriale":
+        return "colter_code"
+    elif param_name == "code_collectivite_territoriale":
+        return "colter_code"
+    elif param_name == "est_entrepreneur_spectacle":
+        return "is_entrepreneur_spectacle"
+    elif param_name == "est_rge":
+        return "liste_rge"
+    elif param_name == "id_rge":
+        return "liste_rge"
+    elif param_name == "id_convention_collective":
+        return "liste_idcc"
+    else:
+        return param_name

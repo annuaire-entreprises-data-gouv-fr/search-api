@@ -1,5 +1,4 @@
-from aio_proxy.search.dirigeant import search_dirigeant
-from aio_proxy.search.elu import search_elus
+from aio_proxy.search.person import search_person
 from aio_proxy.search.filters import (
     filter_by_siren,
     filter_search,
@@ -26,47 +25,111 @@ def search_text(index, offset: int, page_size: int, **params):
         s,
         filters_to_ignore=[
             "terms",
-            "min_date_naiss_dirigeant",
-            "max_date_naiss_dirigeant",
+            "est_finess",
+            "est_uai",
+            "est_collectivite_territoriale",
+            "est_entrepreneur_spectacle",
+            "est_rge",
+            "id_convention_collective",
+            "id_uai",
+            "id_finess",
+            "id_rge",
             "nom_dirigeant",
             "prenoms_dirigeant",
-            "is_finess",
-            "is_uai",
-            "is_colter",
-            "is_entrepreneur_spectacle",
-            "is_rge",
-            "idcc",
-            "uai",
-            "finess",
+            "min_date_naiss_dirigeant",
+            "max_date_naiss_dirigeant",
             "nom_elu",
             "prenoms_elu",
+            "min_date_naiss_elu",
+            "max_date_naiss_elu",
+            "nom_personne",
+            "prenoms_personne",
+            "min_date_naiss_personne",
+            "max_date_naiss_personne",
         ],
         **params,
     )
     s = filter_search_is_exist(
         s,
         filters_to_process=[
-            "is_finess",
-            "is_uai",
-            "is_colter",
-            "is_entrepreneur_spectacle",
-            "is_rge",
+            "est_finess",
+            "est_uai",
+            "est_collectivite_territoriale",
+            "est_entrepreneur_spectacle",
+            "est_rge",
         ],
         **params,
     )
     s = filter_search_match_array(
         s,
         filters_to_process=[
-            "idcc",
-            "uai",
-            "finess",
+            "id_convention_collective",
+            "id_uai",
+            "id_finess",
+            "id_rge",
         ],
         **params,
     )
     # Search dirigeants
-    s = search_dirigeant(s, **params)
+    s = search_person(
+        s,
+        "nom_dirigeant",
+        "prenoms_dirigeant",
+        "min_date_naiss_dirigeant",
+        "max_date_naiss_dirigeant",
+        [
+            {
+                "nested_object": "dirigeants_pp",
+                "match_nom": "nom",
+                "match_prenom": "prenoms",
+                "match_date": "date_naissance",
+            },
+        ],
+        **params,
+    )
     # Search élus
     s = search_elus(s, **params)
+    s = search_person(
+        s,
+        "nom_elu",
+        "prenoms_elu",
+        "min_date_naiss_elu",
+        "max_date_naiss_elu",
+        [
+            {
+                "nested_object": "colter_elus",
+                "match_nom": "nom",
+                "match_prenom": "prenom",
+                "match_date": "date_naissance",
+            },
+        ],
+        **params,
+    )
+
+    # Search élus and dirigeants together
+    s = search_person(
+        s,
+        "nom_personne",
+        "prenoms_personne",
+        "min_date_naiss_personne",
+        "max_date_naiss_personne",
+        [
+            {
+                "nested_object": "dirigeants_pp",
+                "match_nom": "nom",
+                "match_prenom": "prenoms",
+                "match_date": "date_naissance",
+            },
+            {
+                "nested_object": "colter_elus",
+                "match_nom": "nom",
+                "match_prenom": "prenom",
+                "match_date": "date_naissance",
+            },
+        ],
+        **params,
+    )
+
     # Search text
     if query_terms:
         s = s.query(
@@ -203,7 +266,25 @@ def search_text(index, offset: int, page_size: int, **params):
                 ),
             ],
         )
-    return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+    is_search_fields = False
+    for item in [
+        "terms",
+        "nom_personne",
+        "nom_dirigeant",
+        "nom_elu",
+        "prenoms_personne",
+        "prenoms_dirigeant",
+        "prenoms_elu"
+    ]:
+        if params[item]:
+            is_search_fields = True
+
+    return sort_and_execute_search(
+        search=s,
+        offset=offset,
+        page_size=page_size,
+        is_search_fields=is_search_fields,
+    )
 
 
 def search_geo(index, offset: int, page_size: int, **params):

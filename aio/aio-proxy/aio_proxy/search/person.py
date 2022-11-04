@@ -32,7 +32,10 @@ def search_person(
             boost_queries.append(
                 {
                     "match_phrase": {
-                        p["nested_object"] + "." + p["match_nom"] + ".keyword": {
+                        p["nested_object"]
+                        + "."
+                        + p["match_nom"]
+                        + ".keyword": {
                             "query": nom_human,
                             "boost": 8,
                         }
@@ -51,7 +54,10 @@ def search_person(
             boost_queries.append(
                 {
                     "match_phrase": {
-                        p["nested_object"] + "." + p["match_prenom"] + ".keyword": {
+                        p["nested_object"]
+                        + "."
+                        + p["match_prenom"]
+                        + ".keyword": {
                             "query": prenoms_human,
                             "boost": 8,
                         }
@@ -66,9 +72,9 @@ def search_person(
                 {
                     "range": {
                         **{
-                            p["nested_object"] + "." + p["match_date"]: {
-                                "gte": min_date_naiss_human
-                            }
+                            p["nested_object"]
+                            + "."
+                            + p["match_date"]: {"gte": min_date_naiss_human}
                         }
                     }
                 }
@@ -80,9 +86,9 @@ def search_person(
                 {
                     "range": {
                         **{
-                            p["nested_object"] + "." + p["match_date"]: {
-                                "lte": max_date_naiss_human
-                            }
+                            p["nested_object"]
+                            + "."
+                            + p["match_date"]: {"lte": max_date_naiss_human}
                         }
                     }
                 }
@@ -98,11 +104,13 @@ def search_person(
         # score to exact
         # matches
         if humans_filters or boost_queries:
-            search_options.append(query.Q(
-                "nested",
-                path=p["nested_object"],
-                query=query.Bool(must=humans_filters, should=boost_queries),
-            ))
-    
+            search_options.append(
+                query.Q(
+                    "nested",
+                    path=p["nested_object"],
+                    query=query.Bool(must=humans_filters, should=boost_queries),
+                )
+            )
+
     search = search.query("bool", should=search_options)
     return search

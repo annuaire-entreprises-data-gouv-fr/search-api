@@ -58,7 +58,7 @@ paths:
         recherche textuelle effectuée sur la dénomination ou l'adresse.
 
 
-        **Paramètres d'appel :** dénomination de l'entreprise, code postal, activité 
+        **Paramètres d'appel :** dénomination de l'entreprise, code postal, code commune, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
         individuel, tranche d'effectif salarié, nom de dirigeant, prénom(s) de 
         dirigeant et les valeurs minimale et maximale de la date de naissance de 
@@ -90,6 +90,12 @@ paths:
           schema:
             type: string
             pattern: '\b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b'
+        - name: code_commune
+          in: query
+          description: <a href=https://www.insee.fr/fr/information/2114819>Code commune (INSEE) en 5 caractères</a>
+          required: false
+          schema:
+            type: string
         - name: activite_principale
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>

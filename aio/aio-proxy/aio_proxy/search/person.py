@@ -48,8 +48,8 @@ def search_person(
         if prenoms_human:
             # Same logic as "nom" is used for "prenoms"
             for prenom in prenoms_human.split(" "):
-                humans_filters.append({
-                    "match": {p["nested_object"] + "." + p["match_prenom"]: prenom}}
+                humans_filters.append(
+                    {"match": {p["nested_object"] + "." + p["match_prenom"]: prenom}}
                 )
             boost_queries.append(
                 {

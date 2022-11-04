@@ -2,7 +2,7 @@ from typing import Optional
 
 
 def validate_code_collectivite_territoriale(
-    code_collectivite_territoriale: str
+    code_collectivite_territoriale: str,
 ) -> Optional[str]:
     """Check the validity of code_collectivite_territoriale
 

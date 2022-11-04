@@ -1,9 +1,7 @@
 from typing import Optional
 
 
-def validate_id_convention_collective(
-    id_convention_collective: str
-) -> Optional[str]:
+def validate_id_convention_collective(id_convention_collective: str) -> Optional[str]:
     """Check the validity of id convention collective.
 
     Args:

@@ -21,7 +21,9 @@ def search_person(
             # match queries returns any document containing the search item,
             # even if it contains another item
             for nom in nom_human.split(" "):
-                humans_filters.append({"match": {p["nested_object"] + "." + p["match_nom"]: nom}})
+                humans_filters.append(
+                    {"match": {p["nested_object"] + "." + p["match_nom"]: nom}}
+                )
             # match_phrase on the name `keyword` makes sure to boost the documents
             # with the exact match
             # Example : search query "jean", the `match` will give "jean pierre" and
@@ -86,13 +88,14 @@ def search_person(
                 }
             )
 
-        # Using a query (must and should) instead of a filter because filters do not give
-        # a score which in turn does not boost certain documents over others.
+        # Using a query (must and should) instead of a filter because filters do not
+        # give a score which in turn does not boost certain documents over others.
         # The `must` parameter removes documents which do not contain the query terms,
         # whereas the `should` clause gives higher scores to those documents without
         # removing the other documents.
-        # Consequently, we use the `must` to find only the documents containing the query
-        # terms, and use the `should` clause, with keyword, to give a higher score to exact
+        # Consequently, we use the `must` to find only the documents containing the
+        # query terms, and use the `should` clause, with keyword, to give a higher
+        # score to exact
         # matches
         if humans_filters or boost_queries:
             search_options.append(query.Q(

@@ -25,9 +25,9 @@ def filter_search_is_exist(search, filters_to_process: list, **params):
             if param_value:
                 search = search.filter("exists", field=get_es_field(param_name))
             else:
-                search = search.filter("bool", must_not=[
-                    Q("exists",  field=get_es_field(param_name))
-                ])
+                search = search.filter(
+                    "bool", must_not=[Q("exists", field=get_es_field(param_name))]
+                )
     return search
 
 

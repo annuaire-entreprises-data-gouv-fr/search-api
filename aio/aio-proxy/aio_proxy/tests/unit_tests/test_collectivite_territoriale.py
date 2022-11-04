@@ -1,8 +1,8 @@
 import pytest
+from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.collectivite_territoriale import (
     validate_code_collectivite_territoriale,
 )
-from aio_proxy.parsers.bool_fields import validate_bool_field
 
 
 @pytest.mark.parametrize(

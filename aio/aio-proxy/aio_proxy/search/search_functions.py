@@ -90,7 +90,6 @@ def search_text(index, offset: int, page_size: int, **params):
         **params,
     )
     # Search élus
-    s = search_elus(s, **params)
     s = search_person(
         s,
         "nom_elu",

@@ -18,7 +18,8 @@ def search_text(index, offset: int, page_size: int, **params):
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siren(s, query_terms_clean)
-        return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+        return sort_and_execute_search(search=s, offset=offset, page_size=page_size,
+                                       is_search_fields=False)
 
     # Use filters to reduce search results
     s = filter_search(
@@ -297,4 +298,5 @@ def search_geo(index, offset: int, page_size: int, **params):
         distance=f'{params["radius"]}km',
         coordonnees={"lat": params["lat"], "lon": params["lon"]},
     )
-    return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+    return sort_and_execute_search(search=s, offset=offset, page_size=page_size,
+                                   is_search_fields=True)

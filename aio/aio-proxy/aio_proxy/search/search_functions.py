@@ -19,7 +19,7 @@ def search_text(index, offset: int, page_size: int, **params):
         query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siren(s, query_terms_clean)
         return sort_and_execute_search(
-            search=s, offset=offset, page_size=page_size,is_search_fields=False
+            search=s, offset=offset, page_size=page_size, is_search_fields=False
         )
 
     # Use filters to reduce search results
@@ -300,5 +300,5 @@ def search_geo(index, offset: int, page_size: int, **params):
         coordonnees={"lat": params["lat"], "lon": params["lon"]},
     )
     return sort_and_execute_search(
-        search=s, offset=offset, page_size=page_size,is_search_fields=True
+        search=s, offset=offset, page_size=page_size, is_search_fields=True
     )

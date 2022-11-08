@@ -50,13 +50,13 @@ def test_accept_three_caracters():
     assert response.status_code == 200
 
 
-def test_too_short_query():
+def test_query_too_short():
     path = "search?q=ab"
     response = requests.get(url=base_url + path)
     assert response.status_code == 400
 
 
-def test_short_query_but_filter():
+def test_short_query_with_filter():
     path = "search?q=ab&code_postal=75015"
     response = requests.get(url=base_url + path)
     assert response.status_code == 200

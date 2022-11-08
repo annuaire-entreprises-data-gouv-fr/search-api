@@ -26,7 +26,7 @@ from aio_proxy.parsers.section_activite_principale import (
 )
 from aio_proxy.parsers.string_parser import clean_parameter, parse_parameter
 from aio_proxy.parsers.terms import (
-    check_no_param_and_length_terms,
+    check_short_terms_and_no_param,
     parse_and_validate_terms,
 )
 from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
@@ -139,7 +139,9 @@ def extract_text_parameters(
     # than parse the request to check
     check_empty_params(parameters)
 
-    check_no_param_and_length_terms(parameters)
+    # Prevent performance issues by refusing query terms less than 3 characters
+    # unless another param is provided
+    check_short_terms_and_no_param(parameters)
 
     return parameters, page, per_page
 

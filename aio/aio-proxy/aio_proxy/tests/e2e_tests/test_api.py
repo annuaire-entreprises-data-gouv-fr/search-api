@@ -44,7 +44,7 @@ def test_error_query():
     assert response.status_code == 400
 
 
-def test_accept_three_caracters():
+def test_accept_three_characters():
     path = "search?q=abc"
     response = requests.get(url=base_url + path)
     assert response.status_code == 200

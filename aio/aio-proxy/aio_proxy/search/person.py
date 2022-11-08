@@ -7,22 +7,23 @@ def search_person(
     param_prenom,
     param_date_min,
     param_date_max,
-    properties,
+    list_persons,
     **params,
 ):
     search_options = []
-    for p in properties:
+    for person in list_persons:
 
-        humans_filters = []
+        person_filters = []
         boost_queries = []
         # Nom
-        nom_human = params.get(param_nom, None)
-        if nom_human:
+        nom_person = params.get(param_nom, None)
+        if nom_person:
             # match queries returns any document containing the search item,
             # even if it contains another item
-            for nom in nom_human.split(" "):
-                humans_filters.append(
-                    {"match": {p["nested_object"] + "." + p["match_nom"]: nom}}
+            for nom in nom_person.split(" "):
+                person_filters.append({
+                    "match": {person["type_person"] + "." + person["match_nom"]: nom}
+                }
                 )
             # match_phrase on the name `keyword` makes sure to boost the documents
             # with the exact match
@@ -32,11 +33,11 @@ def search_person(
             boost_queries.append(
                 {
                     "match_phrase": {
-                        p["nested_object"]
+                        person["type_person"]
                         + "."
-                        + p["match_nom"]
+                        + person["match_nom"]
                         + ".keyword": {
-                            "query": nom_human,
+                            "query": nom_person,
                             "boost": 8,
                         }
                     }
@@ -44,21 +45,23 @@ def search_person(
             )
 
         # Prénoms
-        prenoms_human = params.get(param_prenom, None)
-        if prenoms_human:
+        prenoms_person = params.get(param_prenom, None)
+        if prenoms_person:
             # Same logic as "nom" is used for "prenoms"
-            for prenom in prenoms_human.split(" "):
-                humans_filters.append(
-                    {"match": {p["nested_object"] + "." + p["match_prenom"]: prenom}}
+            for prenom in prenoms_person.split(" "):
+                person_filters.append({
+                    "match": {
+                        person["type_person"] + "." + person["match_prenom"]: prenom}
+                }
                 )
             boost_queries.append(
                 {
                     "match_phrase": {
-                        p["nested_object"]
+                        person["type_person"]
                         + "."
-                        + p["match_prenom"]
+                        + person["match_prenom"]
                         + ".keyword": {
-                            "query": prenoms_human,
+                            "query": prenoms_person,
                             "boost": 8,
                         }
                     }
@@ -66,29 +69,29 @@ def search_person(
             )
 
         # Date de naissance
-        min_date_naiss_human = params.get(param_date_min, None)
-        if min_date_naiss_human:
-            humans_filters.append(
+        min_date_naiss_person = params.get(param_date_min, None)
+        if min_date_naiss_person:
+            person_filters.append(
                 {
                     "range": {
                         **{
-                            p["nested_object"]
+                            person["type_person"]
                             + "."
-                            + p["match_date"]: {"gte": min_date_naiss_human}
+                            + person["match_date"]: {"gte": min_date_naiss_person}
                         }
                     }
                 }
             )
 
-        max_date_naiss_human = params.get(param_date_max, None)
-        if max_date_naiss_human:
-            humans_filters.append(
+        max_date_naiss_person = params.get(param_date_max, None)
+        if max_date_naiss_person:
+            person_filters.append(
                 {
                     "range": {
                         **{
-                            p["nested_object"]
+                            person["type_person"]
                             + "."
-                            + p["match_date"]: {"lte": max_date_naiss_human}
+                            + person["match_date"]: {"lte": max_date_naiss_person}
                         }
                     }
                 }
@@ -103,12 +106,12 @@ def search_person(
         # query terms, and use the `should` clause, with keyword, to give a higher
         # score to exact
         # matches
-        if humans_filters or boost_queries:
+        if person_filters or boost_queries:
             search_options.append(
                 query.Q(
                     "nested",
-                    path=p["nested_object"],
-                    query=query.Bool(must=humans_filters, should=boost_queries),
+                    path=person["type_person"],
+                    query=query.Bool(must=person_filters, should=boost_queries),
                 )
             )
 

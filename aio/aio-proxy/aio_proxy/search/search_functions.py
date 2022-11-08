@@ -1,8 +1,8 @@
 from aio_proxy.search.filters import (
     filter_by_siren,
     filter_search,
-    filter_search_is_exist,
-    filter_search_match_array,
+    filter_search_by_bool_variables,
+    filter_search_by_matching_ids,
 )
 from aio_proxy.search.helpers import is_siren, sort_and_execute_search
 from aio_proxy.search.person import search_person
@@ -44,7 +44,9 @@ def search_text(index, offset: int, page_size: int, **params):
         ],
         **params,
     )
-    s = filter_search_is_exist(
+
+    # Boolean filters
+    s = filter_search_by_bool_variables(
         s,
         filters_to_process=[
             "convention_collective_renseignee",
@@ -56,7 +58,9 @@ def search_text(index, offset: int, page_size: int, **params):
         ],
         **params,
     )
-    s = filter_search_match_array(
+
+    # Match ids
+    s = filter_search_by_matching_ids(
         s,
         filters_to_process=[
             "id_convention_collective",
@@ -76,13 +80,13 @@ def search_text(index, offset: int, page_size: int, **params):
         "max_date_naiss_personne",
         [
             {
-                "nested_object": "dirigeants_pp",
+                "type_person": "dirigeants_pp",
                 "match_nom": "nom",
                 "match_prenom": "prenoms",
                 "match_date": "date_naissance",
             },
             {
-                "nested_object": "colter_elus",
+                "type_person": "colter_elus",
                 "match_nom": "nom",
                 "match_prenom": "prenom",
                 "match_date": "date_naissance",

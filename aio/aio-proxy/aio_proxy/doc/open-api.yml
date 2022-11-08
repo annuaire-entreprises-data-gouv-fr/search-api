@@ -60,15 +60,12 @@ paths:
 
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, code commune, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
-        individuel, tranche d'effectif salarié, nom de dirigeant, prénom(s) de 
-        dirigeant et les valeurs minimale et maximale de la date de naissance de 
-        dirigeant, identifiant UAI (éducation), identifiant FINESS (sanitaire et social),
+        individuel, tranche d'effectif salarié, identifiant UAI (éducation), 
+        identifiant FINESS (sanitaire et social),
         identifiant de convention collective, identifiant RGE (reconnues garantes de
-        l'environnement), entrepreneurs du spectacle, collectivités territoriales,
-        noms et prénoms d'élus de collectivités territoriales et les valeurs minimale 
-        et maximale de la date de naissance de l'élu, noms et prénoms de personnes
-        physiques (élus ou dirigeants) et les valeurs minimale et maximale de la 
-        date de naissance.
+        l'environnement), entrepreneurs du spectacle, collectivités territoriales et
+        noms et prénoms de personnes physiques (élus ou dirigeants) et les valeurs 
+        minimale et maximale de la date de naissance.
 
 
       summary: Recherche textuelle
@@ -169,54 +166,28 @@ paths:
           required: false
           schema:
             type: string
-        - name: nom_personne
+        - name: nom
           in: query
           description: Nom d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
-        - name: prenoms_personne
+        - name: prenoms
           in: query
           description: Prenom(s) d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
-        - name: date_naissance_personne_min
+        - name: date_naissance_min
           in: query
           description: Valeur minimale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
             format: date
-        - name: date_naissance_personne_max
+        - name: date_naissance_max
           in: query
           description: Valeur maximale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
-          required: false
-          schema:
-            type: string
-            format: date
-        - name: nom_dirigeant
-          in: query
-          description: Nom du dirigeant
-          required: false
-          schema:
-            type: string
-        - name: prenoms_dirigeant
-          in: query
-          description: Prenom(s) du dirigeant
-          required: false
-          schema:
-            type: string
-        - name: date_naissance_dirigeant_min
-          in: query
-          description: Valeur minimale de la date de naissance du dirigeant
-          required: false
-          schema:
-            type: string
-            format: date
-        - name: date_naissance_dirigeant_max
-          in: query
-          description: Valeur maximale de la date de naissance du dirigeant
           required: false
           schema:
             type: string
@@ -304,32 +275,6 @@ paths:
           description: Code affiliée à une collectivité territoriale (Commune - code INSEE, EPCI - n° SIREN, Département - Code INSEE + "D", Région - Code INSEE)
           schema:
             type: string
-        - name: nom_elu
-          in: query
-          description: Nom d'un élu d'une collectivité territoriale
-          required: false
-          schema:
-            type: string
-        - name: prenoms_elu
-          in: query
-          description: Prenom(s) d'un élu d'une collectivité territoriale
-          required: false
-          schema:
-            type: string
-        - name: date_naissance_elu_min
-          in: query
-          description: Valeur minimale de la date de naissance de l'élu
-          required: false
-          schema:
-            type: string
-            format: date
-        - name: date_naissance_elu_max
-          in: query
-          description: Valeur maximale de la date de naissance de l'élu
-          required: false
-          schema:
-            type: string
-            format: date
         - name: page
           in: query
           description: Le numéro de la page à retourner

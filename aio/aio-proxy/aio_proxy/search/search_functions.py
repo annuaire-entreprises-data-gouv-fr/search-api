@@ -74,42 +74,8 @@ def search_text(index, offset: int, page_size: int, **params):
         ],
         **params,
     )
-    # Search dirigeants
-    s = search_person(
-        s,
-        "nom_dirigeant",
-        "prenoms_dirigeant",
-        "min_date_naiss_dirigeant",
-        "max_date_naiss_dirigeant",
-        [
-            {
-                "nested_object": "dirigeants_pp",
-                "match_nom": "nom",
-                "match_prenom": "prenoms",
-                "match_date": "date_naissance",
-            },
-        ],
-        **params,
-    )
-    # Search élus
-    s = search_person(
-        s,
-        "nom_elu",
-        "prenoms_elu",
-        "min_date_naiss_elu",
-        "max_date_naiss_elu",
-        [
-            {
-                "nested_object": "colter_elus",
-                "match_nom": "nom",
-                "match_prenom": "prenom",
-                "match_date": "date_naissance",
-            },
-        ],
-        **params,
-    )
 
-    # Search élus and dirigeants together
+    # Search both élus and dirigeants
     s = search_person(
         s,
         "nom_personne",

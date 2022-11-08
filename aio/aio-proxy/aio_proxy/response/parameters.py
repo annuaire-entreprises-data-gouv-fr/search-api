@@ -68,14 +68,6 @@ def extract_text_parameters(
     tranche_effectif_salarie = validate_tranche_effectif_salarie(
         clean_parameter(request, param="tranche_effectif_salarie")
     )
-    nom_dirigeant = parse_parameter(request, param="nom_dirigeant")
-    prenoms_dirigeant = parse_parameter(request, param="prenoms_dirigeant")
-    min_date_naiss_dirigeant = parse_and_validate_date(
-        request, param="date_naissance_dirigeant_min"
-    )
-    max_date_naiss_dirigeant = parse_and_validate_date(
-        request, param="date_naissance_dirigeant_max"
-    )
     convention_collective_renseignee = validate_bool_field(
         "convention_collective_renseignee",
         clean_parameter(request, param="convention_collective_renseignee"),
@@ -109,26 +101,16 @@ def extract_text_parameters(
         clean_parameter(request, param="code_collectivite_territoriale")
     )
     id_rge = validate_id_rge(clean_parameter(request, param="id_rge"))
-    nom_elu = parse_parameter(request, param="nom_elu")
-    prenoms_elu = parse_parameter(request, param="prenoms_elu")
-    min_date_naiss_elu = parse_and_validate_date(
-        request, param="date_naissance_elu_min"
+    nom = parse_parameter(request, param="nom")
+    prenoms = parse_parameter(request, param="prenoms")
+    min_date_naiss = parse_and_validate_date(
+        request, param="date_naissance_min"
     )
-    max_date_naiss_elu = parse_and_validate_date(
-        request, param="date_naissance_elu_max"
-    )
-
-    nom_personne = parse_parameter(request, param="nom_personne")
-    prenoms_personne = parse_parameter(request, param="prenoms_personne")
-    min_date_naiss_personne = parse_and_validate_date(
-        request, param="date_naissance_personne_min"
-    )
-    max_date_naiss_personne = parse_and_validate_date(
-        request, param="date_naissance_personne_max"
+    max_date_naiss = parse_and_validate_date(
+        request, param="date_naissance_max"
     )
 
-    validate_date_range(min_date_naiss_dirigeant, max_date_naiss_dirigeant)
-    validate_date_range(min_date_naiss_elu, max_date_naiss_elu)
+    validate_date_range(min_date_naiss, max_date_naiss)
 
     parameters = {
         "terms": terms,
@@ -139,10 +121,6 @@ def extract_text_parameters(
         "is_entrepreneur_individuel": is_entrepreneur_individuel,
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
-        "nom_dirigeant": nom_dirigeant,
-        "prenoms_dirigeant": prenoms_dirigeant,
-        "min_date_naiss_dirigeant": min_date_naiss_dirigeant,
-        "max_date_naiss_dirigeant": max_date_naiss_dirigeant,
         "convention_collective_renseignee": convention_collective_renseignee,
         "est_uai": est_uai,
         "est_finess": est_finess,
@@ -154,14 +132,10 @@ def extract_text_parameters(
         "id_uai": id_uai,
         "id_rge": id_rge,
         "code_collectivite_territoriale": code_collectivite_territoriale,
-        "nom_elu": nom_elu,
-        "prenoms_elu": prenoms_elu,
-        "min_date_naiss_elu": min_date_naiss_elu,
-        "max_date_naiss_elu": max_date_naiss_elu,
-        "nom_personne": nom_personne,
-        "prenoms_personne": prenoms_personne,
-        "min_date_naiss_personne": min_date_naiss_personne,
-        "max_date_naiss_personne": max_date_naiss_personne,
+        "nom_personne": nom,
+        "prenoms_personne": prenoms,
+        "min_date_naiss_personne": min_date_naiss,
+        "max_date_naiss_personne": max_date_naiss,
     }
 
     # Check if at least one param has been provided in the request

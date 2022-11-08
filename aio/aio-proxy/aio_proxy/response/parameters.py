@@ -103,12 +103,8 @@ def extract_text_parameters(
     id_rge = validate_id_rge(clean_parameter(request, param="id_rge"))
     nom = parse_parameter(request, param="nom")
     prenoms = parse_parameter(request, param="prenoms")
-    min_date_naiss = parse_and_validate_date(
-        request, param="date_naissance_min"
-    )
-    max_date_naiss = parse_and_validate_date(
-        request, param="date_naissance_max"
-    )
+    min_date_naiss = parse_and_validate_date(request, param="date_naissance_min")
+    max_date_naiss = parse_and_validate_date(request, param="date_naissance_max")
 
     validate_date_range(min_date_naiss, max_date_naiss)
 

@@ -37,14 +37,6 @@ def search_text(index, offset: int, page_size: int, **params):
             "id_uai",
             "id_finess",
             "id_rge",
-            "nom_dirigeant",
-            "prenoms_dirigeant",
-            "min_date_naiss_dirigeant",
-            "max_date_naiss_dirigeant",
-            "nom_elu",
-            "prenoms_elu",
-            "min_date_naiss_elu",
-            "max_date_naiss_elu",
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -239,11 +231,7 @@ def search_text(index, offset: int, page_size: int, **params):
     for item in [
         "terms",
         "nom_personne",
-        "nom_dirigeant",
-        "nom_elu",
         "prenoms_personne",
-        "prenoms_dirigeant",
-        "prenoms_elu",
     ]:
         if params[item]:
             is_search_fields = True

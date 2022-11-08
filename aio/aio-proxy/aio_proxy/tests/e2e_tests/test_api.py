@@ -18,9 +18,9 @@ def test_fetch_company():
 
 def test_personne_filter():
     path = (
-        "search?nom_personne=jouppe&prenoms_personne=xavier erwan"
-        "&date_naissance_personne_min=1970-01-01"
-        "&date_naissance_personne_max"
+        "search?nom=jouppe&prenoms=xavier erwan"
+        "&date_naissance_min=1970-01-01"
+        "&date_naissance_max"
         "=2000-01-01"
     )
     response = requests.get(url=base_url + path)
@@ -33,7 +33,7 @@ def test_personne_filter():
 
 
 def test_format_date_naissance():
-    path = "search?date_naissance_dirigeant_min=13/09/2001"
+    path = "search?date_naissance_min=13/09/2001"
     response = requests.get(url=base_url + path)
     assert response.status_code == 400
 

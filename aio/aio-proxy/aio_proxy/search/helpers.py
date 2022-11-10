@@ -118,5 +118,7 @@ def get_es_field(param_name):
         return "liste_idcc"
     elif param_name == "id_convention_collective":
         return "liste_idcc"
+    elif param_name == "est_association":
+        return "identifiant_association_unite_legale"
     else:
         return param_name

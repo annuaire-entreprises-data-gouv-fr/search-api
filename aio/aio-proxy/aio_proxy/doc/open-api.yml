@@ -61,7 +61,7 @@ paths:
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, code commune, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
         individuel, tranche d'effectif salarié, identifiant UAI (éducation), 
-        identifiant FINESS (sanitaire et social),
+        association, identifiant FINESS (sanitaire et social),
         identifiant de convention collective, identifiant RGE (reconnues garantes de
         l'environnement), entrepreneurs du spectacle, collectivités territoriales et
         noms et prénoms de personnes physiques (élus ou dirigeants) et les valeurs 
@@ -237,6 +237,15 @@ paths:
             enum:
              - "true"
              - "false"
+        - name: est_association
+            in: query
+            description: Entreprises ayant un identifiant d'association
+            required: false
+            schema:
+              type: string
+              enum:
+                - "true"
+                - "false"
         - name: est_entrepreneur_spectacle
           in: query
           description: Entreprises ayant une licence d'entrepreneur du spectacle
@@ -483,6 +492,11 @@ paths:
                             est_uai:
                               type: boolean
                               description: Entreprises ayant au moins un établissement UAI
+                              example: true
+                            est_association:
+                              type: boolean
+                              description: Entreprises ayant un identifiant
+                              d'association
                               example: true
                   total_results:
                     type: integer
@@ -785,6 +799,38 @@ paths:
                             oneOf:
                               - $ref: '#/components/schemas/dirigeant_pp'
                               - $ref: '#/components/schemas/dirigeant_pm'
+                        complements:
+                          type: object
+                          properties:
+                            collectivite_territoriale:
+                              type: array
+                              items:
+                                oneOf:
+                                  - $ref: '#/components/schemas/collectivite_territoriale'
+                            convention_collective_renseignee:
+                              type: boolean
+                              description: Indique si au moins un établissement a une convention collective renseignée
+                            est_entrepreneur_spectacle:
+                              type: boolean
+                              description: Entreprises ayant une licence d'entrepreneur du spectacle
+                              example: true
+                            est_finess:
+                              type: boolean
+                              description: Entreprises ayant au moins un établissement FINESS
+                              example: true
+                            est_rge:
+                              type: boolean
+                              description: Entreprises ayant au moins un établissement RGE
+                              example: true
+                            est_uai:
+                              type: boolean
+                              description: Entreprises ayant au moins un établissement UAI
+                              example: true
+                            est_association:
+                              type: boolean
+                              description: Entreprises ayant un identifiant
+                              d'association
+                              example: true
                   total_results:
                     type: integer
                   page:

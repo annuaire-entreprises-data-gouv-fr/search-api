@@ -1,6 +1,7 @@
 import pytest
 from aio_proxy.parsers.bool_fields import validate_bool_field
 
+
 @pytest.mark.parametrize(
     "est_entrepreneur_individuel, expected",
     [("TRUE", True), ("False", False), (None, None)],
@@ -14,7 +15,7 @@ def test_validate_est_entrepreneur_individuel(est_entrepreneur_individuel, expec
 
 @pytest.mark.parametrize("est_entrepreneur_individuel", ["NON", "OUI", "NO", "YES"])
 def test_validate_est_entrepreneur_individuel_fail(
-    est_entrepreneur_spectacle: str,
+    est_entrepreneur_individuel: str,
 ):
     with pytest.raises(
         ValueError,

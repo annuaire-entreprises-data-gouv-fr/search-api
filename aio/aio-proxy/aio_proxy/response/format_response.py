@@ -23,6 +23,14 @@ def format_response(results):
 
         result_formatted = {
             "siren": get_field("siren"),
+            "nom_complet": get_field("nom_complet"),
+            "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),
+            "nombre_etablissements_ouverts": int(
+                get_field("nombre_etablissements_ouverts", default=0)
+            ),
+            "est_entrepreneur_individuel": get_field(
+                "est_entrepreneur_individuel", default=False
+            ),
             "siege": {
                 "siret": get_field("siret_siege"),
                 "date_creation": get_field("date_creation_siege"),
@@ -68,6 +76,9 @@ def format_response(results):
             "economie_sociale_solidaire": get_field(
                 "economie_sociale_solidaire_unite_legale"
             ),
+            "dirigeants": format_dirigeants(
+                get_field("dirigeants_pp"), get_field("dirigeants_pm")
+            ),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
@@ -79,24 +90,12 @@ def format_response(results):
                     get_field("liste_idcc"),
                 ),
                 "est_entrepreneur_spectacle": format_bool_field(
-                    get_field("is_entrepreneur_spectacle")
+                    get_field("est_entrepreneur_spectacle")
                 ),
                 "est_finess": format_bool_field(get_field("liste_finess")),
                 "est_rge": format_bool_field(get_field("liste_rge")),
                 "est_uai": format_bool_field(get_field("liste_uai")),
             },
-            "nom_complet": get_field("nom_complet"),
-            "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),
-            "nombre_etablissements_ouverts": int(
-                get_field("nombre_etablissements_ouverts", default=0)
-            ),
-            "is_entrepreneur_individuel": get_field(
-                "is_entrepreneur_individuel", default="false"
-            ).lower()
-            == "true",
-            "dirigeants": format_dirigeants(
-                get_field("dirigeants_pp"), get_field("dirigeants_pm")
-            ),
         }
         # Include score field for dev environment
         if env == "dev":

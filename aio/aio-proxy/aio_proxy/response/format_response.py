@@ -31,7 +31,7 @@ def format_response(results):
             "est_entrepreneur_individuel": get_field(
                 "est_entrepreneur_individuel", default=False
             ),
-            "identifiant_association_unite_legale": get_field(
+            "identifiant_association": get_field(
                 "identifiant_association_unite_legale"
             ),
             "siege": {

@@ -1,26 +1,25 @@
 import pytest
-from aio_proxy.parsers.entrepreneur_individuel import (
-    validate_is_entrepreneur_individuel,
-)
+from aio_proxy.parsers.bool_fields import validate_bool_field
 
 
 @pytest.mark.parametrize(
-    "is_entrepreneur_individuel, expected", [("YES", True), ("NO", False), (None, None)]
+    "est_entrepreneur_individuel, expected",
+    [("TRUE", True), ("FALSE", False), (None, None)],
 )
-def test_validate_is_entrepreneur_individuel(
-    is_entrepreneur_individuel: str, expected: str
-):
-    assert validate_is_entrepreneur_individuel(is_entrepreneur_individuel) == expected
+def test_validate_est_entrepreneur_individuel(est_entrepreneur_individuel, expected):
+    assert (
+        validate_bool_field("est_entrepreneur_individuel", est_entrepreneur_individuel)
+        == expected
+    )
 
 
-@pytest.mark.parametrize("is_entrepreneur_individuel", ["NON", "OUI"])
-def test_validate_is_entrepreneur_individuel_fail(
-    is_entrepreneur_individuel: str,
+@pytest.mark.parametrize("est_entrepreneur_individuel", ["NON", "OUI", "NO", "YES"])
+def test_validate_est_entrepreneur_individuel_fail(
+    est_entrepreneur_individuel: str,
 ):
     with pytest.raises(
         ValueError,
-        match="Seuls les valeurs 'yes' ou bien 'no' sont "
-        "possibles pour "
-        "'is_entrepreneur_individuel'.",
+        match="est_entrepreneur_individuel doit prendre la valeur 'true' "
+        "or 'false' !",
     ):
-        validate_is_entrepreneur_individuel(is_entrepreneur_individuel)
+        validate_bool_field("est_entrepreneur_individuel", est_entrepreneur_individuel)

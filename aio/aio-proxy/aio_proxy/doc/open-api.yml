@@ -151,15 +151,15 @@ paths:
               - T
               - U
             maxLength: 1
-        - name: is_entrepreneur_individuel
+        - name: est_entrepreneur_individuel
           in: query
           description: Uniquement les entreprises individuelles
           required: false
           schema:
             type: string
             enum:
-             - "yes"
-             - "no"
+             - "true"
+             - "false"
         - name: tranche_effectif_salarie
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche d'effectif salarié de l'entreprise</a>
@@ -447,7 +447,7 @@ paths:
                         nombre_etablissements_ouverts:
                           type: integer
                           example: 9716
-                        is_entrepreneur_individuel:
+                        est_entrepreneur_individuel:
                           type: boolean
                           description: Entreprises individuelles
                           example: false
@@ -775,7 +775,7 @@ paths:
                         nombre_etablissements_ouverts:
                           type: integer
                           example: 9716
-                        is_entrepreneur_individuel:
+                        est_entrepreneur_individuel:
                           type: boolean
                           description: Entreprises individuelles
                           example: false

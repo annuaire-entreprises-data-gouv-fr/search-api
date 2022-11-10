@@ -238,14 +238,14 @@ paths:
              - "true"
              - "false"
         - name: est_association
-            in: query
-            description: Entreprises ayant un identifiant d'association
-            required: false
-            schema:
-              type: string
-              enum:
-                - "true"
-                - "false"
+          in: query
+          description: Entreprises ayant un identifiant d'association
+          required: false
+          schema:
+            type: string
+            enum:
+              - "true"
+              - "false"
         - name: est_entrepreneur_spectacle
           in: query
           description: Entreprises ayant une licence d'entrepreneur du spectacle
@@ -495,9 +495,8 @@ paths:
                               example: true
                             est_association:
                               type: boolean
-                              description: Entreprises ayant un identifiant
-                              d'association
-                              example: true
+                              description: Entreprises ayant un identifiant d'association
+                              example: false
                   total_results:
                     type: integer
                   page:
@@ -828,9 +827,8 @@ paths:
                               example: true
                             est_association:
                               type: boolean
-                              description: Entreprises ayant un identifiant
-                              d'association
-                              example: true
+                              description: Entreprises ayant un identifiant d'association
+                              example: false
                   total_results:
                     type: integer
                   page:

@@ -1,6 +1,11 @@
-from aio_proxy.search.dirigeant import search_dirigeant
-from aio_proxy.search.filters import filter_by_siren, filter_search
+from aio_proxy.search.filters import (
+    filter_by_siren,
+    filter_search,
+    filter_search_by_bool_variables,
+    filter_search_by_matching_ids,
+)
 from aio_proxy.search.helpers import is_siren, sort_and_execute_search
+from aio_proxy.search.person import search_person
 from elasticsearch_dsl import query
 
 
@@ -13,22 +18,83 @@ def search_text(index, offset: int, page_size: int, **params):
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siren(s, query_terms_clean)
-        return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+        return sort_and_execute_search(
+            search=s, offset=offset, page_size=page_size, is_search_fields=False
+        )
 
     # Use filters to reduce search results
     s = filter_search(
         s,
         filters_to_ignore=[
             "terms",
-            "min_date_naiss_dirigeant",
-            "max_date_naiss_dirigeant",
-            "nom_dirigeant",
-            "prenoms_dirigeant",
+            "convention_collective_renseignee",
+            "est_finess",
+            "est_uai",
+            "est_collectivite_territoriale",
+            "est_entrepreneur_spectacle",
+            "est_rge",
+            "id_convention_collective",
+            "id_uai",
+            "id_finess",
+            "id_rge",
+            "nom_personne",
+            "prenoms_personne",
+            "min_date_naiss_personne",
+            "max_date_naiss_personne",
         ],
         **params,
     )
-    # Search dirigeants
-    s = search_dirigeant(s, **params)
+
+    # Boolean filters
+    s = filter_search_by_bool_variables(
+        s,
+        filters_to_process=[
+            "convention_collective_renseignee",
+            "est_finess",
+            "est_uai",
+            "est_collectivite_territoriale",
+            "est_entrepreneur_spectacle",
+            "est_rge",
+        ],
+        **params,
+    )
+
+    # Match ids
+    s = filter_search_by_matching_ids(
+        s,
+        filters_to_process=[
+            "id_convention_collective",
+            "id_uai",
+            "id_finess",
+            "id_rge",
+        ],
+        **params,
+    )
+
+    # Search both élus and dirigeants
+    s = search_person(
+        s,
+        "nom_personne",
+        "prenoms_personne",
+        "min_date_naiss_personne",
+        "max_date_naiss_personne",
+        [
+            {
+                "type_person": "dirigeants_pp",
+                "match_nom": "nom",
+                "match_prenom": "prenoms",
+                "match_date": "date_naissance",
+            },
+            {
+                "type_person": "colter_elus",
+                "match_nom": "nom",
+                "match_prenom": "prenom",
+                "match_date": "date_naissance",
+            },
+        ],
+        **params,
+    )
+
     # Search text
     if query_terms:
         s = s.query(
@@ -165,7 +231,21 @@ def search_text(index, offset: int, page_size: int, **params):
                 ),
             ],
         )
-    return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+    is_search_fields = False
+    for item in [
+        "terms",
+        "nom_personne",
+        "prenoms_personne",
+    ]:
+        if params[item]:
+            is_search_fields = True
+
+    return sort_and_execute_search(
+        search=s,
+        offset=offset,
+        page_size=page_size,
+        is_search_fields=is_search_fields,
+    )
 
 
 def search_geo(index, offset: int, page_size: int, **params):
@@ -177,4 +257,6 @@ def search_geo(index, offset: int, page_size: int, **params):
         distance=f'{params["radius"]}km',
         coordonnees={"lat": params["lat"], "lon": params["lon"]},
     )
-    return sort_and_execute_search(search=s, offset=offset, page_size=page_size)
+    return sort_and_execute_search(
+        search=s, offset=offset, page_size=page_size, is_search_fields=True
+    )

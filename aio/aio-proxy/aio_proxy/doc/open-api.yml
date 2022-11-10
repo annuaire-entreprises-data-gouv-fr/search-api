@@ -60,9 +60,12 @@ paths:
 
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, code commune, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
-        individuel, tranche d'effectif salarié, nom de dirigeant, prénom(s) de 
-        dirigeant et les valeurs minimale et maximale de la date de naissance de 
-        dirigeant.
+        individuel, tranche d'effectif salarié, identifiant UAI (éducation), 
+        identifiant FINESS (sanitaire et social),
+        identifiant de convention collective, identifiant RGE (reconnues garantes de
+        l'environnement), entrepreneurs du spectacle, collectivités territoriales et
+        noms et prénoms de personnes physiques (élus ou dirigeants) et les valeurs 
+        minimale et maximale de la date de naissance.
 
 
       summary: Recherche textuelle
@@ -163,32 +166,115 @@ paths:
           required: false
           schema:
             type: string
-        - name: nom_dirigeant
+        - name: nom
           in: query
-          description: Nom du dirigeant
+          description: Nom d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
-        - name: prenoms_dirigeant
+        - name: prenoms
           in: query
-          description: Prenom(s) du dirigeant
+          description: Prenom(s) d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
-        - name: date_naissance_dirigeant_min
+        - name: date_naissance_min
           in: query
-          description: Valeur minimale de la date de naissance du dirigeant
-          required: false
-          schema:
-            type: string
-            format: date
-        - name: date_naissance_dirigeant_max
-          in: query
-          description: Valeur maximale de la date de naissance du dirigeant
+          description: Valeur minimale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
             format: date
+        - name: date_naissance_max
+          in: query
+          description: Valeur maximale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: convention_collective_renseignee
+          in: query
+          description: Entreprises ayant au moins un établissement dont la convention collective est renseignée.
+          required: false
+          schema:
+            type: string
+            enum:
+              - "true"
+              - "false"
+        - name: est_rge
+          in: query
+          description: Entreprises reconnues garantes de l'Environnement (RGE)
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: est_finess
+          in: query
+          description: Entreprises ayant un établissement du domaine du sanitaire et social (FINESS)
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: est_uai
+          in: query
+          description: Entreprises ayant un établissement UAI (Unité Administrative Immatriculée)
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: est_collectivite_territoriale
+          in: query
+          description: Collectivités territoriales
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: est_entrepreneur_spectacle
+          in: query
+          description: Entreprises ayant une licence d'entrepreneur du spectacle
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: id_rge
+          in: query
+          description: Identifiant RGE (reconnues garantes de l'Environnement) d'un établissement d'une entreprise
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: id_convention_collective
+          in: query
+          description: Identifiant de Convention Collective d'un établissement d'une entreprise
+          schema:
+            type: string
+        - name: id_finess
+          in: query
+          description: Identifiant FINESS d'un établissement d'une entreprise
+          schema:
+            type: string
+        - name: id_uai
+          in: query
+          description: Identifiant UAI d'un établissement d'une entreprise
+          schema:
+            type: string
+        - name: code_collectivite_territoriale
+          in: query
+          description: Code affiliée à une collectivité territoriale (Commune - code INSEE, EPCI - n° SIREN, Département - Code INSEE + "D", Région - Code INSEE)
+          schema:
+            type: string
         - name: page
           in: query
           description: Le numéro de la page à retourner
@@ -371,6 +457,33 @@ paths:
                             oneOf:
                               - $ref: '#/components/schemas/dirigeant_pp'
                               - $ref: '#/components/schemas/dirigeant_pm'
+                        complements:
+                          type: object
+                          properties:
+                            collectivite_territoriale:
+                              type: array
+                              items:
+                                oneOf:
+                                  - $ref: '#/components/schemas/collectivite_territoriale'
+                            convention_collective_renseignee:
+                              type: boolean
+                              description: Indique si au moins un établissement a une convention collective renseignée
+                            est_entrepreneur_spectacle:
+                              type: boolean
+                              description: Entreprises ayant une licence d'entrepreneur du spectacle
+                              example: true
+                            est_finess:
+                              type: boolean
+                              description: Entreprises ayant au moins un établissement FINESS
+                              example: true
+                            est_rge:
+                              type: boolean
+                              description: Entreprises ayant au moins un établissement RGE
+                              example: true
+                            est_uai:
+                              type: boolean
+                              description: Entreprises ayant au moins un établissement UAI
+                              example: true
                   total_results:
                     type: integer
                   page:
@@ -721,6 +834,42 @@ components:
           qualite:
             type: string
             example: "Commissaire aux comptes titulaire"
+    collectivite_territoriale:
+      type: object
+      properties:
+          code_insee:
+            type: string
+            description: Code INSEE de la collectivité territoriale
+            example: "01"
+          code:
+            type: string
+            description: Code de la collectivité territoriale
+            example: "01"
+          niveau:
+            type: string
+            description: Niveau de la collectivité territoriale
+            example: "département"
+          elus:
+            type: array
+            items:
+              oneOf:
+                - $ref: '#/components/schemas/elu'
+    elu:
+      type: object
+      properties:
+          nom:
+            type: string
+          prenoms:
+            type: string
+          annee_de_naissance:
+            type: string
+            example: "1964"
+          fonction:
+            type: string
+            example: "Maire"
+          sexe:
+            type: string
+            example: "F"
 servers:
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

@@ -14,6 +14,20 @@ def get_value(dict, key, default=None):
     return value
 
 
+def format_collectivite_territoriale(
+    colter_code=None, colter_code_insee=None, colter_elus=None, colter_niveau=None
+):
+    if colter_code is None:
+        return None
+    else:
+        return {
+            "code": colter_code,
+            "code_insee": colter_code_insee,
+            "elus": format_elus(colter_elus),
+            "niveau": colter_niveau,
+        }
+
+
 def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
     dirigeants = []
     if dirigeants_pp:
@@ -46,3 +60,31 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
             }
             dirigeants.append(dirigeant)
     return dirigeants
+
+
+def format_elus(elus=None):
+    format_elus = []
+    if elus:
+        for elu in elus:
+            annee_de_naissance = (
+                get_value(elu, "date_naissance")[:4]
+                if get_value(elu, "date_naissance")
+                else None
+            )
+
+            format_elu = {
+                "nom": get_value(elu, "nom"),
+                "prenoms": get_value(elu, "prenom"),
+                "annee_de_naissance": annee_de_naissance,
+                "fonction": get_value(elu, "fonction"),
+                "sexe": get_value(elu, "sexe"),
+            }
+            format_elus.append(format_elu)
+    return format_elus
+
+
+def format_bool_field(value):
+    if value is None:
+        return False
+    else:
+        return True

@@ -1,6 +1,11 @@
 import os
 
-from aio_proxy.response.helpers import format_dirigeants, get_value
+from aio_proxy.response.helpers import (
+    format_bool_field,
+    format_collectivite_territoriale,
+    format_dirigeants,
+    get_value,
+)
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -63,6 +68,23 @@ def format_response(results):
             "economie_sociale_solidaire": get_field(
                 "economie_sociale_solidaire_unite_legale"
             ),
+            "complements": {
+                "collectivite_territoriale": format_collectivite_territoriale(
+                    get_field("colter_code"),
+                    get_field("colter_code_insee"),
+                    get_field("colter_elus"),
+                    get_field("colter_niveau"),
+                ),
+                "convention_collective_renseignee": format_bool_field(
+                    get_field("liste_idcc"),
+                ),
+                "est_entrepreneur_spectacle": format_bool_field(
+                    get_field("is_entrepreneur_spectacle")
+                ),
+                "est_finess": format_bool_field(get_field("liste_finess")),
+                "est_rge": format_bool_field(get_field("liste_rge")),
+                "est_uai": format_bool_field(get_field("liste_uai")),
+            },
             "nom_complet": get_field("nom_complet"),
             "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),
             "nombre_etablissements_ouverts": int(

@@ -14,9 +14,9 @@ def parse_and_validate_terms(request, default_value=None):
     return terms
 
 
-def check_no_param_and_length_terms(params):
-    """Prevent performance issues by refusing query terms less than 3 caracters.
-    Accept less than 3 caracters if at least one parameter is filled.
+def check_short_terms_and_no_param(params):
+    """Prevent performance issues by refusing query terms less than 3 characters.
+    Accept less than 3 characters if at least one parameter is filled.
 
     Args:
         params: dict of query parameters

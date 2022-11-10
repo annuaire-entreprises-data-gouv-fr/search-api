@@ -16,11 +16,11 @@ def test_fetch_company():
     assert siren == "356000000"
 
 
-def test_dirigeant_filter():
+def test_personne_filter():
     path = (
-        "search?nom_dirigeant=jouppe&prenoms_dirigeant=xavier "
-        "erwan&date_naissance_dirigeant_min=1970-01-01"
-        "&date_naissance_dirigeant_max"
+        "search?nom=jouppe&prenoms=xavier erwan"
+        "&date_naissance_min=1970-01-01"
+        "&date_naissance_max"
         "=2000-01-01"
     )
     response = requests.get(url=base_url + path)
@@ -33,7 +33,7 @@ def test_dirigeant_filter():
 
 
 def test_format_date_naissance():
-    path = "search?date_naissance_dirigeant_min=13/09/2001"
+    path = "search?date_naissance_min=13/09/2001"
     response = requests.get(url=base_url + path)
     assert response.status_code == 400
 
@@ -44,19 +44,19 @@ def test_error_query():
     assert response.status_code == 400
 
 
-def test_accept_three_caracters():
+def test_accept_three_characters():
     path = "search?q=abc"
     response = requests.get(url=base_url + path)
     assert response.status_code == 200
 
 
-def test_too_short_query():
+def test_query_too_short():
     path = "search?q=ab"
     response = requests.get(url=base_url + path)
     assert response.status_code == 400
 
 
-def test_short_query_but_filter():
+def test_short_query_with_filter():
     path = "search?q=ab&code_postal=75015"
     response = requests.get(url=base_url + path)
     assert response.status_code == 200

@@ -89,6 +89,9 @@ def format_response(results):
                 "convention_collective_renseignee": format_bool_field(
                     get_field("liste_idcc"),
                 ),
+                "est_association": format_bool_field(
+                    get_field("identifiant_association_unite_legale")
+                ),
                 "est_entrepreneur_spectacle": format_bool_field(
                     get_field("est_entrepreneur_spectacle")
                 ),

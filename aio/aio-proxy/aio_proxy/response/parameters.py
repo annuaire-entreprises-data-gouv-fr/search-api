@@ -11,9 +11,6 @@ from aio_proxy.parsers.convention_collective import validate_id_convention_colle
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
-from aio_proxy.parsers.entrepreneur_individuel import (
-    validate_is_entrepreneur_individuel,
-)
 from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
@@ -59,8 +56,9 @@ def extract_text_parameters(
     code_commune = validate_code_commune(clean_parameter(request, param="code_commune"))
     code_postal = validate_code_postal(clean_parameter(request, param="code_postal"))
     departement = validate_departement(clean_parameter(request, param="departement"))
-    is_entrepreneur_individuel = validate_is_entrepreneur_individuel(
-        clean_parameter(request, param="is_entrepreneur_individuel")
+    est_entrepreneur_individuel = validate_bool_field(
+        "est_entrepreneur_individuel",
+        clean_parameter(request, param="est_entrepreneur_individuel")
     )
     section_activite_principale = validate_section_activite_principale(
         clean_parameter(request, param="section_activite_principale")
@@ -86,7 +84,7 @@ def extract_text_parameters(
     )
     est_entrepreneur_spectacle = validate_bool_field(
         "est_entrepreneur_spectacle",
-        clean_parameter(request, param="est_entrepreneur_spectacle"),
+        clean_parameter(request, param="is_entrepreneur_spectacle"),
     )
     est_rge = validate_bool_field(
         "est_rge",
@@ -114,14 +112,14 @@ def extract_text_parameters(
         "commune": code_commune,
         "code_postal": code_postal,
         "departement": departement,
-        "is_entrepreneur_individuel": is_entrepreneur_individuel,
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
         "convention_collective_renseignee": convention_collective_renseignee,
+        "est_entrepreneur_individuel": est_entrepreneur_individuel,
         "est_uai": est_uai,
         "est_finess": est_finess,
         "est_collectivite_territoriale": est_collectivite_territoriale,
-        "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
+        "is_entrepreneur_spectacle": est_entrepreneur_spectacle,
         "est_rge": est_rge,
         "id_convention_collective": id_convention_collective,
         "id_finess": id_finess,

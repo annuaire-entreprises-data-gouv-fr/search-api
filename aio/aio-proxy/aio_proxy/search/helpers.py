@@ -84,7 +84,7 @@ def hide_fields(search_result: list) -> list:
         "concat_nom_adr_siren",
         "concat_enseigne_adresse",
         "geo_adresse",
-        "is_siege",
+        "est_siege",
         "liste_adresses",
         "liste_enseignes",
     }
@@ -109,7 +109,7 @@ def get_es_field(param_name):
     elif param_name == "code_collectivite_territoriale":
         return "colter_code"
     elif param_name == "est_entrepreneur_spectacle":
-        return "is_entrepreneur_spectacle"
+        return "est_entrepreneur_spectacle"
     elif param_name == "est_rge":
         return "liste_rge"
     elif param_name == "id_rge":

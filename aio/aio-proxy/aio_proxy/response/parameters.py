@@ -58,7 +58,7 @@ def extract_text_parameters(
     departement = validate_departement(clean_parameter(request, param="departement"))
     est_entrepreneur_individuel = validate_bool_field(
         "est_entrepreneur_individuel",
-        clean_parameter(request, param="est_entrepreneur_individuel")
+        clean_parameter(request, param="est_entrepreneur_individuel"),
     )
     section_activite_principale = validate_section_activite_principale(
         clean_parameter(request, param="section_activite_principale")

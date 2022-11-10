@@ -21,9 +21,8 @@ def search_person(
             # match queries returns any document containing the search item,
             # even if it contains another item
             for nom in nom_person.split(" "):
-                person_filters.append({
-                    "match": {person["type_person"] + "." + person["match_nom"]: nom}
-                }
+                person_filters.append(
+                    {"match": {person["type_person"] + "." + person["match_nom"]: nom}}
                 )
             # match_phrase on the name `keyword` makes sure to boost the documents
             # with the exact match
@@ -49,10 +48,12 @@ def search_person(
         if prenoms_person:
             # Same logic as "nom" is used for "prenoms"
             for prenom in prenoms_person.split(" "):
-                person_filters.append({
-                    "match": {
-                        person["type_person"] + "." + person["match_prenom"]: prenom}
-                }
+                person_filters.append(
+                    {
+                        "match": {
+                            person["type_person"] + "." + person["match_prenom"]: prenom
+                        }
+                    }
                 )
             boost_queries.append(
                 {

@@ -4,7 +4,7 @@ from aio_proxy.parsers.bool_fields import validate_bool_field
 
 @pytest.mark.parametrize(
     "est_entrepreneur_individuel, expected",
-    [("TRUE", True), ("False", False), (None, None)],
+    [("TRUE", True), ("FALSE", False), (None, None)],
 )
 def test_validate_est_entrepreneur_individuel(est_entrepreneur_individuel, expected):
     assert (

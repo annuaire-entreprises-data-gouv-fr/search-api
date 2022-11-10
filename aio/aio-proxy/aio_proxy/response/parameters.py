@@ -84,7 +84,7 @@ def extract_text_parameters(
     )
     est_entrepreneur_spectacle = validate_bool_field(
         "est_entrepreneur_spectacle",
-        clean_parameter(request, param="is_entrepreneur_spectacle"),
+        clean_parameter(request, param="est_entrepreneur_spectacle"),
     )
     est_rge = validate_bool_field(
         "est_rge",
@@ -119,7 +119,7 @@ def extract_text_parameters(
         "est_uai": est_uai,
         "est_finess": est_finess,
         "est_collectivite_territoriale": est_collectivite_territoriale,
-        "is_entrepreneur_spectacle": est_entrepreneur_spectacle,
+        "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
         "est_rge": est_rge,
         "id_convention_collective": id_convention_collective,
         "id_finess": id_finess,

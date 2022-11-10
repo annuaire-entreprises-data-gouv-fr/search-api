@@ -1,6 +1,5 @@
 import pytest
 from aio_proxy.parsers.bool_fields import validate_bool_field
-from aio_proxy.parsers.rge import validate_id_rge
 
 
 @pytest.mark.parametrize(

@@ -31,6 +31,9 @@ def format_response(results):
             "est_entrepreneur_individuel": get_field(
                 "est_entrepreneur_individuel", default=False
             ),
+            "identifiant_association": get_field(
+                "identifiant_association_unite_legale"
+            ),
             "siege": {
                 "siret": get_field("siret_siege"),
                 "date_creation": get_field("date_creation_siege"),

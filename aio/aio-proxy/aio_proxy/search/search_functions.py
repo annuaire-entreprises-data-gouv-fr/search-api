@@ -28,6 +28,7 @@ def search_text(index, offset: int, page_size: int, **params):
         filters_to_ignore=[
             "terms",
             "convention_collective_renseignee",
+            "est_association",
             "est_finess",
             "est_uai",
             "est_collectivite_territoriale",
@@ -50,6 +51,7 @@ def search_text(index, offset: int, page_size: int, **params):
         s,
         filters_to_process=[
             "convention_collective_renseignee",
+            "est_association",
             "est_finess",
             "est_uai",
             "est_collectivite_territoriale",

@@ -86,6 +86,10 @@ def extract_text_parameters(
         "est_entrepreneur_spectacle",
         clean_parameter(request, param="est_entrepreneur_spectacle"),
     )
+    est_association = validate_bool_field(
+        "est_association",
+        clean_parameter(request, param="est_association"),
+    )
     est_rge = validate_bool_field(
         "est_rge",
         clean_parameter(request, param="est_rge"),
@@ -116,6 +120,7 @@ def extract_text_parameters(
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
         "convention_collective_renseignee": convention_collective_renseignee,
         "est_entrepreneur_individuel": est_entrepreneur_individuel,
+        "est_association": est_association,
         "est_uai": est_uai,
         "est_finess": est_finess,
         "est_collectivite_territoriale": est_collectivite_territoriale,

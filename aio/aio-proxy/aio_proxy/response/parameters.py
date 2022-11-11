@@ -103,10 +103,14 @@ def extract_text_parameters(
         clean_parameter(request, param="code_collectivite_territoriale")
     )
     id_rge = validate_id_rge(clean_parameter(request, param="id_rge"))
-    nom = parse_parameter(request, param="nom")
-    prenoms = parse_parameter(request, param="prenoms")
-    min_date_naiss = parse_and_validate_date(request, param="date_naissance_min")
-    max_date_naiss = parse_and_validate_date(request, param="date_naissance_max")
+    nom_personne = parse_parameter(request, param="nom_personne")
+    prenoms_personne = parse_parameter(request, param="prenoms_personne")
+    min_date_naiss_personne = parse_and_validate_date(
+        request, param="date_naissance_personne__min"
+    )
+    max_date_naiss_personne = parse_and_validate_date(
+        request, param="date_naissance_personne_max"
+    )
 
     validate_date_range(min_date_naiss, max_date_naiss)
 
@@ -131,10 +135,10 @@ def extract_text_parameters(
         "id_uai": id_uai,
         "id_rge": id_rge,
         "code_collectivite_territoriale": code_collectivite_territoriale,
-        "nom_personne": nom,
-        "prenoms_personne": prenoms,
-        "min_date_naiss_personne": min_date_naiss,
-        "max_date_naiss_personne": max_date_naiss,
+        "nom_personne": nom_personne,
+        "prenoms_personne": prenoms_personne,
+        "min_date_naiss_personne": min_date_naiss_personne,
+        "max_date_naiss_personne": max_date_naiss_personne,
     }
 
     # Check if at least one param has been provided in the request

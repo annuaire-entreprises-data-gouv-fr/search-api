@@ -106,13 +106,13 @@ def extract_text_parameters(
     nom_personne = parse_parameter(request, param="nom_personne")
     prenoms_personne = parse_parameter(request, param="prenoms_personne")
     min_date_naiss_personne = parse_and_validate_date(
-        request, param="date_naissance_personne__min"
+        request, param="date_naissance_personne_min"
     )
     max_date_naiss_personne = parse_and_validate_date(
         request, param="date_naissance_personne_max"
     )
 
-    validate_date_range(min_date_naiss, max_date_naiss)
+    validate_date_range(min_date_naiss_personne, max_date_naiss_personne)
 
     parameters = {
         "terms": terms,

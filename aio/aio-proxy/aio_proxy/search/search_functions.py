@@ -42,6 +42,7 @@ def search_text(index, offset: int, page_size: int, **params):
             "prenoms_personne",
             "min_date_naiss_personne",
             "max_date_naiss_personne",
+            "type_personne",
         ],
         **params,
     )
@@ -73,29 +74,66 @@ def search_text(index, offset: int, page_size: int, **params):
         **params,
     )
 
-    # Search both élus and dirigeants
-    s = search_person(
-        s,
-        "nom_personne",
-        "prenoms_personne",
-        "min_date_naiss_personne",
-        "max_date_naiss_personne",
-        [
-            {
-                "type_person": "dirigeants_pp",
-                "match_nom": "nom",
-                "match_prenom": "prenoms",
-                "match_date": "date_naissance",
-            },
-            {
-                "type_person": "colter_elus",
-                "match_nom": "nom",
-                "match_prenom": "prenom",
-                "match_date": "date_naissance",
-            },
-        ],
-        **params,
-    )
+    # Search 'élus' only
+    if params["type_personne"] == "ELU":
+        s = search_person(
+            s,
+            "nom_personne",
+            "prenoms_personne",
+            "min_date_naiss_personne",
+            "max_date_naiss_personne",
+            [
+                {
+                    "type_person": "colter_elus",
+                    "match_nom": "nom",
+                    "match_prenom": "prenom",
+                    "match_date": "date_naissance",
+                },
+            ],
+            **params,
+        )
+    # Search 'dirigeants' only
+    elif params["type_personne"] == "DIRIGEANT":
+        s = search_person(
+            s,
+            "nom_personne",
+            "prenoms_personne",
+            "min_date_naiss_personne",
+            "max_date_naiss_personne",
+            [
+                {
+                    "type_person": "dirigeants_pp",
+                    "match_nom": "nom",
+                    "match_prenom": "prenoms",
+                    "match_date": "date_naissance",
+                },
+            ],
+            **params,
+        )
+    else:
+        # Search both 'élus' and 'dirigeants'
+        s = search_person(
+            s,
+            "nom_personne",
+            "prenoms_personne",
+            "min_date_naiss_personne",
+            "max_date_naiss_personne",
+            [
+                {
+                    "type_person": "dirigeants_pp",
+                    "match_nom": "nom",
+                    "match_prenom": "prenoms",
+                    "match_date": "date_naissance",
+                },
+                {
+                    "type_person": "colter_elus",
+                    "match_nom": "nom",
+                    "match_prenom": "prenom",
+                    "match_date": "date_naissance",
+                },
+            ],
+            **params,
+        )
 
     # Search text
     if query_terms:

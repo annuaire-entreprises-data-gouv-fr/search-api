@@ -20,6 +20,6 @@ def test_validate_est_entrepreneur_individuel_fail(
     with pytest.raises(
         ValueError,
         match="est_entrepreneur_individuel doit prendre la valeur 'true' "
-        "or 'false' !",
+        "ou 'false' !",
     ):
         validate_bool_field("est_entrepreneur_individuel", est_entrepreneur_individuel)

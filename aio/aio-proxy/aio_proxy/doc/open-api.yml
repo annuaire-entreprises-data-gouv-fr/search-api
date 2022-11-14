@@ -192,6 +192,15 @@ paths:
           schema:
             type: string
             format: date
+        - name: type_personne
+          in: query
+          description: Type de la partie prenante de l'entreprise, dirigeant ou élu
+          required: false
+          schema:
+            type: string
+            enum:
+              - "dirigeant"
+              - "elu"
         - name: convention_collective_renseignee
           in: query
           description: Entreprises ayant au moins un établissement dont la convention collective est renseignée.

@@ -20,6 +20,6 @@ def test_validate_est_entrepreneur_spectacle_fail(
     with pytest.raises(
         ValueError,
         match="est_entrepreneur_spectacle doit prendre la valeur 'true' "
-        "or 'false' !",
+        "ou 'false' !",
     ):
         validate_bool_field("est_entrepreneur_spectacle", est_entrepreneur_spectacle)

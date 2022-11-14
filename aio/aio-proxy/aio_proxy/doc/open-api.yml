@@ -166,26 +166,26 @@ paths:
           required: false
           schema:
             type: string
-        - name: nom
+        - name: nom_personne
           in: query
           description: Nom d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
-        - name: prenoms
+        - name: prenoms_personne
           in: query
           description: Prenom(s) d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
-        - name: date_naissance_min
+        - name: date_naissance_personne_min
           in: query
           description: Valeur minimale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false
           schema:
             type: string
             format: date
-        - name: date_naissance_max
+        - name: date_naissance_personne_max
           in: query
           description: Valeur maximale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
           required: false

@@ -16,6 +16,6 @@ def test_validate_est_association_fail(
 ):
     with pytest.raises(
         ValueError,
-        match="est_association doit prendre la valeur 'true' or 'false' !",
+        match="est_association doit prendre la valeur 'true' ou 'false' !",
     ):
         validate_bool_field("est_association", est_association)

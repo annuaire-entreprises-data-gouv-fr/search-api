@@ -17,5 +17,5 @@ def validate_type_personne(type_personne_clean: str) -> Optional[str]:
     if type_personne_clean is None:
         return None
     if type_personne_clean not in ["ELU", "DIRIGEANT"]:
-        raise ValueError(f"type_personne doit prendre la valeur 'dirigeant' ou 'elu' !")
+        raise ValueError("type_personne doit prendre la valeur 'dirigeant' ou 'elu' !")
     return type_personne_clean

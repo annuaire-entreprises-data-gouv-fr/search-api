@@ -31,7 +31,7 @@ def test_validate_est_collectivite_territoriale_fail(
     with pytest.raises(
         ValueError,
         match="est_collectivite_territoriale doit prendre la valeur 'true' "
-        "or 'false' !",
+        "ou 'false' !",
     ):
         validate_bool_field(
             "est_collectivite_territoriale",

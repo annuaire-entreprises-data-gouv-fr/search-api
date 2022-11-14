@@ -17,7 +17,7 @@ def test_validate_est_rge_fail(
 ):
     with pytest.raises(
         ValueError,
-        match="est_rge doit prendre la valeur 'true' or 'false' !",
+        match="est_rge doit prendre la valeur 'true' ou 'false' !",
     ):
         validate_bool_field("est_rge", est_rge)
 

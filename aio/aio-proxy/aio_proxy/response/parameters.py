@@ -27,7 +27,7 @@ from aio_proxy.parsers.terms import (
     parse_and_validate_terms,
 )
 from aio_proxy.parsers.tranche_effectif import validate_tranche_effectif_salarie
-from aio_proxy.parsers.type_personne import parse_and_validate_type_personne
+from aio_proxy.parsers.type_personne import validate_type_personne
 from aio_proxy.parsers.uai import validate_id_uai
 
 
@@ -112,7 +112,9 @@ def extract_text_parameters(
     max_date_naiss_personne = parse_and_validate_date(
         request, param="date_naissance_personne_max"
     )
-    type_personne = parse_and_validate_type_personne(request, param="type_personne")
+    type_personne = validate_type_personne(
+        clean_parameter(request, param="type_personne")
+    )
 
     validate_date_range(min_date_naiss_personne, max_date_naiss_personne)
 

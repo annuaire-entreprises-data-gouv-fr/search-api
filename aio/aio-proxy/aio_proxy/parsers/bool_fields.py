@@ -18,5 +18,5 @@ def validate_bool_field(param: str, param_value: str) -> Optional[bool]:
     if param_value is None:
         return None
     if param_value not in ["TRUE", "FALSE"]:
-        raise ValueError(f"{param} doit prendre la valeur 'true' or 'false' !")
+        raise ValueError(f"{param} doit prendre la valeur 'true' ou 'false' !")
     return param_value == "TRUE"

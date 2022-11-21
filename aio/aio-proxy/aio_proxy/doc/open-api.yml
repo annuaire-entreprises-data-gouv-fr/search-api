@@ -324,6 +324,15 @@ paths:
                           type: string
                           example: "356000000"
                           description: le numéro unique de l'entreprise
+                        nom_complet:
+                          type: string
+                          example: "la poste"
+                        nombre_etablissements:
+                          type: integer
+                          example: 12694
+                        nombre_etablissements_ouverts:
+                          type: integer
+                          example: 9716
                         siege:
                           type: object
                           properties:
@@ -453,22 +462,6 @@ paths:
                         section_activite_principale:
                           type: string
                           example: "H"
-                        economie_sociale_solidaire:
-                          type: string
-                          example: "N"
-                        nom_complet:
-                          type: string
-                          example: "la poste"
-                        nombre_etablissements:
-                          type: integer
-                          example: 12694
-                        nombre_etablissements_ouverts:
-                          type: integer
-                          example: 9716
-                        est_entrepreneur_individuel:
-                          type: boolean
-                          description: Entreprises individuelles
-                          example: false
                         dirigeants:
                           type: array
                           items:
@@ -486,26 +479,33 @@ paths:
                             convention_collective_renseignee:
                               type: boolean
                               description: Indique si au moins un établissement a une convention collective renseignée
+                            est_entrepreneur_individuel:
+                              type: boolean
+                              description: Entreprises individuelles
+                              example: false
                             est_entrepreneur_spectacle:
                               type: boolean
                               description: Entreprises ayant une licence d'entrepreneur du spectacle
-                              example: true
+                              example: false
+                            est_ess:
+                              type: boolean
+                              description: Entreprises d'économie sociale et solidaire
+                              example: false
                             est_finess:
                               type: boolean
                               description: Entreprises ayant au moins un établissement FINESS
-                              example: true
+                              example: false
                             est_rge:
                               type: boolean
                               description: Entreprises ayant au moins un établissement RGE
-                              example: true
+                              example: false
                             est_uai:
                               type: boolean
                               description: Entreprises ayant au moins un établissement UAI
-                              example: true
-                            est_association:
-                              type: boolean
-                              description: Entreprises ayant un identifiant d'association
                               example: false
+                            identifiant_association:
+                              type: string
+                              description: L'identifiant d'association de l'entreprise
                   total_results:
                     type: integer
                   page:
@@ -655,6 +655,15 @@ paths:
                           type: string
                           example: "356000000"
                           description: le numéro unique de l'entreprise
+                        nom_complet:
+                          type: string
+                          example: "la poste"
+                        nombre_etablissements:
+                          type: integer
+                          example: 12694
+                        nombre_etablissements_ouverts:
+                          type: integer
+                          example: 9716
                         siege:
                           type: object
                           properties:
@@ -785,22 +794,6 @@ paths:
                         section_activite_principale:
                           type: string
                           example: "H"
-                        economie_sociale_solidaire:
-                          type: string
-                          example: "N"
-                        nom_complet:
-                          type: string
-                          example: "la poste"
-                        nombre_etablissements:
-                          type: integer
-                          example: 12694
-                        nombre_etablissements_ouverts:
-                          type: integer
-                          example: 9716
-                        est_entrepreneur_individuel:
-                          type: boolean
-                          description: Entreprises individuelles
-                          example: false
                         dirigeants:
                           type: array
                           items:
@@ -818,26 +811,33 @@ paths:
                             convention_collective_renseignee:
                               type: boolean
                               description: Indique si au moins un établissement a une convention collective renseignée
+                            est_entrepreneur_individuel:
+                              type: boolean
+                              description: Entreprises individuelles
+                              example: false
                             est_entrepreneur_spectacle:
                               type: boolean
                               description: Entreprises ayant une licence d'entrepreneur du spectacle
-                              example: true
+                              example: false
+                            est_ess:
+                              type: boolean
+                              description: Entreprises d'économie sociale et solidaire
+                              example: false
                             est_finess:
                               type: boolean
                               description: Entreprises ayant au moins un établissement FINESS
-                              example: true
+                              example: false
                             est_rge:
                               type: boolean
                               description: Entreprises ayant au moins un établissement RGE
-                              example: true
+                              example: false
                             est_uai:
                               type: boolean
                               description: Entreprises ayant au moins un établissement UAI
-                              example: true
-                            est_association:
-                              type: boolean
-                              description: Entreprises ayant un identifiant d'association
                               example: false
+                            identifiant_association:
+                              type: string
+                              description: L'identifiant d'association de l'entreprise
                   total_results:
                     type: integer
                   page:

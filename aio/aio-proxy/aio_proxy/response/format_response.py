@@ -28,12 +28,6 @@ def format_response(results):
             "nombre_etablissements_ouverts": int(
                 get_field("nombre_etablissements_ouverts", default=0)
             ),
-            "est_entrepreneur_individuel": get_field(
-                "est_entrepreneur_individuel", default=False
-            ),
-            "identifiant_association": get_field(
-                "identifiant_association_unite_legale"
-            ),
             "siege": {
                 "siret": get_field("siret_siege"),
                 "date_creation": get_field("date_creation_siege"),
@@ -92,12 +86,18 @@ def format_response(results):
                 "convention_collective_renseignee": format_bool_field(
                     get_field("liste_idcc"),
                 ),
+                "est_entrepreneur_individuel": get_field(
+                    "est_entrepreneur_individuel", default=False
+                ),
                 "est_entrepreneur_spectacle": format_bool_field(
                     get_field("est_entrepreneur_spectacle")
                 ),
                 "est_finess": format_bool_field(get_field("liste_finess")),
                 "est_rge": format_bool_field(get_field("liste_rge")),
                 "est_uai": format_bool_field(get_field("liste_uai")),
+                "identifiant_association": get_field(
+                    "identifiant_association_unite_legale"
+                ),
             },
         }
         # Include score field for dev environment

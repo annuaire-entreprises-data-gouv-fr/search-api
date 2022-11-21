@@ -4,6 +4,7 @@ from aio_proxy.response.helpers import (
     format_bool_field,
     format_collectivite_territoriale,
     format_dirigeants,
+    format_ess,
     get_value,
 )
 from dotenv import load_dotenv
@@ -97,6 +98,9 @@ def format_response(results):
                 "est_uai": format_bool_field(get_field("liste_uai")),
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"
+                ),
+                "est_ess": format_ess(
+                    get_field("economie_sociale_solidaire_unite_legale")
                 ),
             },
         }

@@ -71,9 +71,6 @@ def format_response(results):
             "nature_juridique": get_field("nature_juridique_unite_legale"),
             "activite_principale": get_field("activite_principale_unite_legale"),
             "section_activite_principale": get_field("section_activite_principale"),
-            "economie_sociale_solidaire": get_field(
-                "economie_sociale_solidaire_unite_legale"
-            ),
             "dirigeants": format_dirigeants(
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
@@ -93,14 +90,14 @@ def format_response(results):
                 "est_entrepreneur_spectacle": format_bool_field(
                     get_field("est_entrepreneur_spectacle")
                 ),
+                "est_ess": format_ess(
+                    get_field("economie_sociale_solidaire_unite_legale")
+                ),
                 "est_finess": format_bool_field(get_field("liste_finess")),
                 "est_rge": format_bool_field(get_field("liste_rge")),
                 "est_uai": format_bool_field(get_field("liste_uai")),
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"
-                ),
-                "est_ess": format_ess(
-                    get_field("economie_sociale_solidaire_unite_legale")
                 ),
             },
         }

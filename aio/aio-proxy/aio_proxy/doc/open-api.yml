@@ -60,7 +60,8 @@ paths:
 
         **Paramètres d'appel :** dénomination de l'entreprise, code postal, code commune, activité 
         principale et section d'activité principale de l'entreprise, entrepreneur 
-        individuel, tranche d'effectif salarié, identifiant UAI (éducation), 
+        individuel, état administratif, tranche d'effectif salarié, identifiant UAI 
+        (éducation), 
         association, identifiant FINESS (sanitaire et social),
         identifiant de convention collective, identifiant RGE (reconnues garantes de
         l'environnement), entrepreneurs du spectacle, collectivités territoriales et
@@ -201,6 +202,15 @@ paths:
             enum:
               - "dirigeant"
               - "elu"
+        - name: etat_administratif
+          in: query
+          description: État administratif de l'unité légale
+          required: false
+          schema:
+            type: string
+            enum:
+              - "A"
+              - "C"
         - name: convention_collective_renseignee
           in: query
           description: Entreprises ayant au moins un établissement dont la convention collective est renseignée.

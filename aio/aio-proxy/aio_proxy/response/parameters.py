@@ -11,8 +11,8 @@ from aio_proxy.parsers.convention_collective import validate_id_convention_colle
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
-from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.etat_administratif import validate_etat_administratif
+from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page

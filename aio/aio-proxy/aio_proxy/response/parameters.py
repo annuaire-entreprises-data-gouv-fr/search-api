@@ -131,7 +131,7 @@ def extract_text_parameters(
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
         "convention_collective_renseignee": convention_collective_renseignee,
-        "etat_administratif": etat_administratif,
+        "etat_administratif_unite_legale": etat_administratif,
         "est_entrepreneur_individuel": est_entrepreneur_individuel,
         "est_association": est_association,
         "est_uai": est_uai,

@@ -11,6 +11,7 @@ from aio_proxy.parsers.convention_collective import validate_id_convention_colle
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
+from aio_proxy.parsers.etat_administratif import validate_etat_administratif
 from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
@@ -115,6 +116,9 @@ def extract_text_parameters(
     type_personne = validate_type_personne(
         clean_parameter(request, param="type_personne")
     )
+    etat_administratif = validate_etat_administratif(
+        clean_parameter(request, param="etat_administratif")
+    )
 
     validate_date_range(min_date_naiss_personne, max_date_naiss_personne)
 
@@ -127,6 +131,7 @@ def extract_text_parameters(
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
         "convention_collective_renseignee": convention_collective_renseignee,
+        "etat_administratif_unite_legale": etat_administratif,
         "est_entrepreneur_individuel": est_entrepreneur_individuel,
         "est_association": est_association,
         "est_uai": est_uai,

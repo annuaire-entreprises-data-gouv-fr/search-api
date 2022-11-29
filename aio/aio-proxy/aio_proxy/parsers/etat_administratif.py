@@ -17,5 +17,5 @@ def validate_etat_administratif(param_value: str) -> Optional[str]:
     if param_value is None:
         return None
     if param_value not in ["A", "C"]:
-        raise ValueError(f"L'état administratif doit prendre la valeur 'A' ou 'C' !")
+        raise ValueError("L'état administratif doit prendre la valeur 'A' ou 'C' !")
     return param_value

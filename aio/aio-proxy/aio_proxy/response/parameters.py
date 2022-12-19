@@ -11,6 +11,7 @@ from aio_proxy.parsers.convention_collective import validate_id_convention_colle
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
+from aio_proxy.parsers.ess import match_ess_bool_to_value
 from aio_proxy.parsers.etat_administratif import validate_etat_administratif
 from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
@@ -96,6 +97,12 @@ def extract_text_parameters(
         "est_rge",
         clean_parameter(request, param="est_rge"),
     )
+    ess = match_ess_bool_to_value(
+        validate_bool_field(
+            "est_ess",
+            clean_parameter(request, param="est_ess"),
+        )
+    )
     id_convention_collective = validate_id_convention_collective(
         clean_parameter(request, param="id_convention_collective")
     )
@@ -139,6 +146,7 @@ def extract_text_parameters(
         "est_collectivite_territoriale": est_collectivite_territoriale,
         "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
         "est_rge": est_rge,
+        "economie_sociale_solidaire_unite_legale": ess,
         "id_convention_collective": id_convention_collective,
         "id_finess": id_finess,
         "id_uai": id_uai,

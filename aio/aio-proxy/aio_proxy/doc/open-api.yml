@@ -152,15 +152,6 @@ paths:
               - T
               - U
             maxLength: 1
-        - name: est_entrepreneur_individuel
-          in: query
-          description: Uniquement les entreprises individuelles
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
         - name: tranche_effectif_salarie
           in: query
           description: <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche d'effectif salarié de l'entreprise</a>
@@ -220,6 +211,42 @@ paths:
             enum:
               - "true"
               - "false"
+        - name: est_entrepreneur_individuel
+          in: query
+          description: Uniquement les entreprises individuelles
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: est_association
+          in: query
+          description: Entreprises ayant un identifiant d'association
+          required: false
+          schema:
+            type: string
+            enum:
+              - "true"
+              - "false"
+        - name: est_entrepreneur_spectacle
+          in: query
+          description: Entreprises ayant une licence d'entrepreneur du spectacle
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
+        - name: est_ess
+          in: query
+          description: Entreprise appartient au champ de l'économie sociale et solidaire
+          required: false
+          schema:
+            type: string
+            enum:
+             - "true"
+             - "false"
         - name: est_rge
           in: query
           description: Entreprises reconnues garantes de l'Environnement (RGE)
@@ -250,24 +277,6 @@ paths:
         - name: est_collectivite_territoriale
           in: query
           description: Collectivités territoriales
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_association
-          in: query
-          description: Entreprises ayant un identifiant d'association
-          required: false
-          schema:
-            type: string
-            enum:
-              - "true"
-              - "false"
-        - name: est_entrepreneur_spectacle
-          in: query
-          description: Entreprises ayant une licence d'entrepreneur du spectacle
           required: false
           schema:
             type: string

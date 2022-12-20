@@ -53,6 +53,7 @@ def sort_and_execute_search(
     is_search_fields,
 ) -> Tuple:
     search = search.extra(track_scores=True)
+    search = search.extra(explain=True)
     # Sorting is very heavy on performance if there is no
     # search terms (only filters). As there is no search terms, we can
     # exclude this sorting because score is the same for all results

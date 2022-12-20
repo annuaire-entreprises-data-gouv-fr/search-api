@@ -272,7 +272,7 @@ def search_text(index, offset: int, page_size: int, **params):
                         "liste_dirigeants",
                         "liste_elus",
                     ],
-                    fuzziness="AUTO",
+                    # fuzziness="AUTO",
                 ),
             ],
         )

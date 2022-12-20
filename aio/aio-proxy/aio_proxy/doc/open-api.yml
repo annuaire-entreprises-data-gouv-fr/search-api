@@ -893,6 +893,9 @@ components:
           qualite:
             type: string
             example: "Directeur général"
+          type_dirigeant:
+            type: string
+            example: "personne physique"
     dirigeant_pm:
       type: object
       properties:
@@ -906,6 +909,9 @@ components:
           qualite:
             type: string
             example: "Commissaire aux comptes titulaire"
+          type_dirigeant:
+            type: string
+            example: "personne morale"
     collectivite_territoriale:
       type: object
       properties:

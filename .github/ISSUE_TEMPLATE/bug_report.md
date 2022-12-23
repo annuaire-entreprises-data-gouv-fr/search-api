@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: Signaler un bug
 about: Je viens de rencontrer un problème.
 title: "[BUG]"
 labels: bug
@@ -11,8 +11,10 @@ assignees: HAEKADI
 Décrivez votre problème ici.
 
 ## Comment le reproduire ?
+Étapes à suivre pour faire apparaître le bug.
 
 ## Comportement attendu
+Décrivez-nous ce à quoi vous vous attendiez.
 
 ## Comportement actuel
 

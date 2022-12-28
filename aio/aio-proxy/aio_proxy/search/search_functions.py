@@ -1,27 +1,37 @@
 from aio_proxy.search.filters import (
     filter_by_siren,
+    filter_by_siret,
     filter_search,
     filter_search_by_bool_variables,
     filter_search_by_matching_ids,
 )
-from aio_proxy.search.helpers import is_siren, sort_and_execute_search
+from aio_proxy.search.helpers import is_siren, is_siret, sort_and_execute_search
 from aio_proxy.search.person import search_person
+from elasticsearch import Elasticsearch
 from elasticsearch_dsl import query
 
 
 def search_text(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     s = index.search()
-
     # Filter by siren first (if query is a `siren` number), and return search results
-    # directly.
+    # directly
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siren(s, query_terms_clean)
         return sort_and_execute_search(
             search=s, offset=offset, page_size=page_size, is_search_fields=False
         )
+    # Filter by siret first (if query is a `siret` number), and return search results
+    # directly.
+    if is_siret(query_terms):
+        query_terms_clean = query_terms.replace(" ", "")
+        s = filter_by_siret(s, query_terms_clean)
+        return sort_and_execute_search(
+            search=s, offset=offset, page_size=page_size, is_search_fields=False
+        )
 
+    """
     # Use filters to reduce search results
     s = filter_search(
         s,
@@ -284,7 +294,7 @@ def search_text(index, offset: int, page_size: int, **params):
     ]:
         if params[item]:
             is_search_fields = True
-
+    """
     return sort_and_execute_search(
         search=s,
         offset=offset,

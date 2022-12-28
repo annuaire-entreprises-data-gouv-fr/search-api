@@ -1,10 +1,33 @@
 from aio_proxy.search.helpers import get_es_field
-from elasticsearch_dsl import Q
+from elasticsearch_dsl import Q, Nested
 
 
 def filter_by_siren(search, siren_string):
     """Filter by `siren` number"""
     search = search.filter("term", **{"siren": siren_string})
+    return search
+
+
+def filter_by_siret(search, siret_string):
+    """Filter by 'siret' number"""
+    siret_filter = {
+        "nested": {
+            "path": "etablissements",
+            "query": {
+                "bool": {
+                    "filter": [
+                  {
+                    "term": {
+                      "etablissements.siret": siret_string
+                    }
+                  }
+                ]
+              }
+            },
+            "inner_hits": {}
+          }
+    }
+    search = search.query(Q(siret_filter))
     return search
 
 

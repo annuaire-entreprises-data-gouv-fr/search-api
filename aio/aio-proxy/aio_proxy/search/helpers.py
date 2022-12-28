@@ -88,10 +88,13 @@ def sort_and_execute_search(
         # Add meta field to response to retrieve score
         matched_company_dict["meta"] = matched_company.meta.to_dict()
         # Add inner hits field (etablissements)
-        matched_etablissements = matched_company.meta.inner_hits.etablissements.hits
-        matched_company_dict["inner_hits"] = []
-        for matched_etablissement in matched_etablissements:
-            matched_company_dict["inner_hits"].append(matched_etablissement.to_dict())
+        try:
+            matched_etablissements = matched_company.meta.inner_hits.etablissements.hits
+            matched_company_dict["inner_hits"] = []
+            for matched_etablissement in matched_etablissements:
+                matched_company_dict["inner_hits"].append(matched_etablissement.to_dict())
+        except:
+            matched_company_dict["inner_hits"] = []
         response.append(matched_company_dict)
     return total_results, response
 

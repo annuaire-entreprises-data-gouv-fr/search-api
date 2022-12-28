@@ -8,8 +8,9 @@ from aio_proxy.search.filters import (
 )
 from aio_proxy.search.helpers import is_siren, is_siret, sort_and_execute_search
 from aio_proxy.search.person import search_person
+from aio_proxy.search.text import build_text_query
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import query
+from elasticsearch_dsl import Q, query
 
 
 def search_text(index, offset: int, page_size: int, **params):
@@ -94,7 +95,6 @@ def search_text(index, offset: int, page_size: int, **params):
         **params,
     )
 
-    """
     # Search 'élus' only
     if params["type_personne"] == "ELU":
         s = search_person(
@@ -113,6 +113,7 @@ def search_text(index, offset: int, page_size: int, **params):
             ],
             **params,
         )
+
     # Search 'dirigeants' only
     elif params["type_personne"] == "DIRIGEANT":
         s = search_person(
@@ -158,146 +159,8 @@ def search_text(index, offset: int, page_size: int, **params):
 
     # Search text
     if query_terms:
-        s = s.query(
-            "bool",
-            should=[
-                query.Q(
-                    "function_score",
-                    query=query.Bool(
-                        should=[
-                            query.MultiMatch(
-                                query=query_terms,
-                                type="phrase",
-                                fields=[
-                                    "nom_complet^15",
-                                    "liste_dirigeants^5",
-                                    "siren^3",
-                                    "siret_siege^3",
-                                    "identifiant_association_unite_legale^3",
-                                ],
-                            )
-                        ]
-                    ),
-                    functions=[
-                        query.SF(
-                            "field_value_factor",
-                            field="nombre_etablissements_ouverts",
-                            factor=10,
-                            modifier="sqrt",
-                            missing=1,
-                        ),
-                    ],
-                ),
-                query.Q(
-                    "function_score",
-                    query=query.Bool(
-                        must=[
-                            query.Match(
-                                concat_nom_adr_siren={
-                                    "query": query_terms,
-                                    "operator": "and",
-                                    "boost": 8,
-                                }
-                            )
-                        ]
-                    ),
-                    functions=[
-                        query.SF(
-                            "field_value_factor",
-                            field="nombre_etablissements_ouverts",
-                            factor=10,
-                            modifier="sqrt",
-                            missing=1,
-                        ),
-                    ],
-                ),
-                query.Q(
-                    "function_score",
-                    query=query.Bool(
-                        should=[
-                            query.MultiMatch(
-                                query=query_terms,
-                                type="most_fields",
-                                fields=[
-                                    "nom_complet^7",
-                                    "siren^7",
-                                    "siret_siege^4",
-                                    "identifiant_association_unite_legale^4",
-                                ],
-                                operator="and",
-                            )
-                        ]
-                    ),
-                    functions=[
-                        query.SF(
-                            "field_value_factor",
-                            field="nombre_etablissements_ouverts",
-                            factor=10,
-                            modifier="sqrt",
-                            missing=1,
-                        ),
-                    ],
-                ),
-                query.Q(
-                    "function_score",
-                    query=query.Bool(
-                        should=[
-                            query.MultiMatch(
-                                query=query_terms,
-                                type="most_fields",
-                                fields=["liste_enseignes^7", "liste_adresses^7"],
-                                operator="and",
-                            )
-                        ]
-                    ),
-                    functions=[
-                        query.SF(
-                            "field_value_factor",
-                            field="nombre_etablissements_ouverts",
-                            factor=10,
-                            modifier="sqrt",
-                            missing=1,
-                        ),
-                    ],
-                ),
-                query.Q(
-                    "function_score",
-                    query=query.Bool(
-                        must=[
-                            query.Match(
-                                concat_enseigne_adresse={
-                                    "query": query_terms,
-                                    "operator": "and",
-                                    "boost": 8,
-                                }
-                            )
-                        ]
-                    ),
-                    functions=[
-                        query.SF(
-                            "field_value_factor",
-                            field="nombre_etablissements_ouverts",
-                            factor=10,
-                            modifier="sqrt",
-                            missing=1,
-                        ),
-                    ],
-                ),
-                query.MultiMatch(
-                    query=query_terms,
-                    type="most_fields",
-                    operator="and",
-                    fields=[
-                        "nom_complet",
-                        "adresse_etablissement",
-                        "liste_dirigeants",
-                        "liste_elus",
-                    ],
-                    # fuzziness="AUTO",
-                ),
-            ],
-        )
-    """
+        s = s.query(Q(build_text_query(query_terms)))
+
     is_search_fields = False
     for item in [
         "terms",

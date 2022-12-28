@@ -2,7 +2,8 @@ from aio_proxy.search.filters import (
     filter_by_siren,
     filter_by_siret,
     filter_search,
-    filter_search_by_bool_variables,
+    filter_search_by_bool_variables_etablissements,
+    filter_search_by_bool_variables_unite_legale,
     filter_search_by_matching_ids,
 )
 from aio_proxy.search.helpers import is_siren, is_siret, sort_and_execute_search
@@ -14,6 +15,7 @@ from elasticsearch_dsl import query
 def search_text(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     s = index.search()
+
     # Filter by siren first (if query is a `siren` number), and return search results
     # directly
     if is_siren(query_terms):
@@ -22,6 +24,7 @@ def search_text(index, offset: int, page_size: int, **params):
         return sort_and_execute_search(
             search=s, offset=offset, page_size=page_size, is_search_fields=False
         )
+
     # Filter by siret first (if query is a `siret` number), and return search results
     # directly.
     if is_siret(query_terms):
@@ -35,7 +38,6 @@ def search_text(index, offset: int, page_size: int, **params):
     s = filter_search(
         s,
         filters_to_ignore=[
-            "terms",
             "convention_collective_renseignee",
             "est_association",
             "est_finess",
@@ -51,27 +53,35 @@ def search_text(index, offset: int, page_size: int, **params):
             "prenoms_personne",
             "min_date_naiss_personne",
             "max_date_naiss_personne",
+            "terms",
             "type_personne",
         ],
         **params,
     )
-    """
 
-    # Boolean filters
-    s = filter_search_by_bool_variables(
+    # Boolean filters for unité légale
+    s = filter_search_by_bool_variables_unite_legale(
+        s,
+        filters_to_process=[
+            "est_association",
+            "est_collectivite_territoriale",
+        ],
+        **params,
+    )
+
+    # Boolean filters for établissements
+    s = filter_search_by_bool_variables_etablissements(
         s,
         filters_to_process=[
             "convention_collective_renseignee",
-            "est_association",
             "est_finess",
             "est_uai",
-            "est_collectivite_territoriale",
             "est_entrepreneur_spectacle",
             "est_rge",
         ],
         **params,
     )
-
+    """
     # Match ids
     s = filter_search_by_matching_ids(
         s,
@@ -286,6 +296,7 @@ def search_text(index, offset: int, page_size: int, **params):
                 ),
             ],
         )
+    """
     is_search_fields = False
     for item in [
         "terms",
@@ -294,7 +305,7 @@ def search_text(index, offset: int, page_size: int, **params):
     ]:
         if params[item]:
             is_search_fields = True
-    """
+
     return sort_and_execute_search(
         search=s,
         offset=offset,

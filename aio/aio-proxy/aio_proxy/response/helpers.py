@@ -132,6 +132,50 @@ def format_etablissements(etablissements=None):
     return etablissements_formatted
 
 
+def format_siege(siege=None):
+    siege_formatted = {
+        "activite_principale": get_value(siege, "activite_principale"),
+        "activite_principale_registre_metier": get_value(siege,"activite_principale_registre_metier"),
+        "cedex": get_value(siege, "cedex"),
+        "code_pays_etranger": get_value(siege, "code_pays_etranger"),
+        "code_postal": get_value(siege, "code_postal"),
+        "commune": get_value(siege, "commune"),
+        "complement_adresse": get_value(siege, "complement_adresse"),
+        "date_creation": get_value(siege, "date_creation"),
+        "date_debut_activite": get_value(siege, "date_debut_activite"),
+        "distribution_speciale": get_value(siege, "distribution_speciale"),
+        "enseigne_1": get_value(siege, "enseigne_1"),
+        "enseigne_2": get_value(siege, "enseigne_2"),
+        "enseigne_3": get_value(siege, "enseigne_3"),
+        "est_siege": get_value(siege, "est_siege"),
+        "etat_administratif": get_value(siege, "etat_administratif"),
+        "geo_adresse": get_value(siege, "geo_adresse"),
+        "geo_id": get_value(siege, "geo_id"),
+        "indice_repetition": get_value(siege, "indice_repetition"),
+        "latitude": get_value(siege, "latitude"),
+        "libelle_cedex": get_value(siege, "libelle_cedex"),
+        "libelle_commune": get_value(siege, "libelle_commune"),
+        "libelle_commune_etranger": get_value(siege,"libelle_commune_etranger"),
+        "libelle_pays_etranger": get_value(siege, "libelle_pays_etranger"),
+        "libelle_voie": get_value(siege, "libelle_voie"),
+        "liste_finess": get_value(siege, "liste_finess"),
+        "liste_idcc": get_value(siege, "liste_idcc"),
+        "liste_rge": get_value(siege, "liste_rge"),
+        "liste_uai": get_value(siege, "liste_uai"),
+        "longitude": get_value(siege, "longitude"),
+        "nom_commercial": get_value(siege, "nom_commercial"),
+        "numero_voie": get_value(siege, "numero_voie"),
+        "siret": get_value(siege, "siret"),
+        "tranche_effectif_salarie": get_value(siege,
+                                              "tranche_effectif_salarie"),
+        "type_voie": get_value(siege, "type_voie"),
+        "adresse": get_value(siege, "adresse"),
+        "coordonnees": get_value(siege, "coordonnees"),
+        "departement": get_value(siege, "departement"),
+    }
+    return siege_formatted
+
+
 def format_matched_etablissements():
     return matched_etablissements
 

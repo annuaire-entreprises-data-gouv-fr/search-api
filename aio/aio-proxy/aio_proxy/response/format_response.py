@@ -6,6 +6,7 @@ from aio_proxy.response.helpers import (
     format_dirigeants,
     format_ess,
     format_etablissements,
+    format_siege,
     get_value,
 )
 from dotenv import load_dotenv
@@ -30,37 +31,7 @@ def format_response(results):
             "nombre_etablissements_ouverts": int(
                 get_field("nombre_etablissements_ouverts", default=0)
             ),
-            "siege": {
-                "siret": get_field("siret_siege"),
-                "date_creation": get_field("date_creation_siege"),
-                "tranche_effectif_salarie": get_field("tranche_effectif_salarie_siege"),
-                "date_debut_activite": get_field("date_debut_activite_siege"),
-                "etat_administratif": get_field("etat_administratif_siege"),
-                "activite_principale": get_field("activite_principale_siege"),
-                "complement_adresse": get_field("complement_adresse"),
-                "numero_voie": get_field("numero_voie"),
-                "indice_repetition": get_field("indice_repetition"),
-                "type_voie": get_field("type_voie"),
-                "libelle_voie": get_field("libelle_voie"),
-                "distribution_speciale": get_field("distribution_speciale"),
-                "cedex": get_field("cedex"),
-                "libelle_cedex": get_field("libelle_cedex"),
-                "commune": get_field("commune"),
-                "libelle_commune": get_field("libelle_commune"),
-                "code_pays_etranger": get_field("code_pays_etranger"),
-                "libelle_commune_etranger": get_field("libelle_commune_etranger"),
-                "libelle_pays_etranger": get_field("libelle_pays_etranger"),
-                "adresse_complete": get_field("adresse_etablissement"),
-                "adresse_complete_secondaire": get_field("adresse_etablissement_2"),
-                "code_postal": get_field("code_postal"),
-                "departement": get_field("departement"),
-                "geo_id": get_field("geo_id"),
-                "longitude": get_field("longitude"),
-                "latitude": get_field("latitude"),
-                "activite_principale_registre_metier": get_field(
-                    "activite_principale_registre_metier"
-                ),
-            },
+            "siege": format_siege(get_field("siege")),
             "date_creation": get_field("date_creation_unite_legale"),
             "tranche_effectif_salarie": get_field(
                 "tranche_effectif_salarie_unite_legale"

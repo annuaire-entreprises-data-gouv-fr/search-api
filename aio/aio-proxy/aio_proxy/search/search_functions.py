@@ -31,7 +31,6 @@ def search_text(index, offset: int, page_size: int, **params):
             search=s, offset=offset, page_size=page_size, is_search_fields=False
         )
 
-    """
     # Use filters to reduce search results
     s = filter_search(
         s,
@@ -56,6 +55,7 @@ def search_text(index, offset: int, page_size: int, **params):
         ],
         **params,
     )
+    """
 
     # Boolean filters
     s = filter_search_by_bool_variables(

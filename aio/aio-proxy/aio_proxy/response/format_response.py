@@ -47,6 +47,9 @@ def format_response(results):
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
             "etablissements": format_etablissements(get_field("etablissements")),
+            "matched_etablissements": format_etablissements(
+                get_field("inner_hits")
+            ),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),

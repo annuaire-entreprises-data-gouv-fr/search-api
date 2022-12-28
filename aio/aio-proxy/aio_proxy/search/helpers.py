@@ -46,6 +46,19 @@ def is_siren(query_string: str) -> bool:
     return False
 
 
+def is_siret(query_string: str) -> bool:
+    """
+    Check if string is siret (composed of 14 digits).
+    """
+    if query_string is None:
+        return False
+    clean_query_string = query_string.replace(" ", "").upper()
+    siret_valides = r"\b\d{14}\b"
+    if re.search(siret_valides, clean_query_string):
+        return True
+    return False
+
+
 def sort_and_execute_search(
     search,
     offset: int,
@@ -74,6 +87,11 @@ def sort_and_execute_search(
         )
         # Add meta field to response to retrieve score
         matched_company_dict["meta"] = matched_company.meta.to_dict()
+        # Add inner hits field (etablissements)
+        matched_etablissements = matched_company.meta.inner_hits.etablissements.hits
+        matched_company_dict["inner_hits"] = []
+        for matched_etablissement in matched_etablissements:
+            matched_company_dict["inner_hits"].append(matched_etablissement.to_dict())
         response.append(matched_company_dict)
     return total_results, response
 

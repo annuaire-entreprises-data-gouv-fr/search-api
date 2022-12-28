@@ -47,9 +47,7 @@ def format_response(results):
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
             "etablissements": format_etablissements(get_field("etablissements"))[0],
-            "matched_etablissements": format_etablissements(
-                get_field("inner_hits")
-            )[0],
+            "matched_etablissements": format_etablissements(get_field("inner_hits"))[0],
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
@@ -57,8 +55,9 @@ def format_response(results):
                     get_field("colter_elus"),
                     get_field("colter_niveau"),
                 ),
-                "convention_collective_renseignee": format_etablissements(get_field(
-                    "etablissements"))[1]["liste_idcc"],
+                "convention_collective_renseignee": format_etablissements(
+                    get_field("etablissements")
+                )[1]["liste_idcc"],
                 "est_entrepreneur_individuel": get_field(
                     "est_entrepreneur_individuel", default=False
                 ),
@@ -68,11 +67,15 @@ def format_response(results):
                 "est_ess": format_ess(
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),
-                "est_finess": format_etablissements(
-                    get_field("etablissements"))[1]["liste_finess"],
-                "est_rge": format_etablissements(get_field("etablissements"))[1]["liste_rge"],
+                "est_finess": format_etablissements(get_field("etablissements"))[1][
+                    "liste_finess"
+                ],
+                "est_rge": format_etablissements(get_field("etablissements"))[1][
+                    "liste_rge"
+                ],
                 "est_uai": format_etablissements(get_field("etablissements"))[1][
-                    "liste_uai"],
+                    "liste_uai"
+                ],
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"
                 ),

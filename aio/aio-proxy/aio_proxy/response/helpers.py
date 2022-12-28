@@ -88,8 +88,9 @@ def format_elus(elus=None):
 def format_etablissement(source_etablissement):
     formatted_etablissement = {
         "activite_principale": get_value(source_etablissement, "activite_principale"),
-        "activite_principale_registre_metier": get_value(source_etablissement,
-                                                         "activite_principale_registre_metier"),
+        "activite_principale_registre_metier": get_value(
+            source_etablissement, "activite_principale_registre_metier"
+        ),
         "cedex": get_value(source_etablissement, "cedex"),
         "code_pays_etranger": get_value(source_etablissement, "code_pays_etranger"),
         "code_postal": get_value(source_etablissement, "code_postal"),
@@ -97,11 +98,15 @@ def format_etablissement(source_etablissement):
         "complement_adresse": get_value(source_etablissement, "complement_adresse"),
         "date_creation": get_value(source_etablissement, "date_creation"),
         "date_debut_activite": get_value(source_etablissement, "date_debut_activite"),
-        "distribution_speciale": get_value(source_etablissement, "distribution_speciale"),
+        "distribution_speciale": get_value(
+            source_etablissement, "distribution_speciale"
+        ),
         "enseigne_1": get_value(source_etablissement, "enseigne_1"),
         "enseigne_2": get_value(source_etablissement, "enseigne_2"),
         "enseigne_3": get_value(source_etablissement, "enseigne_3"),
-        "est_source_etablissement": get_value(source_etablissement, "est_source_etablissement"),
+        "est_source_etablissement": get_value(
+            source_etablissement, "est_source_etablissement"
+        ),
         "etat_administratif": get_value(source_etablissement, "etat_administratif"),
         "geo_adresse": get_value(source_etablissement, "geo_adresse"),
         "geo_id": get_value(source_etablissement, "geo_id"),
@@ -109,8 +114,12 @@ def format_etablissement(source_etablissement):
         "latitude": get_value(source_etablissement, "latitude"),
         "libelle_cedex": get_value(source_etablissement, "libelle_cedex"),
         "libelle_commune": get_value(source_etablissement, "libelle_commune"),
-        "libelle_commune_etranger": get_value(source_etablissement, "libelle_commune_etranger"),
-        "libelle_pays_etranger": get_value(source_etablissement, "libelle_pays_etranger"),
+        "libelle_commune_etranger": get_value(
+            source_etablissement, "libelle_commune_etranger"
+        ),
+        "libelle_pays_etranger": get_value(
+            source_etablissement, "libelle_pays_etranger"
+        ),
         "libelle_voie": get_value(source_etablissement, "libelle_voie"),
         "liste_finess": get_value(source_etablissement, "liste_finess"),
         "liste_idcc": get_value(source_etablissement, "liste_idcc"),
@@ -120,8 +129,9 @@ def format_etablissement(source_etablissement):
         "nom_commercial": get_value(source_etablissement, "nom_commercial"),
         "numero_voie": get_value(source_etablissement, "numero_voie"),
         "siret": get_value(source_etablissement, "siret"),
-        "tranche_effectif_salarie": get_value(source_etablissement,
-                                              "tranche_effectif_salarie"),
+        "tranche_effectif_salarie": get_value(
+            source_etablissement, "tranche_effectif_salarie"
+        ),
         "type_voie": get_value(source_etablissement, "type_voie"),
         "adresse": get_value(source_etablissement, "adresse"),
         "coordonnees": get_value(source_etablissement, "coordonnees"),
@@ -135,7 +145,7 @@ def format_etablissements(etablissements=None):
         "liste_uai": False,
         "liste_rge": False,
         "liste_finess": False,
-        "liste_idcc": False
+        "liste_idcc": False,
     }
     etablissements_formatted = []
     if etablissements:

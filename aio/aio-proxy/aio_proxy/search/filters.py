@@ -14,17 +14,9 @@ def filter_by_siret(search, siret_string):
         "nested": {
             "path": "etablissements",
             "query": {
-                "bool": {
-                    "filter": [
-                        {
-                            "term": {
-                                "etablissements.siret": siret_string
-                            }
-                        }
-                    ]
-                }
+                "bool": {"filter": [{"term": {"etablissements.siret": siret_string}}]}
             },
-            "inner_hits": {}
+            "inner_hits": {},
         }
     }
     search = search.query(Q(siret_filter))
@@ -41,7 +33,7 @@ def filter_search(search, filters_to_ignore: list, **params):
 
 
 def filter_search_by_bool_variables_unite_legale(
-        search, filters_to_process: list, **params
+    search, filters_to_process: list, **params
 ):
     for param_name, param_value in params.items():
         if param_value is not None and param_name in filters_to_process:
@@ -55,7 +47,7 @@ def filter_search_by_bool_variables_unite_legale(
 
 
 def filter_search_by_bool_variables_etablissements(
-        search, filters_to_process: list, **params
+    search, filters_to_process: list, **params
 ):
     """
     The parameters concerned by this function are bool variables that have a
@@ -85,15 +77,11 @@ def filter_search_by_bool_variables_etablissements(
                         "query": {
                             "bool": {
                                 "must": [
-                                    {
-                                        "exists": {
-                                            "field": "etablissements." + field
-                                        }
-                                    }
+                                    {"exists": {"field": "etablissements." + field}}
                                 ]
                             }
                         },
-                        "inner_hits": {}
+                        "inner_hits": {},
                     }
                 }
                 search = search.query(Q(exists_query))
@@ -104,15 +92,11 @@ def filter_search_by_bool_variables_etablissements(
                         "query": {
                             "bool": {
                                 "must_not": [
-                                    {
-                                        "exists": {
-                                            "field": "etablissements." + field
-                                        }
-                                    }
+                                    {"exists": {"field": "etablissements." + field}}
                                 ]
                             }
                         },
-                        "inner_hits": {}
+                        "inner_hits": {},
                     }
                 }
                 search = search.query(Q(not_exists_query))
@@ -135,20 +119,19 @@ def filter_search_by_matching_ids(search, filters_to_process: list, **params):
                         "bool": {
                             "must": [
                                 {
-                                "match":
-                                {
-                                    "etablissements." + field:
-                                        {
+                                    "match": {
+                                        "etablissements."
+                                        + field: {
                                             "query": param_value,
                                             "boost": 10,
-                                            "_name": "Filter id:" + field
+                                            "_name": "Filter id:" + field,
                                         }
+                                    }
                                 }
-                                }
-                        ]
-                    }
+                            ]
+                        }
                     },
-                    "inner_hits": {}
+                    "inner_hits": {},
                 }
             }
             search = search.query(Q(id_filter))

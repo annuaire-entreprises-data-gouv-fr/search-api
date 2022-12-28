@@ -5,6 +5,7 @@ from aio_proxy.response.helpers import (
     format_collectivite_territoriale,
     format_dirigeants,
     format_ess,
+    format_etablissements,
     get_value,
 )
 from dotenv import load_dotenv
@@ -74,6 +75,7 @@ def format_response(results):
             "dirigeants": format_dirigeants(
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
+            "etablissements": format_etablissements(get_field("etablissements")),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),

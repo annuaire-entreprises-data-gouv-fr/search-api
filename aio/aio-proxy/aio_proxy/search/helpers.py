@@ -61,7 +61,7 @@ def sort_and_execute_search(
     if is_search_fields:
         search = search.sort(
             {"_score": {"order": "desc"}},
-            {"etat_administratif_siege": {"order": "asc"}},
+            {"etat_administratif_unite_legale": {"order": "asc"}},
         )
 
     search = search[offset : (offset + page_size)]

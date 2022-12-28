@@ -81,7 +81,7 @@ def search_text(index, offset: int, page_size: int, **params):
         ],
         **params,
     )
-    """
+
     # Match ids
     s = filter_search_by_matching_ids(
         s,
@@ -94,6 +94,7 @@ def search_text(index, offset: int, page_size: int, **params):
         **params,
     )
 
+    """
     # Search 'élus' only
     if params["type_personne"] == "ELU":
         s = search_person(

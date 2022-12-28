@@ -16,17 +16,17 @@ def filter_by_siret(search, siret_string):
             "query": {
                 "bool": {
                     "filter": [
-                    {
-                        "term": {
-                            "etablissements.siret": siret_string
+                        {
+                            "term": {
+                                "etablissements.siret": siret_string
+                            }
                         }
-                    }
                     ]
-                 }
-                },
-                "inner_hits": {}
-            }
+                }
+            },
+            "inner_hits": {}
         }
+    }
     search = search.query(Q(siret_filter))
     return search
 
@@ -87,7 +87,7 @@ def filter_search_by_bool_variables_etablissements(
                                 "must": [
                                     {
                                         "exists": {
-                                            "field": "etablissements."+field
+                                            "field": "etablissements." + field
                                         }
                                     }
                                 ]
@@ -106,7 +106,7 @@ def filter_search_by_bool_variables_etablissements(
                                 "must_not": [
                                     {
                                         "exists": {
-                                            "field": "etablissements."+field
+                                            "field": "etablissements." + field
                                         }
                                     }
                                 ]
@@ -127,5 +127,29 @@ def filter_search_by_matching_ids(search, filters_to_process: list, **params):
               "id_rge","""
     for param_name, param_value in params.items():
         if param_value is not None and param_name in filters_to_process:
-            search = search.filter("match", **{get_es_field(param_name): param_value})
+            field = get_es_field(param_name)
+            id_filter = {
+                "nested": {
+                    "path": "etablissements",
+                    "query": {
+                        "bool": {
+                            "must": [
+                                {
+                                "match":
+                                {
+                                    "etablissements." + field:
+                                        {
+                                            "query": param_value,
+                                            "boost": 10,
+                                            "_name": "Filter id:" + field
+                                        }
+                                }
+                                }
+                        ]
+                    }
+                    },
+                    "inner_hits": {}
+                }
+            }
+            search = search.query(Q(id_filter))
     return search

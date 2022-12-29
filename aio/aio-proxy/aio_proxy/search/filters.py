@@ -1,5 +1,5 @@
 from aio_proxy.search.helpers import get_es_field
-from elasticsearch_dsl import Nested, Q
+from elasticsearch_dsl import Q
 
 
 def filter_by_siren(search, siren_string):

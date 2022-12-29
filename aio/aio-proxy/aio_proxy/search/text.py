@@ -76,7 +76,7 @@ def build_text_query(terms):
                                                             "boost": 25,
                                                             "_name": "exact match "
                                                             "enseigne 1",
-                                                        }
+                                                    }
                                                 }
                                             },
                                             {
@@ -86,7 +86,7 @@ def build_text_query(terms):
                                                         "operator": "AND",
                                                         "boost": 5,
                                                         "_name": "partial match "
-                                                                 "enseigne 1",
+                                                        "enseigne 1",
                                                     }
                                                 }
                                             },
@@ -97,8 +97,8 @@ def build_text_query(terms):
                                                             "query": terms,
                                                             "boost": 25,
                                                             "_name": "exact match "
-                                                                     "enseigne 2",
-                                                        }
+                                                            "enseigne 2",
+                                                    }
                                                 }
                                             },
                                             {
@@ -108,7 +108,7 @@ def build_text_query(terms):
                                                         "operator": "AND",
                                                         "boost": 5,
                                                         "_name": "partial match "
-                                                                 "enseigne 2",
+                                                        "enseigne 2",
                                                     }
                                                 }
                                             },
@@ -120,7 +120,7 @@ def build_text_query(terms):
                                                             "boost": 25,
                                                             "_name": "exact "
                                                             "match enseigne 3",
-                                                        }
+                                                    }
                                                 }
                                             },
                                             {
@@ -130,7 +130,7 @@ def build_text_query(terms):
                                                         "operator": "AND",
                                                         "boost": 5,
                                                         "_name": "partial match "
-                                                                 "enseigne 3",
+                                                        "enseigne 3",
                                                     }
                                                 }
                                             },
@@ -141,7 +141,7 @@ def build_text_query(terms):
                                                         "operator": "AND",
                                                         "boost": 15,
                                                         "_name": "partial match "
-                                                                 "adresse",
+                                                        "adresse",
                                                     }
                                                 }
                                             },
@@ -151,7 +151,7 @@ def build_text_query(terms):
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "_name": "partial match "
-                                                                 "adresse",
+                                                        "adresse",
                                                     }
                                                 }
                                             },
@@ -168,7 +168,7 @@ def build_text_query(terms):
                                                     "operator": "AND",
                                                     "boost": 5,
                                                     "_name": "match nom complet et "
-                                                              "adresse",
+                                                    "adresse",
                                                 }
                                             },
                                         ]

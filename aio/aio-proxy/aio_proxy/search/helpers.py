@@ -95,7 +95,7 @@ def sort_and_execute_search(
                 matched_company_dict["inner_hits"].append(
                     matched_etablissement.to_dict()
                 )
-        except:
+        except Exception:
             matched_company_dict["inner_hits"] = []
         response.append(matched_company_dict)
     return total_results, response

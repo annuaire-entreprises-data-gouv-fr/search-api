@@ -72,11 +72,11 @@ def build_text_query(terms):
                                                 "match_phrase": {
                                                     "etablissements.enseigne_1. "
                                                     "keyword": {
-                                                            "query": terms,
-                                                            "boost": 25,
-                                                            "_name": "exact match "
-                                                            "enseigne 1",
-                                                        }
+                                                        "query": terms,
+                                                        "boost": 25,
+                                                        "_name": "exact match "
+                                                        "enseigne 1",
+                                                    }
                                                 }
                                             },
                                             {
@@ -94,11 +94,11 @@ def build_text_query(terms):
                                                 "match_phrase": {
                                                     "etablissements.enseigne_2. "
                                                     "keyword": {
-                                                            "query": terms,
-                                                            "boost": 25,
-                                                            "_name": "exact match "
-                                                            "enseigne 2",
-                                                        }
+                                                        "query": terms,
+                                                        "boost": 25,
+                                                        "_name": "exact match "
+                                                        "enseigne 2",
+                                                    }
                                                 }
                                             },
                                             {
@@ -116,11 +116,11 @@ def build_text_query(terms):
                                                 "match_phrase": {
                                                     "etablissements.enseigne_3."
                                                     "keyword": {
-                                                            "query": terms,
-                                                            "boost": 25,
-                                                            "_name": "exact "
-                                                            "match enseigne 3",
-                                                        }
+                                                        "query": terms,
+                                                        "boost": 25,
+                                                        "_name": "exact "
+                                                        "match enseigne 3",
+                                                    }
                                                 }
                                             },
                                             {

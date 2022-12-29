@@ -16,7 +16,7 @@ def build_text_query(terms):
                         "field_value_factor": {
                             "field": "nombre_etablissements_ouverts",
                             "factor": 1,
-                            "modifier": "log1p",
+                            "modifier": "log2p",
                             "missing": 1,
                         },
                     }
@@ -35,7 +35,7 @@ def build_text_query(terms):
                         "field_value_factor": {
                             "field": "nombre_etablissements_ouverts",
                             "factor": 1,
-                            "modifier": "log1p",
+                            "modifier": "log2p",
                             "missing": 1,
                         },
                     }
@@ -55,7 +55,7 @@ def build_text_query(terms):
                         "field_value_factor": {
                             "field": "nombre_etablissements_ouverts",
                             "factor": 1,
-                            "modifier": "log1p",
+                            "modifier": "log2p",
                             "missing": 1,
                         },
                     }
@@ -76,7 +76,7 @@ def build_text_query(terms):
                                                             "boost": 25,
                                                             "_name": "exact match "
                                                             "enseigne 1",
-                                                    }
+                                                        }
                                                 }
                                             },
                                             {
@@ -98,7 +98,7 @@ def build_text_query(terms):
                                                             "boost": 25,
                                                             "_name": "exact match "
                                                             "enseigne 2",
-                                                    }
+                                                        }
                                                 }
                                             },
                                             {
@@ -120,7 +120,7 @@ def build_text_query(terms):
                                                             "boost": 25,
                                                             "_name": "exact "
                                                             "match enseigne 3",
-                                                    }
+                                                        }
                                                 }
                                             },
                                             {
@@ -146,16 +146,6 @@ def build_text_query(terms):
                                                 }
                                             },
                                             {
-                                                "match": {
-                                                    "etablissements.geo_adresse": {
-                                                        "query": terms,
-                                                        "operator": "AND",
-                                                        "_name": "partial match "
-                                                        "adresse",
-                                                    }
-                                                }
-                                            },
-                                            {
                                                 "multi_match": {
                                                     "query": terms,
                                                     "fields": [
@@ -166,7 +156,6 @@ def build_text_query(terms):
                                                     ],
                                                     "type": "cross_fields",
                                                     "operator": "AND",
-                                                    "boost": 5,
                                                     "_name": "match nom complet et "
                                                     "adresse",
                                                 }
@@ -180,7 +169,7 @@ def build_text_query(terms):
                         "field_value_factor": {
                             "field": "nombre_etablissements_ouverts",
                             "factor": 1,
-                            "modifier": "log1p",
+                            "modifier": "log2p",
                             "missing": 1,
                         },
                     }
@@ -200,7 +189,7 @@ def build_text_query(terms):
                         "field_value_factor": {
                             "field": "nombre_etablissements_ouverts",
                             "factor": 1,
-                            "modifier": "log1p",
+                            "modifier": "log2p",
                             "missing": 1,
                         },
                     }
@@ -220,7 +209,7 @@ def build_text_query(terms):
                         "field_value_factor": {
                             "field": "nombre_etablissements_ouverts",
                             "factor": 1,
-                            "modifier": "log1p",
+                            "modifier": "log2p",
                             "missing": 1,
                         },
                     }

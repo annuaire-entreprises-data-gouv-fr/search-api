@@ -70,8 +70,8 @@ def build_text_query(terms):
                                         "should": [
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_1.keyword":
-                                                        {
+                                                    "etablissements.enseigne_1. "
+                                                    "keyword": {
                                                             "query": terms,
                                                             "boost": 25,
                                                             "_name": "exact match "
@@ -92,8 +92,8 @@ def build_text_query(terms):
                                             },
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_2.keyword":
-                                                        {
+                                                    "etablissements.enseigne_2. "
+                                                    "keyword": {
                                                             "query": terms,
                                                             "boost": 25,
                                                             "_name": "exact match "
@@ -114,8 +114,8 @@ def build_text_query(terms):
                                             },
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_3.keyword":
-                                                        {
+                                                    "etablissements.enseigne_3."
+                                                    "keyword": {
                                                             "query": terms,
                                                             "boost": 25,
                                                             "_name": "exact "

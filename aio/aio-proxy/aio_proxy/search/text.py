@@ -70,10 +70,13 @@ def build_text_query(terms):
                                         "should": [
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_1.keyword": {
-                                                        "query": terms,
-                                                        "boost": 25,
-                                                        "_name": "exact match enseigne 1",
+                                                    "etablissements.enseigne_1.keyword":
+                                                        {
+                                                            "query": terms,
+                                                            "boost": 25,
+                                                            "_name":
+                                                                "exact match "
+                                                                "enseigne 1",
                                                     }
                                                 }
                                             },
@@ -83,16 +86,19 @@ def build_text_query(terms):
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 5,
-                                                        "_name": "partial match enseigne 1",
+                                                        "_name":
+                                                            "partial match enseigne 1",
                                                     }
                                                 }
                                             },
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_2.keyword": {
+                                                    "etablissements.enseigne_2.keyword":
+                                                        {
                                                         "query": terms,
                                                         "boost": 25,
-                                                        "_name": "exact match enseigne 2",
+                                                        "_name":
+                                                            "exact match enseigne 2",
                                                     }
                                                 }
                                             },
@@ -102,16 +108,20 @@ def build_text_query(terms):
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 5,
-                                                        "_name": "partial match enseigne 2",
+                                                        "_name":
+                                                            "partial match enseigne 2",
                                                     }
                                                 }
                                             },
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_3.keyword": {
-                                                        "query": terms,
-                                                        "boost": 25,
-                                                        "_name": "exact match enseigne 3",
+                                                    "etablissements.enseigne_3.keyword":
+                                                        {
+                                                            "query": terms,
+                                                            "boost": 25,
+                                                            "_name":
+                                                                "exact "
+                                                                "match enseigne 3",
                                                     }
                                                 }
                                             },
@@ -121,7 +131,8 @@ def build_text_query(terms):
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 5,
-                                                        "_name": "partial match enseigne 3",
+                                                        "_name":
+                                                            "partial match enseigne 3",
                                                     }
                                                 }
                                             },
@@ -131,7 +142,8 @@ def build_text_query(terms):
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 15,
-                                                        "_name": "partial match adresse",
+                                                        "_name":
+                                                            "partial match adresse",
                                                     }
                                                 }
                                             },
@@ -140,7 +152,8 @@ def build_text_query(terms):
                                                     "etablissements.geo_adresse": {
                                                         "query": terms,
                                                         "operator": "AND",
-                                                        "_name": "partial match adresse",
+                                                        "_name":
+                                                            "partial match adresse",
                                                     }
                                                 }
                                             },
@@ -150,13 +163,14 @@ def build_text_query(terms):
                                                     "fields": [
                                                         "etablissements.nom_complet^15",
                                                         "etablissements.adresse",
-                                                        "etablissements."
-                                                        "concat_enseigne_adresse_siren_siret",
+                                                        "etablissements.concat_"
+                                                        "enseigne_adresse_siren_siret",
                                                     ],
                                                     "type": "cross_fields",
                                                     "operator": "AND",
                                                     "boost": 5,
-                                                    "_name": "match nom complet et adresse",
+                                                    "_name":
+                                                        "match nom complet et adresse",
                                                 }
                                             },
                                         ]

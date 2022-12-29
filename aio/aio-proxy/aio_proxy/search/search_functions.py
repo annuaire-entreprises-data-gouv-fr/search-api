@@ -9,8 +9,7 @@ from aio_proxy.search.filters import (
 from aio_proxy.search.helpers import is_siren, is_siret, sort_and_execute_search
 from aio_proxy.search.person import search_person
 from aio_proxy.search.text import build_text_query
-from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Q, query
+from elasticsearch_dsl import Q
 
 
 def search_text(index, offset: int, page_size: int, **params):

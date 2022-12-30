@@ -5,7 +5,7 @@ import aiohttp
 from aio_proxy.routes import routes
 from aio_proxy.settings import config
 from aiohttp import web
-from aiohttp_swagger3 import SwaggerDocs, SwaggerUiSettings
+from aiohttp_swagger3 import SwaggerDocs, ReDocUiSettings
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 open_api_path = BASE_DIR / "aio_proxy" / "doc" / "open-api.yml"
@@ -21,11 +21,12 @@ def main():
     app.router.add_routes(routes)
     swagger = SwaggerDocs(
         app,
-        swagger_ui_settings=SwaggerUiSettings(path="/docs/"),
+        redoc_ui_settings=ReDocUiSettings(path="/docs/"),
         title="API Recherche d’entreprises",
         version="1.0.0",
         components=open_api_path,
     )
+
     app["config"] = config
     web.run_app(app, host=config["host"], port=config["port"])
     app.on_startup.append(swagger)

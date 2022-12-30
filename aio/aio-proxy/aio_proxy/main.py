@@ -5,7 +5,7 @@ import aiohttp
 from aio_proxy.routes import routes
 from aio_proxy.settings import config
 from aiohttp import web
-from aiohttp_swagger3 import SwaggerDocs, ReDocUiSettings
+from aiohttp_swagger3 import ReDocUiSettings, SwaggerDocs
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 open_api_path = BASE_DIR / "aio_proxy" / "doc" / "open-api.yml"

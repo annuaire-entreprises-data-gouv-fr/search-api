@@ -1,23 +1,25 @@
-from aio_proxy.search.filters import (
-    filter_by_siren,
-    filter_by_siret,
-    filter_search,
+from aio_proxy.search.execute_search import sort_and_execute_search
+from aio_proxy.search.filters.boolean import (
     filter_search_by_bool_variables_etablissements,
     filter_search_by_bool_variables_unite_legale,
-    filter_search_by_matching_ids,
 )
-from aio_proxy.search.helpers import is_siren, is_siret, sort_and_execute_search
-from aio_proxy.search.person import search_person
-from aio_proxy.search.text import build_text_query
+from aio_proxy.search.filters.ids import filter_search_by_matching_ids
+from aio_proxy.search.filters.siren import filter_by_siren
+from aio_proxy.search.filters.siret import filter_by_siret
+from aio_proxy.search.filters.term_filters import filter_search
+from aio_proxy.search.parsers.siren import is_siren
+from aio_proxy.search.parsers.siret import is_siret
+from aio_proxy.search.queries.person import search_person
+from aio_proxy.search.queries.text import build_text_query
 from elasticsearch_dsl import Q
 
 
-def search_text(index, offset: int, page_size: int, **params):
+def text_search(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     s = index.search()
 
     # Filter by siren first (if query is a `siren` number), and return search results
-    # directly
+    # directly without text search.
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siren(s, query_terms_clean)
@@ -26,7 +28,7 @@ def search_text(index, offset: int, page_size: int, **params):
         )
 
     # Filter by siret first (if query is a `siret` number), and return search results
-    # directly.
+    # directly without text search.
     if is_siret(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         s = filter_by_siret(s, query_terms_clean)
@@ -174,40 +176,4 @@ def search_text(index, offset: int, page_size: int, **params):
         offset=offset,
         page_size=page_size,
         is_search_fields=is_search_fields,
-    )
-
-
-def search_geo(index, offset: int, page_size: int, **params):
-    s = index.search()
-    # Use filters to reduce search results
-    s = filter_search(s, filters_to_ignore=["lat", "lon", "radius"], **params)
-    geo_query = {
-        "nested": {
-            "path": "etablissements",
-            "query": {
-                "bool": {
-                    "filter": {
-                        "geo_distance": {
-                            "distance": f"{params['radius']}km",
-                            "etablissements.coordonnees": {
-                                "lat": params["lat"],
-                                "lon": params["lon"],
-                            },
-                        }
-                    }
-                }
-            },
-            "inner_hits": {},
-        }
-    }
-    s = s.query(Q(geo_query))
-    """
-    s = s.filter(
-        "geo_distance",
-        distance=f'{params["radius"]}km',
-        coordonnees={"lat": params["lat"], "lon": params["lon"]},
-    )
-    """
-    return sort_and_execute_search(
-        search=s, offset=offset, page_size=page_size, is_search_fields=True
     )

@@ -26,7 +26,6 @@ def api_response(
     total_results, results = search_function(
         ElasticsearchSireneIndex, page * per_page, per_page, **parameters
     )
-    results_filtered = hide_fields(results)
     results_formatted = format_response(results_filtered)
     res = {
         "results": results_formatted,

@@ -1,5 +1,5 @@
-from aio_proxy.search.filters.term_filters import filter_search
 from aio_proxy.search.execute_search import sort_and_execute_search
+from aio_proxy.search.filters.term_filters import filter_search
 from elasticsearch_dsl import Q
 
 

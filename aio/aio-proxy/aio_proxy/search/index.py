@@ -1,4 +1,4 @@
-from aio_proxy.search.helpers import CURRENT_COLOR
+from aio_proxy.search.helpers.color import CURRENT_COLOR
 from elasticsearch_dsl import Document
 
 

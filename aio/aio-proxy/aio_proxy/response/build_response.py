@@ -3,7 +3,6 @@ from typing import Callable, Dict
 
 from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.response.format_response import format_response
-from aio_proxy.search.helpers import hide_fields
 from aio_proxy.search.index import ElasticsearchSireneIndex
 from aiohttp import web
 
@@ -26,7 +25,7 @@ def api_response(
     total_results, results = search_function(
         ElasticsearchSireneIndex, page * per_page, per_page, **parameters
     )
-    results_formatted = format_response(results_filtered)
+    results_formatted = format_response(results)
     res = {
         "results": results_formatted,
         "total_results": int(total_results),

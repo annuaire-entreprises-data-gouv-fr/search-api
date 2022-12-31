@@ -1,4 +1,4 @@
-from aio_proxy.search.helpers import get_es_field
+from aio_proxy.search.helpers.elastic_fields import get_elasticsearch_field_name
 from elasticsearch_dsl import Q
 
 
@@ -8,10 +8,15 @@ def filter_search_by_bool_variables_unite_legale(
     for param_name, param_value in params.items():
         if param_value is not None and param_name in filters_to_process:
             if param_value:
-                search = search.filter("exists", field=get_es_field(param_name))
+                search = search.filter(
+                    "exists", field=get_elasticsearch_field_name(param_name)
+                )
             else:
                 search = search.filter(
-                    "bool", must_not=[Q("exists", field=get_es_field(param_name))]
+                    "bool",
+                    must_not=[
+                        Q("exists", field=get_elasticsearch_field_name(param_name))
+                    ],
                 )
     return search
 
@@ -39,7 +44,7 @@ def filter_search_by_bool_variables_etablissements(
     # params is the list of parameters (filters) provided in the request
     for param_name, param_value in params.items():
         if param_value is not None and param_name in filters_to_process:
-            field = get_es_field(param_name)
+            field = get_elasticsearch_field_name(param_name)
             if param_value:
                 exists_query = {
                     "nested": {

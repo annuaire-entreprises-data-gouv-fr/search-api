@@ -1,4 +1,4 @@
-from aio_proxy.search.helpers import get_es_field
+from aio_proxy.search.helpers.elastic_fields import get_elasticsearch_field_name
 from elasticsearch_dsl import Q
 
 
@@ -10,7 +10,7 @@ def filter_search_by_matching_ids(search, filters_to_process: list, **params):
               "id_rge","""
     for param_name, param_value in params.items():
         if param_value is not None and param_name in filters_to_process:
-            field = get_es_field(param_name)
+            field = get_elasticsearch_field_name(param_name)
             id_filter = {
                 "nested": {
                     "path": "etablissements",

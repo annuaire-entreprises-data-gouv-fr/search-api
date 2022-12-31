@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from typing import Optional
 from urllib.request import urlopen
 
 from dotenv import load_dotenv

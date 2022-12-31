@@ -1,14 +1,15 @@
 import os
 
-from aio_proxy.response.helpers import (
-    format_bool_field,
+from aio_proxy.response.formatters.bool import format_bool_field
+from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
-    format_dirigeants,
-    format_ess,
-    format_etablissements,
-    format_siege,
-    get_value,
 )
+from aio_proxy.response.formatters.dirigeants import format_dirigeants
+from aio_proxy.response.formatters.ess import format_ess
+from aio_proxy.response.formatters.etablissements import format_etablissements_list
+from aio_proxy.response.formatters.etablissements import format_siege
+from aio_proxy.response.helpers import get_value
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -46,10 +47,12 @@ def format_response(results):
             "dirigeants": format_dirigeants(
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
-            "etablissements": format_etablissements(get_field("etablissements"))[0],
-            "matching_etablissements": format_etablissements(get_field("inner_hits"))[
+            "etablissements": format_etablissements_list(get_field("etablissements"))[
                 0
             ],
+            "matching_etablissements": format_etablissements_list(
+                get_field("inner_hits")
+            )[0],
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
@@ -57,7 +60,7 @@ def format_response(results):
                     get_field("colter_elus"),
                     get_field("colter_niveau"),
                 ),
-                "convention_collective_renseignee": format_etablissements(
+                "convention_collective_renseignee": format_etablissements_list(
                     get_field("etablissements")
                 )[1]["liste_idcc"],
                 "est_entrepreneur_individuel": get_field(
@@ -69,13 +72,13 @@ def format_response(results):
                 "est_ess": format_ess(
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),
-                "est_finess": format_etablissements(get_field("etablissements"))[1][
-                    "liste_finess"
-                ],
-                "est_rge": format_etablissements(get_field("etablissements"))[1][
+                "est_finess": format_etablissements_list(get_field("etablissements"))[
+                    1
+                ]["liste_finess"],
+                "est_rge": format_etablissements_list(get_field("etablissements"))[1][
                     "liste_rge"
                 ],
-                "est_uai": format_etablissements(get_field("etablissements"))[1][
+                "est_uai": format_etablissements_list(get_field("etablissements"))[1][
                     "liste_uai"
                 ],
                 "identifiant_association": get_field(

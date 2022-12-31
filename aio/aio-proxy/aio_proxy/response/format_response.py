@@ -5,11 +5,13 @@ from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
+from aio_proxy.response.formatters.elus import format_elus
 from aio_proxy.response.formatters.ess import format_ess
-from aio_proxy.response.formatters.etablissements import format_etablissements_list
-from aio_proxy.response.formatters.etablissements import format_siege
+from aio_proxy.response.formatters.etablissements import (
+    format_etablissements_list,
+    format_siege,
+)
 from aio_proxy.response.helpers import get_value
-
 from dotenv import load_dotenv
 
 load_dotenv()

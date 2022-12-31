@@ -10,7 +10,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
 
-def get_current_color(color_url):
+def get_current_color(color_url: str) -> str:
     """Get current Elasticsearch index color from json file stored in MinIO."""
     try:
         with urlopen(color_url, timeout=5) as url:

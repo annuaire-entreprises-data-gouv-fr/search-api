@@ -1,4 +1,4 @@
-def get_elasticsearch_field_name(param_name):
+def get_elasticsearch_field_name(param_name: str) -> str:
     if param_name == "est_finess":
         return "liste_finess"
     elif param_name == "id_finess":

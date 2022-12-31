@@ -1,4 +1,4 @@
-def build_text_query(terms):
+def build_text_query(terms: str):
     text_query = {
         "bool": {
             "should": [

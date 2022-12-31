@@ -5,7 +5,6 @@ from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
-from aio_proxy.response.formatters.elus import format_elus
 from aio_proxy.response.formatters.ess import format_ess
 from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,

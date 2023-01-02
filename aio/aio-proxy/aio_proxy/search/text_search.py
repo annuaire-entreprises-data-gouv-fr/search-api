@@ -1,7 +1,5 @@
 from aio_proxy.search.execute_search import sort_and_execute_search
-from aio_proxy.search.filters.boolean import (
-    filter_search_by_bool_fields_unite_legale,
-)
+from aio_proxy.search.filters.boolean import filter_search_by_bool_fields_unite_legale
 from aio_proxy.search.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
     build_nested_etablissements_filters_query_with_inner_hits,

@@ -1,4 +1,4 @@
-from typing import Dict, Tuple, Union
+from typing import Dict, List, Tuple, Union
 
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.bool_fields import validate_bool_field
@@ -15,6 +15,7 @@ from aio_proxy.parsers.ess import match_ess_bool_to_value
 from aio_proxy.parsers.etat_administratif import validate_etat_administratif
 from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
+from aio_proxy.parsers.list_parser import str_to_list
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
 from aio_proxy.parsers.page import parse_and_validate_page
 from aio_proxy.parsers.per_page import parse_and_validate_per_page
@@ -35,7 +36,7 @@ from aio_proxy.parsers.uai import validate_id_uai
 
 def extract_text_parameters(
     request,
-) -> Tuple[Dict[str, Union[str, None, bool]], int, int]:
+) -> Tuple[Dict[str, Union[str, None, bool, List]], int, int]:
     """Extract all parameters from request.
 
     Args:
@@ -54,20 +55,26 @@ def extract_text_parameters(
     per_page = parse_and_validate_per_page(request)
     terms = parse_and_validate_terms(request)
     activite_principale = validate_activite_principale(
-        clean_parameter(request, param="activite_principale")
+        str_to_list(clean_parameter(request, param="activite_principale"))
     )
-    code_commune = validate_code_commune(clean_parameter(request, param="code_commune"))
-    code_postal = validate_code_postal(clean_parameter(request, param="code_postal"))
-    departement = validate_departement(clean_parameter(request, param="departement"))
+    code_commune = validate_code_commune(
+        str_to_list(clean_parameter(request, param="code_commune"))
+    )
+    code_postal = validate_code_postal(
+        str_to_list(clean_parameter(request, param="code_postal"))
+    )
+    departement = validate_departement(
+        str_to_list(clean_parameter(request, param="departement"))
+    )
     est_entrepreneur_individuel = validate_bool_field(
         "est_entrepreneur_individuel",
         clean_parameter(request, param="est_entrepreneur_individuel"),
     )
     section_activite_principale = validate_section_activite_principale(
-        clean_parameter(request, param="section_activite_principale")
+        str_to_list(clean_parameter(request, param="section_activite_principale"))
     )
     tranche_effectif_salarie = validate_tranche_effectif_salarie(
-        clean_parameter(request, param="tranche_effectif_salarie")
+        str_to_list(clean_parameter(request, param="tranche_effectif_salarie"))
     )
     convention_collective_renseignee = validate_bool_field(
         "convention_collective_renseignee",
@@ -109,7 +116,7 @@ def extract_text_parameters(
     id_finess = validate_id_finess(clean_parameter(request, param="id_finess"))
     id_uai = validate_id_uai(clean_parameter(request, param="id_uai"))
     code_collectivite_territoriale = validate_code_collectivite_territoriale(
-        clean_parameter(request, param="code_collectivite_territoriale")
+        str_to_list(clean_parameter(request, param="code_collectivite_territoriale"))
     )
     id_rge = validate_id_rge(clean_parameter(request, param="id_rge"))
     nom_personne = parse_parameter(request, param="nom_personne")
@@ -184,10 +191,10 @@ def extract_geo_parameters(request):
     lon = parse_and_validate_longitude(request)
     radius = parse_and_validate_radius(request)
     activite_principale = validate_activite_principale(
-        clean_parameter(request, param="activite_principale")
+        str_to_list(clean_parameter(request, param="activite_principale"))
     )
     section_activite_principale = validate_section_activite_principale(
-        clean_parameter(request, param="section_activite_principale")
+        str_to_list(clean_parameter(request, param="section_activite_principale"))
     )
     inclure_etablissements = validate_bool_field(
         "inclure_etablissements",

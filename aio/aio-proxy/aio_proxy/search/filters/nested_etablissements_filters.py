@@ -43,7 +43,7 @@ def build_etablissements_filters(**params):
         if param_value is not None and param_name in text_filters:
             terms_filters.append(
                 {
-                    "terms": {
+                    "term": {
                         "etablissements." + param_name: param_value,
                     }
                 }

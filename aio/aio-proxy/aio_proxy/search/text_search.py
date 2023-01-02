@@ -6,7 +6,10 @@ from aio_proxy.search.filters.nested_etablissements_filters import (
 )
 from aio_proxy.search.filters.siren import filter_by_siren
 from aio_proxy.search.filters.siret import filter_by_siret
-from aio_proxy.search.filters.term_filters import filter_term_search_unite_legale
+from aio_proxy.search.filters.term_filters import (
+    filter_term_list_search_unite_legale,
+    filter_term_search_unite_legale,
+)
 from aio_proxy.search.helpers.etablissements_filters_used import (
     is_any_etablissement_filter_used,
 )
@@ -47,6 +50,14 @@ def text_search(index, offset: int, page_size: int, **params):
             "est_entrepreneur_spectacle",
             "economie_sociale_solidaire_unite_legale",
             "etat_administratif_unite_legale",
+        ],
+        **params,
+    )
+
+    # Filter results by list of terms, using 'unité légale' related list of values
+    s = filter_term_list_search_unite_legale(
+        s,
+        filters_to_include=[
             "activite_principale_unite_legale",
             "code_collectivite_territoriale",
             "section_activite_principale",

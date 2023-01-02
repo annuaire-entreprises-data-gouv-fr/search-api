@@ -1,13 +1,12 @@
 # importing the requests library
 import requests
-import time
 from requests.adapters import HTTPAdapter, Retry
 
 # api-endpoint
 base_url = "http://localhost:4500/"
 
 session = requests.Session()
-retry = Retry(connect=3, backoff_factor=5)
+retry = Retry(connect=3, backoff_factor=3)
 adapter = HTTPAdapter(max_retries=retry)
 session.mount("http://", adapter)
 session.mount("https://", adapter)

@@ -1,5 +1,6 @@
 # importing the requests library
 import requests
+from requests.adapters import HTTPAdapter, Retry
 
 # api-endpoint
 base_url = "http://localhost:4500/"

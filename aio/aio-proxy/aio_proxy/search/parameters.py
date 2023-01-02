@@ -127,6 +127,11 @@ def extract_text_parameters(
         clean_parameter(request, param="etat_administratif")
     )
 
+    inclure_etablissements = validate_bool_field(
+        "inclure_etablissements",
+        clean_parameter(request, param="inclure_etablissements"),
+    )
+
     validate_date_range(min_date_naiss_personne, max_date_naiss_personne)
 
     parameters = {
@@ -151,6 +156,7 @@ def extract_text_parameters(
         "id_finess": id_finess,
         "id_uai": id_uai,
         "id_rge": id_rge,
+        "inclure_etablissements": inclure_etablissements,
         "code_collectivite_territoriale": code_collectivite_territoriale,
         "nom_personne": nom_personne,
         "prenoms_personne": prenoms_personne,

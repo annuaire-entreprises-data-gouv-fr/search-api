@@ -38,7 +38,7 @@ def build_etablissements_filters(**params):
         if should_apply_text_filter:
             terms_filters.append(
                 {
-                    "term": {
+                    "terms": {
                         "etablissements." + param_name: param_value,
                     }
                 }

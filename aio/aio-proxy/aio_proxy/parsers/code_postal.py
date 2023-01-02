@@ -1,25 +1,27 @@
 import re
-from typing import Optional
+from typing import List, Optional
 
 
-def validate_code_postal(code_postal_clean: str) -> Optional[str]:
+def validate_code_postal(list_code_postal_clean: List[str]) -> Optional[List[str]]:
     """Check the validity of code_postal.
 
     Args:
-        code_postal_clean(str, optional): code postal extracted and cleaned.
+        list_code_postal_clean(list(str), optional): list of codes postaux extracted
+        and cleaned.
 
     Returns:
-        None if code_postal_clean is None.
-        code_postal_clean if valid.
+        None if list_code_postal_clean is None.
+        list_code_postal_clean if valid.
 
     Raises:
-        ValueError: if code_postal_clean not valid.
+        ValueError: if one the values in list_code_postal_clean is not valid.
     """
-    if code_postal_clean is None:
+    if list_code_postal_clean is None:
         return None
-    if len(code_postal_clean) != 5:
-        raise ValueError("Code postal doit contenir 5 caractères !")
-    codes_valides = "^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$"
-    if not re.search(codes_valides, code_postal_clean):
-        raise ValueError("Code postal non valide.")
-    return code_postal_clean
+    for code_postal in list_code_postal_clean:
+        if len(code_postal) != 5:
+            raise ValueError("Chaque code postal doit contenir 5 caractères !")
+        codes_valides = "^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$"
+        if not re.search(codes_valides, code_postal):
+            raise ValueError("Au moins un code postal est non valide.")
+    return list_code_postal_clean

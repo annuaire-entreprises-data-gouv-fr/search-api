@@ -48,9 +48,6 @@ def format_response(results):
             "dirigeants": format_dirigeants(
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
-            "etablissements": format_etablissements_list(get_field("etablissements"))[
-                0
-            ],
             "matching_etablissements": format_etablissements_list(
                 get_field("inner_hits")
             )[0],
@@ -87,6 +84,12 @@ def format_response(results):
                 ),
             },
         }
+
+        # If 'etablissements' is included in elasticsearch response
+        etablissements = format_etablissements_list(get_field("etablissements"))[0]
+        if etablissements:
+            result_formatted["etablissements"] = etablissements
+
         # Include score field for dev environment
         if env == "dev":
             result_formatted["score"] = get_field("meta")

@@ -6,7 +6,6 @@ from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.response.format_response import format_response
 from aio_proxy.search.index import ElasticsearchSireneIndex
 from aiohttp import web
-
 from dotenv import load_dotenv
 
 load_dotenv()

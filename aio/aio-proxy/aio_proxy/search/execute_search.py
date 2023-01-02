@@ -22,6 +22,7 @@ def sort_and_execute_search(
     search = search[offset : (offset + page_size)]
     results = search.execute()
     total_results = results.hits.total.value
+    execution_time = results.took
     response = []
     for matched_company in results.hits:
         matched_company_dict = matched_company.to_dict(
@@ -42,4 +43,4 @@ def sort_and_execute_search(
 
         response.append(matched_company_dict)
 
-    return total_results, response
+    return total_results, response, execution_time

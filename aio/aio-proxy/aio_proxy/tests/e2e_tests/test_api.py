@@ -18,6 +18,7 @@ def test_fetch_company():
     response_json = response.json()
     total_results = response_json["total_results"]
     siren = response_json["results"][0]["siren"]
+    print(response)
     assert response.status_code == 200
     assert total_results > 10
     assert siren == "356000000"

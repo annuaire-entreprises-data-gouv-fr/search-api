@@ -59,6 +59,7 @@ def test_query_too_short():
 def test_short_query_with_filter():
     path = "search?q=ab&code_postal=75015"
     response = requests.get(url=base_url + path)
+    print(response.text)
     assert response.status_code == 200
 
 

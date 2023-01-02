@@ -64,13 +64,13 @@ def test_query_too_short():
     assert response.status_code == 400
 
 
-def test_short_query_with_filter():
-    path = "search?q=ab&code_postal=75015"
-    response = session.get(url=base_url + path)
-    assert response.status_code == 200
-
-
 def test_terms_empty_only():
     path = "search?q="
     response = session.get(url=base_url + path)
     assert response.status_code == 400
+
+
+def test_short_query_with_filter():
+    path = "search?q=ab&code_postal=75015"
+    response = session.get(url=base_url + path)
+    assert response.status_code == 200

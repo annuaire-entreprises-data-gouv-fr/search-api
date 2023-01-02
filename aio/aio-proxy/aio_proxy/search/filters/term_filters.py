@@ -1,5 +1,4 @@
 from aio_proxy.search.helpers.elastic_fields import get_elasticsearch_field_name
-from elasticsearch_dsl import Q
 
 
 def filter_term_search_unite_legale(search, filters_to_include: list, **params):

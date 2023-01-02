@@ -5,7 +5,7 @@ def sort_and_execute_search(
     search,
     offset: int,
     page_size: int,
-    is_search_fields,
+    is_search_fields: bool,
 ) -> Tuple:
     search = search.extra(track_scores=True)
     search = search.extra(explain=True)
@@ -39,5 +39,7 @@ def sort_and_execute_search(
                 )
         except Exception:
             matched_company_dict["inner_hits"] = []
+
         response.append(matched_company_dict)
+
     return total_results, response

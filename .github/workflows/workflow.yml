@@ -79,7 +79,7 @@ jobs:
           cd aio/aio-proxy/ 
           python -m aio_proxy &
           echo "********** Application is up **********"
-          sleep 3
+          sleep 10
           pytest aio_proxy/tests/e2e_tests -v
         env:
           ELASTIC_URL: ${{secrets.ELASTIC_URL_DEV}}

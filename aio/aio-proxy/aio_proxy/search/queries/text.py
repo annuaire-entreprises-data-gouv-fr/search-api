@@ -84,7 +84,7 @@ def build_text_query(terms: str):
                                                     "etablissements.enseigne_1": {
                                                         "query": terms,
                                                         "operator": "AND",
-                                                        "boost": 5,
+                                                        "boost": 10,
                                                         "_name": "partial match "
                                                         "enseigne 1",
                                                     }
@@ -106,7 +106,7 @@ def build_text_query(terms: str):
                                                     "etablissements.enseigne_2": {
                                                         "query": terms,
                                                         "operator": "AND",
-                                                        "boost": 5,
+                                                        "boost": 10,
                                                         "_name": "partial match "
                                                         "enseigne 2",
                                                     }
@@ -128,7 +128,7 @@ def build_text_query(terms: str):
                                                     "etablissements.enseigne_3": {
                                                         "query": terms,
                                                         "operator": "AND",
-                                                        "boost": 5,
+                                                        "boost": 10,
                                                         "_name": "partial match "
                                                         "enseigne 3",
                                                     }
@@ -146,10 +146,25 @@ def build_text_query(terms: str):
                                                 }
                                             },
                                             {
+                                                "match": {
+                                                    "etablissements.nom_commercial": {
+                                                        "query": terms,
+                                                        "operator": "AND",
+                                                        "boost": 10,
+                                                        "_name": "partial match "
+                                                        "nom commercial",
+                                                    }
+                                                }
+                                            },
+                                            {
                                                 "multi_match": {
                                                     "query": terms,
                                                     "fields": [
                                                         "etablissements.nom_complet^15",
+                                                        "etablissements.enseigne_1",
+                                                        "etablissements.enseigne_2",
+                                                        "etablissements.enseigne_3",
+                                                        "etablissements.nom_commercial",
                                                         "etablissements.adresse",
                                                         "etablissements.concat_"
                                                         "enseigne_adresse_siren_siret",
@@ -160,7 +175,7 @@ def build_text_query(terms: str):
                                                     "adresse",
                                                 }
                                             },
-                                        ]
+                                        ],
                                     }
                                 },
                                 "inner_hits": {},
@@ -172,6 +187,7 @@ def build_text_query(terms: str):
                             "modifier": "log2p",
                             "missing": 1,
                         },
+                        "min_score": 4,
                     }
                 },
                 {

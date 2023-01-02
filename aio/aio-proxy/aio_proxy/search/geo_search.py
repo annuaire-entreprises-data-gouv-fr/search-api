@@ -1,12 +1,19 @@
 from aio_proxy.search.execute_search import sort_and_execute_search
-from aio_proxy.search.filters.term_filters import filter_search
+from aio_proxy.search.filters.term_filters import filter_term_list_search_unite_legale
 from elasticsearch_dsl import Q
 
 
 def geo_search(index, offset: int, page_size: int, **params):
     s = index.search()
     # Use filters to reduce search results
-    s = filter_search(s, filters_to_ignore=["lat", "lon", "radius"], **params)
+    s = filter_term_list_search_unite_legale(
+        s,
+        filters_to_include=[
+            "activite_principale_unite_legale",
+            "section_activite_principale",
+        ],
+        **params,
+    )
     geo_query = {
         "nested": {
             "path": "etablissements",

@@ -24,18 +24,11 @@ def build_etablissements_filters(**params):
     Having a value equals >> TRUE and not having an indexed value equals >> FALSE.
     We use the "exists" elasticsearch filter to implement it."""
 
-    boolean_filters = [
-        "est_rge",
-        "est_finess",
-        "est_uai",
-        "convention_collective_renseignee",
-    ]
     id_filters = ["id_finess", "id_rge", "id_uai", "id_convention_collective"]
     text_filters = ["departement", "code_postal", "commune"]
 
     terms_filters = []
     must_filters = []
-    must_not_filters = []
 
     # params is the list of parameters (filters) provided in the request
     for param_name, param_value in params.items():
@@ -63,16 +56,7 @@ def build_etablissements_filters(**params):
                 }
             )
 
-        if param_value is not None and param_name in boolean_filters:
-            field = get_elasticsearch_field_name(param_name)
-            if param_value:
-                must_filters.append({"exists": {"field": "etablissements." + field}})
-            else:
-                must_not_filters.append(
-                    {"exists": {"field": "etablissements." + field}}
-                )
-
-    return terms_filters, must_filters, must_not_filters
+    return terms_filters, must_filters
 
 
 def build_nested_etablissements_filters_query_with_inner_hits(**params):
@@ -85,19 +69,17 @@ def build_nested_etablissements_filters_query_with_inner_hits(**params):
         }
     }
 
-    terms_filters, must_filters, must_not_filters = build_etablissements_filters(
+    terms_filters, must_filters = build_etablissements_filters(
         **params
     )
 
-    if not (terms_filters or must_filters or must_not_filters):
+    if not (terms_filters or must_filters):
         return None
 
     if terms_filters:
         filters_query["nested"]["query"]["bool"]["filter"] = terms_filters
     if must_filters:
         filters_query["nested"]["query"]["bool"]["must"] = must_filters
-    if must_not_filters:
-        filters_query["nested"]["query"]["bool"]["must_not"] = must_not_filters
 
     return filters_query
 
@@ -111,25 +93,23 @@ def build_nested_etablissements_filters_query_without_inner_hits(**params):
         }
     }
 
-    terms_filters, must_filters, must_not_filters = build_etablissements_filters(
+    terms_filters, must_filters = build_etablissements_filters(
         **params
     )
 
-    if not (terms_filters or must_filters or must_not_filters):
+    if not (terms_filters or must_filters):
         return None
 
     if terms_filters:
         filters_query["nested"]["query"]["bool"]["filter"] = terms_filters
     if must_filters:
         filters_query["nested"]["query"]["bool"]["must"] = must_filters
-    if must_not_filters:
-        filters_query["nested"]["query"]["bool"]["must_not"] = must_not_filters
 
     return filters_query
 
 
 def add_nested_etablissements_filters_to_text_query(text_query, **params):
-    terms_filters, must_filters, must_not_filters = build_etablissements_filters(
+    terms_filters, must_filters = build_etablissements_filters(
         **params
     )
 
@@ -141,8 +121,4 @@ def add_nested_etablissements_filters_to_text_query(text_query, **params):
         text_query["bool"]["should"][3]["function_score"]["query"]["nested"]["query"][
             "bool"
         ]["must"] = must_filters
-    if must_not_filters:
-        text_query["bool"]["should"][3]["function_score"]["query"]["nested"]["query"][
-            "bool"
-        ]["must_not"] = must_not_filters
     return text_query

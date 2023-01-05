@@ -61,6 +61,10 @@ def text_search(index, offset: int, page_size: int, **params):
             "code_collectivite_territoriale",
             "section_activite_principale",
             "tranche_effectif_salarie_unite_legale",
+            "est_rge",
+            "est_finess",
+            "est_uai",
+            "convention_collective_renseignee",
         ],
         **params,
     )

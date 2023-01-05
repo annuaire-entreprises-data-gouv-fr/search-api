@@ -49,8 +49,7 @@ def format_response(results):
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
             "matching_etablissements": format_etablissements_list(
-                get_field("inner_hits")
-            )[0],
+                get_field("inner_hits")),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
@@ -58,9 +57,9 @@ def format_response(results):
                     get_field("colter_elus"),
                     get_field("colter_niveau"),
                 ),
-                "convention_collective_renseignee": format_etablissements_list(
-                    get_field("etablissements")
-                )[1]["liste_idcc"],
+                "convention_collective_renseignee": get_field(
+                    "convention_collective_renseignee"
+                ),
                 "est_entrepreneur_individuel": get_field(
                     "est_entrepreneur_individuel", default=False
                 ),
@@ -70,15 +69,9 @@ def format_response(results):
                 "est_ess": format_ess(
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),
-                "est_finess": format_etablissements_list(get_field("etablissements"))[
-                    1
-                ]["liste_finess"],
-                "est_rge": format_etablissements_list(get_field("etablissements"))[1][
-                    "liste_rge"
-                ],
-                "est_uai": format_etablissements_list(get_field("etablissements"))[1][
-                    "liste_uai"
-                ],
+                "est_finess": get_field("est_finess") ,
+                "est_rge": get_field("est_rge"),
+                "est_uai": get_field("est_uai"),
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"
                 ),
@@ -86,7 +79,7 @@ def format_response(results):
         }
 
         # If 'etablissements' is included in elasticsearch response
-        etablissements = format_etablissements_list(get_field("etablissements"))[0]
+        etablissements = format_etablissements_list(get_field("etablissements"))
         if etablissements:
             result_formatted["etablissements"] = etablissements
 

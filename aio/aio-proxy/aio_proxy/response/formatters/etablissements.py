@@ -57,23 +57,12 @@ def format_etablissement(source_etablissement):
 
 
 def format_etablissements_list(etablissements=None):
-    complements = {
-        "liste_uai": False,
-        "liste_rge": False,
-        "liste_finess": False,
-        "liste_idcc": False,
-    }
     etablissements_formatted = []
     if etablissements:
         for etablissement in etablissements:
             etablissement_formatted = format_etablissement(etablissement)
-            # We use the iteration over etablissements to buid the boolean variables
-            # (est_uai, est_rge, est_finess, convention_collective_renseignee)
-            for field in ["liste_rge", "liste_finess", "liste_uai", "liste_idcc"]:
-                if get_value(etablissement_formatted, field):
-                    complements[field] = True
             etablissements_formatted.append(etablissement_formatted)
-    return etablissements_formatted, complements
+    return etablissements_formatted
 
 
 def format_siege(siege=None):

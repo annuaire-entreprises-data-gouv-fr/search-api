@@ -2,8 +2,7 @@ from aio_proxy.search.execute_search import sort_and_execute_search
 from aio_proxy.search.filters.boolean import filter_search_by_bool_fields_unite_legale
 from aio_proxy.search.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
-    build_nested_etablissements_filters_query_with_inner_hits,
-    build_nested_etablissements_filters_query_without_inner_hits,
+    build_nested_etablissements_filters_query,
 )
 from aio_proxy.search.filters.siren import filter_by_siren
 from aio_proxy.search.filters.siret import filter_by_siret
@@ -78,7 +77,7 @@ def text_search(index, offset: int, page_size: int, **params):
     # include inner hits in this particular search query
     if etablissement_filter_used:
         filters_etablissements_query_without_inner_hits = (
-            build_nested_etablissements_filters_query_without_inner_hits(**params)
+            build_nested_etablissements_filters_query(with_inner_hits=False, **params)
         )
         if filters_etablissements_query_without_inner_hits:
             s = s.query(Q(filters_etablissements_query_without_inner_hits))
@@ -86,7 +85,8 @@ def text_search(index, offset: int, page_size: int, **params):
     # Filters applied on établissements without text search
     if not query_terms and etablissement_filter_used:
         filters_etablissements_query_with_inner_hits = (
-            build_nested_etablissements_filters_query_with_inner_hits(**params)
+            build_nested_etablissements_filters_query(with_inner_hits=True,
+                                                      **params)
         )
         if filters_etablissements_query_with_inner_hits:
             s = s.query(Q(filters_etablissements_query_with_inner_hits))

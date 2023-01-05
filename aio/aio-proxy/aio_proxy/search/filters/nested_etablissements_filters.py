@@ -59,32 +59,7 @@ def build_etablissements_filters(**params):
     return terms_filters, must_filters
 
 
-def build_nested_etablissements_filters_query_with_inner_hits(**params):
-
-    filters_query = {
-        "nested": {
-            "path": "etablissements",
-            "query": {"bool": {}},
-            "inner_hits": {},
-        }
-    }
-
-    terms_filters, must_filters = build_etablissements_filters(
-        **params
-    )
-
-    if not (terms_filters or must_filters):
-        return None
-
-    if terms_filters:
-        filters_query["nested"]["query"]["bool"]["filter"] = terms_filters
-    if must_filters:
-        filters_query["nested"]["query"]["bool"]["must"] = must_filters
-
-    return filters_query
-
-
-def build_nested_etablissements_filters_query_without_inner_hits(**params):
+def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
 
     filters_query = {
         "nested": {
@@ -104,6 +79,9 @@ def build_nested_etablissements_filters_query_without_inner_hits(**params):
         filters_query["nested"]["query"]["bool"]["filter"] = terms_filters
     if must_filters:
         filters_query["nested"]["query"]["bool"]["must"] = must_filters
+
+    if with_inner_hits:
+        filters_query["nestd"]["inner_hits"] = {}
 
     return filters_query
 

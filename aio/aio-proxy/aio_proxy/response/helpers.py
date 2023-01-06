@@ -8,9 +8,7 @@ current_env = os.getenv("ENV")
 
 
 def is_dev_env():
-    if current_env == "dev":
-        return True
-    return False
+    return current_env == "dev"
 
 
 def serialize_error_text(text: str) -> str:

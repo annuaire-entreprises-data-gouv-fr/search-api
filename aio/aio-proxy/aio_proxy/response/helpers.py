@@ -1,4 +1,16 @@
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+current_env = os.getenv("ENV")
+
+
+def is_dev_env():
+    if current_env == "dev":
+        return True
+    return False
 
 
 def serialize_error_text(text: str) -> str:

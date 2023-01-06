@@ -1,16 +1,10 @@
 import json
-import os
 from typing import Callable, Dict
 
 from aio_proxy.decorators.http_exception import http_exception_handler
-from aio_proxy.response.format_response import format_response
+from aio_proxy.response.format_search_results import format_search_results
 from aio_proxy.search.index import ElasticsearchSireneIndex
 from aiohttp import web
-from dotenv import load_dotenv
-
-load_dotenv()
-
-env = os.getenv("ENV")
 
 
 @http_exception_handler
@@ -31,20 +25,9 @@ def api_response(
     total_results, results, execution_time = search_function(
         ElasticsearchSireneIndex, page * per_page, per_page, **parameters
     )
-    results_formatted = format_response(results)
-    res = {
-        "results": results_formatted,
-        "total_results": int(total_results),
-        "page": page + 1,
-        "per_page": per_page,
-    }
-    remainder_results = res["total_results"] % res["per_page"]
-    res["total_pages"] = (
-        res["total_results"] // res["per_page"]
-        if remainder_results == 0
-        else res["total_results"] // res["per_page"] + 1
+    results_formatted = format_search_results(results)
+    response_formatted = format_response(
+        results_formatted, total_results, page, per_page, execution_time
     )
 
-    if env == "dev":
-        res["execution_time"] = execution_time
-    return web.json_response(text=json.dumps(res, default=str))
+    return web.json_response(text=json.dumps(response_formatted, default=str))

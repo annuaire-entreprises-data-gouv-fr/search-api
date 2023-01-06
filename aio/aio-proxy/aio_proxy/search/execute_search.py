@@ -5,7 +5,7 @@ def sort_and_execute_search(
     search,
     offset: int,
     page_size: int,
-    is_search_fields: bool,
+    is_text_search: bool,
 ) -> Tuple:
     search = search.extra(track_scores=True)
     search = search.extra(explain=True)
@@ -13,7 +13,7 @@ def sort_and_execute_search(
     # search terms (only filters). As there is no search terms, we can
     # exclude this sorting because score is the same for all results
     # documents. Beware, nom and prenoms are search fields.
-    if is_search_fields:
+    if is_text_search:
         search = search.sort(
             {"_score": {"order": "desc"}},
             {"etat_administratif_unite_legale": {"order": "asc"}},

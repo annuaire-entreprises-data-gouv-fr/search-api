@@ -181,14 +181,15 @@ def text_search(index, offset: int, page_size: int, **params):
             **params,
         )
 
-    is_search_fields = False
+    # Sorting is only applied for text queries and not filters
+    is_text_search = False
     for item in [
         "terms",
         "nom_personne",
         "prenoms_personne",
     ]:
         if params[item]:
-            is_search_fields = True
+            is_text_search = True
 
     # By default, exclude etablissements list from response
     if not params["inclure_etablissements"]:
@@ -198,5 +199,5 @@ def text_search(index, offset: int, page_size: int, **params):
         search=search_client,
         offset=offset,
         page_size=page_size,
-        is_search_fields=is_search_fields,
+        is_text_search=is_text_search,
     )

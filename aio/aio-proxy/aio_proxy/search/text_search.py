@@ -97,7 +97,7 @@ def text_search(index, offset: int, page_size: int, **params):
             search_client = search_client.query(Q(text_query_with_filters))
 
         # Filters applied on établissements without text search
-        if not query_terms:
+        else:
             filters_etablissements_query_with_inner_hits = (
                 build_nested_etablissements_filters_query(
                     with_inner_hits=True, **params
@@ -113,6 +113,7 @@ def text_search(index, offset: int, page_size: int, **params):
             text_query = build_text_query(query_terms)
             search_client = search_client.query(Q(text_query))
 
+    # Élus and dirigeants
     type_personne = params["type_personne"]
     # Search 'élus' only or 'dirigeants' only
     if type_personne and type_personne == "ELU":

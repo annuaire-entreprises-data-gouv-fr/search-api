@@ -1,5 +1,3 @@
-import os
-
 from aio_proxy.response.formatters.bool import format_bool_field
 from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,

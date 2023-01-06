@@ -1,8 +1,8 @@
 import json
 import logging
-from aio_proxy.response.helpers import COLOR_URL
 from urllib.request import urlopen
 
+from aio_proxy.response.helpers import COLOR_URL
 
 logging.basicConfig(level=logging.INFO)
 

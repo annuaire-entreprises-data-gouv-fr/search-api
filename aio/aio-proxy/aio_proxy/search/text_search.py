@@ -168,7 +168,8 @@ def text_search(index, offset: int, page_size: int, **params):
             is_text_search = True
 
     # By default, exclude etablissements list from response
-    if not params["inclure_etablissements"]:
+    include_etablisssements = params["inclure_etablissements"]
+    if not include_etablisssements:
         search_client = search_client.source(exclude=["etablissements"])
 
     return sort_and_execute_search(
@@ -176,4 +177,5 @@ def text_search(index, offset: int, page_size: int, **params):
         offset=offset,
         page_size=page_size,
         is_text_search=is_text_search,
+        include_etablisssements=include_etablisssements,
     )

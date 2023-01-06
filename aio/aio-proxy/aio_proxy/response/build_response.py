@@ -22,10 +22,10 @@ def api_response(
         total_pages)
     """
     parameters, page, per_page = extract_function(request)
-    total_results, results, execution_time = search_function(
+    total_results, results, execution_time, include_etablissements = search_function(
         ElasticsearchSireneIndex, page * per_page, per_page, **parameters
     )
-    results_formatted = format_search_results(results)
+    results_formatted = format_search_results(results, include_etablissements)
     response_formatted = format_response(
         results_formatted, total_results, page, per_page, execution_time
     )

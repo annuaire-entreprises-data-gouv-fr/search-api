@@ -13,7 +13,7 @@ from aio_proxy.response.formatters.etablissements import (
 from aio_proxy.response.helpers import get_value, is_dev_env
 
 
-def format_search_results(results):
+def format_search_results(results, include_etablissements=False):
     """Format API response to follow a specific schema."""
     formatted_results = []
     for result in results:
@@ -74,9 +74,10 @@ def format_search_results(results):
             },
         }
 
-        # If 'etablissements' is included in elasticsearch response
+        # If 'include_etablissements' param is True, return 'etablissements' object
+        # even if it's empty, otherwise do not return object
         etablissements = format_etablissements_list(get_field("etablissements"))
-        if etablissements:
+        if include_etablissements:
             result_formatted["etablissements"] = etablissements
 
         # Include score field for dev environment

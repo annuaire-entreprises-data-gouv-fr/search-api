@@ -6,6 +6,7 @@ def sort_and_execute_search(
     offset: int,
     page_size: int,
     is_text_search: bool,
+    include_etablissements: bool,
 ) -> Tuple:
     search = search.extra(track_scores=True)
     search = search.extra(explain=True)
@@ -43,4 +44,4 @@ def sort_and_execute_search(
 
         response.append(matched_company_dict)
 
-    return total_results, response, execution_time
+    return total_results, response, execution_time, include_etablissements

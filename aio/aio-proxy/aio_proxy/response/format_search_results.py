@@ -44,7 +44,7 @@ def format_search_results(results, include_etablissements=False):
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
             "matching_etablissements": format_etablissements_list(
-                get_field("inner_hits")
+                get_field("matching_etablissements")
             ),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(

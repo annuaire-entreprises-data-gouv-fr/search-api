@@ -21,27 +21,29 @@ def sort_and_execute_search(
         )
 
     search = search[offset : (offset + page_size)]
-    results = search.execute()
-    total_results = results.hits.total.value
-    execution_time = results.took
+    search_results = search.execute()
+    total_results = search_results.hits.total.value
+    execution_time = search_results.took
     response = []
-    for matched_company in results.hits:
-        matched_company_dict = matched_company.to_dict(
+    for matching_unite_legale in search_results.hits:
+        matching_unite_legale_dict = matching_unite_legale.to_dict(
             skip_empty=False, include_meta=False
         )
         # Add meta field to response to retrieve score
-        matched_company_dict["meta"] = matched_company.meta.to_dict()
+        matching_unite_legale_dict["meta"] = matching_unite_legale.meta.to_dict()
         # Add inner hits field (etablissements)
         try:
-            matched_etablissements = matched_company.meta.inner_hits.etablissements.hits
-            matched_company_dict["inner_hits"] = []
-            for matched_etablissement in matched_etablissements:
-                matched_company_dict["inner_hits"].append(
-                    matched_etablissement.to_dict()
+            matching_etablissements = (
+                matching_unite_legale.meta.inner_hits.etablissements.hits
+            )
+            matching_unite_legale_dict["matching_etablissements"] = []
+            for matching_etablissement in matching_etablissements:
+                matching_unite_legale_dict["matching_etablissements"].append(
+                    matching_etablissement.to_dict()
                 )
         except Exception:
-            matched_company_dict["inner_hits"] = []
+            matching_unite_legale_dict["matching_etablissements"] = []
 
-        response.append(matched_company_dict)
+        response.append(matching_unite_legale_dict)
 
     return total_results, response, execution_time, include_etablissements

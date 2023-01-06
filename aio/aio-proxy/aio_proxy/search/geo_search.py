@@ -34,6 +34,12 @@ def geo_search(index, offset: int, page_size: int, **params):
         }
     }
     s = s.query(Q(geo_query))
+
+    # By default, exclude etablissements list from response
+    include_etablissements = params["inclure_etablissements"]
+    if not include_etablissements:
+        s = s.source(exclude=["etablissements"])
     return sort_and_execute_search(
-        search=s, offset=offset, page_size=page_size, is_search_fields=True
+        search=s, offset=offset, page_size=page_size, is_text_search=True,
+        include_etablissements=include_etablissements
     )

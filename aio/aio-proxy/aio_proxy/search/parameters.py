@@ -189,11 +189,16 @@ def extract_geo_parameters(request):
     section_activite_principale = validate_section_activite_principale(
         clean_parameter(request, param="section_activite_principale")
     )
+    inclure_etablissements = validate_bool_field(
+        "inclure_etablissements",
+        clean_parameter(request, param="inclure_etablissements"),
+    )
     parameters = {
         "lat": lat,
         "lon": lon,
         "radius": radius,
         "activite_principale_unite_legale": activite_principale,
         "section_activite_principale": section_activite_principale,
+        "inclure_etablissements": inclure_etablissements,
     }
     return parameters, page, per_page

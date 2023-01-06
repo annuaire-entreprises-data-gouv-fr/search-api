@@ -21,6 +21,8 @@ def text_search(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     search_client = index.search()
 
+    include_etablissements = params["inclure_etablissements"]
+
     # Filter by siren/siret first (if query is a `siren` or 'siret' number), and return
     # search results directly without text search.
     if is_siren(query_terms) or is_siret(query_terms):
@@ -34,6 +36,7 @@ def text_search(index, offset: int, page_size: int, **params):
             offset=offset,
             page_size=page_size,
             is_text_search=False,
+            include_etablissements=include_etablissements,
         )
 
     # Filter results by term using 'unité légale' related filters in the request
@@ -168,8 +171,7 @@ def text_search(index, offset: int, page_size: int, **params):
             is_text_search = True
 
     # By default, exclude etablissements list from response
-    include_etablisssements = params["inclure_etablissements"]
-    if not include_etablisssements:
+    if not include_etablissements:
         search_client = search_client.source(exclude=["etablissements"])
 
     return sort_and_execute_search(
@@ -177,5 +179,5 @@ def text_search(index, offset: int, page_size: int, **params):
         offset=offset,
         page_size=page_size,
         is_text_search=is_text_search,
-        include_etablisssements=include_etablisssements,
+        include_etablissements=include_etablissements,
     )

@@ -2,6 +2,7 @@ import json
 from typing import Callable, Dict
 
 from aio_proxy.decorators.http_exception import http_exception_handler
+from aio_proxy.response.format_response import format_response
 from aio_proxy.response.format_search_results import format_search_results
 from aio_proxy.search.index import ElasticsearchSireneIndex
 from aiohttp import web

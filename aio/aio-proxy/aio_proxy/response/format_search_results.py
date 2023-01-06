@@ -76,8 +76,8 @@ def format_search_results(results, include_etablissements=False):
 
         # If 'include_etablissements' param is True, return 'etablissements' object
         # even if it's empty, otherwise do not return object
-        etablissements = format_etablissements_list(get_field("etablissements"))
         if include_etablissements:
+            etablissements = format_etablissements_list(get_field("etablissements"))
             result_formatted["etablissements"] = etablissements
 
         # Include score field for dev environment

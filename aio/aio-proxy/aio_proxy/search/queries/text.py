@@ -1,4 +1,11 @@
 def build_text_query(terms: str):
+    etablissements_ouverts_multiplier = {
+        "field": "nombre_etablissements_ouverts",
+        "factor": 1,
+        "modifier": "log2p",
+        "missing": 1,
+    }
+
     text_query = {
         "bool": {
             "should": [
@@ -13,12 +20,7 @@ def build_text_query(terms: str):
                                 }
                             }
                         },
-                        "field_value_factor": {
-                            "field": "nombre_etablissements_ouverts",
-                            "factor": 1,
-                            "modifier": "log2p",
-                            "missing": 1,
-                        },
+                        "field_value_factor": etablissements_ouverts_multiplier,
                     }
                 },
                 {
@@ -32,12 +34,7 @@ def build_text_query(terms: str):
                                 }
                             }
                         },
-                        "field_value_factor": {
-                            "field": "nombre_etablissements_ouverts",
-                            "factor": 1,
-                            "modifier": "log2p",
-                            "missing": 1,
-                        },
+                        "field_value_factor": etablissements_ouverts_multiplier,
                     }
                 },
                 {
@@ -52,12 +49,7 @@ def build_text_query(terms: str):
                                 }
                             }
                         },
-                        "field_value_factor": {
-                            "field": "nombre_etablissements_ouverts",
-                            "factor": 1,
-                            "modifier": "log2p",
-                            "missing": 1,
-                        },
+                        "field_value_factor": etablissements_ouverts_multiplier,
                     }
                 },
                 {
@@ -181,12 +173,7 @@ def build_text_query(terms: str):
                                 "inner_hits": {},
                             }
                         },
-                        "field_value_factor": {
-                            "field": "nombre_etablissements_ouverts",
-                            "factor": 1,
-                            "modifier": "log2p",
-                            "missing": 1,
-                        },
+                        "field_value_factor": etablissements_ouverts_multiplier,
                         "min_score": 4,
                     }
                 },
@@ -202,12 +189,7 @@ def build_text_query(terms: str):
                                 }
                             }
                         },
-                        "field_value_factor": {
-                            "field": "nombre_etablissements_ouverts",
-                            "factor": 1,
-                            "modifier": "log2p",
-                            "missing": 1,
-                        },
+                        "field_value_factor": etablissements_ouverts_multiplier,
                     }
                 },
                 {
@@ -222,12 +204,7 @@ def build_text_query(terms: str):
                                 }
                             }
                         },
-                        "field_value_factor": {
-                            "field": "nombre_etablissements_ouverts",
-                            "factor": 1,
-                            "modifier": "log2p",
-                            "missing": 1,
-                        },
+                        "field_value_factor": etablissements_ouverts_multiplier,
                     }
                 },
             ],

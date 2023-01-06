@@ -4,10 +4,10 @@ from elasticsearch_dsl import Q
 
 
 def geo_search(index, offset: int, page_size: int, **params):
-    s = index.search()
+    search_client = index.search()
     # Use filters to reduce search results
-    s = filter_term_search_unite_legale(
-        s,
+    search_client = filter_term_search_unite_legale(
+        search_client,
         filters_to_include=[
             "activite_principale_unite_legale",
             "section_activite_principale",
@@ -33,13 +33,13 @@ def geo_search(index, offset: int, page_size: int, **params):
             "inner_hits": {},
         }
     }
-    s = s.query(Q(geo_query))
+    search_client = search_client.query(Q(geo_query))
 
     # By default, exclude etablissements list from response
     include_etablissements = params["inclure_etablissements"]
     if not include_etablissements:
-        s = s.source(exclude=["etablissements"])
+        search_client = search_client.source(exclude=["etablissements"])
     return sort_and_execute_search(
-        search=s, offset=offset, page_size=page_size, is_text_search=True,
+        search=search_client, offset=offset, page_size=page_size, is_text_search=True,
         include_etablissements=include_etablissements
     )

@@ -19,18 +19,15 @@ from elasticsearch_dsl import Q
 
 def text_search(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
-    s = index.search()
-
-    # Check if any etablissements filters are used
-    etablissement_filter_used = is_any_etablissement_filter_used(**params)
+    search_client = index.search()
 
     # Filter by siren first (if query is a `siren` number), and return search results
     # directly without text search.
     if is_siren(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
-        s = filter_by_siren(s, query_terms_clean)
+        search_client = filter_by_siren(search_client, query_terms_clean)
         return sort_and_execute_search(
-            search=s,
+            search=search_client,
             offset=offset,
             page_size=page_size,
             is_search_fields=False,
@@ -40,17 +37,17 @@ def text_search(index, offset: int, page_size: int, **params):
     # directly without text search.
     if is_siret(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
-        s = filter_by_siret(s, query_terms_clean)
+        search_client = filter_by_siret(search_client, query_terms_clean)
         return sort_and_execute_search(
-            search=s,
+            search=search_client,
             offset=offset,
             page_size=page_size,
             is_search_fields=False,
         )
 
     # Filter results by term using 'unité légale' related filters in the request
-    s = filter_term_search_unite_legale(
-        s,
+    search_client = filter_term_search_unite_legale(
+        search_client,
         filters_to_include=[
             "est_entrepreneur_individuel",
             "est_entrepreneur_spectacle",
@@ -68,6 +65,9 @@ def text_search(index, offset: int, page_size: int, **params):
         **params,
     )
 
+    # Check if any etablissements filters are used
+    etablissement_filter_used = is_any_etablissement_filter_used(**params)
+
     # Filters applied on établissements, 1st application of filters before text search
     # to make sure the text_query (on unite légale) is applied only to filtered
     # results.
@@ -80,7 +80,7 @@ def text_search(index, offset: int, page_size: int, **params):
             build_nested_etablissements_filters_query(with_inner_hits=False, **params)
         )
         if filters_etablissements_query_without_inner_hits:
-            s = s.query(Q(filters_etablissements_query_without_inner_hits))
+            search_client = search_client.query(Q(filters_etablissements_query_without_inner_hits))
 
     # Filters applied on établissements without text search
     if not query_terms and etablissement_filter_used:
@@ -89,11 +89,11 @@ def text_search(index, offset: int, page_size: int, **params):
                                                       **params)
         )
         if filters_etablissements_query_with_inner_hits:
-            s = s.query(Q(filters_etablissements_query_with_inner_hits))
+            search_client = search_client.query(Q(filters_etablissements_query_with_inner_hits))
 
     # Boolean filters for unité légale
-    s = filter_search_by_bool_fields_unite_legale(
-        s,
+    search_client = filter_search_by_bool_fields_unite_legale(
+        search_client,
         filters_to_include=[
             "est_association",
             "est_collectivite_territoriale",
@@ -103,8 +103,8 @@ def text_search(index, offset: int, page_size: int, **params):
 
     # Search 'élus' only
     if params["type_personne"] == "ELU":
-        s = search_person(
-            s,
+        search_client = search_person(
+            search_client,
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -122,8 +122,8 @@ def text_search(index, offset: int, page_size: int, **params):
 
     # Search 'dirigeants' only
     elif params["type_personne"] == "DIRIGEANT":
-        s = search_person(
-            s,
+        search_client = search_person(
+            search_client,
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -140,8 +140,8 @@ def text_search(index, offset: int, page_size: int, **params):
         )
     else:
         # Search both 'élus' and 'dirigeants'
-        s = search_person(
-            s,
+        search_client = search_person(
+            search_client,
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -169,12 +169,12 @@ def text_search(index, offset: int, page_size: int, **params):
         text_query_with_filters = add_nested_etablissements_filters_to_text_query(
             text_query, **params
         )
-        s = s.query(Q(text_query_with_filters))
+        search_client = search_client.query(Q(text_query_with_filters))
 
     # Text search only without etablissements filters
     if query_terms and not etablissement_filter_used:
         text_query = build_text_query(query_terms)
-        s = s.query(Q(text_query))
+        search_client = search_client.query(Q(text_query))
 
     is_search_fields = False
     for item in [
@@ -187,10 +187,10 @@ def text_search(index, offset: int, page_size: int, **params):
 
     # By default, exclude etablissements list from response
     if not params["inclure_etablissements"]:
-        s = s.source(exclude=["etablissements"])
+        search_client = search_client.source(exclude=["etablissements"])
 
     return sort_and_execute_search(
-        search=s,
+        search=search_client,
         offset=offset,
         page_size=page_size,
         is_search_fields=is_search_fields,

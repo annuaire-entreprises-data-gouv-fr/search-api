@@ -49,7 +49,8 @@ def format_response(results):
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
             ),
             "matching_etablissements": format_etablissements_list(
-                get_field("inner_hits")),
+                get_field("inner_hits")
+            ),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
@@ -69,7 +70,7 @@ def format_response(results):
                 "est_ess": format_ess(
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),
-                "est_finess": get_field("est_finess") ,
+                "est_finess": get_field("est_finess"),
                 "est_rge": get_field("est_rge"),
                 "est_uai": get_field("est_uai"),
                 "identifiant_association": get_field(

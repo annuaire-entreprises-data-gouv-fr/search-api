@@ -68,9 +68,7 @@ def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
         }
     }
 
-    terms_filters, must_filters = build_etablissements_filters(
-        **params
-    )
+    terms_filters, must_filters = build_etablissements_filters(**params)
 
     if not (terms_filters or must_filters):
         return None
@@ -87,9 +85,7 @@ def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
 
 
 def add_nested_etablissements_filters_to_text_query(text_query, **params):
-    terms_filters, must_filters = build_etablissements_filters(
-        **params
-    )
+    terms_filters, must_filters = build_etablissements_filters(**params)
 
     if terms_filters:
         text_query["bool"]["should"][3]["function_score"]["query"]["nested"]["query"][

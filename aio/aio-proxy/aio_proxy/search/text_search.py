@@ -65,32 +65,6 @@ def text_search(index, offset: int, page_size: int, **params):
         **params,
     )
 
-    # Check if any etablissements filters are used
-    etablissement_filter_used = is_any_etablissement_filter_used(**params)
-
-    # Filters applied on établissements, 1st application of filters before text search
-    # to make sure the text_query (on unite légale) is applied only to filtered
-    # results.
-    # Otherwise, the text_query (with filters injected) will return all unite_legale
-    # that match the filter without any regarde to the text_query on unite_legale
-    # These filters are applied always, even with a query search, since we do not
-    # include inner hits in this particular search query
-    if etablissement_filter_used:
-        filters_etablissements_query_without_inner_hits = (
-            build_nested_etablissements_filters_query(with_inner_hits=False, **params)
-        )
-        if filters_etablissements_query_without_inner_hits:
-            search_client = search_client.query(Q(filters_etablissements_query_without_inner_hits))
-
-    # Filters applied on établissements without text search
-    if not query_terms and etablissement_filter_used:
-        filters_etablissements_query_with_inner_hits = (
-            build_nested_etablissements_filters_query(with_inner_hits=True,
-                                                      **params)
-        )
-        if filters_etablissements_query_with_inner_hits:
-            search_client = search_client.query(Q(filters_etablissements_query_with_inner_hits))
-
     # Boolean filters for unité légale
     search_client = filter_search_by_bool_fields_unite_legale(
         search_client,
@@ -100,6 +74,50 @@ def text_search(index, offset: int, page_size: int, **params):
         ],
         **params,
     )
+
+    # Check if any etablissements filters are used
+    etablissement_filter_used = is_any_etablissement_filter_used(**params)
+
+    if etablissement_filter_used:
+        # Filters applied on établissements, 1st application of filters before text
+        # search to make sure the text_query (on unite légale) is applied only to
+        # filtered results.
+        # Otherwise, the text_query (with filters injected) will return all unite_legale
+        # that match the filter without any regarde to the text_query on unite_legale
+        # These filters are applied always, even with a query search, since we do not
+        # include inner hits in this particular search query
+        filters_etablissements_query_without_inner_hits = (
+            build_nested_etablissements_filters_query(with_inner_hits=False, **params)
+        )
+        if filters_etablissements_query_without_inner_hits:
+            search_client = search_client.query(
+                Q(filters_etablissements_query_without_inner_hits)
+            )
+
+        # Filters applied on établissement with text search
+        if query_terms:
+            text_query = build_text_query(query_terms)
+            text_query_with_filters = add_nested_etablissements_filters_to_text_query(
+                text_query, **params
+            )
+            search_client = search_client.query(Q(text_query_with_filters))
+
+        # Filters applied on établissements without text search
+        if not query_terms:
+            filters_etablissements_query_with_inner_hits = (
+                build_nested_etablissements_filters_query(
+                    with_inner_hits=True, **params
+                )
+            )
+            if filters_etablissements_query_with_inner_hits:
+                search_client = search_client.query(
+                    Q(filters_etablissements_query_with_inner_hits)
+                )
+    else:
+        # Text search only without etablissements filters
+        if query_terms:
+            text_query = build_text_query(query_terms)
+            search_client = search_client.query(Q(text_query))
 
     # Search 'élus' only
     if params["type_personne"] == "ELU":
@@ -162,19 +180,6 @@ def text_search(index, offset: int, page_size: int, **params):
             ],
             **params,
         )
-
-    # Filters applied on établissement with text search
-    if query_terms and etablissement_filter_used:
-        text_query = build_text_query(query_terms)
-        text_query_with_filters = add_nested_etablissements_filters_to_text_query(
-            text_query, **params
-        )
-        search_client = search_client.query(Q(text_query_with_filters))
-
-    # Text search only without etablissements filters
-    if query_terms and not etablissement_filter_used:
-        text_query = build_text_query(query_terms)
-        search_client = search_client.query(Q(text_query))
 
     is_search_fields = False
     for item in [

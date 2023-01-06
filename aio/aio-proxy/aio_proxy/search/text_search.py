@@ -113,52 +113,32 @@ def text_search(index, offset: int, page_size: int, **params):
             text_query = build_text_query(query_terms)
             search_client = search_client.query(Q(text_query))
 
+    type_personne = params["type_personne"]
     # Search 'élus' only or 'dirigeants' only
-    types_personnes = {"ELU": "colter_elus", "DIRIGEANT": "dirigeants_pp"}
-
-    if params["type_personne"] in ["ELU", "DIRIGEANT"]:
-        type_personne = types_personnes[params["type_personne"]]
-        search_client = search_person(
-            search_client,
-            "nom_personne",
-            "prenoms_personne",
-            "min_date_naiss_personne",
-            "max_date_naiss_personne",
-            [
-                {
-                    "type_person": type_personne,
-                    "match_nom": "nom",
-                    "match_prenom": "prenom",
-                    "match_date": "date_naissance",
-                },
-            ],
-            **params,
-        )
-
+    if type_personne and type_personne == "ELU":
+        type_personne_to_search = ["colter_elus"]
+    # Search 'dirigeants' only
+    elif type_personne and type_personne == "DIRIGEANT":
+        type_personne_to_search = ["dirigeants_pp"]
     else:
         # Search both 'élus' and 'dirigeants'
-        search_client = search_person(
-            search_client,
-            "nom_personne",
-            "prenoms_personne",
-            "min_date_naiss_personne",
-            "max_date_naiss_personne",
-            [
-                {
-                    "type_person": "dirigeants_pp",
-                    "match_nom": "nom",
-                    "match_prenom": "prenoms",
-                    "match_date": "date_naissance",
-                },
-                {
-                    "type_person": "colter_elus",
-                    "match_nom": "nom",
-                    "match_prenom": "prenom",
-                    "match_date": "date_naissance",
-                },
-            ],
-            **params,
-        )
+        type_personne_to_search = ["colter_elus", "dirigeants_pp"]
+    search_client = search_person(
+        search_client,
+        "nom_personne",
+        "prenoms_personne",
+        "min_date_naiss_personne",
+        "max_date_naiss_personne",
+        [
+            {
+                "type_person": type,
+                "match_nom": "nom",
+                "match_prenom": "prenom",
+                "match_date": "date_naissance",
+            } for type in type_personne_to_search
+        ],
+        **params,
+    )
 
     # Sorting is only applied for text queries and not filters
     is_text_search = False

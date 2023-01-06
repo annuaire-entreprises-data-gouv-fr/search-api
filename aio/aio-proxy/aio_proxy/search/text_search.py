@@ -21,28 +21,19 @@ def text_search(index, offset: int, page_size: int, **params):
     query_terms = params["terms"]
     search_client = index.search()
 
-    # Filter by siren first (if query is a `siren` number), and return search results
-    # directly without text search.
-    if is_siren(query_terms):
+    # Filter by siren/siret first (if query is a `siren` or 'siret' number), and return
+    # search results directly without text search.
+    if is_siren(query_terms) or is_siret(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
-        search_client = filter_by_siren(search_client, query_terms_clean)
+        if is_siren(query_terms):
+            search_client = filter_by_siren(search_client, query_terms_clean)
+        else:
+            search_client = filter_by_siret(search_client, query_terms_clean)
         return sort_and_execute_search(
             search=search_client,
             offset=offset,
             page_size=page_size,
-            is_search_fields=False,
-        )
-
-    # Filter by siret first (if query is a `siret` number), and return search results
-    # directly without text search.
-    if is_siret(query_terms):
-        query_terms_clean = query_terms.replace(" ", "")
-        search_client = filter_by_siret(search_client, query_terms_clean)
-        return sort_and_execute_search(
-            search=search_client,
-            offset=offset,
-            page_size=page_size,
-            is_search_fields=False,
+            is_text_search=False,
         )
 
     # Filter results by term using 'unité légale' related filters in the request

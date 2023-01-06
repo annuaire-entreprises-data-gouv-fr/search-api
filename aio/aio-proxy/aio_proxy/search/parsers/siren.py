@@ -7,7 +7,7 @@ def is_siren(query_string: str) -> bool:
     """
     if query_string is None:
         return False
-    clean_query_string = query_string.replace(" ", "").upper()
+    clean_query_string = query_string.replace(" ", "")
     siren_valides = r"\b\d{9}\b"
     if re.search(siren_valides, clean_query_string):
         return True

@@ -1,11 +1,8 @@
 import json
 import logging
-import os
+from aio_proxy.response.helpers import COLOR_URL
 from urllib.request import urlopen
 
-from dotenv import load_dotenv
-
-load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
@@ -28,4 +25,4 @@ def get_current_color(color_url: str):
     return current_color
 
 
-CURRENT_COLOR = get_current_color(os.getenv("COLOR_URL"))
+CURRENT_COLOR = get_current_color(COLOR_URL)

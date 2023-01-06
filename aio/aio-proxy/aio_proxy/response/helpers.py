@@ -4,11 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-current_env = os.getenv("ENV")
+CURRENT_ENV = os.getenv("ENV")
+
+COLOR_URL = os.getenv("COLOR_URL")
 
 
 def is_dev_env():
-    return current_env == "dev"
+    return CURRENT_ENV == "dev"
 
 
 def serialize_error_text(text: str) -> str:

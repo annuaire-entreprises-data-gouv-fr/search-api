@@ -7,7 +7,7 @@ from aio_proxy.response.helpers import COLOR_URL
 logging.basicConfig(level=logging.INFO)
 
 
-def get_current_color(color_url: str):
+def get_current_color(color_url):
     """Get current Elasticsearch index color from json file stored in MinIO."""
     try:
         with urlopen(color_url, timeout=5) as url:

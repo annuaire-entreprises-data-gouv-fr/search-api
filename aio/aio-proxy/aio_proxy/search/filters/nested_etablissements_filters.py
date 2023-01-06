@@ -33,7 +33,7 @@ def build_etablissements_filters(**params):
     # params is the list of parameters (filters) provided in the request
     for param_name, param_value in params.items():
         should_apply_text_filter = (
-                param_value is not None and param_name in text_filters
+            param_value is not None and param_name in text_filters
         )
         if should_apply_text_filter:
             terms_filters.append(
@@ -43,9 +43,7 @@ def build_etablissements_filters(**params):
                     }
                 }
             )
-        should_apply_id_filter = (
-            param_value is not None and param_name in id_filters
-        )
+        should_apply_id_filter = param_value is not None and param_name in id_filters
         if should_apply_id_filter:
             field = get_elasticsearch_field_name(param_name)
             must_filters.append(

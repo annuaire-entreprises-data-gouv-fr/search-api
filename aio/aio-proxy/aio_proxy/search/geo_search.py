@@ -40,6 +40,9 @@ def geo_search(index, offset: int, page_size: int, **params):
     if not include_etablissements:
         search_client = search_client.source(exclude=["etablissements"])
     return sort_and_execute_search(
-        search=search_client, offset=offset, page_size=page_size, is_text_search=True,
-        include_etablissements=include_etablissements
+        search=search_client,
+        offset=offset,
+        page_size=page_size,
+        is_text_search=True,
+        include_etablissements=include_etablissements,
     )

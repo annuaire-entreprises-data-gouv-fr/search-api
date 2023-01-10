@@ -321,7 +321,7 @@ paths:
             default: 1
         - name: per_page
           in: query
-          description: Le nombre de résultats par page
+          description: Le nombre de résultats par page, limité à 25
           required: false
           schema:
             type: integer
@@ -652,7 +652,7 @@ paths:
             default: 1
         - name: per_page
           in: query
-          description: Le nombre de résultats par page
+          description: Le nombre de résultats par page, limité à 25
           required: false
           schema:
             type: integer

@@ -1,12 +1,12 @@
 from aio_proxy.search.execute_search import sort_and_execute_search
-from aio_proxy.search.filters.term_filters import filter_term_search_unite_legale
+from aio_proxy.search.filters.term_filters import filter_term_list_search_unite_legale
 from elasticsearch_dsl import Q
 
 
 def geo_search(index, offset: int, page_size: int, **params):
     search_client = index.search()
     # Use filters to reduce search results
-    search_client = filter_term_search_unite_legale(
+    search_client = filter_term_list_search_unite_legale(
         search_client,
         filters_to_include=[
             "activite_principale_unite_legale",

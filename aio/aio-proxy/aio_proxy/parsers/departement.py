@@ -1,23 +1,29 @@
-import re
-from typing import Optional
+from typing import List, Optional
+
+from aio_proxy.labels.helpers import departements
 
 
-def validate_departement(departement_clean: str) -> Optional[str]:
-    """Check the validity of departement.
+def validate_departement(list_departement_clean: List[str]) -> Optional[List[str]]:
+    """Check the validity of list_departement.
 
     Args:
-        departement_clean(str, optional): departement extracted and cleaned.
+        list_departement_clean(list(str), optional): list of departements extracted and
+        cleaned.
 
     Returns:
-        None if departement_clean is None.
-        departement_clean if valid.
+        None if list_departement_clean is None.
+        list_departement_clean if valid.
 
     Raises:
-        ValueError: if departement_clean not valid.
+        ValueError: if one of the values of list_departement_clean is not valid.
     """
-    if departement_clean is None:
+    if list_departement_clean is None:
         return None
-    departements_valides = r"\b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b"
-    if not re.search(departements_valides, departement_clean):
-        raise ValueError("Département non valide.")
-    return departement_clean
+    for departement in list_departement_clean:
+        if departement not in departements:
+            raise ValueError(
+                f"Au moins un département est non valide."
+                f" Les départements valides"
+                f" : {[dep for dep in departements]}"
+            )
+    return list_departement_clean

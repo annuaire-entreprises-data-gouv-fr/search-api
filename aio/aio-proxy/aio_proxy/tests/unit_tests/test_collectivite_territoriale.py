@@ -41,7 +41,7 @@ def test_validate_est_collectivite_territoriale_fail(
 
 @pytest.mark.parametrize(
     "code_collectivite_territoriale, expected",
-    [("23150", "23150"), ("11", "11"), (None, None)],
+    [(["23150", "11"], ["23150", "11"]), ([], [])],
 )
 def test_validate_code_collectivite_territoriale(
     code_collectivite_territoriale,
@@ -55,13 +55,13 @@ def test_validate_code_collectivite_territoriale(
     )
 
 
-@pytest.mark.parametrize("code_collectivite_territoriale", ["1", "2"])
+@pytest.mark.parametrize("code_collectivite_territoriale", [["1", "2"]])
 def test_validate_code_collectivite_territoriale_fail(
     code_collectivite_territoriale: str,
 ):
     with pytest.raises(
         ValueError,
-        match="L'identifiant code_insee d'une collectivité "
-        "territoriale doit contenir au moins 2 caractères.",
+        match="Chaque identifiant code insee d'une collectivité territoriale doit "
+        "contenir au moins 2 caractères.",
     ):
         validate_code_collectivite_territoriale(code_collectivite_territoriale)

@@ -1,26 +1,30 @@
-from typing import Optional
+from typing import List, Optional
 
 from aio_proxy.labels.helpers import sections_codes_naf
 
 
 def validate_section_activite_principale(
-    section_activite_principale_clean: str,
-) -> Optional[str]:
-    """Check the validity of section_activite_principale.
+    list_section_activite_principale_clean: List[str],
+) -> Optional[List[str]]:
+    """Check the validity of list_section_activite_principale.
 
     Args:
-        section_activite_principale_clean(str, optional):
-        section_activite_principale extracted and cleaned.
+        list_section_activite_principale_clean(list(str), optional):
+        list_section_activite_principale extracted and cleaned.
 
     Returns:
-        None if section_activite_principale_clean is None.
-        section_activite_principale_clean if valid.
+        None if list_section_activite_principale_clean is None.
+        list_section_activite_principale_clean if valid.
 
     Raises:
-        ValueError: if section_activite_principale_clean not valid.
+        ValueError: if one on the values in list_section_activite_principale_clean
+        is not valid.
     """
-    if section_activite_principale_clean is None:
+    if list_section_activite_principale_clean is None:
         return None
-    if section_activite_principale_clean not in sections_codes_naf:
-        raise ValueError("Section d'activité principale non valide.")
-    return section_activite_principale_clean
+    for section_activite_principale in list_section_activite_principale_clean:
+        if section_activite_principale not in sections_codes_naf:
+            raise ValueError(
+                "Au moins une section d'activité principale est non " "valide."
+            )
+    return list_section_activite_principale_clean

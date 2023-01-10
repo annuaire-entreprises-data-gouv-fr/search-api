@@ -26,4 +26,4 @@ def validate_tranche_effectif_salarie(
             raise ValueError("Chaque tranche salariés doit contenir 2 caractères.")
         if tranche_effectif_salarie not in tranches_effectifs:
             raise ValueError("Au moins une tranche salariés est non valide.")
-    return tranche_effectif_salarie_clean
+    return list_tranche_effectif_salarie_clean

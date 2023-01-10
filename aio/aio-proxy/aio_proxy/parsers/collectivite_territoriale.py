@@ -23,7 +23,7 @@ def validate_code_collectivite_territoriale(
     for code_collectivite_territoriale in list_code_collectivite_territoriale:
         if len(code_collectivite_territoriale) < 2:
             raise ValueError(
-                "Chaque identifiant code_insee d'une collectivité territoriale doit "
+                "Chaque identifiant code insee d'une collectivité territoriale doit "
                 "contenir au moins 2 caractères."
             )
     return list_code_collectivite_territoriale

@@ -81,7 +81,7 @@ def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
         filters_query["nested"]["query"]["bool"]["must"] = must_filters
 
     if with_inner_hits:
-        filters_query["nestd"]["inner_hits"] = {}
+        filters_query["nested"]["inner_hits"] = {}
 
     return filters_query
 

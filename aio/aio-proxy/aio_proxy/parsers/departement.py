@@ -11,7 +11,7 @@ def validate_departement(list_departement_clean: List[str]) -> Optional[List[str
         cleaned.
 
     Returns:
-        None if lit_departement_clean is None.
+        None if list_departement_clean is None.
         list_departement_clean if valid.
 
     Raises:

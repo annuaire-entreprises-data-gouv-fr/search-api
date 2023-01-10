@@ -1,4 +1,3 @@
-import re
 from typing import List, Optional
 from aio_proxy.labels.helpers import departements
 

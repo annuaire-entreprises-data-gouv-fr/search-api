@@ -55,17 +55,13 @@ def text_search(index, offset: int, page_size: int, **params):
     )
 
     # Filter results by list of terms, using 'unité légale' related list of values
-    s = filter_term_list_search_unite_legale(
-        s,
+    search_client = filter_term_list_search_unite_legale(
+        search_client,
         filters_to_include=[
             "activite_principale_unite_legale",
             "code_collectivite_territoriale",
             "section_activite_principale",
             "tranche_effectif_salarie_unite_legale",
-            "est_rge",
-            "est_finess",
-            "est_uai",
-            "convention_collective_renseignee",
         ],
         **params,
     )

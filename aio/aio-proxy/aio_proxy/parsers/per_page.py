@@ -2,8 +2,7 @@ from aio_proxy.decorators.value_exception import value_exception_handler
 
 
 @value_exception_handler(
-    error="Veuillez indiquer un `per_page` entier "
-    "inférieur ou égal à 25, par défaut 10."
+    error="Veuillez indiquer un `per_page` entre 1 et 25, par défaut 10."
 )
 def parse_and_validate_per_page(request) -> int:
     """Extract and Check the validity of per page.

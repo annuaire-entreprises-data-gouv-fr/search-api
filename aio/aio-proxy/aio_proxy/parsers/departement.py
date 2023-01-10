@@ -1,5 +1,6 @@
 import re
 from typing import List, Optional
+from aio_proxy.labels.helpers import departements
 
 
 def validate_departement(list_departement_clean: List[str]) -> Optional[List[str]]:
@@ -19,7 +20,6 @@ def validate_departement(list_departement_clean: List[str]) -> Optional[List[str
     if list_departement_clean is None:
         return None
     for departement in list_departement_clean:
-        departements_valides = r"\b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b"
-        if not re.search(departements_valides, departement):
+        if departement not in departements:
             raise ValueError("Au moins un département est non valide.")
     return list_departement_clean

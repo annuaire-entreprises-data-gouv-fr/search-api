@@ -21,5 +21,9 @@ def validate_departement(list_departement_clean: List[str]) -> Optional[List[str
         return None
     for departement in list_departement_clean:
         if departement not in departements:
-            raise ValueError("Au moins un département est non valide.")
+            raise ValueError(
+                f"Au moins un département est non valide."
+                f" Les départements valides"
+                f" : {[dep for dep in departements]}"
+            )
     return list_departement_clean

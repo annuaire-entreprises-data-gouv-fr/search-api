@@ -6,6 +6,8 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
     build:
       context: ./elasticsearch
+    networks:
+      - aio-elasticsearch-network
     env_file:
       - .env
     environment:
@@ -24,13 +26,59 @@ services:
       - ./es-data:/usr/share/elasticsearch/data
     container_name: elastic-sirene
     command: bash -c "zip -q -d /usr/share/elasticsearch/lib/log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class && /usr/local/bin/docker-entrypoint.sh"
+    ports:
+      - "127.0.0.1:9200:9200"
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.7.0
+    restart: always
+    env_file:
+      - .env
     networks:
-      - api-search-annuaire-entreprises
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.elasticsearch.rule=Host(`localhost`)"
-      - "traefik.http.routers.elasticsearch.entrypoints=elasticsearch"
-      - "traefik.port=9200"
+      - aio-elasticsearch-network
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USER}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - SERVER_HOST=0.0.0.0
+    ports:
+      - "127.0.0.1:5601:5601"
+
+  apm-server:
+    container_name: APM-server
+    image: docker.elastic.co/apm/apm-server:7.4.0
+    ports:
+      - "127.0.0.1:8200:8200"
+    env_file:
+      - .env
+    networks:
+      - aio-elasticsearch-network
+    command: >
+      apm-server -e
+        -E monitoring.enabled=true
+        -E apm-server.expvar.enabled=true
+        -E apm-server.instrumentation.enabled=true
+        -E output.elasticsearch.hosts=["http://elasticsearch:9200"]
+        -E output.elasticsearch.username=${ELASTIC_USER}
+        -E output.elasticsearch.password=${ELASTIC_PASSWORD}
+    environment:
+      - ELASTIC_URL=http://elasticsearch:9200
+      - ELASTIC_USER=${ELASTIC_USER}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+    healthcheck:
+      test: [ "CMD", "curl", "--write-out", "'HTTP %{http_code}'", "--silent",
+              "--output", "/dev/null", "http://localhost:8200/" ]
+      retries: 10
+      interval: 10s
+
 networks:
-  api-search-annuaire-entreprises:
-    name: api-search-annuaire-entreprises
+  aio-elasticsearch-network:
+    name: aio-elasticsearch-network

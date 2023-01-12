@@ -6,6 +6,7 @@ from aio_proxy.routes import routes
 from aio_proxy.settings import config
 from aiohttp import web
 from aiohttp_swagger3 import SwaggerDocs, SwaggerUiSettings
+from elasticapm.contrib.aiohttp import ElasticAPM
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 open_api_path = BASE_DIR / "aio_proxy" / "doc" / "open-api.yml"
@@ -27,6 +28,11 @@ def main():
         components=open_api_path,
     )
     app["config"] = config
+    app['ELASTIC_APM'] = {
+        'SERVICE_NAME': 'Search APM',
+        'SERVER_URL': 'http://APM-server:8200'
+    }
+    apm = ElasticAPM(app)
     web.run_app(app, host=config["host"], port=config["port"])
     app.on_startup.append(swagger)
 

@@ -28,11 +28,11 @@ def main():
         components=open_api_path,
     )
     app["config"] = config
-    app['ELASTIC_APM'] = {
-        'SERVICE_NAME': 'Search APM',
-        'SERVER_URL': 'http://APM-server:8200'
+    app["ELASTIC_APM"] = {
+        "SERVICE_NAME": "Search APM",
+        "SERVER_URL": "http://APM-server:8200",
     }
-    apm = ElasticAPM(app)
+    # apm = ElasticAPM(app)
     web.run_app(app, host=config["host"], port=config["port"])
     app.on_startup.append(swagger)
 

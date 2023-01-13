@@ -2,6 +2,7 @@ import logging
 import pathlib
 
 import aiohttp
+from aio_proxy.response.helpers import APM_URL, CURRENT_ENV
 from aio_proxy.routes import routes
 from aio_proxy.settings import config
 from aiohttp import web
@@ -29,10 +30,11 @@ def main():
     )
     app["config"] = config
     app["ELASTIC_APM"] = {
-        "SERVICE_NAME": "Search APM",
-        "SERVER_URL": "http://APM-server:8200",
+        "SERVICE_NAME": "SEARCH APM",
+        "SERVER_URL": APM_URL,
+        "ELASTIC_APM_ENVIRONMENT": CURRENT_ENV,
     }
-    # apm = ElasticAPM(app)
+    ElasticAPM(app)
     web.run_app(app, host=config["host"], port=config["port"])
     app.on_startup.append(swagger)
 

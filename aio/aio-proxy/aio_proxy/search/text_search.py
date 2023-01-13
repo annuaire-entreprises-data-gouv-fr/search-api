@@ -46,9 +46,13 @@ def text_search(index, offset: int, page_size: int, **params):
     search_client = filter_term_search_unite_legale(
         search_client,
         filters_to_include=[
+            "convention_collective_renseignee",
+            "economie_sociale_solidaire_unite_legale",
             "est_entrepreneur_individuel",
             "est_entrepreneur_spectacle",
-            "economie_sociale_solidaire_unite_legale",
+            "est_finess",
+            "est_rge",
+            "est_uai",
             "etat_administratif_unite_legale",
         ],
         **params,

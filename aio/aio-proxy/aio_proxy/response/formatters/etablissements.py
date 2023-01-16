@@ -1,3 +1,4 @@
+from aio_proxy.response.formatters.enseignes import format_enseignes
 from aio_proxy.response.helpers import get_value
 
 
@@ -17,12 +18,7 @@ def format_etablissement(source_etablissement):
         "distribution_speciale": get_value(
             source_etablissement, "distribution_speciale"
         ),
-        "enseigne_1": get_value(source_etablissement, "enseigne_1"),
-        "enseigne_2": get_value(source_etablissement, "enseigne_2"),
-        "enseigne_3": get_value(source_etablissement, "enseigne_3"),
-        "est_source_etablissement": get_value(
-            source_etablissement, "est_source_etablissement"
-        ),
+        "est_siege": get_value(source_etablissement, "est_siege"),
         "etat_administratif": get_value(source_etablissement, "etat_administratif"),
         "geo_adresse": get_value(source_etablissement, "geo_adresse"),
         "geo_id": get_value(source_etablissement, "geo_id"),
@@ -37,6 +33,13 @@ def format_etablissement(source_etablissement):
             source_etablissement, "libelle_pays_etranger"
         ),
         "libelle_voie": get_value(source_etablissement, "libelle_voie"),
+        "liste_enseignes": format_enseignes(
+            [
+                get_value(source_etablissement, "enseigne_1"),
+                get_value(source_etablissement, "enseigne_2"),
+                get_value(source_etablissement, "enseigne_3"),
+            ]
+        ),
         "liste_finess": get_value(source_etablissement, "liste_finess"),
         "liste_idcc": get_value(source_etablissement, "liste_idcc"),
         "liste_rge": get_value(source_etablissement, "liste_rge"),
@@ -57,10 +60,35 @@ def format_etablissement(source_etablissement):
 
 
 def format_etablissements_list(etablissements=None):
+    hidden_fields = [
+        "activite_principale_registre_metier",
+        "coordonnees",
+        "cedex",
+        "code_pays_etranger",
+        "commune",
+        "complement_adresse",
+        "date_creation",
+        "date_debut_activite",
+        "departement",
+        "distribution_speciale",
+        "geo_adresse",
+        "indice_repetition",
+        "libelle_cedex",
+        "libelle_commune",
+        "libelle_commune_etranger",
+        "libelle_pays_etranger",
+        "libelle_voie",
+        "numero_voie",
+        "tranche_effectif_salarie",
+        "type_voie",
+    ]
     etablissements_formatted = []
     if etablissements:
         for etablissement in etablissements:
             etablissement_formatted = format_etablissement(etablissement)
+            # Hide certain fields from response
+            for field in hidden_fields:
+                del etablissement_formatted[field]
             etablissements_formatted.append(etablissement_formatted)
     return etablissements_formatted
 

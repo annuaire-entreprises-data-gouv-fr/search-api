@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from aio_proxy.labels.helpers import codes_naf
 

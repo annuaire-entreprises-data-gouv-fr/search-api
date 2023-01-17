@@ -3,7 +3,7 @@ from typing import List, Optional
 from aio_proxy.labels.helpers import departements
 
 
-def validate_departement(list_departement_clean: List[str]) -> Optional[List[str]]:
+def validate_departement(list_departement_clean: List[str]):
     """Check the validity of list_departement.
 
     Args:

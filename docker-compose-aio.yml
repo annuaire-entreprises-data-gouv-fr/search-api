@@ -7,13 +7,10 @@ services:
     env_file:
       - .env
     networks:
-      - api-search-annuaire-entreprises
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.aiosearch.rule=Host(`localhost`)"
-      - "traefik.http.routers.aiosearch.entrypoints=aiosearch"
-      - "traefik.port=4500"
+      - aio-elasticsearch-network
+    ports:
+      - "127.0.0.1:4500:4500"
     container_name: aio
 networks:
-  api-search-annuaire-entreprises:
-    name: api-search-annuaire-entreprises
+  aio-elasticsearch-network:
+    name: aio-elasticsearch-network

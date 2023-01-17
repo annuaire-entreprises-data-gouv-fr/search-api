@@ -1,8 +1,8 @@
 import re
-from typing import List, Optional
+from typing import List
 
 
-def validate_code_postal(list_code_postal_clean: List[str]) -> Optional[List[str]]:
+def validate_code_postal(list_code_postal_clean: List[str]):
     """Check the validity of code_postal.
 
     Args:

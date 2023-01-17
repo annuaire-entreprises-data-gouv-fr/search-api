@@ -1,11 +1,9 @@
-from typing import List, Optional
+from typing import List
 
 from aio_proxy.labels.helpers import codes_naf
 
 
-def validate_activite_principale(
-    list_activite_principale_clean: List[str],
-) -> Optional[List[str]]:
+def validate_activite_principale(list_activite_principale_clean: List[str]):
     """Check the validity of list_activite_principale.
 
     Args:

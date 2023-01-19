@@ -8,13 +8,16 @@ def format_etablissement(source_etablissement):
         "activite_principale_registre_metier": get_value(
             source_etablissement, "activite_principale_registre_metier"
         ),
+        "adresse": get_value(source_etablissement, "adresse"),
         "cedex": get_value(source_etablissement, "cedex"),
         "code_pays_etranger": get_value(source_etablissement, "code_pays_etranger"),
         "code_postal": get_value(source_etablissement, "code_postal"),
         "commune": get_value(source_etablissement, "commune"),
         "complement_adresse": get_value(source_etablissement, "complement_adresse"),
+        "coordonnees": get_value(source_etablissement, "coordonnees"),
         "date_creation": get_value(source_etablissement, "date_creation"),
         "date_debut_activite": get_value(source_etablissement, "date_debut_activite"),
+        "departement": get_value(source_etablissement, "departement"),
         "distribution_speciale": get_value(
             source_etablissement, "distribution_speciale"
         ),
@@ -52,9 +55,6 @@ def format_etablissement(source_etablissement):
             source_etablissement, "tranche_effectif_salarie"
         ),
         "type_voie": get_value(source_etablissement, "type_voie"),
-        "adresse": get_value(source_etablissement, "adresse"),
-        "coordonnees": get_value(source_etablissement, "coordonnees"),
-        "departement": get_value(source_etablissement, "departement"),
     }
     return formatted_etablissement
 

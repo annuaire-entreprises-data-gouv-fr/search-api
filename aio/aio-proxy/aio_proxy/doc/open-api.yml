@@ -387,6 +387,7 @@ paths:
                           description: le numéro unique de l'entreprise
                         nom_complet:
                           type: string
+                          description:  denominationUniteLegale | nomEtPrénom | Nom inconnu (denominationUsuelle) (sigleUniteLegale)
                           example: la poste
                         nombre_etablissements:
                           type: integer
@@ -397,65 +398,90 @@ paths:
                         siege:
                           type: object
                           properties:
-                            siret:
+                            activite_principale:
                               type: string
-                              example: '35600000000048'
-                              description: le numéro unique de l'établissement siège
+                              example: 53.10Z
+                              description: Activité principale de l'établissement ('source:' base SIRENE)
+                            activite_principale_registre_metier:
+                              type: string
+                              nullable: true
+                              example: null
+                              description: Activité principale de l'établissement au Registre des Métiers (base SIRENE)
+                            adresse:
+                              type: string
+                              example: >-
+                                DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
+                                PIERRE AVIA 75115 PARIS 15
+                            cedex:
+                              type: string
+                              nullable: true
+                              example: null
+                              description: Code cedex de l'établissement. Cette variable facultative est un élément constitutif de l'adresse. ('source:' base SIRENE)
+                            code_pays_etranger:
+                              type: string
+                              nullable: true
+                              example: null
+                              description: Code pays de l'adresse d'un établissement situé à l'étranger. ('source:' base SIRENE)
+                            code_postal:
+                              type: string
+                              pattern: >-
+                                ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                              example: '75015'
+                              description: Cette variable désigne le code postal de l'adresse de l'établissement. ('source:' base SIRENE)
+                            commune:
+                              type: string
+                              example: '75115'
+                              description: Cette variable désigne le code géographique de la commune de localisation de l'établissement, hors adresse à l'étranger. ('source:' base SIRENE)
+                            complement_adresse:
+                              type: string
+                              example: DIRECTION GENERALE DE LA POSTE
+                              description: Cette variable désigne le code géographique de la commune de localisation de l'établissement, hors adresse à l'étranger. ('source:' base SIRENE)
                             date_creation:
                               type: string
                               format: date
                               description: Date de création du siège
                               example: 2003-01-01T00:00:00.000Z
-                            tranche_effectif_salarie:
-                              type: string
-                              example: '41'
                             date_debut_activite:
                               type: string
                               format: date
                               example: 2014-04-29T00:00:00.000Z
-                            etat_administratif:
+                            departement:
                               type: string
-                              example: A
-                            activite_principale:
-                              type: string
-                              example: 53.10Z
-                            complement_adresse:
-                              type: string
-                              example: DIRECTION GENERALE DE LA POSTE
-                            numero_voie:
-                              type: string
-                              example: '9'
-                            indice_repetition:
-                              nullable: true
-                              example: null
-                            type_voie:
-                              type: string
-                              example: RUE
-                            libelle_voie:
-                              type: string
-                              example: DU COLONEL PIERRE AVIA
+                              pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+                              example: '75'
                             distribution_speciale:
                               type: string
                               nullable: true
                               example: null
-                            cedex:
+                            enseigne:
+                              type: array
+                              nullable: true
+                              items:
+                                type: string
+                              example: null
+                            est_siege:
+                              type: boolean
+                              example: true
+                            etat_administratif:
                               type: string
+                              example: A
+                            geo_id:
+                              type: string
+                              example: '75115_2214'
+                            indice_repetition:
                               nullable: true
                               example: null
+                            latitude:
+                              type: number
+                              format: float
+                              example: 48.83002
                             libelle_cedex:
                               type: string
                               nullable: true
                               example: null
-                            commune:
-                              type: string
-                              example: '75115'
                             libelle_commune:
                               type: string
                               example: PARIS 15
-                            code_pays_etranger:
-                              type: string
-                              nullable: true
-                              example: null
                             libelle_commune_etranger:
                               type: string
                               nullable: true
@@ -464,39 +490,41 @@ paths:
                               type: string
                               nullable: true
                               example: null
-                            adresse_complete:
+                            libelle_voie:
                               type: string
-                              example: >-
-                                DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
-                                PIERRE AVIA 75115 PARIS 15
-                            adresse_complete_secondaire:
+                              example: DU COLONEL PIERRE AVIA
+                            liste_finess:
                               type: string
-                              nullable: true
-                              example: null
-                            code_postal:
+                              example: DU COLONEL PIERRE AVIA
+                            liste_idcc:
                               type: string
-                              pattern: >-
-                                ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                              example: '75015'
-                            departement:
+                              example: DU COLONEL PIERRE AVIA
+                            liste_rge:
                               type: string
-                              pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
-                              example: '75'
-                            geo_id:
+                              example: DU COLONEL PIERRE AVIA
+                            liste_uai:
                               type: string
-                              example: '75115_2214'
+                              example: DU COLONEL PIERRE AVIA
                             longitude:
                               type: number
                               format: float
                               example: 2.275688
-                            latitude:
-                              type: number
-                              format: float
-                              example: 48.83002
-                            activite_principale_registre_metier:
+                            nom_commercial:
                               type: string
-                              nullable: true
-                              example: null
+                              example: '41'
+                            numero_voie:
+                              type: string
+                              example: '9'
+                            siret:
+                              type: string
+                              example: '35600000000048'
+                              description: le numéro unique de l'établissement siège
+                            tranche_effectif_salarie:
+                              type: string
+                              example: '41'
+                            type_voie:
+                              type: string
+                              example: RUE
                         date_creation:
                           type: string
                           format: date

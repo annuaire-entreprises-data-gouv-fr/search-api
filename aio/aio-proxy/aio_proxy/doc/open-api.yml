@@ -1,52 +1,54 @@
 info:
   title: API Recherche d’entreprises
-  version: 1.0.0
+  version: 2.0.0
   contact:
     email: recherche-entreprises@api.gouv.fr
     name: Contact API Recherche d’entreprises
     url: https://recherche-entreprises.api.gouv.fr/
   description: >
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
-    
-    L’API Recherche d’entreprises permet à tout le monde de rechercher et de trouver 
-    une entreprise française par sa dénomination, ou son adresse.
-    
+
+    L’API Recherche d’entreprises permet à tout le monde de rechercher et de
+    trouver  une entreprise française par une dénomination, une adresse, des
+    dirigeants et des élus.
+
     ## Données accessibles dans l'API
 
-    L’API étant totalement ouverte d'accès, elle comporte des limitations. Ainsi ne sont pas accessibles dans l'API :
+    L’API étant totalement ouverte d'accès, elle comporte des limitations. Ainsi
+    ne sont pas accessibles dans l'API :
 
     - les prédécesseurs et successeurs d'un établissement
-    
+
     - les entreprises non-diffusibles
-    
+
     - les entreprises qui se sont vues refuser leurs immatriculation au RCS
-    
-    
-    **Attention :** cette API ne permet pas d'accèder aux données complètes de  la 
-    base Sirene, mais uniquement de rechercher une entreprise, par sa dénomination ou
-    son adresse. Pour savoir comment obtenir les données complètes,
-    consultez [notre fiche explicative.](https://api.gouv.fr/guides/quelle-api-sirene)
-    
+
+
+    **Attention :** cette API ne permet pas d'accèder aux données complètes de 
+    la  base Sirene, mais uniquement de rechercher une entreprise, par sa
+    dénomination ou son adresse. Pour savoir comment obtenir les données
+    complètes, consultez [notre fiche
+    explicative.](https://api.gouv.fr/guides/quelle-api-sirene)
+
 
     ## Commencer à utiliser l'API
-    
-    L'API est accessible à partir de cette adresse : [https://recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api.gouv.fr)
-    
-    
+
+    L'API est accessible à partir de cette adresse :
+    [https://recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api.gouv.fr)
+
+
     **Attention :** Vous devez rajouter votre requête sur l’adresse.
 
     ## Limite des requêtes
-    
+
       Le serveur accepte un maximum de 7 requêtes par seconde. Au delà, un code 429 est renvoyé indiquant que la volumétrie d'appels a été dépassée. 
-  
-  
-    
+
+
+
     ## Monitoring de l'API
-    
-    Une supervision du service en temps réel est disponible à cette adresse : [https://stats.uptimerobot.com/kXzwzfk7BE](https://stats.uptimerobot.com/kXzwzfk7BE)
 
-
-
+    Une supervision du service en temps réel est disponible à cette adresse :
+    [https://stats.uptimerobot.com/kXzwzfk7BE](https://stats.uptimerobot.com/kXzwzfk7BE)
 openapi: 3.0.0
 paths:
   /search:
@@ -54,58 +56,218 @@ paths:
       tags:
         - Recherche textuelle
       description: >
-        Cet endpoint permet de récupérer les unités légales correspondantes à la 
-        recherche textuelle effectuée sur la dénomination ou l'adresse.
+        Cet endpoint permet de récupérer les unités légales correspondantes à
+        la  recherche textuelle effectuée sur la dénomination, l'adresse, les
+        dirigeants et les élus.
 
 
-        **Paramètres d'appel :** dénomination de l'entreprise, code postal, code commune, activité 
-        principale et section d'activité principale de l'entreprise, entrepreneur 
-        individuel, état administratif, tranche d'effectif salarié, identifiant UAI 
-        (éducation), 
-        association, identifiant FINESS (sanitaire et social),
-        identifiant de convention collective, identifiant RGE (reconnues garantes de
-        l'environnement), entrepreneurs du spectacle, collectivités territoriales et
-        noms et prénoms de personnes physiques (élus ou dirigeants) et les valeurs 
-        minimale et maximale de la date de naissance.
-
-
+        **Paramètres d'appel :** dénomination de l'entreprise, cativité 
+        principale de l'entreprise, code_collectivite_territoriale, code postal,
+        code commune, convention collective renseignee, departement, est
+        association,  état administratif code postal, code commune, activité 
+        principale et section d'activité principale de l'entreprise,
+        entrepreneur  individuel, état administratif, tranche d'effectif
+        salarié, identifiant UAI  (éducation),  association, identifiant FINESS
+        (sanitaire et social), identifiant de convention collective, identifiant
+        RGE (reconnues garantes de l'environnement), entrepreneurs du spectacle,
+        collectivités territoriales et noms et prénoms de personnes physiques
+        (élus ou dirigeants) et les valeurs  minimale et maximale de la date de
+        naissance.
       summary: Recherche textuelle
       parameters:
         - name: q
           in: query
-          description: Termes de la recherche (dénomination et/ou adresse)
-          schema:
-            type: string
-        - name: code_postal
-          in: query
-          description: <a href=https://www.sirene.fr/sirene/public/variable/codpos>Code postal en 5 chiffres</a>
-          required: false
-          schema:
-            type: string
-        - name: departement
-          in: query
-          required: false
-          schema:
-            type: string
-            pattern: '\b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b'
-        - name: code_commune
-          in: query
-          description: <a href=https://www.insee.fr/fr/information/2114819>Code commune (INSEE) en 5 caractères</a>
-          required: false
+          description: >-
+            Termes de la recherche (dénomination et/ou adresse, dirigeants,
+            élus)
           schema:
             type: string
         - name: activite_principale
           in: query
-          description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
+          description: >-
+            <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le
+            code NAF ou code APE, un code d'activité suivant la nomenclature de
+            l'INSEE</a>. Ce paramètre accepte une valeur unique ou une liste de
+            valeurs séparées par des virgules.
+          example: 01.12Z,28.15Z
           required: false
+          schema:
+            type: string
+        - name: code_collectivite_territoriale
+          in: query
+          description: >-
+            Code affiliée à une collectivité territoriale (Commune - code INSEE,
+            EPCI - n° SIREN, Département - Code INSEE + "D", Région - Code
+            INSEE)
+          example: 75C
+          schema:
+            type: string
+        - name: convention_collective_renseignee
+          in: query
+          description: >-
+            Entreprises ayant au moins un établissement dont la convention
+            collective est renseignée.
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: code_postal
+          in: query
+          description: >-
+            <a href=https://www.sirene.fr/sirene/public/variable/codpos>Code
+            postal en 5 chiffres</a>. Ce paramètre filtre sur les établissements
+            et accepte une valeur unique ou une liste de valeurs séparées par
+            des virgules.
+          required: false
+          example: 38540,38189
+          schema:
+            type: string
+        - name: code_commune
+          in: query
+          description: >-
+            <a href=https://www.insee.fr/fr/information/2114819>Code commune
+            (INSEE) en 5 caractères</a>. Ce paramètre filtre sur les
+            établissements et accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          required: false
+          example: 01247,01111
+          schema:
+            type: string
+        - name: departement
+          in: query
+          description: >-
+            <a href=https://www.insee.fr/fr/information/6051727> Code de
+            département en deux chiffres</a>. Ce paramètre filtre sur les
+            établissements et accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          required: false
+          example: 02,89
+          schema:
+            type: string
+            pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+        - name: est_association
+          in: query
+          description: Entreprises ayant un identifiant d'association
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_collectivite_territoriale
+          in: query
+          description: Collectivités territoriales
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_entrepreneur_individuel
+          in: query
+          description: Uniquement les entreprises individuelles
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_entrepreneur_spectacle
+          in: query
+          description: Entreprises ayant une licence d'entrepreneur du spectacle
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_ess
+          in: query
+          description: Entreprise appartient au champ de l'économie sociale et solidaire
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_finess
+          in: query
+          description: >-
+            Entreprises ayant un établissement du domaine du sanitaire et social
+            (FINESS)
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_rge
+          in: query
+          description: Entreprises reconnues garantes de l'Environnement (RGE)
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: est_uai
+          in: query
+          description: >-
+            Entreprises ayant un établissement UAI (Unité Administrative
+            Immatriculée)
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+        - name: etat_administratif
+          in: query
+          description: État administratif de l'unité légale
+          required: false
+          schema:
+            type: string
+            enum:
+              - A
+              - C
+        - name: id_convention_collective
+          in: query
+          description: >-
+            Identifiant de Convention Collective d'un établissement d'une
+            entreprise
+          example: '1090'
+          schema:
+            type: string
+        - name: id_finess
+          in: query
+          description: Identifiant FINESS d'un établissement d'une entreprise
+          example: '010003853'
+          schema:
+            type: string
+        - name: id_rge
+          in: query
+          description: >-
+            Identifiant RGE (reconnues garantes de l'Environnement) d'un
+            établissement d'une entreprise
+          example: 8611M10D109
+          required: false
+          schema:
+            type: string
+        - name: id_uai
+          in: query
+          description: Identifiant UAI d'un établissement d'une entreprise
+          example: 0022004T
           schema:
             type: string
         - name: section_activite_principale
           in: query
-          description: |
+          description: >
             <a href=https://www.insee.fr/fr/information/2120875>Section de 
+
             l'activité principale :</a>
-            
+
               * `A` - Agriculture, sylviculture et pêche
               * `B` - Industries extractives
               * `C` - Industrie manufacturière
@@ -127,60 +289,57 @@ paths:
               * `S` -  Autres activités de services
               * `T` -  Activités des ménages en tant qu'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre
               * `U` -  Activités extra-territoriales
+
+            Ce paramètre accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          example: A,J,U
           schema:
             type: string
-            enum:
-              - A
-              - B
-              - C
-              - D
-              - E
-              - F
-              - G
-              - H
-              - I
-              - J
-              - K
-              - L
-              - M
-              - N
-              - O
-              - P
-              - Q
-              - R
-              - S
-              - T
-              - U
-            maxLength: 1
         - name: tranche_effectif_salarie
           in: query
-          description: <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche d'effectif salarié de l'entreprise</a>
+          description: >-
+            <a href=https://www.sirene.fr/sirene/public/variable/tefen>Tranche
+            d'effectif salarié de l'entreprise</a>. Ce paramètre accepte une
+            valeur unique ou une liste de valeurs séparées par des virgules.
           required: false
+          example: NN,00,01
           schema:
             type: string
         - name: nom_personne
           in: query
-          description: Nom d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          description: >-
+            Nom d'une personne partie prenante de l'entreprise (dirigeant ou
+            élu)
           required: false
+          example: Dupont
           schema:
             type: string
         - name: prenoms_personne
           in: query
-          description: Prenom(s) d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          description: >-
+            Prenom(s) d'une personne partie prenante de l'entreprise (dirigeant
+            ou élu)
           required: false
+          example: Monsieur
           schema:
             type: string
         - name: date_naissance_personne_min
           in: query
-          description: Valeur minimale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          description: >-
+            Valeur minimale de la date de naissance d'une personne partie
+            prenante de l'entreprise (dirigeant ou élu)
+          example: 1960-01-01T00:00:00.000Z
           required: false
           schema:
             type: string
             format: date
         - name: date_naissance_personne_max
           in: query
-          description: Valeur maximale de la date de naissance d'une personne partie prenante de l'entreprise (dirigeant ou élu)
+          description: >-
+            Valeur maximale de la date de naissance d'une personne partie
+            prenante de l'entreprise (dirigeant ou élu)
           required: false
+          example: 1990-01-01T00:00:00.000Z
           schema:
             type: string
             format: date
@@ -191,127 +350,8 @@ paths:
           schema:
             type: string
             enum:
-              - "dirigeant"
-              - "elu"
-        - name: etat_administratif
-          in: query
-          description: État administratif de l'unité légale
-          required: false
-          schema:
-            type: string
-            enum:
-              - "A"
-              - "C"
-        - name: convention_collective_renseignee
-          in: query
-          description: Entreprises ayant au moins un établissement dont la convention collective est renseignée.
-          required: false
-          schema:
-            type: string
-            enum:
-              - "true"
-              - "false"
-        - name: est_entrepreneur_individuel
-          in: query
-          description: Uniquement les entreprises individuelles
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_association
-          in: query
-          description: Entreprises ayant un identifiant d'association
-          required: false
-          schema:
-            type: string
-            enum:
-              - "true"
-              - "false"
-        - name: est_entrepreneur_spectacle
-          in: query
-          description: Entreprises ayant une licence d'entrepreneur du spectacle
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_ess
-          in: query
-          description: Entreprise appartient au champ de l'économie sociale et solidaire
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_rge
-          in: query
-          description: Entreprises reconnues garantes de l'Environnement (RGE)
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_finess
-          in: query
-          description: Entreprises ayant un établissement du domaine du sanitaire et social (FINESS)
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_uai
-          in: query
-          description: Entreprises ayant un établissement UAI (Unité Administrative Immatriculée)
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: est_collectivite_territoriale
-          in: query
-          description: Collectivités territoriales
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: id_rge
-          in: query
-          description: Identifiant RGE (reconnues garantes de l'Environnement) d'un établissement d'une entreprise
-          required: false
-          schema:
-            type: string
-            enum:
-             - "true"
-             - "false"
-        - name: id_convention_collective
-          in: query
-          description: Identifiant de Convention Collective d'un établissement d'une entreprise
-          schema:
-            type: string
-        - name: id_finess
-          in: query
-          description: Identifiant FINESS d'un établissement d'une entreprise
-          schema:
-            type: string
-        - name: id_uai
-          in: query
-          description: Identifiant UAI d'un établissement d'une entreprise
-          schema:
-            type: string
-        - name: code_collectivite_territoriale
-          in: query
-          description: Code affiliée à une collectivité territoriale (Commune - code INSEE, EPCI - n° SIREN, Département - Code INSEE + "D", Région - Code INSEE)
-          schema:
-            type: string
+              - dirigeant
+              - elu
         - name: page
           in: query
           description: Le numéro de la page à retourner
@@ -325,10 +365,12 @@ paths:
           required: false
           schema:
             type: integer
-            default: 1
+            default: 10
       responses:
-        "200":
-          description: La liste des entreprises correspondantes à la recherche.
+        '200':
+          description: >-
+            La liste des unités légale et leurs établissements correspondants à
+            la recherche.
           content:
             application/json:
               schema:
@@ -341,57 +383,57 @@ paths:
                       properties:
                         siren:
                           type: string
-                          example: "356000000"
+                          example: '356000000'
                           description: le numéro unique de l'entreprise
                         nom_complet:
                           type: string
-                          example: "la poste"
+                          example: la poste
                         nombre_etablissements:
                           type: integer
-                          example: 12694
+                          example: 12734
                         nombre_etablissements_ouverts:
                           type: integer
-                          example: 9716
+                          example: 9524
                         siege:
                           type: object
                           properties:
                             siret:
                               type: string
-                              example: "35600000000048"
+                              example: '35600000000048'
                               description: le numéro unique de l'établissement siège
                             date_creation:
                               type: string
                               format: date
                               description: Date de création du siège
-                              example: 2003-01-01
+                              example: 2003-01-01T00:00:00.000Z
                             tranche_effectif_salarie:
                               type: string
-                              example: "41"
+                              example: '41'
                             date_debut_activite:
                               type: string
                               format: date
-                              example: 2014-04-29
+                              example: 2014-04-29T00:00:00.000Z
                             etat_administratif:
                               type: string
-                              example: "A"
+                              example: A
                             activite_principale:
                               type: string
-                              example: "53.10Z"
+                              example: 53.10Z
                             complement_adresse:
                               type: string
-                              example: "DIRECTION GENERALE DE LA POSTE"
+                              example: DIRECTION GENERALE DE LA POSTE
                             numero_voie:
                               type: string
-                              example: "9"
+                              example: '9'
                             indice_repetition:
                               nullable: true
                               example: null
                             type_voie:
                               type: string
-                              example: "RUE"
+                              example: RUE
                             libelle_voie:
                               type: string
-                              example: "DU COLONEL PIERRE AVIA"
+                              example: DU COLONEL PIERRE AVIA
                             distribution_speciale:
                               type: string
                               nullable: true
@@ -406,10 +448,10 @@ paths:
                               example: null
                             commune:
                               type: string
-                              example: "75115"
+                              example: '75115'
                             libelle_commune:
                               type: string
-                              example: "PARIS 15"
+                              example: PARIS 15
                             code_pays_etranger:
                               type: string
                               nullable: true
@@ -424,22 +466,25 @@ paths:
                               example: null
                             adresse_complete:
                               type: string
-                              example: "DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL PIERRE AVIA 75115 PARIS 15"
+                              example: >-
+                                DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
+                                PIERRE AVIA 75115 PARIS 15
                             adresse_complete_secondaire:
                               type: string
                               nullable: true
                               example: null
                             code_postal:
                               type: string
-                              pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                              example: "75015"
+                              pattern: >-
+                                ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                              example: '75015'
                             departement:
                               type: string
                               pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
-                              example: "75"
+                              example: '75'
                             geo_id:
                               type: string
-                              example: "75115_2214"
+                              example: '75115_2214'
                             longitude:
                               type: number
                               format: float
@@ -455,32 +500,32 @@ paths:
                         date_creation:
                           type: string
                           format: date
-                          example: 1991-01-01
+                          example: 1991-01-01T00:00:00.000Z
                         tranche_effectif_salarie:
                           type: string
-                          example: "53"
+                          example: '53'
                         date_mise_a_jour:
                           type: string
                           format: date-time
-                          example: 2022-05-31T08:00:12
+                          example: 2022-05-31T08:00:12.000Z
                         categorie_entreprise:
                           type: string
-                          example: "GE"
+                          example: GE
                         etat_administratif:
                           type: string
-                          example: "A"
+                          example: A
                         nom_raison_sociale:
                           type: string
-                          example: "LA POSTE"
+                          example: LA POSTE
                         nature_juridique:
                           type: string
-                          example: "5510"
+                          example: '5510'
                         activite_principale:
                           type: string
-                          example: "53.10Z"
+                          example: 53.10Z
                         section_activite_principale:
                           type: string
-                          example: "H"
+                          example: H
                         dirigeants:
                           type: array
                           items:
@@ -494,17 +539,22 @@ paths:
                               type: array
                               items:
                                 oneOf:
-                                  - $ref: '#/components/schemas/collectivite_territoriale'
+                                  - $ref: >-
+                                      #/components/schemas/collectivite_territoriale
                             convention_collective_renseignee:
                               type: boolean
-                              description: Indique si au moins un établissement a une convention collective renseignée
+                              description: >-
+                                Indique si au moins un établissement a une
+                                convention collective renseignée
                             est_entrepreneur_individuel:
                               type: boolean
                               description: Entreprises individuelles
                               example: false
                             est_entrepreneur_spectacle:
                               type: boolean
-                              description: Entreprises ayant une licence d'entrepreneur du spectacle
+                              description: >-
+                                Entreprises ayant une licence d'entrepreneur du
+                                spectacle
                               example: false
                             est_ess:
                               type: boolean
@@ -512,7 +562,9 @@ paths:
                               example: false
                             est_finess:
                               type: boolean
-                              description: Entreprises ayant au moins un établissement FINESS
+                              description: >-
+                                Entreprises ayant au moins un établissement
+                                FINESS
                               example: false
                             est_rge:
                               type: boolean
@@ -536,7 +588,7 @@ paths:
                   total_pages:
                     type: integer
                     example: 1000
-        "400":
+        '400':
           description: Requête incorrecte.
           content:
             application/json:
@@ -545,23 +597,20 @@ paths:
                 properties:
                   erreur:
                     type: string
-                    example: "Veuillez indiquer au moins un paramètre de recherche."
-
+                    example: Veuillez indiquer au moins un paramètre de recherche.
   /near_point:
     get:
       tags:
         - Recherche géographique
       description: >-
-        Cet endpoint prend en paramètre une latitude (:lat) et une longitude (:long) et
-        renvoie les unités légales autour de ces coordonnées. 
-        
-        Vous pouvez également préciser un paramètre radius en km(défaut: 5 km).
-        
-        
-        **Paramètres d'appel :** latitude, longitude, radius, activité principale
-        et section d'activité principale de l'entreprise.
-        
+        Cet endpoint prend en paramètre une latitude (:lat) et une longitude
+        (:long) et renvoie les unités légales autour de ces coordonnées. 
 
+        Vous pouvez également préciser un paramètre radius en km(défaut: 5 km).
+
+
+        **Paramètres d'appel :** latitude, longitude, radius, activité
+        principale et section d'activité principale de l'entreprise.
       summary: Recherche géographique
       parameters:
         - name: lat
@@ -588,7 +637,10 @@ paths:
             default: 5
         - name: activite_principale
           in: query
-          description: <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le code NAF ou code APE, un code d'activité suivant la nomenclature de l'INSEE</a>
+          description: >-
+            <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le
+            code NAF ou code APE, un code d'activité suivant la nomenclature de
+            l'INSEE</a>
           required: false
           schema:
             type: string
@@ -634,7 +686,7 @@ paths:
               - K
               - L
               - M
-              - N
+              - 'N'
               - O
               - P
               - Q
@@ -658,7 +710,7 @@ paths:
             type: integer
             default: 10
       responses:
-        "200":
+        '200':
           description: La liste des entreprises correspondantes à la recherche.
           content:
             application/json:
@@ -672,11 +724,11 @@ paths:
                       properties:
                         siren:
                           type: string
-                          example: "356000000"
+                          example: '356000000'
                           description: le numéro unique de l'entreprise
                         nom_complet:
                           type: string
-                          example: "la poste"
+                          example: la poste
                         nombre_etablissements:
                           type: integer
                           example: 12694
@@ -688,42 +740,42 @@ paths:
                           properties:
                             siret:
                               type: string
-                              example: "35600000000048"
+                              example: '35600000000048'
                               description: le numéro unique de l'établissement siège
                             date_creation:
                               type: string
                               format: date
                               description: Date de création du siège
-                              example: 2003-01-01
+                              example: 2003-01-01T00:00:00.000Z
                             tranche_effectif_salarie:
                               type: string
-                              example: "41"
+                              example: '41'
                             date_debut_activite:
                               type: string
                               format: date
-                              example: 2014-04-29
+                              example: 2014-04-29T00:00:00.000Z
                             etat_administratif:
                               type: string
-                              example: "A"
+                              example: A
                             activite_principale:
                               type: string
-                              example: "53.10Z"
+                              example: 53.10Z
                             complement_adresse:
                               type: string
-                              example: "DIRECTION GENERALE DE LA POSTE"
+                              example: DIRECTION GENERALE DE LA POSTE
                             numero_voie:
                               type: string
-                              example: "9"
+                              example: '9'
                             indice_repetition:
                               type: string
                               nullable: true
                               example: null
                             type_voie:
                               type: string
-                              example: "RUE"
+                              example: RUE
                             libelle_voie:
                               type: string
-                              example: "DU COLONEL PIERRE AVIA"
+                              example: DU COLONEL PIERRE AVIA
                             distribution_speciale:
                               type: string
                               nullable: true
@@ -738,10 +790,10 @@ paths:
                               example: null
                             commune:
                               type: string
-                              example: "75115"
+                              example: '75115'
                             libelle_commune:
                               type: string
-                              example: "PARIS 15"
+                              example: PARIS 15
                             code_pays_etranger:
                               type: string
                               nullable: true
@@ -756,22 +808,25 @@ paths:
                               example: null
                             adresse_complete:
                               type: string
-                              example: "DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL PIERRE AVIA 75115 PARIS 15"
+                              example: >-
+                                DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
+                                PIERRE AVIA 75115 PARIS 15
                             adresse_complete_secondaire:
                               type: string
                               nullable: true
                               example: null
                             code_postal:
                               type: string
-                              pattern: ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                              example: "75015"
+                              pattern: >-
+                                ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                              example: '75015'
                             departement:
                               type: string
                               pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
-                              example: "75"
+                              example: '75'
                             geo_id:
                               type: string
-                              example: "75115_2214"
+                              example: '75115_2214'
                             longitude:
                               type: number
                               format: float
@@ -787,32 +842,32 @@ paths:
                         date_creation:
                           type: string
                           format: date
-                          example: 1991-01-01
+                          example: 1991-01-01T00:00:00.000Z
                         tranche_effectif_salarie:
                           type: string
-                          example: "53"
+                          example: '53'
                         date_mise_a_jour:
                           type: string
                           format: date-time
-                          example: 2022-05-31T08:00:12
+                          example: 2022-05-31T08:00:12.000Z
                         categorie_entreprise:
                           type: string
-                          example: "GE"
+                          example: GE
                         etat_administratif:
                           type: string
-                          example: "A"
+                          example: A
                         nom_raison_sociale:
                           type: string
-                          example: "LA POSTE"
+                          example: LA POSTE
                         nature_juridique:
                           type: string
-                          example: "5510"
+                          example: '5510'
                         activite_principale:
                           type: string
-                          example: "53.10Z"
+                          example: 53.10Z
                         section_activite_principale:
                           type: string
-                          example: "H"
+                          example: H
                         dirigeants:
                           type: array
                           items:
@@ -826,17 +881,22 @@ paths:
                               type: array
                               items:
                                 oneOf:
-                                  - $ref: '#/components/schemas/collectivite_territoriale'
+                                  - $ref: >-
+                                      #/components/schemas/collectivite_territoriale
                             convention_collective_renseignee:
                               type: boolean
-                              description: Indique si au moins un établissement a une convention collective renseignée
+                              description: >-
+                                Indique si au moins un établissement a une
+                                convention collective renseignée
                             est_entrepreneur_individuel:
                               type: boolean
                               description: Entreprises individuelles
                               example: false
                             est_entrepreneur_spectacle:
                               type: boolean
-                              description: Entreprises ayant une licence d'entrepreneur du spectacle
+                              description: >-
+                                Entreprises ayant une licence d'entrepreneur du
+                                spectacle
                               example: false
                             est_ess:
                               type: boolean
@@ -844,7 +904,9 @@ paths:
                               example: false
                             est_finess:
                               type: boolean
-                              description: Entreprises ayant au moins un établissement FINESS
+                              description: >-
+                                Entreprises ayant au moins un établissement
+                                FINESS
                               example: false
                             est_rge:
                               type: boolean
@@ -868,7 +930,7 @@ paths:
                   total_pages:
                     type: integer
                     example: 1000
-        "400":
+        '400':
           description: Requête incorrecte.
           content:
             application/json:
@@ -877,77 +939,77 @@ paths:
                 properties:
                   erreur:
                     type: string
-                    example: "Veuillez indiquer une longitude entre -180° et 180°."
+                    example: Veuillez indiquer une longitude entre -180° et 180°.
 components:
   schemas:
     dirigeant_pp:
       type: object
       properties:
-          nom:
-            type: string
-          prenoms:
-            type: string
-          annee_de_naissance:
-            type: string
-            example: "1964"
-          qualite:
-            type: string
-            example: "Directeur général"
-          type_dirigeant:
-            type: string
-            example: "personne physique"
+        nom:
+          type: string
+        prenoms:
+          type: string
+        annee_de_naissance:
+          type: string
+          example: '1964'
+        qualite:
+          type: string
+          example: Directeur général
+        type_dirigeant:
+          type: string
+          example: personne physique
     dirigeant_pm:
       type: object
       properties:
-          siren:
-            type: string
-            example: "784824153"
-          denomination:
-            type: string
-          sigle:
-            type: string
-          qualite:
-            type: string
-            example: "Commissaire aux comptes titulaire"
-          type_dirigeant:
-            type: string
-            example: "personne morale"
+        siren:
+          type: string
+          example: '784824153'
+        denomination:
+          type: string
+        sigle:
+          type: string
+        qualite:
+          type: string
+          example: Commissaire aux comptes titulaire
+        type_dirigeant:
+          type: string
+          example: personne morale
     collectivite_territoriale:
       type: object
       properties:
-          code_insee:
-            type: string
-            description: Code INSEE de la collectivité territoriale
-            example: "01"
-          code:
-            type: string
-            description: Code de la collectivité territoriale
-            example: "01"
-          niveau:
-            type: string
-            description: Niveau de la collectivité territoriale
-            example: "département"
-          elus:
-            type: array
-            items:
-              oneOf:
-                - $ref: '#/components/schemas/elu'
+        code_insee:
+          type: string
+          description: Code INSEE de la collectivité territoriale
+          example: '01'
+        code:
+          type: string
+          description: Code de la collectivité territoriale
+          example: '01'
+        niveau:
+          type: string
+          description: Niveau de la collectivité territoriale
+          example: département
+        elus:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/elu'
     elu:
       type: object
       properties:
-          nom:
-            type: string
-          prenoms:
-            type: string
-          annee_de_naissance:
-            type: string
-            example: "1964"
-          fonction:
-            type: string
-            example: "Maire"
-          sexe:
-            type: string
-            example: "F"
+        nom:
+          type: string
+        prenoms:
+          type: string
+        annee_de_naissance:
+          type: string
+          example: '1964'
+        fonction:
+          type: string
+          example: Maire
+        sexe:
+          type: string
+          example: F
 servers:
   - url: https://recherche-entreprises.api.gouv.fr
     description: Serveur de production

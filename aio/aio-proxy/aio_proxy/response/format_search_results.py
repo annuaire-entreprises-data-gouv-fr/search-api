@@ -27,19 +27,19 @@ def format_search_results(results, include_etablissements=False):
                 get_field("nombre_etablissements_ouverts", default=0)
             ),
             "siege": format_siege(get_field("siege")),
-            "date_creation": get_field("date_creation_unite_legale"),
-            "tranche_effectif_salarie": get_field(
-                "tranche_effectif_salarie_unite_legale"
-            ),
-            "date_mise_a_jour": get_field("date_mise_a_jour_unite_legale"),
-            "categorie_entreprise": get_field("categorie_entreprise"),
-            "etat_administratif": get_field("etat_administratif_unite_legale"),
-            "nom_raison_sociale": get_field("nom_raison_sociale"),
-            "nature_juridique": get_field("nature_juridique_unite_legale"),
             "activite_principale": get_field("activite_principale_unite_legale"),
-            "section_activite_principale": get_field("section_activite_principale"),
+            "categorie_entreprise": get_field("categorie_entreprise"),
+            "date_creation": get_field("date_creation_unite_legale"),
+            "date_mise_a_jour": get_field("date_mise_a_jour_unite_legale"),
             "dirigeants": format_dirigeants(
                 get_field("dirigeants_pp"), get_field("dirigeants_pm")
+            ),
+            "etat_administratif": get_field("etat_administratif_unite_legale"),
+            "nature_juridique": get_field("nature_juridique_unite_legale"),
+            "nom_raison_sociale": get_field("nom_raison_sociale"),
+            "section_activite_principale": get_field("section_activite_principale"),
+            "tranche_effectif_salarie": get_field(
+                "tranche_effectif_salarie_unite_legale"
             ),
             "matching_etablissements": format_etablissements_list(
                 get_field("matching_etablissements")

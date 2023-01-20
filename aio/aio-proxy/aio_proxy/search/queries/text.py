@@ -170,7 +170,9 @@ def build_text_query(terms: str):
                                         ],
                                     }
                                 },
-                                "inner_hits": {},
+                                "inner_hits": {
+                                    "size": 10,
+                                },
                             }
                         },
                         "field_value_factor": etablissements_ouverts_multiplier,

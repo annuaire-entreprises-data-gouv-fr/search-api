@@ -12,7 +12,7 @@ def sort_and_execute_search(
     search = search.extra(explain=True)
     # Collapse is used to aggregate the results by siren. It is the consequence of
     # separating large documents into smaller ones
-    search = search.update_from_dict({'collapse': {'field': 'siren'}})
+    search = search.update_from_dict({"collapse": {"field": "siren"}})
     # Sorting is very heavy on performance if there is no
     # search terms (only filters). As there is no search terms, we can
     # exclude this sorting because score is the same for all results

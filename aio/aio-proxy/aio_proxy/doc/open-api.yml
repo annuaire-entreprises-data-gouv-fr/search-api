@@ -576,7 +576,8 @@ paths:
                                 (source : Ministère des Solidarités et de la Santé ).
                               items:
                                 type: string
-                                example: ["950000364"]
+                                nullable: true
+                              example: ["950000364"]
                             liste_idcc:
                               type: array
                               description: >- 
@@ -1500,6 +1501,7 @@ paths:
                               example: false
                             identifiant_association:
                               type: string
+                              nullable: true
                               example: null
                               description: >-
                                 Numéro au Répertoire National des Associations (RNA) 

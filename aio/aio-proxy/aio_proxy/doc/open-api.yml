@@ -575,6 +575,7 @@ paths:
                                 géocodée par Etalab).
                             nom_commercial:
                               type: string
+                              nullable: true
                               example: null
                               description: >-   
                                 Dénomination usuelle de l'établissement (source : base SIRENE).
@@ -711,7 +712,8 @@ paths:
                                   Liste des identifiants FINESS de l'établissement (source : Ministère des Solidarités et de la Santé ).
                                 items:
                                   type: string
-                                  example: [ "950000364" ]
+                                  nullable: true
+                                example: [ "950000364" ]
                               liste_idcc:
                                 type: array
                                 description: >-
@@ -743,6 +745,7 @@ paths:
                                   géocodée par Etalab).
                               nom_commercial:
                                 type: string
+                                nullable: true
                                 example: null
                                 description: >-
                                   Dénomination usuelle de l'établissement (source : base SIRENE).
@@ -1119,7 +1122,8 @@ paths:
                                 Liste des identifiants FINESS de l'établissement (source : Ministère des Solidarités et de la Santé ).
                               items:
                                 type: string
-                                example: [ "950000364" ]
+                                nullable: true
+                              example: [ "950000364" ]
                             liste_idcc:
                               type: array
                               description: >-
@@ -1151,6 +1155,7 @@ paths:
                                 géocodée par Etalab).
                             nom_commercial:
                               type: string
+                              nullable: true
                               example: null
                               description: >-
                                 Dénomination usuelle de l'établissement (source : base SIRENE).
@@ -1319,6 +1324,7 @@ paths:
                                   géocodée par Etalab).
                               nom_commercial:
                                 type: string
+                                nullable: true
                                 example: null
                                 description: >-
                                   Dénomination usuelle de l'établissement (source : base SIRENE).

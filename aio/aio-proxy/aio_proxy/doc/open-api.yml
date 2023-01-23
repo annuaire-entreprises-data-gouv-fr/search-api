@@ -1402,7 +1402,7 @@ paths:
                                 items:
                                   type: string
                                   nullable: true
-                                  example: [ "950000364" ]
+                                example: [ "950000364" ]
                               liste_idcc:
                                 type: array
                                 description: >-

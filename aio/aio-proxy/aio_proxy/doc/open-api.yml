@@ -164,8 +164,9 @@ paths:
               - false
         - name: est_entrepreneur_spectacle
           in: query
-          description: Uniquement les entreprises ayant une licence d'entrepreneur du
-          spectacle.
+          description: >- 
+            Uniquement les entreprises ayant une licence d'entrepreneur du
+            spectacle.
           required: false
           schema:
             type: boolean

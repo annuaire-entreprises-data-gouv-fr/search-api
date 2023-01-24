@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 
 def validate_code_collectivite_territoriale(

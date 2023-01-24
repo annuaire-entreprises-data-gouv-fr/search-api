@@ -137,7 +137,7 @@ paths:
             pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
         - name: est_association
           in: query
-          description: Entreprises ayant un identifiant d'association.
+          description: Uniquement les entreprises ayant un identifiant d'association.
           required: false
           schema:
             type: boolean
@@ -164,7 +164,8 @@ paths:
               - false
         - name: est_entrepreneur_spectacle
           in: query
-          description: Entreprises ayant une licence d'entrepreneur du spectacle.
+          description: Uniquement les entreprises ayant une licence d'entrepreneur du
+          spectacle.
           required: false
           schema:
             type: boolean
@@ -174,7 +175,7 @@ paths:
         - name: est_ess
           in: query
           description: >-
-            Entreprise appartient au champ de l'économie sociale et
+            Uniquement les entreprises appartenant au champ de l'économie sociale et
             solidaire.
           required: false
           schema:
@@ -185,8 +186,8 @@ paths:
         - name: est_finess
           in: query
           description: >-
-            Entreprises ayant un établissement du domaine du sanitaire et social 
-            (FINESS)
+            Uniquement les entreprises ayant un établissement du domaine du sanitaire
+            et social (FINESS)
           required: false
           schema:
             type: boolean
@@ -195,7 +196,8 @@ paths:
               - false
         - name: est_rge
           in: query
-          description: Entreprises reconnues garantes de l'Environnement (RGE).
+          description: >- 
+            Uniquement les entreprises reconnues garantes de l'Environnement (RGE).
           required: false
           schema:
             type: boolean
@@ -205,7 +207,7 @@ paths:
         - name: est_uai
           in: query
           description: >-
-            Entreprises ayant un établissement UAI (Unité Administrative
+            Uniquement les entreprises ayant un établissement UAI (Unité Administrative
             Immatriculée).
           required: false
           schema:
@@ -831,23 +833,23 @@ paths:
                                 convention collective renseignée
                             est_entrepreneur_individuel:
                               type: boolean
-                              description: Entreprises individuelles
+                              description: Entreprise individuelle
                               example: false
                             est_entrepreneur_spectacle:
                               type: boolean
                               description: >-
-                                Entreprises ayant une licence d'entrepreneur du 
+                                Entreprise ayant une licence d'entrepreneur du 
                                 spectacle (source: Ministère de la Culture)
                               example: false
                             est_ess:
                               type: boolean
-                              description: Entreprise d'économie sociale et solidaire.
+                              description: Entreprise d'économie sociale et solidaire
                               example: false
                             est_finess:
                               type: boolean
                               description: >- 
                                 Entreprise ayant au moins un établissement FINESS 
-                                (source : Ministère des Solidarités et de la Santé )
+                                (source : Ministère des Solidarités et de la Santé)
                               example: false
                             est_rge:
                               type: boolean
@@ -859,7 +861,8 @@ paths:
                               type: boolean
                               description: >- 
                                 Entreprise ayant au moins un établissement UAI 
-                                (source : Ministère de l'enseignement supérieur et de la recherche)
+                                (source : Ministère de l'enseignement supérieur et de
+                                la recherche)
                               example: false
                             identifiant_association:
                               type: string
@@ -1468,23 +1471,23 @@ paths:
                                 convention collective renseignée
                             est_entrepreneur_individuel:
                               type: boolean
-                              description: Entreprises individuelles
+                              description: Entreprise individuelle
                               example: false
                             est_entrepreneur_spectacle:
                               type: boolean
                               description: >-
-                                Entreprises ayant une licence d'entrepreneur du 
+                                Entreprise ayant une licence d'entrepreneur du 
                                 spectacle (source: Ministère de la Culture)
                               example: false
                             est_ess:
                               type: boolean
-                              description: Entreprise d'économie sociale et solidaire.
+                              description: Entreprise d'économie sociale et solidaire
                               example: false
                             est_finess:
                               type: boolean
                               description: >-
                                 Entreprise ayant au moins un établissement FINESS 
-                                (source : Ministère des Solidarités et de la Santé )
+                                (source : Ministère des Solidarités et de la Santé)
                               example: false
                             est_rge:
                               type: boolean
@@ -1505,7 +1508,7 @@ paths:
                               example: null
                               description: >-
                                 Numéro au Répertoire National des Associations (RNA) 
-                                (source : base SIRENE).
+                                (source : base SIRENE)
                   total_results:
                     type: integer
                   page:

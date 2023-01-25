@@ -101,7 +101,9 @@ def text_search(index, offset: int, page_size: int, **params):
 
         # Filters applied on établissement with text search
         if query_terms:
-            text_query = build_text_query(query_terms)
+            text_query = build_text_query(
+                terms=query_terms, matching_size=params["matching_size"]
+            )
             text_query_with_filters = add_nested_etablissements_filters_to_text_query(
                 text_query, **params
             )
@@ -121,7 +123,9 @@ def text_search(index, offset: int, page_size: int, **params):
     else:
         # Text search only without etablissements filters
         if query_terms:
-            text_query = build_text_query(query_terms)
+            text_query = build_text_query(
+                terms=query_terms, matching_size=params["matching_size"]
+            )
             search_client = search_client.query(Q(text_query))
 
     # Search 'élus' only

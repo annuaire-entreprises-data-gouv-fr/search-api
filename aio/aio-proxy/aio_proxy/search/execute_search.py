@@ -22,7 +22,7 @@ def sort_and_execute_search(
             {"_score": {"order": "desc"}},
             {"etat_administratif_unite_legale": {"order": "asc"}},
         )
-    search.aggs.metric('by_cluster', 'cardinality', field='siren')
+    search.aggs.metric("by_cluster", "cardinality", field="siren")
     search = search[offset : (offset + page_size)]
     search_results = search.execute()
     total_results = search_results.aggregations.by_cluster.value

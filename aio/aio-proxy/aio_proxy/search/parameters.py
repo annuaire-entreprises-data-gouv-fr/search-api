@@ -17,6 +17,7 @@ from aio_proxy.parsers.finess import validate_id_finess
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.list_parser import str_to_list
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
+from aio_proxy.parsers.matching_size import parse_and_validate_matching_size
 from aio_proxy.parsers.page import parse_and_validate_page
 from aio_proxy.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.parsers.radius import parse_and_validate_radius
@@ -139,6 +140,8 @@ def extract_text_parameters(
         clean_parameter(request, param="inclure_etablissements"),
     )
 
+    matching_size = parse_and_validate_matching_size(request)
+
     validate_date_range(min_date_naiss_personne, max_date_naiss_personne)
 
     parameters = {
@@ -170,6 +173,7 @@ def extract_text_parameters(
         "min_date_naiss_personne": min_date_naiss_personne,
         "max_date_naiss_personne": max_date_naiss_personne,
         "type_personne": type_personne,
+        "matching_size": matching_size,
     }
 
     # Check if at least one param has been provided in the request
@@ -200,6 +204,7 @@ def extract_geo_parameters(request):
         "inclure_etablissements",
         clean_parameter(request, param="inclure_etablissements"),
     )
+    matching_size = parse_and_validate_matching_size(request)
     parameters = {
         "lat": lat,
         "lon": lon,
@@ -207,5 +212,6 @@ def extract_geo_parameters(request):
         "activite_principale_unite_legale": activite_principale,
         "section_activite_principale": section_activite_principale,
         "inclure_etablissements": inclure_etablissements,
+        "matching_size": matching_size,
     }
     return parameters, page, per_page

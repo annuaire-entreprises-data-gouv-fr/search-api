@@ -1,4 +1,4 @@
-def build_text_query(terms: str):
+def build_text_query(terms: str, matching_size: int):
     etablissements_ouverts_multiplier = {
         "field": "nombre_etablissements_ouverts",
         "factor": 1,
@@ -171,7 +171,7 @@ def build_text_query(terms: str):
                                     }
                                 },
                                 "inner_hits": {
-                                    "size": 10,
+                                    "size": matching_size,
                                     "sort": {
                                         "etablissements.etat_administratif": {
                                             "order": "asc"

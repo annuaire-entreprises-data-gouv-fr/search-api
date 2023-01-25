@@ -22,6 +22,11 @@ def sort_and_execute_search(
             {"_score": {"order": "desc"}},
             {"etat_administratif_unite_legale": {"order": "asc"}},
         )
+    # If only filters are used, use nombre établissements ouverts to sort the results
+    else:
+        search = search.sort(
+            {"nombre_etablissements_ouverts": {"order": "desc"}},
+        )
     search.aggs.metric("by_cluster", "cardinality", field="siren")
     search = search[offset : (offset + page_size)]
     search_results = search.execute()

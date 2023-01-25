@@ -3,7 +3,7 @@ from aio_proxy.decorators.value_exception import value_exception_handler
 
 @value_exception_handler(
     error="Veuillez indiquer un nombre d'établissements connexes entier entre 1 et "
-          "100, par défaut 10."
+    "100, par défaut 10."
 )
 def parse_and_validate_matching_size(request) -> int:
     """Extract and Check the validity of page number.

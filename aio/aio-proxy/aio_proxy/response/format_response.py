@@ -6,7 +6,8 @@ def format_response(
 ):
     response = {
         "results": formatted_search_results,
-        "total_results": int(total_results),
+        # Cap total results at 10000
+        "total_results": min(int(total_results), 10000),
         "page": page + 1,
         "per_page": per_page,
     }

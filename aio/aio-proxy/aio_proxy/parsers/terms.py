@@ -30,9 +30,7 @@ def check_short_terms_and_no_param(params):
         and all(
             val is None
             for val in [
-                params[x]
-                for x in params
-                if x != "terms" and x != "matching_size"
+                params[x] for x in params if x != "terms" and x != "matching_size"
             ]
         )
     ):

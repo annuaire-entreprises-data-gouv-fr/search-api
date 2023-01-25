@@ -27,7 +27,14 @@ def check_short_terms_and_no_param(params):
     if (
         params["terms"] is not None
         and len(params["terms"]) < 3
-        and all(val is None for val in [params[x] for x in params if x != "terms"])
+        and all(
+            val is None
+            for val in [
+                params[x]
+                for x in params
+                if x != "terms" and x != "matching_size"
+            ]
+        )
     ):
         raise ValueError(
             "3 caractères minimum pour les termes de la requête "

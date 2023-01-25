@@ -30,7 +30,9 @@ def geo_search(index, offset: int, page_size: int, **params):
                     }
                 }
             },
-            "inner_hits": {},
+            "inner_hits": {
+                "size": params["matching_size"],
+            },
         }
     }
     search_client = search_client.query(Q(geo_query))

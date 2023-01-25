@@ -15,7 +15,7 @@ def build_text_query(terms: str, matching_size: int):
                             "match_phrase": {
                                 "identifiant_association_unite_legale": {
                                     "query": terms,
-                                    "boost": 50,
+                                    "boost": 100,
                                     "_name": "exact match identifiant association",
                                 }
                             }
@@ -29,7 +29,7 @@ def build_text_query(terms: str, matching_size: int):
                             "match_phrase": {
                                 "nom_complet.keyword": {
                                     "query": terms,
-                                    "boost": 100,
+                                    "boost": 200,
                                     "_name": "exact nom_complet match",
                                 }
                             }
@@ -44,7 +44,7 @@ def build_text_query(terms: str, matching_size: int):
                                 "nom_complet": {
                                     "query": terms,
                                     "operator": "AND",
-                                    "boost": 50,
+                                    "boost": 100,
                                     "_name": "partial nom_complet match with AND",
                                 }
                             }

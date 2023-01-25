@@ -172,6 +172,8 @@ def build_text_query(terms: str):
                                 },
                                 "inner_hits": {
                                     "size": 10,
+                                    "sort": {"etablissements.etat_administratif": {
+                                        "order": "asc"}},
                                 },
                             }
                         },

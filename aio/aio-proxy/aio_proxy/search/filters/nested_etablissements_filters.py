@@ -82,7 +82,7 @@ def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
 
     if with_inner_hits:
         filters_query["nested"]["inner_hits"] = {
-            "size": 10,
+            "size": params["matching_size"],
             "sort": {"etablissements.etat_administratif": {"order": "asc"}},
         }
 

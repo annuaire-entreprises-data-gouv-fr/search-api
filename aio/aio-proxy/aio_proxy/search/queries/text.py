@@ -1,11 +1,11 @@
 def build_text_query(terms: str, matching_size: int):
-    etablissements_ouverts_multiplier = {
+    etab_ouverts_multiplier = {
         "field": "nombre_etablissements_ouverts",
         "factor": 100,
         "modifier": "log2p",
         "missing": 1,
     }
-    etablissements_ouverts_multiplier_champs_secondaires = {
+    etab_ouverts_multiplier_2 = {
         "field": "nombre_etablissements_ouverts",
         "factor": 1,
         "modifier": "log2p",
@@ -26,7 +26,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -40,7 +40,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -55,7 +55,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -186,7 +186,7 @@ def build_text_query(terms: str, matching_size: int):
                                 },
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier_champs_secondaires,
+                        "field_value_factor": etab_ouverts_multiplier_2,
                         "min_score": 4,
                     }
                 },
@@ -202,7 +202,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -217,7 +217,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": etab_ouverts_multiplier,
                     }
                 },
             ],

@@ -1,6 +1,6 @@
 info:
   title: API Recherche d’entreprises
-  version: 2.0.0
+  version: 1.0.0
   contact:
     email: recherche-entreprises@api.gouv.fr
     name: Contact API Recherche d’entreprises
@@ -8,8 +8,10 @@ info:
   description: >
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
 
-    L’API Recherche d’entreprises permet à tout le monde de rechercher et de
-    trouver  une entreprise française par une dénomination et/ou une adresse.
+    L’API Recherche d’entreprises permet à tout le monde retrouver une entreprise, 
+    une association, ou un service public en France. Elle propose un grand nombre de 
+    critères de recherche, en particulier la dénomination, l’adresse et les 
+    dirigeants ou élus.
 
     ## Données accessibles dans l'API
 
@@ -32,9 +34,7 @@ info:
 
     ## Commencer à utiliser l'API
 
-    L'API est accessible à partir de cette adresse :
-    [https://recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api
-    .gouv.fr)
+    L'API est accessible à partir de cette adresse : [https://recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api.gouv.fr)
 
 
     **Attention :** Vous devez rajouter votre requête sur l’adresse.
@@ -48,8 +48,15 @@ info:
 
     ## Monitoring de l'API
 
-    Une supervision du service en temps réel est disponible à cette adresse :
-    [https://stats.uptimerobot.com/kXzwzfk7BE](https://stats.uptimerobot.com/kXzwzfk7BE)
+    Une supervision du service en temps réel est 
+    disponible [ici](https://annuaire-entreprises.data.gouv.fr/sources-de-donnees#APIRecherched%E2%80%99entreprises).
+    
+    
+    ## Infolettre
+
+    Vous pouvez vous abonner [ici](https://app.mailjet.com/widget/iframe/zR1/NZO) à 
+    l'infolettre pour être informé des mises à jour de la part de l’équipe.
+
 openapi: 3.0.0
 paths:
   /search:
@@ -85,7 +92,8 @@ paths:
           in: query
           description: >-
             Code affilié à une collectivité territoriale (Commune - code INSEE,
-            EPCI - n° SIREN, Département - Code INSEE + "D", Région - Code
+            EPCI - n° SIREN, Département - Code INSEE + "D" (sauf cas particulier), 
+            Région - Code
             INSEE)
           example: "75C"
           schema:
@@ -218,7 +226,9 @@ paths:
               - false
         - name: etat_administratif
           in: query
-          description: État administratif de l'unité légale.
+          description: >-
+            État administratif de l'unité légale. "A" pour Active, "C" 
+            pour Cessée.
           required: false
           schema:
             type: string
@@ -349,6 +359,15 @@ paths:
             enum:
               - dirigeant
               - elu
+        - name: limite_matching_etablissements
+          in: query
+          description: >-
+            Nombre d'établissements connexes inclus dans la réponse 
+            (matching_etablissements). Valeur entre 1 et 100.
+          required: false
+          schema:
+            type: integer
+            default: 10
         - name: page
           in: query
           description: Le numéro de la page à retourner.
@@ -497,15 +516,6 @@ paths:
                               description: >-
                                 Distribution spéciale de l'établissement (source : 
                                 base SIRENE).
-                            enseignes:
-                              type: array
-                              nullable: true
-                              items:
-                                type: string
-                              example: ["LA POSTE"]
-                              description: >- 
-                                Liste des enseignes de l'établissement (source : base
-                                SIRENE).
                             est_siege:
                               type: boolean
                               example: true
@@ -571,6 +581,15 @@ paths:
                               example: "DU COLONEL PIERRE AVIA"
                               description: >-
                                 Libellé de la voie (source : base SIRENE).
+                            liste_enseignes:
+                              type: array
+                              nullable: true
+                              items:
+                                type: string
+                              example: [ "LA POSTE" ]
+                              description: >-
+                                Liste des enseignes de l'établissement (source : base
+                                SIRENE).
                             liste_finess:
                               type: array
                               nullable: true
@@ -723,15 +742,6 @@ paths:
                                 description: >-
                                   Le code postal de l'adresse de l'établissement 
                                   (source : base SIRENE).
-                              enseignes:
-                                type: array
-                                nullable: true
-                                items:
-                                  type: string
-                                example: [ "LA POSTE" ]
-                                description: >-
-                                  Liste des enseignes de l'établissement (source : 
-                                  base SIRENE).
                               est_siege:
                                 type: boolean
                                 example: false
@@ -759,6 +769,15 @@ paths:
                                 description: >-
                                   Latitude de l'établissement (source : base SIRENE 
                                   géocodée par Etalab).
+                              liste_enseignes:
+                                type: array
+                                nullable: true
+                                items:
+                                  type: string
+                                example: [ "LA POSTE" ]
+                                description: >-
+                                  Liste des enseignes de l'établissement (source : base
+                                  SIRENE).
                               liste_finess:
                                 type: array
                                 nullable: true
@@ -986,6 +1005,15 @@ paths:
           example: A,J,U
           schema:
             type: string
+        - name: limite_matching_etablissements
+          in: query
+          description: >-
+            Nombre d'établissements connexes inclus dans la réponse
+            (matching_etablissements). Valeur entre 1 et 100.
+          required: false
+          schema:
+            type: integer
+            default: 10
         - name: page
           in: query
           description: Le numéro de la page à retourner
@@ -1134,15 +1162,6 @@ paths:
                               description: >-
                                 Distribution spéciale de l'établissement (source : 
                                 base SIRENE).
-                            enseignes:
-                              type: array
-                              nullable: true
-                              items:
-                                type: string
-                              example: [ "LA POSTE" ]
-                              description: >-
-                                Liste des enseignes de l'établissement (source : base
-                                SIRENE).
                             est_siege:
                               type: boolean
                               example: true
@@ -1208,6 +1227,15 @@ paths:
                               example: "DU COLONEL PIERRE AVIA"
                               description: >-
                                 Libellé de la voie (source : base SIRENE).
+                            liste_enseignes:
+                              type: array
+                              nullable: true
+                              items:
+                                type: string
+                              example: [ "LA POSTE" ]
+                              description: >-
+                                Liste des enseignes de l'établissement (source : base
+                                SIRENE).
                             liste_finess:
                               type: array
                               nullable: true
@@ -1361,15 +1389,6 @@ paths:
                                 description: >-
                                   Le code postal de l'adresse de l'établissement 
                                   (source : base SIRENE).
-                              enseignes:
-                                type: array
-                                nullable: true
-                                items:
-                                  type: string
-                                example: [ "LA POSTE" ]
-                                description: >-
-                                  Liste des enseignes de l'établissement (source : 
-                                  base SIRENE).
                               est_siege:
                                 type: boolean
                                 example: false
@@ -1397,6 +1416,15 @@ paths:
                                 description: >-
                                   Latitude de l'établissement (source : base SIRENE 
                                   géocodée par Etalab).
+                              liste_enseignes:
+                                type: array
+                                nullable: true
+                                items:
+                                  type: string
+                                example: [ "LA POSTE" ]
+                                description: >-
+                                  Liste des enseignes de l'établissement (source : base
+                                  SIRENE).
                               liste_finess:
                                 type: array
                                 nullable: true
@@ -1562,7 +1590,8 @@ components:
           example: Directeur général
         type_dirigeant:
           type: string
-          description: Type de dirgeant, personne physique
+          description: >-
+            Type de dirgeant : "personne physique"
           example: personne physique
     dirigeant_pm:
       type: object
@@ -1584,7 +1613,8 @@ components:
           example: Commissaire aux comptes titulaire
         type_dirigeant:
           type: string
-          description: Type de dirgeant, personne morale
+          description: >-
+            Type de dirgeant : "personne morale"
           example: personne morale
     collectivite_territoriale:
       type: object

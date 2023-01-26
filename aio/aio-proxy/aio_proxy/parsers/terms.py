@@ -11,6 +11,8 @@ def parse_and_validate_terms(request, default_value=None):
         ValueError: otherwise.
     """
     terms = request.rel_url.query.get("q", default_value)
+    if terms:
+        return terms.lower()
     return terms
 
 

@@ -1,4 +1,5 @@
 def format_enseignes(enseignes):
-    if not enseignes:
+    enseignes_filtered = [enseigne for enseigne in enseignes if enseigne is not None]
+    if not enseignes_filtered:
         return None
-    return [enseigne for enseigne in enseignes if enseigne is not None]
+    return enseignes_filtered

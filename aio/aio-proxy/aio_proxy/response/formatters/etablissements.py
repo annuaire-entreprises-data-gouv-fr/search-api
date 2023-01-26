@@ -21,13 +21,6 @@ def format_etablissement(source_etablissement):
         "distribution_speciale": get_value(
             source_etablissement, "distribution_speciale"
         ),
-        "enseignes": format_enseignes(
-            [
-                get_value(source_etablissement, "enseigne_1"),
-                get_value(source_etablissement, "enseigne_2"),
-                get_value(source_etablissement, "enseigne_3"),
-            ]
-        ),
         "est_siege": get_value(source_etablissement, "est_siege"),
         "etat_administratif": get_value(source_etablissement, "etat_administratif"),
         "geo_adresse": get_value(source_etablissement, "geo_adresse"),
@@ -43,6 +36,13 @@ def format_etablissement(source_etablissement):
             source_etablissement, "libelle_pays_etranger"
         ),
         "libelle_voie": get_value(source_etablissement, "libelle_voie"),
+        "liste_enseignes": format_enseignes(
+            [
+                get_value(source_etablissement, "enseigne_1"),
+                get_value(source_etablissement, "enseigne_2"),
+                get_value(source_etablissement, "enseigne_3"),
+            ]
+        ),
         "liste_finess": get_value(source_etablissement, "liste_finess"),
         "liste_idcc": get_value(source_etablissement, "liste_idcc"),
         "liste_rge": get_value(source_etablissement, "liste_rge"),

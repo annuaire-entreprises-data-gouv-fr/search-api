@@ -6,7 +6,7 @@ from aio_proxy.response.helpers import APM_URL, CURRENT_ENV
 from aio_proxy.routes import routes
 from aio_proxy.settings import config
 from aiohttp import web
-from aiohttp_swagger3 import SwaggerDocs, SwaggerUiSettings
+from aiohttp_swagger3 import ReDocUiSettings, SwaggerDocs
 from elasticapm.contrib.aiohttp import ElasticAPM
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
@@ -23,9 +23,9 @@ def main():
     app.router.add_routes(routes)
     swagger = SwaggerDocs(
         app,
-        swagger_ui_settings=SwaggerUiSettings(path="/docs/"),
+        redoc_ui_settings=ReDocUiSettings(path="/docs/"),
         title="API Recherche d’entreprises",
-        version="1.0.0",
+        version="2.0.0",
         components=open_api_path,
     )
     app["config"] = config

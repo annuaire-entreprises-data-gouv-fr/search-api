@@ -1,9 +1,9 @@
-from typing import List, Optional
+from typing import List
 
 
 def validate_code_collectivite_territoriale(
     list_code_collectivite_territoriale: List[str],
-) -> Optional[List[str]]:
+):
     """Check the validity of list code_collectivite_territoriale
 
     Args:

@@ -131,7 +131,6 @@ def build_text_query(terms: str, matching_size: int):
                                                     "etablissements.adresse": {
                                                         "query": terms,
                                                         "operator": "AND",
-                                                        "boost": 15,
                                                         "_name": "partial match "
                                                         "adresse",
                                                     }

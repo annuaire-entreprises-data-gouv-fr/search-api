@@ -1,5 +1,4 @@
 import pytest
-from aio_proxy.labels.helpers import natures_juridiques
 from aio_proxy.parsers.nature_juridique import validate_nature_juridique
 
 

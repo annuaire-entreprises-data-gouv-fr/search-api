@@ -10,7 +10,7 @@ def test_validate_nature_juridique(nature_juridique: str, expected: str):
     assert validate_nature_juridique(nature_juridique) == expected
 
 
-@pytest.mark.parametrize("nature_juridique", [["123!", "73, 7344"]])
+@pytest.mark.parametrize("nature_juridique", [["123!", "1111, 7344"]])
 def test_validate_nature_juridique_fail(
     nature_juridique: str,
 ):

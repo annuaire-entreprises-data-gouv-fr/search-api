@@ -264,6 +264,15 @@ paths:
           example: "0022004T"
           schema:
             type: string
+        - name: nature_juridique
+          in: query
+          description: >-
+            Catégorie juridique de l'unité légale.
+            Ce paramètre accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          example: "7344,6544"
+          schema:
+            type: string
         - name: section_activite_principale
           in: query
           description: >

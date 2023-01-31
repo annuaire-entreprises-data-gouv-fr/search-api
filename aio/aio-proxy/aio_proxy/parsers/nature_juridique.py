@@ -13,7 +13,7 @@ def validate_nature_juridique(list_nature_juridique_clean: List[str]):
         list_nature_juridique_clean if valid.
 
     Raises:
-        ValueError: if one on the values in list_nature_juridique_clean is not valid.
+        ValueError: if one of the values in list_nature_juridique_clean is not valid.
     """
     if list_nature_juridique_clean is None:
         return None

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 
 def validate_nature_juridique(list_nature_juridique_clean: List[str]):

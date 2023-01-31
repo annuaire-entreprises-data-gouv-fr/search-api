@@ -1,5 +1,7 @@
 from typing import List
 
+from aio_proxy.labels.helpers import natures_juridiques
+
 
 def validate_nature_juridique(list_nature_juridique_clean: List[str]):
     """Check the validity of list_section_activite_principale.
@@ -18,6 +20,6 @@ def validate_nature_juridique(list_nature_juridique_clean: List[str]):
     if list_nature_juridique_clean is None:
         return None
     for nature_juridique in list_nature_juridique_clean:
-        if len(nature_juridique) != 4 or not nature_juridique.isdigit():
+        if nature_juridique not in natures_juridiques:
             raise ValueError("Au moins une nature juridique est non valide.")
     return list_nature_juridique_clean

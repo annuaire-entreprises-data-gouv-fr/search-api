@@ -267,7 +267,8 @@ paths:
         - name: nature_juridique
           in: query
           description: >-
-            Catégorie juridique de l'unité légale.
+            <a href=https://www.insee.fr/fr/information/2028129> Catégorie juridique 
+            de l'unité légale.</a>
             Ce paramètre accepte une valeur unique ou une liste de valeurs
             séparées par des virgules.
           example: "7344,6544"

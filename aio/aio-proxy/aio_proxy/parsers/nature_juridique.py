@@ -22,8 +22,8 @@ def validate_nature_juridique(list_nature_juridique_clean: List[str]):
     for nature_juridique in list_nature_juridique_clean:
         if nature_juridique not in natures_juridiques:
             raise ValueError(
-                f"Au moins une nature juridique est non valide."
-                f"Les natures juridiques valides"
-                f" : {[nature_juridique for nature_juridique in natures_juridiques]}"
+                f"Au moins une nature juridique est non valide. "
+                f"Les natures juridiques valides : "
+                f"{[nature_juridique for nature_juridique in natures_juridiques]}."
             )
     return list_nature_juridique_clean

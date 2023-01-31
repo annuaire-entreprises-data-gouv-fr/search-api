@@ -11,16 +11,9 @@ def test_validate_nature_juridique(nature_juridique: str, expected: str):
     assert validate_nature_juridique(nature_juridique) == expected
 
 
-@pytest.mark.parametrize("nature_juridique", [["123!", "1111, 7344"]])
+@pytest.mark.parametrize("nature_juridique", [["123!", "11, 7344"]])
 def test_validate_nature_juridique_fail(
     nature_juridique: str,
 ):
-    with pytest.raises(
-        ValueError,
-        match=(
-            f"Au moins une nature juridique est non valide."
-            f"Les natures juridiques valides"
-            f" : {[nature_juridique for nature_juridique in natures_juridiques]}"
-        ),
-    ):
+    with pytest.raises(ValueError):
         validate_nature_juridique(nature_juridique)

@@ -64,6 +64,7 @@ def text_search(index, offset: int, page_size: int, **params):
         filters_to_include=[
             "activite_principale_unite_legale",
             "code_collectivite_territoriale",
+            "nature_juridique_unite_legale",
             "section_activite_principale",
             "tranche_effectif_salarie_unite_legale",
         ],

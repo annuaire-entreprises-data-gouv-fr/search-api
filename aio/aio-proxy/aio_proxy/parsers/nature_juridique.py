@@ -1,7 +1,5 @@
 from typing import List, Optional
 
-from aio_proxy.labels.helpers import sections_codes_naf
-
 
 def validate_nature_juridique(
     list_nature_juridique_clean: List[str],

@@ -8,9 +8,7 @@ from aio_proxy.parsers.nature_juridique import (
     "nature_juridique, expected",
     [(["1000", "5658"], ["1000", "5658"]), ([], [])],
 )
-def test_validate_nature_juridique(
-    nature_juridique: str, expected: str
-):
+def test_validate_nature_juridique(nature_juridique: str, expected: str):
     assert validate_nature_juridique(nature_juridique) == expected
 
 

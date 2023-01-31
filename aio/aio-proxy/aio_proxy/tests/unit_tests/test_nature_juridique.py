@@ -1,5 +1,6 @@
-import pytest
 from typing import List
+
+import pytest
 from aio_proxy.parsers.nature_juridique import validate_nature_juridique
 
 

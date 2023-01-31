@@ -1,4 +1,5 @@
 import pytest
+from aio_proxy.labels.helpers import natures_juridiques
 from aio_proxy.parsers.nature_juridique import validate_nature_juridique
 
 
@@ -16,6 +17,10 @@ def test_validate_nature_juridique_fail(
 ):
     with pytest.raises(
         ValueError,
-        match="Au moins une nature juridique est non valide.",
+        match=(
+            f"Au moins une nature juridique est non valide."
+            f"Les natures juridiques valides"
+            f" : {[nature_juridique for nature_juridique in natures_juridiques]}"
+        ),
     ):
         validate_nature_juridique(nature_juridique)

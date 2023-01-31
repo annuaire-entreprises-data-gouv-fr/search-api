@@ -25,6 +25,6 @@ def validate_section_activite_principale(
     for section_activite_principale in list_section_activite_principale_clean:
         if section_activite_principale not in sections_codes_naf:
             raise ValueError(
-                "Au moins une section d'activité principale est non " "valide."
+                "Au moins une section d'activité principale est non valide."
             )
     return list_section_activite_principale_clean

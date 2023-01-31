@@ -20,6 +20,6 @@ def test_validate_section_activite_principale_fail(
 ):
     with pytest.raises(
         ValueError,
-        match="Au moins une " "section d'activité principale est non valide.",
+        match="Au moins une section d'activité principale est non valide.",
     ):
         validate_section_activite_principale(section_activite_principale)

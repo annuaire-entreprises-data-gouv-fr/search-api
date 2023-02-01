@@ -13,13 +13,21 @@ def filter_search_by_bool_fields_unite_legale(
             # Check if bool filter value is True or False
             if param_value:
                 search = search.filter(
-                    "exists", field=get_elasticsearch_field_name(param_name)
+                    "exists",
+                    field=get_elasticsearch_field_name(
+                        param_name, search_unite_legale=True
+                    ),
                 )
             else:
                 search = search.filter(
                     "bool",
                     must_not=[
-                        Q("exists", field=get_elasticsearch_field_name(param_name))
+                        Q(
+                            "exists",
+                            field=get_elasticsearch_field_name(
+                                param_name, search_unite_legale=True
+                            ),
+                        )
                     ],
                 )
     return search

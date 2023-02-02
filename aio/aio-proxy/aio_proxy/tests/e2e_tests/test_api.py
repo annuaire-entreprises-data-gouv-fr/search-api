@@ -13,6 +13,9 @@ session.mount("https://", adapter)
 
 
 def test_fetch_company():
+    """
+    test if searching for `la poste` returns the right siren as the first search result.
+    """
     path = "search?q=la poste"
     response = session.get(url=base_url + path)
     response_json = response.json()
@@ -25,6 +28,9 @@ def test_fetch_company():
 
 
 def test_personne_filter():
+    """
+    test if using `personne` filters returns the right siren (ganymede)
+    """
     path = (
         "search?nom_personne=jouppe&prenoms_personne=xavier erwan"
         "&date_naissance_personne_min=1970-01-01"
@@ -41,30 +47,45 @@ def test_personne_filter():
 
 
 def test_format_date_naissance():
+    """
+    test if using the wrong date of birth returns an error.
+    """
     path = "search?date_naissance_personne_min=13/09/2001"
     response = session.get(url=base_url + path)
     assert response.status_code == 400
 
 
 def test_error_query():
+    """
+    test if giving wrong query parameters returns an error.
+    """
     path = "search?qs=ganymede"
     response = session.get(url=base_url + path)
     assert response.status_code == 400
 
 
 def test_accept_three_characters():
+    """
+    test if API returns results for a three character query.
+    """
     path = "search?q=abc"
     response = session.get(url=base_url + path)
     assert response.status_code == 200
 
 
 def test_query_too_short():
+    """
+    test if API returns an error for a two character query
+    """
     path = "search?q=ab"
     response = session.get(url=base_url + path)
     assert response.status_code == 400
 
 
 def test_short_query_with_filter():
+    """
+    test if using a filter with a two character query returns results.
+    """
     path = "search?q=ab&code_postal=75015"
     response = session.get(url=base_url + path)
     print(response.text)
@@ -72,12 +93,19 @@ def test_short_query_with_filter():
 
 
 def test_terms_empty_only():
+    """
+    test if searching using empty search parameters returns an error.
+    """
     path = "search?q="
     response = session.get(url=base_url + path)
     assert response.status_code == 400
 
 
 def test_bool_filters():
+    """
+    test if using "est_rge" and "convention_collective_renseignee" filters returns only
+    établissements` with `rge` and `convention collective` ids.
+    """
     path = "search?convention_collective_renseignee=true&est_rge=true"
     response = session.get(url=base_url + path)
     response_json = response.json()

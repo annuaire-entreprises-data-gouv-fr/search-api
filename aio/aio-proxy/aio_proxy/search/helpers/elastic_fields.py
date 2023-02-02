@@ -1,4 +1,11 @@
 def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> str:
+    # "est_finess", "est_rge", "est_uai" and "convention_collective_renseignee" are
+    # special filters that are used to filter both `unite légale` and `établissements`
+    # Consequently, the Elasticsearch fields used for these filters are different
+    # when filtering on unité légale (where we use the same field names : "est_rge"
+    # elastic field for "est_rge" filter),
+    # and when filtering on établissements where we use the list fields (we use
+    # "liste_rge" es field for "est_rge" filter).
     if search_unite_legale:
         corresponding_es_field = {
             "code_collectivite_territoriale": "colter_code",

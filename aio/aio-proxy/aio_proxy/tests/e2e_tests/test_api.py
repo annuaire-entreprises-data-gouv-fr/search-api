@@ -75,3 +75,20 @@ def test_terms_empty_only():
     path = "search?q="
     response = session.get(url=base_url + path)
     assert response.status_code == 400
+
+
+def test_bool_filters():
+    path = "search?convention_collective_renseignee=true&est_rge=true"
+    response = session.get(url=base_url + path)
+    response_json = response.json()
+    total_results = response_json["total_results"]
+    est_rge = response_json["results"][0]["est_rge"]
+    cc_renseignee = response_json["results"][0]["convention_collective_renseignee"]
+    liste_rge = response_json["results"][0]["matching_etablissements"][0]["liste_rge"]
+    liste_cc = response_json["results"][0]["matching_etablissements"][0]["liste_idcc"]
+    assert est_rge
+    assert cc_renseignee
+    assert response.status_code == 200
+    assert liste_rge
+    assert liste_cc
+    assert total_results > 1

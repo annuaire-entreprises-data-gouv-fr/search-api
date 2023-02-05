@@ -744,15 +744,13 @@ paths:
                                   distribution spéciale + (code postal + libelle 
                                   commune | cedex + libelle cedex) + libelle commune 
                                   étranger + libelle pays étranger*
-                              code_postal:
+                              commune:
                                 type: string
-                                nullable: true
-                                pattern: >-
-                                  ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                                example: "31700"
+                                example: "31150"
                                 description: >-
-                                  Le code postal de l'adresse de l'établissement 
-                                  (source : base SIRENE).
+                                  Le code géographique de la commune de localisation de
+                                  l'établissement, hors adresse à l'étranger (source : 
+                                  base SIRENE).
                               est_siege:
                                 type: boolean
                                 example: false
@@ -1391,15 +1389,13 @@ paths:
                                   distribution spéciale + (code postal + libelle 
                                   commune | cedex + libelle cedex) + libelle commune 
                                   étranger + libelle pays étranger*
-                              code_postal:
+                              commune:
                                 type: string
-                                nullable: true
-                                pattern: >-
-                                  ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                                example: "31700"
+                                example: "31150"
                                 description: >-
-                                  Le code postal de l'adresse de l'établissement 
-                                  (source : base SIRENE).
+                                  Le code géographique de la commune de localisation de
+                                  l'établissement, hors adresse à l'étranger (source : 
+                                  base SIRENE).
                               est_siege:
                                 type: boolean
                                 example: false

@@ -1,13 +1,20 @@
 def build_text_query(terms: str, matching_size: int):
-    etab_ouverts_multiplier = {
+
+    min_etab_ouverts_multiplier = {
         "field": "nombre_etablissements_ouverts",
-        "factor": 100,
+        "factor": 1,
         "modifier": "log2p",
         "missing": 1,
     }
-    etab_ouverts_multiplier_2 = {
+    mid_etab_ouverts_multiplier = {
         "field": "nombre_etablissements_ouverts",
-        "factor": 1,
+        "factor": 10,
+        "modifier": "log2p",
+        "missing": 1,
+    }
+    max_etab_ouverts_multiplier = {
+        "field": "nombre_etablissements_ouverts",
+        "factor": 1000,
         "modifier": "log2p",
         "missing": 1,
     }
@@ -21,12 +28,12 @@ def build_text_query(terms: str, matching_size: int):
                             "match_phrase": {
                                 "identifiant_association_unite_legale": {
                                     "query": terms,
-                                    "boost": 100,
+                                    "boost": 50,
                                     "_name": "exact match identifiant association",
                                 }
                             }
                         },
-                        "field_value_factor": etab_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -35,12 +42,12 @@ def build_text_query(terms: str, matching_size: int):
                             "match_phrase": {
                                 "nom_complet.keyword": {
                                     "query": terms,
-                                    "boost": 200,
+                                    "boost": 300,
                                     "_name": "exact nom_complet match",
                                 }
                             }
                         },
-                        "field_value_factor": etab_ouverts_multiplier,
+                        "field_value_factor": max_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -50,12 +57,12 @@ def build_text_query(terms: str, matching_size: int):
                                 "nom_complet": {
                                     "query": terms,
                                     "operator": "AND",
-                                    "boost": 100,
+                                    "boost": 50,
                                     "_name": "partial nom_complet match with AND",
                                 }
                             }
                         },
-                        "field_value_factor": etab_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier
                     }
                 },
                 {
@@ -186,7 +193,7 @@ def build_text_query(terms: str, matching_size: int):
                                 },
                             }
                         },
-                        "field_value_factor": etab_ouverts_multiplier_2,
+                        "field_value_factor": min_etab_ouverts_multiplier,
                         "min_score": 4,
                     }
                 },
@@ -202,7 +209,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etab_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -217,7 +224,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etab_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
             ],

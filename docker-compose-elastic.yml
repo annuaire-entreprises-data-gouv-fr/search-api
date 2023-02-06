@@ -79,6 +79,26 @@ services:
       retries: 10
       interval: 10s
 
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:7.11.1
+    env_file:
+      - .env
+    networks:
+      - aio-elasticsearch-network
+    environment:
+      - ELASTIC_URL=http://elasticsearch:9200
+      - ELASTIC_USER=${ELASTIC_USER}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - KIBANA_HOST=http://kibana:5601
+    volumes:
+      - ./metricbeat-data:/usr/share/metricbeat/data
+    depends_on:
+      - elasticsearch
+    # disable strict permission checks
+    command: metricbeat -e
+    deploy:
+      mode: global
+
 networks:
   aio-elasticsearch-network:
     name: aio-elasticsearch-network

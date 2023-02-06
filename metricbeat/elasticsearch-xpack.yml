@@ -1,0 +1,7 @@
+
+- module: elasticsearch
+  xpack.enabled: true
+  period: 10s
+  hosts: ["http://elasticsearch:9200"]
+  username: ${ELASTICSEARCH_USERNAME}
+  password: ${ELASTICSEARCH_PASSWORD}

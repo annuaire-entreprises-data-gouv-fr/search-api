@@ -86,12 +86,13 @@ services:
     networks:
       - aio-elasticsearch-network
     environment:
-      - ELASTIC_URL=http://elasticsearch:9200
-      - ELASTIC_USER=${ELASTIC_USER}
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USER}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
       - KIBANA_HOST=http://kibana:5601
     volumes:
       - ./metricbeat-data:/usr/share/metricbeat/data
+      - ./metricbeat/elasticsearch-xpack.yml:/usr/share/metricbeat/modules.d/elasticsearch-xpack.yml
     depends_on:
       - elasticsearch
     # disable strict permission checks

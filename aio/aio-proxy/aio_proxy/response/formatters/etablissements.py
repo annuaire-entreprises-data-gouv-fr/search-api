@@ -65,7 +65,7 @@ def format_etablissements_list(etablissements=None):
         "coordonnees",
         "cedex",
         "code_pays_etranger",
-        "commune",
+        "code_postal",
         "complement_adresse",
         "date_creation",
         "date_debut_activite",

@@ -447,12 +447,13 @@ paths:
                               type: string
                               example: >-
                                 DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
-                                PIERRE AVIA 75115 PARIS 15
+                                PIERRE AVIA 75015 PARIS 15
                               description: >-
                                 Champs construit depuis les champs d'adresse de la 
                                 base SIRENE : *complement adresse + numéro voie + 
                                 indice repetition + type voie + libelle voie + 
-                                distribution spéciale + (commune + libelle commune | 
+                                distribution spéciale + (code postal + libelle 
+                                commune | 
                                 cedex + libelle cedex) + libelle commune étranger + 
                                 libelle pays étranger*
                             cedex:
@@ -735,23 +736,21 @@ paths:
                               adresse:
                                 type: string
                                 example: >-
-                                  19 RUE DE LA POSTE 31150 CORNEBARRIEU
+                                  19 RUE DE LA POSTE 31700 CORNEBARRIEU
                                 description: >-
                                   Champs construit depuis les champs d'adresse de la 
                                   base SIRENE : *complement adresse + numéro voie + 
                                   indice repetition + type voie + libelle voie + 
-                                  distribution spéciale + (commune + libelle commune | 
-                                  cedex + libelle cedex) + libelle commune étranger + 
-                                  libelle pays étranger*
-                              code_postal:
+                                  distribution spéciale + (code postal + libelle 
+                                  commune | cedex + libelle cedex) + libelle commune 
+                                  étranger + libelle pays étranger*
+                              commune:
                                 type: string
-                                nullable: true
-                                pattern: >-
-                                  ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                                example: "31700"
+                                example: "31150"
                                 description: >-
-                                  Le code postal de l'adresse de l'établissement 
-                                  (source : base SIRENE).
+                                  Le code géographique de la commune de localisation de
+                                  l'établissement, hors adresse à l'étranger (source : 
+                                  base SIRENE).
                               est_siege:
                                 type: boolean
                                 example: false
@@ -1093,12 +1092,12 @@ paths:
                               type: string
                               example: >-
                                 DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
-                                PIERRE AVIA 75115 PARIS 15
+                                PIERRE AVIA 75015 PARIS 15
                               description: >-
                                 Champs construit depuis les champs d'adresse de la 
                                 base SIRENE : *complement adresse + numéro voie + 
                                 indice repetition + type voie + libelle voie + 
-                                distribution spéciale + (commune + libelle commune | 
+                                distribution spéciale + (code postal + libelle commune | 
                                 cedex + libelle cedex) + libelle commune étranger + 
                                 libelle pays étranger*
                             cedex:
@@ -1382,23 +1381,21 @@ paths:
                               adresse:
                                 type: string
                                 example: >-
-                                  19 RUE DE LA POSTE 31150 CORNEBARRIEU
+                                  19 RUE DE LA POSTE 31700 CORNEBARRIEU
                                 description: >-
                                   Champs construit depuis les champs d'adresse de la 
                                   base SIRENE : *complement adresse + numéro voie + 
                                   indice repetition + type voie + libelle voie + 
-                                  distribution spéciale + (commune + libelle commune | 
-                                  cedex + libelle cedex) + libelle commune étranger + 
-                                  libelle pays étranger*
-                              code_postal:
+                                  distribution spéciale + (code postal + libelle 
+                                  commune | cedex + libelle cedex) + libelle commune 
+                                  étranger + libelle pays étranger*
+                              commune:
                                 type: string
-                                nullable: true
-                                pattern: >-
-                                  ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
-                                example: "31700"
+                                example: "31150"
                                 description: >-
-                                  Le code postal de l'adresse de l'établissement 
-                                  (source : base SIRENE).
+                                  Le code géographique de la commune de localisation de
+                                  l'établissement, hors adresse à l'étranger (source : 
+                                  base SIRENE).
                               est_siege:
                                 type: boolean
                                 example: false

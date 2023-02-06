@@ -157,6 +157,7 @@ def build_text_query(terms: str, matching_size: int):
                                                         "etablissements.enseigne_3",
                                                         "etablissements.nom_commercial",
                                                         "etablissements.adresse",
+                                                        "etablissements.commune",
                                                         "etablissements.concat_"
                                                         "enseigne_adresse_siren_siret",
                                                     ],

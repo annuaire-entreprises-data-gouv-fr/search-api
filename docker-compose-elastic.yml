@@ -30,7 +30,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.7.0
+    image: docker.elastic.co/kibana/kibana:7.17.9
     restart: always
     env_file:
       - .env

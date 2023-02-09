@@ -22,3 +22,9 @@ repos:
     rev: v2.23.1
     hooks:
       - id: pyupgrade
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: 'v0.0.241'
+    hooks:
+      - id: ruff

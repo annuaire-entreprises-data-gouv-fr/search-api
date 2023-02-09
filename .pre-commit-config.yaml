@@ -6,25 +6,12 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: debug-statements
-
-  - repo: https://github.com/pycqa/flake8.git
-    rev: 3.9.2
-    hooks:
-      - id: flake8
-
-  - repo: https://github.com/psf/black
-    rev: 21.7b0
-    hooks:
-      - id: black
-        language_version: python3
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.23.1
-    hooks:
-      - id: pyupgrade
-
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     # Ruff version.
     rev: 'v0.0.241'
     hooks:
       - id: ruff
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black

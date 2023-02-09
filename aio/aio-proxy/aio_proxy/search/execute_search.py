@@ -1,13 +1,10 @@
-from typing import Tuple
-
-
 def sort_and_execute_search(
     search,
     offset: int,
     page_size: int,
     is_text_search: bool,
     include_etablissements: bool,
-) -> Tuple:
+) -> tuple:
     search = search.extra(track_scores=True)
     search = search.extra(explain=True)
     # Collapse is used to aggregate the results by siren. It is the consequence of

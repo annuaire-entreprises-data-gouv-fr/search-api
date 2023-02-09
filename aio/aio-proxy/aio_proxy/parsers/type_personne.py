@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_type_personne(type_personne_clean: str) -> Optional[str]:
+def validate_type_personne(type_personne_clean: str) -> str | None:
     """Check the validity of type_personne.
 
     Args:

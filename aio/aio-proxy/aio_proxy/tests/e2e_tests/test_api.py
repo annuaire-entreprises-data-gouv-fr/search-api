@@ -11,6 +11,9 @@ adapter = HTTPAdapter(max_retries=retry)
 session.mount("http://", adapter)
 session.mount("https://", adapter)
 
+ok_status_code = 200
+client_error_status_code = 400
+
 
 def test_fetch_company():
     """
@@ -22,7 +25,7 @@ def test_fetch_company():
     total_results = response_json["total_results"]
     siren = response_json["results"][0]["siren"]
     print(response)
-    assert response.status_code == 200
+    assert response.status_code == ok_status_code
     assert total_results > 10
     assert siren == "356000000"
 
@@ -41,7 +44,7 @@ def test_personne_filter():
     response_json = response.json()
     total_results = response_json["total_results"]
     siren = response_json["results"][0]["siren"]
-    assert response.status_code == 200
+    assert response.status_code == ok_status_code
     assert total_results == 1
     assert siren == "880878145"
 
@@ -52,7 +55,7 @@ def test_format_date_naissance():
     """
     path = "search?date_naissance_personne_min=13/09/2001"
     response = session.get(url=base_url + path)
-    assert response.status_code == 400
+    assert response.status_code == client_error_status_code
 
 
 def test_error_query():
@@ -61,7 +64,7 @@ def test_error_query():
     """
     path = "search?qs=ganymede"
     response = session.get(url=base_url + path)
-    assert response.status_code == 400
+    assert response.status_code == client_error_status_code
 
 
 def test_accept_three_characters():
@@ -70,7 +73,7 @@ def test_accept_three_characters():
     """
     path = "search?q=abc"
     response = session.get(url=base_url + path)
-    assert response.status_code == 200
+    assert response.status_code == ok_status_code
 
 
 def test_query_too_short():
@@ -79,7 +82,7 @@ def test_query_too_short():
     """
     path = "search?q=ab"
     response = session.get(url=base_url + path)
-    assert response.status_code == 400
+    assert response.status_code == client_error_status_code
 
 
 def test_short_query_with_filter():
@@ -89,7 +92,7 @@ def test_short_query_with_filter():
     path = "search?q=ab&code_postal=75015"
     response = session.get(url=base_url + path)
     print(response.text)
-    assert response.status_code == 200
+    assert response.status_code == ok_status_code
 
 
 def test_terms_empty_only():
@@ -98,7 +101,7 @@ def test_terms_empty_only():
     """
     path = "search?q="
     response = session.get(url=base_url + path)
-    assert response.status_code == 400
+    assert response.status_code == client_error_status_code
 
 
 def test_bool_filters():
@@ -116,7 +119,7 @@ def test_bool_filters():
     ]
     liste_rge = response_json["results"][0]["matching_etablissements"][0]["liste_rge"]
     liste_cc = response_json["results"][0]["matching_etablissements"][0]["liste_idcc"]
-    assert response.status_code == 200
+    assert response.status_code == ok_status_code
     assert est_rge
     assert cc_renseignee
     assert liste_rge

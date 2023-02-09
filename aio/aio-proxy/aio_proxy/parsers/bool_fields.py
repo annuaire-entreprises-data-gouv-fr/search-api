@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_bool_field(param: str, param_value: str) -> Optional[bool]:
+def validate_bool_field(param: str, param_value: str) -> bool | None:
     """Check the validity of field.
 
     Args:

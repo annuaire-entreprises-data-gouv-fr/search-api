@@ -1,9 +1,7 @@
-from typing import List
-
 from aio_proxy.labels.helpers import natures_juridiques
 
 
-def validate_nature_juridique(list_nature_juridique_clean: List[str]):
+def validate_nature_juridique(list_nature_juridique_clean: list[str]):
     """Check the validity of list_section_activite_principale.
 
     Args:

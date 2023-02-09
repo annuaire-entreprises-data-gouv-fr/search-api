@@ -1,5 +1,3 @@
-from typing import Dict, List, Tuple, Union
-
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.code_commune import validate_code_commune
@@ -38,7 +36,7 @@ from aio_proxy.parsers.uai import validate_id_uai
 
 def extract_text_parameters(
     request,
-) -> Tuple[Dict[str, Union[str, None, bool, List]], int, int]:
+) -> tuple[dict[str, str | None | bool | list], int, int]:
     """Extract all parameters from request.
 
     Args:

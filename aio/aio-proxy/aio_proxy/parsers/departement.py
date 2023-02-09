@@ -1,9 +1,7 @@
-from typing import List
-
 from aio_proxy.labels.helpers import departements
 
 
-def validate_departement(list_departement_clean: List[str]):
+def validate_departement(list_departement_clean: list[str]):
     """Check the validity of list_departement.
 
     Args:

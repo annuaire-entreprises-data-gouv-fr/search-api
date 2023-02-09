@@ -1,8 +1,5 @@
-from typing import List
-
-
 def validate_code_collectivite_territoriale(
-    list_code_collectivite_territoriale: List[str],
+    list_code_collectivite_territoriale: list[str],
 ):
     """Check the validity of list code_collectivite_territoriale
 
@@ -20,8 +17,9 @@ def validate_code_collectivite_territoriale(
     """
     if list_code_collectivite_territoriale is None:
         return None
+    min_len_code_collectivite_territoriale = 2
     for code_collectivite_territoriale in list_code_collectivite_territoriale:
-        if len(code_collectivite_territoriale) < 2:
+        if len(code_collectivite_territoriale) < min_len_code_collectivite_territoriale:
             raise ValueError(
                 "Chaque identifiant code insee d'une collectivité territoriale doit "
                 "contenir au moins 2 caractères."

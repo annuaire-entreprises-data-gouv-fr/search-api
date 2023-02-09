@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_id_finess(id_finess: str) -> Optional[str]:
+def validate_id_finess(id_finess: str) -> str | None:
     """Check the validity of finess.
 
     Args:
@@ -16,6 +13,7 @@ def validate_id_finess(id_finess: str) -> Optional[str]:
     """
     if id_finess is None:
         return None
-    if len(id_finess) != 9:
+    len_id_finess = 9
+    if len(id_finess) != len_id_finess:
         raise ValueError("L'identifiant FINESS doit contenir 9 caractères.")
     return id_finess

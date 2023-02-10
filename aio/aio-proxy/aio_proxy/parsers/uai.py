@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_id_uai(id_uai: str) -> Optional[str]:
+def validate_id_uai(id_uai: str) -> str | None:
     """Check the validity of id_uai.
 
     Args:
@@ -16,6 +13,7 @@ def validate_id_uai(id_uai: str) -> Optional[str]:
     """
     if id_uai is None:
         return None
-    if len(id_uai) != 8:
+    length_id_uai = 8
+    if len(id_uai) != length_id_uai:
         raise ValueError("L'identifiant UAI doit contenir 8 caractères.")
     return id_uai

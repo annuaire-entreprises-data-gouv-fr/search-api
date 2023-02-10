@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_etat_administratif(param_value: str) -> Optional[str]:
+def validate_etat_administratif(param_value: str) -> str | None:
     """Check the validity of etat_administratif.
 
     Args:

@@ -2,12 +2,13 @@ import logging
 import pathlib
 
 import aiohttp
-from aio_proxy.response.helpers import APM_URL, CURRENT_ENV
-from aio_proxy.routes import routes
-from aio_proxy.settings import config
 from aiohttp import web
 from aiohttp_swagger3 import ReDocUiSettings, SwaggerDocs
 from elasticapm.contrib.aiohttp import ElasticAPM
+
+from aio_proxy.response.helpers import APM_URL, CURRENT_ENV
+from aio_proxy.routes import routes
+from aio_proxy.settings import config
 
 BASE_DIR = pathlib.Path(__file__).parent.parent
 open_api_path = BASE_DIR / "aio_proxy" / "doc" / "open-api.yml"

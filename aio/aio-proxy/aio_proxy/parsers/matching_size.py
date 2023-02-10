@@ -19,7 +19,9 @@ def parse_and_validate_matching_size(request) -> int:
         ValueError: if matching_size is not integer.
     """
     matching_size = int(request.rel_url.query.get("limite_matching_etablissements", 10))
-    if matching_size <= 0 or matching_size > 100:
+    min_matching_size = 0
+    max_matching_size = 100
+    if matching_size <= min_matching_size or matching_size > max_matching_size:
         raise ValueError(
             "Veuillez indiquer un nombre d'établissements connexes entier entre 1 et "
             "100, par défaut 10."

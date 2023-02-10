@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def match_ess_bool_to_value(ess_bool: bool) -> Optional[str]:
+def match_ess_bool_to_value(ess_bool: bool) -> str | None:
     """Match bool filter value to corresponding field value .
 
     Args:

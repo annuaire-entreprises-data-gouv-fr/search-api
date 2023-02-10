@@ -1,8 +1,7 @@
 import re
-from typing import List
 
 
-def validate_code_commune(list_code_commune_clean: List[str]):
+def validate_code_commune(list_code_commune_clean: list[str]):
     """Check the validity of list_code_commune.
 
     Args:
@@ -18,8 +17,9 @@ def validate_code_commune(list_code_commune_clean: List[str]):
     """
     if list_code_commune_clean is None:
         return None
+    length_code_commune = 5
     for code_commune in list_code_commune_clean:
-        if len(code_commune) != 5:
+        if len(code_commune) != length_code_commune:
             raise ValueError("Chaque code commune doit contenir 5 caractères !")
         codes_valides = r"^([013-9]\d|2[AB1-9])\d{3}$"
         if not re.search(codes_valides, code_commune):

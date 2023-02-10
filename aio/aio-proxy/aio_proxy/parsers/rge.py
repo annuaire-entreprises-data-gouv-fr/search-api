@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_id_rge(id_rge: str) -> Optional[str]:
+def validate_id_rge(id_rge: str) -> str | None:
     """Check the validity of RGE.
 
     Args:

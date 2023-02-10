@@ -1,5 +1,5 @@
 import json
-from typing import Callable, Dict
+from collections.abc import Callable
 
 from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.response.format_response import format_response
@@ -11,7 +11,7 @@ from aiohttp import web
 @http_exception_handler
 def api_response(
     request, extract_function: Callable, search_function: Callable
-) -> Dict[str, int]:
+) -> dict[str, int]:
     """Create and format API response.
 
     Args:

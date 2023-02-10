@@ -27,9 +27,10 @@ def check_short_terms_and_no_param(params):
     Raises:
         ValueError.
     """
+    min_chars_in_terms = 3
     if (
         params["terms"] is not None
-        and len(params["terms"]) < 3
+        and len(params["terms"]) < min_chars_in_terms
         and all(
             val is None
             for val in [

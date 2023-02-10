@@ -1,0 +1,28 @@
+fail_fast: true
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: debug-statements
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version
+    rev: 'v0.0.244'
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+  - repo: https://github.com/psf/black
+    # Black version
+    rev: 23.1.0
+    hooks:
+      - id: black
+        args: [--diff, --check]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: 'v1.0.0'
+    hooks:
+      - id: mypy
+        args: [--no-strict-optional, --ignore-missing-imports]
+        additional_dependencies: [tokenize-rt==3.2.0]

@@ -1,5 +1,3 @@
-from typing import List
-
 import pytest
 from aio_proxy.parsers.nature_juridique import validate_nature_juridique
 
@@ -8,7 +6,7 @@ from aio_proxy.parsers.nature_juridique import validate_nature_juridique
     "nature_juridique, expected",
     [(["1000", "5658"], ["1000", "5658"]), ([], [])],
 )
-def test_validate_nature_juridique(nature_juridique: List[str], expected: List[str]):
+def test_validate_nature_juridique(nature_juridique: list[str], expected: list[str]):
     assert validate_nature_juridique(nature_juridique) == expected
 
 

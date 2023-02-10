@@ -1,4 +1,5 @@
 es-data/
+metricbeat/
 metricbeat-data/
 pg-airflow/
 .DS_Store

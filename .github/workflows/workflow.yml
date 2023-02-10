@@ -109,4 +109,4 @@ jobs:
       - name: Run Ruff
         run: ruff check --format=github .
       - name: Run Black
-        run: black .
+        uses: psf/black@stable

@@ -12,7 +12,6 @@ def search_person(
 ):
     search_options = []
     for person in list_persons:
-
         person_filters = []
         boost_queries = []
         # Nom

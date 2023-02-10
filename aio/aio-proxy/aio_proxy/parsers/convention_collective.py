@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def validate_id_convention_collective(id_convention_collective: str) -> Optional[str]:
+def validate_id_convention_collective(id_convention_collective: str) -> str | None:
     """Check the validity of id convention collective.
 
     Args:
@@ -16,7 +13,8 @@ def validate_id_convention_collective(id_convention_collective: str) -> Optional
     """
     if id_convention_collective is None:
         return None
-    if len(id_convention_collective) != 4:
+    length_convention_collective = 4
+    if len(id_convention_collective) != length_convention_collective:
         raise ValueError(
             "L'identifiant de convention collective doit contenir 4 caractères."
         )

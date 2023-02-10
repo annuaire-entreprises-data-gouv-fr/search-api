@@ -1,11 +1,11 @@
 [tool.ruff]
 # Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F", "I", "UP"]
+select = ["E", "F", "I", "UP", "PL"]
 ignore = []
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["A", "B", "C", "D", "E", "F", "I"]
 unfixable = []
 
-#[tool.ruff.pylint]
-#max-args = 10
+[tool.ruff.pylint]
+max-args = 10

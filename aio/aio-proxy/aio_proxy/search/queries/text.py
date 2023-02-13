@@ -1,5 +1,4 @@
 def build_text_query(terms: str, matching_size: int):
-
     min_etab_ouverts_multiplier = {
         "field": "nombre_etablissements_ouverts",
         "factor": 1,
@@ -62,7 +61,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": mid_etab_ouverts_multiplier
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
                 {

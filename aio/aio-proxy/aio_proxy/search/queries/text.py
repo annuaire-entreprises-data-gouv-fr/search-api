@@ -67,6 +67,42 @@ def build_text_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
+                            "match_phrase": {
+                                "sigle.keyword": {
+                                    "query": terms,
+                                    "boost": 100,
+                                    "_name": "exact sigle match",
+                                }
+                            }
+                        },
+                        "field_value_factor": max_etab_ouverts_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
+                            "multi_match": {
+                                "query": terms,
+                                "fields": [
+                                    "nom_raison_sociale",
+                                    "denomination_usuelle_1",
+                                    "denomination_usuelle_2",
+                                    "denomination_usuelle_3",
+                                    "sigle",
+                                    "nom",
+                                    "prenom",
+                                ],
+                                "type": "cross_fields",
+                                "operator": "AND",
+                                "_name": "match all champs denomination",
+                            }
+                        },
+                        "field_value_factor": mid_etab_ouverts_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
                             "nested": {
                                 "path": "etablissements",
                                 "query": {

@@ -8,7 +8,7 @@ from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
-from aio_proxy.response.helpers import get_value, is_dev_env
+from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
 def format_search_results(results, include_etablissements=False):
@@ -21,7 +21,15 @@ def format_search_results(results, include_etablissements=False):
 
         result_formatted = {
             "siren": get_field("siren"),
-            "nom_complet": get_field("nom_complet"),
+            "nom_complet": format_nom_complet(
+                get_field("nom_complet"),
+                get_field("sigle"),
+                get_field("denomination_usuelle_1_unite_legale"),
+                get_field("denomination_usuelle_2_unite_legale"),
+                get_field("denomination_usuelle_3_unite_legale"),
+            ),
+            "nom_raison_sociale": get_field("nom_raison_sociale"),
+            "sigle": get_field("sigle"),
             "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),
             "nombre_etablissements_ouverts": int(
                 get_field("nombre_etablissements_ouverts", default=0)
@@ -36,7 +44,6 @@ def format_search_results(results, include_etablissements=False):
             ),
             "etat_administratif": get_field("etat_administratif_unite_legale"),
             "nature_juridique": get_field("nature_juridique_unite_legale"),
-            "nom_raison_sociale": get_field("nom_raison_sociale"),
             "section_activite_principale": get_field("section_activite_principale"),
             "tranche_effectif_salarie": get_field(
                 "tranche_effectif_salarie_unite_legale"

@@ -126,3 +126,15 @@ def test_bool_filters():
     assert liste_rge
     assert liste_cc
     assert total_results > 1
+
+
+def test_est_service_public():
+    """
+    test if `est_service_public`  filter returns results with and without text search.
+    """
+    path_filter_only = "search?est_service_public=true"
+    response_filters_only = session.get(url=base_url + path_filter_only)
+    path_filter_with_text = "search?est_service_public=true&q=ministere"
+    response_filters_with_text = session.get(url=base_url + path_filter_with_text)
+    assert response_filters_only.status_code == ok_status_code
+    assert response_filters_with_text.status_code == ok_status_code

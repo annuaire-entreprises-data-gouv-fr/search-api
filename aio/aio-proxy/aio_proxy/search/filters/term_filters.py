@@ -31,3 +31,14 @@ def filter_term_list_search_unite_legale(search, filters_to_include: list, **par
                 }
             )
     return search
+
+
+def filter_prefix_list_service_public(search):
+    """Use prefix query to filter on `nature juridique` values which correspond to
+    `service public"""
+    natures_juridiques_service_public = ["3210", "3110", "4", "71", "72", "73", "74"]
+    for nature_juridique in natures_juridiques_service_public:
+        search = search.filter(
+            "prefix", **{"nature_juridique_unite_legale": nature_juridique}
+        )
+    return search

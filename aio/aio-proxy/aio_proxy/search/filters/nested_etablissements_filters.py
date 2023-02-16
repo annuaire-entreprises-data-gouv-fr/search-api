@@ -120,17 +120,19 @@ def add_nested_etablissements_filters_to_text_query(text_query, **params):
     terms_filters, must_filters, must_not_filters = build_etablissements_filters(
         **params
     )
-
+    # Number `5` corresponds to the index of the nested query in the text query
+    # every time a new query is added to the text query before the nested query,
+    # this index should be modified to reflect that change
     if terms_filters:
-        text_query["bool"]["should"][3]["function_score"]["query"]["nested"]["query"][
+        text_query["bool"]["should"][5]["function_score"]["query"]["nested"]["query"][
             "bool"
         ]["filter"] = terms_filters
     if must_filters:
-        text_query["bool"]["should"][3]["function_score"]["query"]["nested"]["query"][
+        text_query["bool"]["should"][5]["function_score"]["query"]["nested"]["query"][
             "bool"
         ]["must"] = must_filters
     if must_not_filters:
-        text_query["bool"]["should"][3]["function_score"]["query"]["nested"]["query"][
+        text_query["bool"]["should"][5]["function_score"]["query"]["nested"]["query"][
             "bool"
         ]["must_not"] = must_not_filters
     return text_query

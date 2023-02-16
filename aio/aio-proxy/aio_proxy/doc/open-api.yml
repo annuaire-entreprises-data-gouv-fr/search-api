@@ -414,11 +414,26 @@ paths:
                         nom_complet:
                           type: string
                           description: >-
-                            Champs construit de
-                            puis les champs de dénomination : denomination de
-                            l'unité légale | Nom et prénom | Nom inconnu
-                            (denomination usuelle) (sigle de l'unité légale)
+                            Champs construit depuis les champs de dénomination :
+                            denomination de l'unité légale | Nom et prénom | Nom inconnu
+                            (dénomination usuelle : construite à partir des trois
+                            champs de dénomination usuelle de la base SIRENE) (sigle de
+                            l'unité légale)
                           example: "la poste"
+                        nom_raison_sociale:
+                          type: string
+                          example: "LA POSTE"
+                          description: >-
+                            La raison sociale pour les personnes morales (source :
+                            base SIRENE).
+                        sigle:
+                          type: string
+                          nullable: true
+                          example: null
+                          description: >-
+                            Forme réduite de la raison sociale ou de la dénomination
+                            d'une personne morale ou d'un organisme public (source :
+                            base SIRENE).
                         nombre_etablissements:
                           type: integer
                           title: Nombre des établissements de l'unité légale
@@ -700,12 +715,6 @@ paths:
                           example: "A"
                           description: >-
                             État administratif de l'unité légale (source : base SIRENE).
-                        nom_raison_sociale:
-                          type: string
-                          example: "LA POSTE"
-                          description: >-
-                            La raison sociale pour les personnes morales (source :
-                            base SIRENE).
                         nature_juridique:
                           type: string
                           example: "5510"
@@ -1054,11 +1063,26 @@ paths:
                         nom_complet:
                           type: string
                           description: >-
-                            Champs construit de
-                            puis les champs de dénomination : denomination de
-                            l'unité légale | Nom et prénom | Nom inconnu
-                            (denomination usuelle) (sigle de l'unité légale)
+                            Champs construit depuis les champs de dénomination :
+                            denomination de l'unité légale | Nom et prénom | Nom inconnu
+                            (dénomination usuelle : construite à partir des trois
+                            champs de dénomination usuelle de la base SIRENE) (sigle
+                            de l'unité légale)
                           example: "la poste"
+                        nom_raison_sociale:
+                          type: string
+                          example: "LA POSTE"
+                          description: >-
+                            La raison sociale pour les personnes morales (source :
+                            base SIRENE).
+                        sigle:
+                          type: string
+                          nullable: true
+                          example: null
+                          description: >-
+                            Forme réduite de la raison sociale ou de la dénomination
+                            d'une personne morale ou d'un organisme public (source :
+                            base SIRENE).
                         nombre_etablissements:
                           type: integer
                           title: Nombre des établissements de l'unité légale
@@ -1338,12 +1362,6 @@ paths:
                           example: "A"
                           description: >-
                             État administratif de l'unité légale (source : base SIRENE).
-                        nom_raison_sociale:
-                          type: string
-                          example: "LA POSTE"
-                          description: >-
-                            La raison sociale pour les personnes morales (source :
-                            base SIRENE).
                         nature_juridique:
                           type: string
                           example: "5510"

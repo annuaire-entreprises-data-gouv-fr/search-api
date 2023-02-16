@@ -12,7 +12,7 @@ def parse_and_validate_terms(request, default_value=None):
     """
     terms = request.rel_url.query.get("q", default_value)
     if terms:
-        return terms.lower()
+        return terms.upper()
     return terms
 
 

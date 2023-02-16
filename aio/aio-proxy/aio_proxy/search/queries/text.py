@@ -1,7 +1,19 @@
 def build_text_query(terms: str, matching_size: int):
-    etablissements_ouverts_multiplier = {
+    min_etab_ouverts_multiplier = {
         "field": "nombre_etablissements_ouverts",
         "factor": 1,
+        "modifier": "log2p",
+        "missing": 1,
+    }
+    mid_etab_ouverts_multiplier = {
+        "field": "nombre_etablissements_ouverts",
+        "factor": 10,
+        "modifier": "log2p",
+        "missing": 1,
+    }
+    max_etab_ouverts_multiplier = {
+        "field": "nombre_etablissements_ouverts",
+        "factor": 1000,
         "modifier": "log2p",
         "missing": 1,
     }
@@ -20,7 +32,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -29,12 +41,12 @@ def build_text_query(terms: str, matching_size: int):
                             "match_phrase": {
                                 "nom_complet.keyword": {
                                     "query": terms,
-                                    "boost": 100,
+                                    "boost": 300,
                                     "_name": "exact nom_complet match",
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": max_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -49,7 +61,43 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
+                            "match_phrase": {
+                                "sigle.keyword": {
+                                    "query": terms,
+                                    "boost": 100,
+                                    "_name": "exact sigle match",
+                                }
+                            }
+                        },
+                        "field_value_factor": max_etab_ouverts_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
+                            "multi_match": {
+                                "query": terms,
+                                "fields": [
+                                    "nom_raison_sociale",
+                                    "denomination_usuelle_1",
+                                    "denomination_usuelle_2",
+                                    "denomination_usuelle_3",
+                                    "sigle",
+                                    "nom",
+                                    "prenom",
+                                ],
+                                "type": "cross_fields",
+                                "operator": "AND",
+                                "_name": "match all champs denomination",
+                            }
+                        },
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -180,7 +228,7 @@ def build_text_query(terms: str, matching_size: int):
                                 },
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": min_etab_ouverts_multiplier,
                         "min_score": 4,
                     }
                 },
@@ -196,7 +244,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
                 {
@@ -211,7 +259,7 @@ def build_text_query(terms: str, matching_size: int):
                                 }
                             }
                         },
-                        "field_value_factor": etablissements_ouverts_multiplier,
+                        "field_value_factor": mid_etab_ouverts_multiplier,
                     }
                 },
             ],

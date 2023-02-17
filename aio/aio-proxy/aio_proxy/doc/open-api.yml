@@ -213,6 +213,21 @@ paths:
             enum:
               - true
               - false
+        - name: est_service_public
+          in: query
+          description: >-
+            Uniquement les entreprises reconnues comme service public.
+
+            Attention : Ce filtre n'est pas exhaustif et se base sur une liste de
+            natures juridiques que nous définissons nous-mêmes à partir des labels de
+            natures juridiques (vous trouverez cette liste
+            <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>).
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_uai
           in: query
           description: >-

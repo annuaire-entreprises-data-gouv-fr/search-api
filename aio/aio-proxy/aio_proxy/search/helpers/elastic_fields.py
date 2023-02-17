@@ -11,7 +11,6 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
             "code_collectivite_territoriale": "colter_code",
             "est_association": "identifiant_association_unite_legale",
             "est_collectivite_territoriale": "colter_code",
-            "est_service_public": "nature_juridique_unite_legale",
         }
     else:
         corresponding_es_field = {

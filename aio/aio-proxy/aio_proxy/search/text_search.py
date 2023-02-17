@@ -13,7 +13,6 @@ from aio_proxy.search.filters.term_filters import (
 from aio_proxy.search.helpers.etablissements_filters_used import (
     is_any_etablissement_filter_used,
 )
-from aio_proxy.search.helpers.service_public import build_list_natures_juridiques
 from aio_proxy.search.parsers.siren import is_siren
 from aio_proxy.search.parsers.siret import is_siret
 from aio_proxy.search.queries.person import search_person
@@ -43,11 +42,6 @@ def text_search(index, offset: int, page_size: int, **params):
             include_etablissements=include_etablissements,
         )
 
-    # Filter results by list of `nature juridique` corresponding to `service public`
-    params["est_service_public"] = build_list_natures_juridiques(
-        params["est_service_public"]
-    )
-
     # Filter results by term using 'unité légale' related filters in the request
     search_client = filter_term_search_unite_legale(
         search_client,
@@ -58,6 +52,7 @@ def text_search(index, offset: int, page_size: int, **params):
             "est_entrepreneur_spectacle",
             "est_finess",
             "est_rge",
+            "est_service_public",
             "est_uai",
             "etat_administratif_unite_legale",
         ],
@@ -70,7 +65,6 @@ def text_search(index, offset: int, page_size: int, **params):
         filters_to_include=[
             "activite_principale_unite_legale",
             "code_collectivite_territoriale",
-            "est_service_public",
             "nature_juridique_unite_legale",
             "section_activite_principale",
             "tranche_effectif_salarie_unite_legale",

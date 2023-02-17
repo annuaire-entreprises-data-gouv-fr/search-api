@@ -72,6 +72,7 @@ def format_search_results(results, include_etablissements=False):
                 ),
                 "est_finess": get_field("est_finess"),
                 "est_rge": get_field("est_rge"),
+                "est_service_public": get_field("est_service_public"),
                 "est_uai": get_field("est_uai"),
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"

@@ -218,10 +218,10 @@ paths:
           description: >-
             Uniquement les structures reconnues comme service public.
 
-            Attention : Ce filtre n'est pas exhaustif et se base sur une liste de
-            natures juridiques que nous définissons nous-mêmes à partir des labels de
-            natures juridiques (vous trouverez cette liste
-            <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>).
+            Attention : Ce filtre se base sur des règles de gestion documentées
+            <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>.
+
+            Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
           required: false
           schema:
             type: boolean
@@ -905,6 +905,16 @@ paths:
                                 Entreprise ayant au moins un établissement RGE
                                 (source : ADEME)
                               example: false
+                            est_service_public:
+                              type: boolean
+                              description: >-
+                                Uniquement les structures reconnues comme service public.
+
+                                Attention : Ce filtre se base sur des règles de gestion documentées
+                                <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>.
+
+                                Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
+                              example: false
                             est_uai:
                               type: boolean
                               description: >-
@@ -1552,6 +1562,16 @@ paths:
                               description: >-
                                 Entreprise ayant au moins un établissement RGE
                                 (source : ADEME)
+                              example: false
+                            est_service_public:
+                              type: boolean
+                              description: >-
+                                Uniquement les structures reconnues comme service public.
+
+                                Attention : Ce filtre se base sur des règles de gestion documentées
+                                <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>.
+
+                                Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
                               example: false
                             est_uai:
                               type: boolean

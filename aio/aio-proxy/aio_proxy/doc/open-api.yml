@@ -216,7 +216,7 @@ paths:
         - name: est_service_public
           in: query
           description: >-
-            Uniquement les entreprises reconnues comme service public.
+            Uniquement les structures reconnues comme service public.
 
             Attention : Ce filtre n'est pas exhaustif et se base sur une liste de
             natures juridiques que nous définissons nous-mêmes à partir des labels de

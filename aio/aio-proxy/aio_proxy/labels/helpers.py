@@ -12,6 +12,5 @@ def load_file(file_name: str):
 codes_naf = load_file("codes-NAF.json")
 departements = load_file("departements.json")
 natures_juridiques = load_file("natures-juridiques.json")
-natures_juridiques_service_public = load_file("natures-juridiques-service-public.json")
 tranches_effectifs = load_file("tranches-effectifs.json")
 sections_codes_naf = load_file("sections-codes-NAF.json")

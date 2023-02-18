@@ -219,7 +219,7 @@ paths:
             Uniquement les structures reconnues comme service public.
 
             Attention : Ce filtre se base sur des règles de gestion documentées
-            <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>.
+            <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/c4820119dfbf480979166540ee64278d33abb772/data_enrichment.py#L70>ici</a>.
 
             Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
           required: false
@@ -911,7 +911,7 @@ paths:
                                 Uniquement les structures reconnues comme service public.
 
                                 Attention : Ce filtre se base sur des règles de gestion documentées
-                                <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>.
+                                <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/c4820119dfbf480979166540ee64278d33abb772/data_enrichment.py#L70>ici</a>.
 
                                 Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
                               example: false
@@ -1569,7 +1569,7 @@ paths:
                                 Uniquement les structures reconnues comme service public.
 
                                 Attention : Ce filtre se base sur des règles de gestion documentées
-                                <a href=https://github.com/etalab/annuaire-entreprises-search-api/blob/main/aio/aio-proxy/aio_proxy/labels/natures-juridiques-service-public.json>ici</a>.
+                                <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/c4820119dfbf480979166540ee64278d33abb772/data_enrichment.py#L70>ici</a>.
 
                                 Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
                               example: false

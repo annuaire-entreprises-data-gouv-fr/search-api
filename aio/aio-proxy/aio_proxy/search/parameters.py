@@ -104,6 +104,10 @@ def extract_text_parameters(
         "est_rge",
         clean_parameter(request, param="est_rge"),
     )
+    est_service_public = validate_bool_field(
+        "est_service_public",
+        clean_parameter(request, param="est_service_public"),
+    )
     ess = match_ess_bool_to_value(
         validate_bool_field(
             "est_ess",
@@ -163,6 +167,7 @@ def extract_text_parameters(
         "est_collectivite_territoriale": est_collectivite_territoriale,
         "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
         "est_rge": est_rge,
+        "est_service_public": est_service_public,
         "economie_sociale_solidaire_unite_legale": ess,
         "id_convention_collective": id_convention_collective,
         "id_finess": id_finess,

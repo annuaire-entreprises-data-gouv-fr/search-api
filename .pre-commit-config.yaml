@@ -24,5 +24,6 @@ repos:
     rev: 'v1.0.0'
     hooks:
       - id: mypy
-        args: [--no-strict-optional, --ignore-missing-imports]
+        args: [--no-strict-optional, --ignore-missing-imports, --install-types,
+               --non-interactive]
         additional_dependencies: [tokenize-rt==3.2.0]

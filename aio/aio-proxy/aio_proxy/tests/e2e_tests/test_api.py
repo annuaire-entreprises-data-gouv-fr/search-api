@@ -14,6 +14,7 @@ session.mount("https://", adapter)
 ok_status_code = 200
 client_error_status_code = 400
 min_total_results_la_poste = 10
+min_total_results_service_public = 1000
 
 
 def test_fetch_company():
@@ -126,3 +127,17 @@ def test_bool_filters():
     assert liste_rge
     assert liste_cc
     assert total_results > 1
+
+
+def test_est_service_public():
+    """
+    test if `est_service_public`  filter returns results with and without text search.
+    """
+    path_filter_only = "search?est_service_public=true"
+    response_filters_only = session.get(url=base_url + path_filter_only)
+    total_results = response_filters_only.json()["total_results"]
+    path_filter_with_text = "search?est_service_public=true&q=ministere"
+    response_filters_with_text = session.get(url=base_url + path_filter_with_text)
+    assert response_filters_only.status_code == ok_status_code
+    assert total_results > min_total_results_service_public
+    assert response_filters_with_text.status_code == ok_status_code

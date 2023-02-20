@@ -141,3 +141,12 @@ def test_est_service_public():
     assert response_filters_only.status_code == ok_status_code
     assert total_results > min_total_results_service_public
     assert response_filters_with_text.status_code == ok_status_code
+
+
+def test_min_per_page():
+    """
+    test if giving a per_page smaller than 0, return a value error
+    """
+    path = "search?q=ganymede&per_page=0"
+    response = session.get(url=base_url + path)
+    assert response.status_code == client_error_status_code

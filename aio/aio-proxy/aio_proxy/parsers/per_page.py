@@ -20,6 +20,7 @@ def parse_and_validate_per_page(request) -> int:
     per_page = int(request.rel_url.query.get("per_page", 10))  # default 10
     # Limit number of results per page for performance reasons
     max_per_page = 25
-    if per_page > max_per_page:
+    min_per_page = 1
+    if per_page > max_per_page or per_page < min_per_page:
         raise ValueError
     return per_page

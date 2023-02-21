@@ -49,5 +49,7 @@ def format_nom_complet(
         nom_complet = f"{nom_complet} ({all_denomination_usuelle.strip()})"
     if sigle:
         nom_complet = f"{nom_complet} ({sigle})"
-
-    return nom_complet.upper()
+    if nom_complet:
+        return nom_complet.upper()
+    # if nom_complet is null
+    return None

@@ -150,3 +150,12 @@ def test_min_per_page():
     path = "search?q=ganymede&per_page=0"
     response = session.get(url=base_url + path)
     assert response.status_code == client_error_status_code
+
+
+def test_siren_search():
+    """
+    test if valid `siren` search returns results
+    """
+    path = "search?q=130025265"
+    response = session.get(url=base_url + path)
+    assert response.status_code == ok_status_code

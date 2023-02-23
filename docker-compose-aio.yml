@@ -11,6 +11,24 @@ services:
     ports:
       - "127.0.0.1:4500:4500"
     container_name: aio
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    env_file:
+      - .env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_REPLICATION_MODE=${REDIS_REPLICATION_MODE}
+    networks:
+      - aio-elasticsearch-network
+    volumes:
+      # save redisearch data to your current working directory
+      - ./redis-data:/data
+    command:
+      # Save if 100 keys are added in every 10 seconds
+      - --save 10 100
+      # Set password
+      - --requirepass ${REDIS_PASSWORD}
 networks:
   aio-elasticsearch-network:
     name: aio-elasticsearch-network

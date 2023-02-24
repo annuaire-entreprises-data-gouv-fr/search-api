@@ -85,9 +85,9 @@ def build_text_query(terms: str, matching_size: int):
                                 "query": terms,
                                 "fields": [
                                     "nom_raison_sociale",
-                                    "denomination_usuelle_1",
-                                    "denomination_usuelle_2",
-                                    "denomination_usuelle_3",
+                                    "denomination_usuelle_1_unite_legale",
+                                    "denomination_usuelle_2_unite_legale",
+                                    "denomination_usuelle_3_unite_legale",
                                     "sigle",
                                     "nom",
                                     "prenom",

@@ -7,3 +7,4 @@ pg-airflow/
 .env
 pytest_cache/
 venv/
+redis-data/

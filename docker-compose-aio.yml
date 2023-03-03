@@ -29,6 +29,10 @@ services:
       - --save 10 100
       # Set password
       - --requirepass ${REDIS_PASSWORD}
+      # Set max memory to 4Gb
+      - --maxmemory 4gb
+      # Remove less recently used(LRU) keys first
+      - --maxmemory-policy allkeys-lru
 networks:
   aio-elasticsearch-network:
     name: aio-elasticsearch-network

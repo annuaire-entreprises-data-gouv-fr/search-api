@@ -1,4 +1,5 @@
 from aio_proxy.parsers.activite_principale import validate_activite_principale
+from aio_proxy.parsers.ban_params import ban_params
 from aio_proxy.parsers.bool_fields import validate_bool_field
 from aio_proxy.parsers.code_commune import validate_code_commune
 from aio_proxy.parsers.code_postal import validate_code_postal
@@ -51,6 +52,7 @@ def extract_text_parameters(
     Raises:
         HTTPBadRequest: if ValueError or KeyError raised.
     """
+    ban_params(request, "localisation")
     page = parse_and_validate_page(request)
     per_page = parse_and_validate_per_page(request)
     terms = parse_and_validate_terms(request)

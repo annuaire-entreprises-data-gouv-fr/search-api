@@ -1,3 +1,6 @@
+MAX_TOTAL_RESULTS = 10000
+
+
 def sort_and_execute_search(
     search,
     offset: int,
@@ -24,10 +27,19 @@ def sort_and_execute_search(
         search = search.sort(
             {"nombre_etablissements_ouverts": {"order": "desc"}},
         )
-    search.aggs.metric("by_cluster", "cardinality", field="siren")
+    search_max_total_results = search
     search = search[offset : (offset + page_size)]
     search_results = search.execute()
-    total_results = search_results.aggregations.by_cluster.value
+    total_results = search_results.hits.total.value
+    # Due to performance issues when aggregating on filter queries, we use
+    # aggregation on total_results only when total_results is lower than
+    # 10 000 results. If total_results is higher than 10 000 results,
+    # the aggregation causes timeouts on API. We return by default 10 000 results.
+    if total_results < MAX_TOTAL_RESULTS:
+        search_max_total_results.aggs.metric("by_cluster", "cardinality", field="siren")
+        search_results = search_max_total_results.execute()
+        total_results = search_results.aggregations.by_cluster.value
+
     execution_time = search_results.took
     response = []
     for matching_unite_legale in search_results.hits:

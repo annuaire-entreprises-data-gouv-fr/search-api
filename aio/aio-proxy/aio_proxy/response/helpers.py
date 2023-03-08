@@ -1,5 +1,6 @@
 import json
 import os
+from hashlib import sha256
 
 from dotenv import load_dotenv
 
@@ -53,3 +54,8 @@ def format_nom_complet(
         return nom_complet.upper()
     # if nom_complet is null
     return None
+
+
+def hash_string(string: str):
+    hashed_string = sha256(string.encode("utf-8")).hexdigest()
+    return hashed_string

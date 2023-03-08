@@ -1,3 +1,4 @@
+import logging
 import os
 
 import sentry_sdk
@@ -25,6 +26,8 @@ if ENV == "prod":
     sentry_sdk.init(
         dsn=DSN_SENTRY,
         integrations=[AioHttpIntegration(transaction_style="method_and_path_pattern")],
+        level=logging.INFO,  # Capture info and above as breadcrumbs
+        event_level=logging.ERROR,  # Send errors as events
         # Log 10% of transactions for performance monitoring
         traces_sample_rate=0.1,
     )

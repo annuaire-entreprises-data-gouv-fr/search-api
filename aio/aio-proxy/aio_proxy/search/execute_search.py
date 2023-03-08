@@ -24,7 +24,7 @@ def execute_and_format_search_response(
         search_max_total_results = search_max_total_results[
             offset : (offset + page_size)
         ]
-        search_results = search_max_total_results.execute()
+        search_max_total_results = search_max_total_results.execute()
         total_results = search_max_total_results.aggregations.by_cluster.value
     execution_time = search_results.took
     response = []

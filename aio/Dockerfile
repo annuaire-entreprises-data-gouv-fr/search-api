@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.10.8
 
 COPY ./aio-proxy /app
 
@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.pip
 
 EXPOSE 4500
 
-CMD [ "make", "run" ] 
+CMD [ "make", "run" ]

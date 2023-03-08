@@ -15,6 +15,7 @@ def execute_and_format_search_response(
     search = search[offset : (offset + page_size)]
     search_results = search.execute()
     total_results = search_results.hits.total.value
+    execution_time = search_results.took
     # Due to performance issues when aggregating on filter queries, we use
     # aggregation on total_results only when total_results is lower than
     # 10 000 results. If total_results is higher than 10 000 results,
@@ -26,7 +27,7 @@ def execute_and_format_search_response(
         ]
         search_max_total_results = search_max_total_results.execute()
         total_results = search_max_total_results.aggregations.by_cluster.value
-    execution_time = search_results.took
+        execution_time = search_max_total_results.took
     response = []
     for matching_unite_legale in search_results.hits:
         matching_unite_legale_dict = matching_unite_legale.to_dict(

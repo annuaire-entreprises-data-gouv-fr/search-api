@@ -78,6 +78,7 @@ jobs:
         run: |
           pip install aiohttp_swagger3
           pip install elastic-apm
+          pip install redis
           cd aio/aio-proxy/
           python -m aio_proxy &
           echo "********** Application is up **********"

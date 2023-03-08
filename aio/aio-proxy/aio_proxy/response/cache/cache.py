@@ -37,11 +37,8 @@ def cache_strategy(
         cached_value = redis_client_cache.get(request_cache_key)
         if cached_value:
             return json.loads(cached_value)
-        # Build response
         value_to_cache = get_response()
-        # Cache value
         should_cache = should_cache_response(value_to_cache)
-        logging.info(f"Should cache: {should_cache}")
         if should_cache:
             set_cache_value(
                 redis_client_cache, request_cache_key, value_to_cache, time_to_live

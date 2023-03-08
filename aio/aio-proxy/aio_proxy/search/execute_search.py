@@ -3,8 +3,8 @@ from datetime import timedelta
 
 from aio_proxy.response.cache.cache import cache_strategy
 
-time_to_live = timedelta(days=31)
-min_execution_time = 400
+TIME_TO_LIVE = timedelta(days=31)
+MIN_EXECUTION_TIME = 400
 MAX_TOTAL_RESULTS = 10000
 
 
@@ -103,7 +103,7 @@ def sort_and_execute_search(
         search,
         get_search_response,
         should_cache_search_response,
-        time_to_live,
+        TIME_TO_LIVE,
     )
     return search_response
 
@@ -111,7 +111,7 @@ def sort_and_execute_search(
 def should_cache_search_response(search_response):
     """Cache search response if execution time is higher than 400 ms"""
     try:
-        if search_response["execution_time"] > min_execution_time:
+        if search_response["execution_time"] > MIN_EXECUTION_TIME:
             return True
         return False
     except KeyError as error:

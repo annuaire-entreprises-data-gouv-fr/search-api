@@ -99,8 +99,11 @@ def sort_and_execute_search(
             include_etablissements,
         )
 
+    # To make sure the page and page size are part of the cache key
+    cache_key = search[offset : (offset + page_size)]
+
     search_response = cache_strategy(
-        search,
+        cache_key,
         get_search_response,
         should_cache_search_response,
         TIME_TO_LIVE,

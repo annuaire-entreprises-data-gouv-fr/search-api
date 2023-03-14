@@ -42,6 +42,9 @@ def text_search(index, offset: int, page_size: int, **params):
             include_etablissements=include_etablissements,
         )
 
+    # always apply this filter to prevent displaying non allowed information
+    search_client = search_client.filter("term", **{"statut_diffusion_unite_legale": "O"})
+
     # Filter results by term using 'unité légale' related filters in the request
     search_client = filter_term_search_unite_legale(
         search_client,

@@ -61,6 +61,7 @@ def format_search_results(results, include_etablissements=False):
                 "convention_collective_renseignee": get_field(
                     "convention_collective_renseignee"
                 ),
+                "est_bio": get_field("est_bio"),
                 "est_entrepreneur_individuel": get_field(
                     "est_entrepreneur_individuel", default=False
                 ),
@@ -77,6 +78,7 @@ def format_search_results(results, include_etablissements=False):
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"
                 ),
+                "statut_bio": get_field("statut_bio"),
             },
         }
 

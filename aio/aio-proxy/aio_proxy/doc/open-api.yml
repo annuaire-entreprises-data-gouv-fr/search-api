@@ -152,6 +152,10 @@ paths:
             enum:
               - true
               - false
+        - name: est_bio
+          in: query
+          description: >-
+            Uniquement les entreprises ayant un établissement certifié par l'agence bio
         - name: est_collectivite_territoriale
           in: query
           description: Uniquement les collectivités territoriales.
@@ -879,6 +883,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            est_bio:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement certifié bio
+                                (source: Agence Bio)
                             est_entrepreneur_individuel:
                               type: boolean
                               description: Entreprise individuelle
@@ -1537,6 +1546,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            est_bio:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement certifié bio
+                                (source: Agence Bio)
                             est_entrepreneur_individuel:
                               type: boolean
                               description: Entreprise individuelle

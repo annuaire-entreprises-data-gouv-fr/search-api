@@ -82,6 +82,10 @@ def extract_text_parameters(
         "convention_collective_renseignee",
         clean_parameter(request, param="convention_collective_renseignee"),
     )
+    est_bio = validate_bool_field(
+        "est_bio",
+        clean_parameter(request, param="est_bio"),
+    )
     est_finess = validate_bool_field(
         "est_finess",
         clean_parameter(request, param="est_finess"),
@@ -166,6 +170,7 @@ def extract_text_parameters(
         "est_association": est_association,
         "est_uai": est_uai,
         "est_finess": est_finess,
+        "est_bio": est_bio,
         "est_collectivite_territoriale": est_collectivite_territoriale,
         "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
         "est_rge": est_rge,

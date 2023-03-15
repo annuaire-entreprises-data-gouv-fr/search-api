@@ -53,6 +53,7 @@ def text_search(index, offset: int, page_size: int, **params):
         filters_to_include=[
             "convention_collective_renseignee",
             "economie_sociale_solidaire_unite_legale",
+            "est_bio",
             "est_entrepreneur_individuel",
             "est_entrepreneur_spectacle",
             "est_finess",

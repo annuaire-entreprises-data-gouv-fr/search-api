@@ -4,6 +4,7 @@ def is_any_etablissement_filter_used(**params) -> bool:
         "code_postal",
         "convention_collective_renseignee",
         "departement",
+        "est_bio",
         "est_finess",
         "est_uai",
         "est_rge",

@@ -143,6 +143,16 @@ paths:
           schema:
             type: string
             pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+        - name: egapro_renseignee
+          in: query
+          description: >-
+            Uniquement les entreprises ayant un index égapro renseigné
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_association
           in: query
           description: Uniquement les entreprises ayant un identifiant d'association.

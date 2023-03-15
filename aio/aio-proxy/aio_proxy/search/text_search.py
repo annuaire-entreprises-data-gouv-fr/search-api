@@ -57,6 +57,7 @@ def text_search(index, offset: int, page_size: int, **params):
             "est_entrepreneur_individuel",
             "est_entrepreneur_spectacle",
             "est_finess",
+            "est_organisme_formation",
             "est_rge",
             "est_service_public",
             "est_uai",

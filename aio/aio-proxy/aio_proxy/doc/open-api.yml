@@ -156,6 +156,12 @@ paths:
           in: query
           description: >-
             Uniquement les entreprises ayant un établissement certifié par l'agence bio
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_collectivite_territoriale
           in: query
           description: Uniquement les collectivités territoriales.
@@ -201,6 +207,16 @@ paths:
           description: >-
             Uniquement les entreprises ayant un établissement du domaine du sanitaire
             et social (FINESS)
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: est_organisme_formation
+          in: query
+          description: >-
+            Uniquement les entreprises ayant un établissement organisme de formation
           required: false
           schema:
             type: boolean
@@ -908,6 +924,11 @@ paths:
                                 Entreprise ayant au moins un établissement FINESS
                                 (source : Ministère des Solidarités et de la Santé)
                               example: false
+                            est_organisme_formation:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement organisme de
+                                formation (source: Ministère du Travail)
                             est_rge:
                               type: boolean
                               description: >-
@@ -1571,6 +1592,11 @@ paths:
                                 Entreprise ayant au moins un établissement FINESS
                                 (source : Ministère des Solidarités et de la Santé)
                               example: false
+                            est_organisme_formation:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement organisme de
+                                formation (source: Ministère du Travail)
                             est_rge:
                               type: boolean
                               description: >-

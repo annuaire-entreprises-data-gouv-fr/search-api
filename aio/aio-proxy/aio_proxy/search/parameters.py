@@ -106,6 +106,10 @@ def extract_text_parameters(
         "est_association",
         clean_parameter(request, param="est_association"),
     )
+    est_organisme_formation = validate_bool_field(
+        "est_organisme_formation",
+        clean_parameter(request, param="est_organisme_formation"),
+    )
     est_rge = validate_bool_field(
         "est_rge",
         clean_parameter(request, param="est_rge"),
@@ -173,6 +177,7 @@ def extract_text_parameters(
         "est_bio": est_bio,
         "est_collectivite_territoriale": est_collectivite_territoriale,
         "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
+        "est_organisme_formation": est_organisme_formation,
         "est_rge": est_rge,
         "est_service_public": est_service_public,
         "economie_sociale_solidaire_unite_legale": ess,

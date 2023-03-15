@@ -72,6 +72,7 @@ def format_search_results(results, include_etablissements=False):
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),
                 "est_finess": get_field("est_finess"),
+                "est_organisme_formation": get_field("est_organisme_formation"),
                 "est_rge": get_field("est_rge"),
                 "est_service_public": get_field("est_service_public"),
                 "est_uai": get_field("est_uai"),

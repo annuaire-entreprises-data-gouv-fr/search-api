@@ -47,8 +47,7 @@ def format_etablissement(source_etablissement):
         "liste_id_bio": get_value(source_etablissement, "liste_id_bio"),
         "liste_idcc": get_value(source_etablissement, "liste_idcc"),
         "liste_id_organisme_formation": get_value(
-            source_etablissement,
-            "liste_id_organisme_formation"
+            source_etablissement, "liste_id_organisme_formation"
         ),
         "liste_rge": get_value(source_etablissement, "liste_rge"),
         "liste_uai": get_value(source_etablissement, "liste_uai"),

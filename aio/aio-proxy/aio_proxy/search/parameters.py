@@ -82,6 +82,10 @@ def extract_text_parameters(
         "convention_collective_renseignee",
         clean_parameter(request, param="convention_collective_renseignee"),
     )
+    egapro_renseignee = validate_bool_field(
+        "egapro_renseignee",
+        clean_parameter(request, param="egapro_renseignee"),
+    )
     est_bio = validate_bool_field(
         "est_bio",
         clean_parameter(request, param="est_bio"),
@@ -169,6 +173,7 @@ def extract_text_parameters(
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
         "convention_collective_renseignee": convention_collective_renseignee,
+        "egapro_renseignee": egapro_renseignee,
         "etat_administratif_unite_legale": etat_administratif,
         "est_entrepreneur_individuel": est_entrepreneur_individuel,
         "est_association": est_association,

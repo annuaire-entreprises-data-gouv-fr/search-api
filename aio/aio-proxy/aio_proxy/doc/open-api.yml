@@ -669,6 +669,23 @@ paths:
                               items:
                                 type: string
                               example: ["0923"]
+                            liste_id_bio:
+                              type: array
+                              description: >-
+                                Liste des identifiants bio de l'établissement
+                                (source : Agence Bio).
+                              items:
+                                type: string
+                              example: ["0923"]
+                            liste_id_organisme_formation:
+                              type: array
+                              description: >-
+                                Liste des numéro de déclaration d’activité des
+                                établissement organismes de formation
+                                (source : Ministère du Travail).
+                              items:
+                                type: string
+                              example: ["7423P001123"]
                             liste_rge:
                               type: array
                               items:
@@ -899,6 +916,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            egapro_renseignee:
+                              type: boolean
+                              description: >-
+                                Indique si au moins un établissement a un
+                                indice égalité professionnel H/F renseigné
                             est_bio:
                               type: boolean
                               description: >-
@@ -959,6 +981,18 @@ paths:
                               description: >-
                                 Numéro au Répertoire National des Associations (RNA)
                                 (source : base SIRENE).
+                            statut_bio:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                certification bio
+                                (source: Agence Bio)
+                            statut_entrepreneur_spectacle:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                licence d'entrepreneur du spectacle
+                                (source: Ministère de la Culture)
                   total_results:
                     type: integer
                   page:
@@ -1336,6 +1370,23 @@ paths:
                               items:
                                 type: string
                               example: [ "0923" ]
+                            liste_id_bio:
+                              type: array
+                              description: >-
+                                Liste des identifiants bio de l'établissement
+                                (source : Agence Bio).
+                              items:
+                                type: string
+                              example: ["7423P001123"]
+                            liste_id_organisme_formation:
+                              type: array
+                              description: >-
+                                Liste des numéro de déclaration d’activité des
+                                établissement organismes de formation
+                                (source : Ministère du Travail).
+                              items:
+                                type: string
+                              example: ["0923"]
                             liste_rge:
                               type: array
                               items:
@@ -1567,6 +1618,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            egapro_renseignee:
+                              type: boolean
+                              description: >-
+                                Indique si au moins un établissement a un
+                                indice égalité professionnel H/F renseigné
                             est_bio:
                               type: boolean
                               description: >-
@@ -1627,6 +1683,18 @@ paths:
                               description: >-
                                 Numéro au Répertoire National des Associations (RNA)
                                 (source : base SIRENE)
+                            statut_bio:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                certification bio
+                                (source: Agence Bio)
+                            statut_entrepreneur_spectacle:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                licence d'entrepreneur du spectacle
+                                (source: Ministère de la Culture)
                   total_results:
                     type: integer
                   page:

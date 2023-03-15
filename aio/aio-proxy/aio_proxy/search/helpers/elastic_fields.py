@@ -1,5 +1,5 @@
 def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> str:
-    # "est_bio", "est_finess", "est_rge", "est_organisme_formation" est_uai" and 
+    # "est_bio", "est_finess", "est_rge", "est_organisme_formation" est_uai" and
     # "convention_collective_renseignee"
     # are special filters that are used to filter both `unite légale` and `établissements`
     # Consequently, the Elasticsearch fields used for these filters are different

@@ -1,5 +1,8 @@
 from aio_proxy.search.execute_search import sort_and_execute_search
-from aio_proxy.search.filters.boolean import filter_search_by_bool_fields_unite_legale
+from aio_proxy.search.filters.boolean import (
+    filter_search_by_bool_fields_unite_legale,
+    filter_search_by_bool_nested_fields_unite_legale,
+)
 from aio_proxy.search.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
     build_nested_etablissements_filters_query,
@@ -10,11 +13,13 @@ from aio_proxy.search.filters.term_filters import (
     filter_term_list_search_unite_legale,
     filter_term_search_unite_legale,
 )
+from aio_proxy.search.helpers.bilan_filters_used import is_any_bilan_filter_used
 from aio_proxy.search.helpers.etablissements_filters_used import (
     is_any_etablissement_filter_used,
 )
 from aio_proxy.search.parsers.siren import is_siren
 from aio_proxy.search.parsers.siret import is_siret
+from aio_proxy.search.queries.bilan import search_bilan
 from aio_proxy.search.queries.person import search_person
 from aio_proxy.search.queries.text import build_text_query
 from elasticsearch_dsl import Q
@@ -90,6 +95,17 @@ def text_search(index, offset: int, page_size: int, **params):
         **params,
     )
 
+    # Boolean nested field filters unite_legale
+    # For now, only use for bilan_financier object
+    search_client = filter_search_by_bool_nested_fields_unite_legale(
+        search_client,
+        filters_to_include=[
+            "bilan_renseigne",
+        ],
+        path="bilan_financier",
+        **params,
+    )
+
     # Check if any etablissements filters are used
     etablissement_filter_used = is_any_etablissement_filter_used(**params)
 
@@ -137,6 +153,20 @@ def text_search(index, offset: int, page_size: int, **params):
                 terms=query_terms, matching_size=params["matching_size"]
             )
             search_client = search_client.query(Q(text_query))
+
+    # Search by chiffre d'affaire or resultat net in bilan_financier
+    is_bilan_bilan_used = is_any_bilan_filter_used(**params)
+    if is_bilan_bilan_used:
+        search_client = search_bilan(
+            search_client,
+            bilan_filters_to_include=[
+                "ca_min",
+                "ca_max",
+                "resultat_net_min",
+                "resultat_net_max",
+            ],
+            **params,
+        )
 
     # Search 'élus' only
     if params["type_personne"] == "ELU":

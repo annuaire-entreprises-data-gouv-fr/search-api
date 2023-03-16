@@ -791,13 +791,14 @@ paths:
                         section_activite_principale:
                           type: string
                           example: "H"
-                          description: Calculée à partir de l'activté principale.
-                        slug:
+                          description: Calculée à partir de l'activité principale.
+                        slug_annuaire_entreprise:
                           type: string
                           example: "mon-entreprise-412455469"
                           description: >-
-                            Slug de l'unité légale calculée à partir de ses dénominations
-                            et de son siren
+                            Slug de l'unité légale calculée à partir de ses 
+                            dénominations et de son siren.
+                            Utilisé par le site annuaire-entreprises
                         matching_etablissements:
                           type: array
                           items:
@@ -1499,13 +1500,14 @@ paths:
                         section_activite_principale:
                           type: string
                           example: "H"
-                          description: Calculée à partir de l'activté principale.                        
-                        slug:
+                          description: Calculée à partir de l'activité principale.                        
+                        slug_annuaire_entreprise:
                           type: string
                           example: "mon-entreprise-412455469"
                           description: >-
-                            Slug de l'unité légale calculée à partir de ses dénominations
-                            et de son siren
+                            Slug de l'unité légale calculée à partir de ses 
+                            dénominations et de son siren.
+                            Utilisé par le site annuaire-entreprises
                         matching_etablissements:
                           type: array
                           items:

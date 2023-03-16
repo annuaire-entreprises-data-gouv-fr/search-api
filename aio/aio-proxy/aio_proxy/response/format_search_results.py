@@ -4,6 +4,7 @@ from aio_proxy.response.formatters.collectivite_territoriale import (
 )
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
 from aio_proxy.response.formatters.ess import format_ess
+from aio_proxy.response.formatters.bilan_financier import format_bilan
 from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
@@ -51,7 +52,9 @@ def format_search_results(results, include_etablissements=False):
             "matching_etablissements": format_etablissements_list(
                 get_field("matching_etablissements")
             ),
+            "bilan_financier": format_bilan(get_field("bilan_financier")),
             "complements": {
+                "bilan_renseigne": format_bool_field(get_field("egapro_renseignee")),
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
                     get_field("colter_code_insee"),

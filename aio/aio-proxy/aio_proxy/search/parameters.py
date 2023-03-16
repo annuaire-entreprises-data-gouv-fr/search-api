@@ -13,6 +13,7 @@ from aio_proxy.parsers.empty_params import check_empty_params
 from aio_proxy.parsers.ess import match_ess_bool_to_value
 from aio_proxy.parsers.etat_administratif import validate_etat_administratif
 from aio_proxy.parsers.finess import validate_id_finess
+from aio_proxy.parsers.int_parser import parse_and_validate_int
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.list_parser import str_to_list
 from aio_proxy.parsers.longitude import parse_and_validate_longitude
@@ -58,6 +59,10 @@ def extract_text_parameters(
     terms = parse_and_validate_terms(request)
     activite_principale = validate_activite_principale(
         str_to_list(clean_parameter(request, param="activite_principale"))
+    )
+    bilan_renseigne = validate_bool_field(
+        "bilan_renseigne",
+        clean_parameter(request, param="bilan_renseigne"),
     )
     code_commune = validate_code_commune(
         str_to_list(clean_parameter(request, param="code_commune"))
@@ -145,6 +150,10 @@ def extract_text_parameters(
     max_date_naiss_personne = parse_and_validate_date(
         request, param="date_naissance_personne_max"
     )
+    ca_min = parse_and_validate_int(request, param="ca_min")
+    ca_max = parse_and_validate_int(request, param="ca_max")
+    resultat_net_min = parse_and_validate_int(request, param="resultat_net_min")
+    resultat_net_max = parse_and_validate_int(request, param="resultat_net_max")
     type_personne = validate_type_personne(
         clean_parameter(request, param="type_personne")
     )
@@ -167,7 +176,12 @@ def extract_text_parameters(
     parameters = {
         "terms": terms,
         "activite_principale_unite_legale": activite_principale,
+        "bilan_renseigne": bilan_renseigne,
         "commune": code_commune,
+        "ca_min": ca_min,
+        "ca_max": ca_max,
+        "resultat_net_min": resultat_net_min,
+        "resultat_net_max": resultat_net_max,
         "code_postal": code_postal,
         "departement": departement,
         "section_activite_principale": section_activite_principale,

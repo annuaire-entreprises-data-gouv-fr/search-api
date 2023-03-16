@@ -1,10 +1,10 @@
+from aio_proxy.response.formatters.bilan_financier import format_bilan
 from aio_proxy.response.formatters.bool import format_bool_field
 from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
 from aio_proxy.response.formatters.ess import format_ess
-from aio_proxy.response.formatters.bilan_financier import format_bilan
 from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,

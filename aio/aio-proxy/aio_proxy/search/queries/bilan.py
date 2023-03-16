@@ -1,5 +1,5 @@
-from elasticsearch_dsl import query
 from aio_proxy.search.helpers.elastic_fields import get_elasticsearch_field_name
+from elasticsearch_dsl import query
 
 
 def search_bilan(

@@ -54,7 +54,7 @@ def format_search_results(results, include_etablissements=False):
             ),
             "bilan_financier": format_bilan(get_field("bilan_financier")),
             "complements": {
-                "bilan_renseigne": format_bool_field(get_field("egapro_renseignee")),
+                "bilan_renseigne": format_bool_field(get_field("bilan_financier")),
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
                     get_field("colter_code_insee"),

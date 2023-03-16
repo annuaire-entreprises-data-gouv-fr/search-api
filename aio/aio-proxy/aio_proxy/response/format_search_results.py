@@ -85,6 +85,7 @@ def format_search_results(results, include_etablissements=False):
                     "statut_entrepreneur_spectacle",
                 ),
             },
+            "slug_annuaire_entreprise": get_field("slug"),
         }
 
         # If 'include_etablissements' param is True, return 'etablissements' object

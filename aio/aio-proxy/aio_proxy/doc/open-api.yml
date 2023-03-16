@@ -792,6 +792,12 @@ paths:
                           type: string
                           example: "H"
                           description: Calculée à partir de l'activté principale.
+                        slug:
+                          type: string
+                          example: "mon-entreprise-412455469"
+                          description: >-
+                            Slug de l'unité légale calculée à partir de ses dénominations
+                            et de son siren
                         matching_etablissements:
                           type: array
                           items:
@@ -1493,7 +1499,13 @@ paths:
                         section_activite_principale:
                           type: string
                           example: "H"
-                          description: Calculée à partir de l'activté principale.
+                          description: Calculée à partir de l'activté principale.                        
+                        slug:
+                          type: string
+                          example: "mon-entreprise-412455469"
+                          description: >-
+                            Slug de l'unité légale calculée à partir de ses dénominations
+                            et de son siren
                         matching_etablissements:
                           type: array
                           items:

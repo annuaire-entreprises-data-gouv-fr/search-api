@@ -1,5 +1,3 @@
-from datetime import date
-
 from aio_proxy.decorators.value_exception import value_exception_handler
 
 
@@ -17,6 +15,6 @@ def parse_and_validate_int(request, param: str, default_value=None):
         param otherwise.
     """
     int_val = request.rel_url.query.get(param, default_value)
-    if int_val and int_val.isnumeric():
-        return int(int_val)
-    return None
+    if int_val is None:
+        return None
+    return int(int_val)

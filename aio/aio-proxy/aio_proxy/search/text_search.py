@@ -100,6 +100,7 @@ def text_search(index, offset: int, page_size: int, **params):
         filters_to_include=[
             "bilan_renseigne",
         ],
+        path="bilan_financier",
         **params,
     )
 

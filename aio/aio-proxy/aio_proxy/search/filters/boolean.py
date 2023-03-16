@@ -34,7 +34,7 @@ def filter_search_by_bool_fields_unite_legale(
 
 
 def filter_search_by_bool_nested_fields_unite_legale(
-    search, filters_to_include: list, **params
+    search, filters_to_include: list, path, **params
 ):
     for param_name, param_value in params.items():
         should_apply_bool_filter = (
@@ -48,7 +48,7 @@ def filter_search_by_bool_nested_fields_unite_legale(
                     must=[
                         Q(
                             "nested",
-                            path="bilan_financier",
+                            path=path,
                             query=Q(
                                 "exists",
                                 field=get_elasticsearch_field_name(
@@ -64,7 +64,7 @@ def filter_search_by_bool_nested_fields_unite_legale(
                     must_not=[
                         Q(
                             "nested",
-                            path="bilan_financier",
+                            path=path,
                             query=Q(
                                 "exists",
                                 field=get_elasticsearch_field_name(

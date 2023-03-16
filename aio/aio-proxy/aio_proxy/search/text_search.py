@@ -42,15 +42,22 @@ def text_search(index, offset: int, page_size: int, **params):
             include_etablissements=include_etablissements,
         )
 
+    # always apply this filter to prevent displaying non allowed information
+    search_client = search_client.filter(
+        "term", **{"statut_diffusion_unite_legale": "O"}
+    )
+
     # Filter results by term using 'unité légale' related filters in the request
     search_client = filter_term_search_unite_legale(
         search_client,
         filters_to_include=[
             "convention_collective_renseignee",
             "economie_sociale_solidaire_unite_legale",
+            "est_bio",
             "est_entrepreneur_individuel",
             "est_entrepreneur_spectacle",
             "est_finess",
+            "est_organisme_formation",
             "est_rge",
             "est_service_public",
             "est_uai",
@@ -76,6 +83,7 @@ def text_search(index, offset: int, page_size: int, **params):
     search_client = filter_search_by_bool_fields_unite_legale(
         search_client,
         filters_to_include=[
+            "egapro_renseignee",
             "est_association",
             "est_collectivite_territoriale",
         ],

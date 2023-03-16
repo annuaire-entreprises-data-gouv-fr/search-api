@@ -5,6 +5,12 @@ from elasticsearch_dsl import Q
 
 def geo_search(index, offset: int, page_size: int, **params):
     search_client = index.search()
+
+    # always apply this filter to prevent displaying non allowed information
+    search_client = search_client.filter(
+        "term", **{"statut_diffusion_unite_legale": "O"}
+    )
+
     # Use filters to reduce search results
     search_client = filter_term_list_search_unite_legale(
         search_client,
@@ -26,7 +32,7 @@ def geo_search(index, offset: int, page_size: int, **params):
                                 "lat": params["lat"],
                                 "lon": params["lon"],
                             },
-                        }
+                        },
                     }
                 }
             },

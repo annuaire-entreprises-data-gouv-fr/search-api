@@ -143,9 +143,29 @@ paths:
           schema:
             type: string
             pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+        - name: egapro_renseignee
+          in: query
+          description: >-
+            Uniquement les entreprises ayant un index égapro renseigné
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_association
           in: query
           description: Uniquement les entreprises ayant un identifiant d'association.
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: est_bio
+          in: query
+          description: >-
+            Uniquement les entreprises ayant un établissement certifié par l'agence bio
           required: false
           schema:
             type: boolean
@@ -197,6 +217,16 @@ paths:
           description: >-
             Uniquement les entreprises ayant un établissement du domaine du sanitaire
             et social (FINESS)
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: est_organisme_formation
+          in: query
+          description: >-
+            Uniquement les entreprises ayant un établissement organisme de formation
           required: false
           schema:
             type: boolean
@@ -649,6 +679,23 @@ paths:
                               items:
                                 type: string
                               example: ["0923"]
+                            liste_id_bio:
+                              type: array
+                              description: >-
+                                Liste des identifiants bio de l'établissement
+                                (source : Agence Bio).
+                              items:
+                                type: string
+                              example: ["0923"]
+                            liste_id_organisme_formation:
+                              type: array
+                              description: >-
+                                Liste des numéro de déclaration d’activité des
+                                établissement organismes de formation
+                                (source : Ministère du Travail).
+                              items:
+                                type: string
+                              example: ["7423P001123"]
                             liste_rge:
                               type: array
                               items:
@@ -879,6 +926,16 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            egapro_renseignee:
+                              type: boolean
+                              description: >-
+                                Indique si au moins un établissement a un
+                                indice égalité professionnel H/F renseigné
+                            est_bio:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement certifié bio
+                                (source: Agence Bio)
                             est_entrepreneur_individuel:
                               type: boolean
                               description: Entreprise individuelle
@@ -899,6 +956,11 @@ paths:
                                 Entreprise ayant au moins un établissement FINESS
                                 (source : Ministère des Solidarités et de la Santé)
                               example: false
+                            est_organisme_formation:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement organisme de
+                                formation (source: Ministère du Travail)
                             est_rge:
                               type: boolean
                               description: >-
@@ -929,6 +991,18 @@ paths:
                               description: >-
                                 Numéro au Répertoire National des Associations (RNA)
                                 (source : base SIRENE).
+                            statut_bio:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                certification bio
+                                (source: Agence Bio)
+                            statut_entrepreneur_spectacle:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                licence d'entrepreneur du spectacle
+                                (source: Ministère de la Culture)
                   total_results:
                     type: integer
                   page:
@@ -1306,6 +1380,23 @@ paths:
                               items:
                                 type: string
                               example: [ "0923" ]
+                            liste_id_bio:
+                              type: array
+                              description: >-
+                                Liste des identifiants bio de l'établissement
+                                (source : Agence Bio).
+                              items:
+                                type: string
+                              example: ["7423P001123"]
+                            liste_id_organisme_formation:
+                              type: array
+                              description: >-
+                                Liste des numéro de déclaration d’activité des
+                                établissement organismes de formation
+                                (source : Ministère du Travail).
+                              items:
+                                type: string
+                              example: ["0923"]
                             liste_rge:
                               type: array
                               items:
@@ -1537,6 +1628,16 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            egapro_renseignee:
+                              type: boolean
+                              description: >-
+                                Indique si au moins un établissement a un
+                                indice égalité professionnel H/F renseigné
+                            est_bio:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement certifié bio
+                                (source: Agence Bio)
                             est_entrepreneur_individuel:
                               type: boolean
                               description: Entreprise individuelle
@@ -1557,6 +1658,11 @@ paths:
                                 Entreprise ayant au moins un établissement FINESS
                                 (source : Ministère des Solidarités et de la Santé)
                               example: false
+                            est_organisme_formation:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant au moins un établissement organisme de
+                                formation (source: Ministère du Travail)
                             est_rge:
                               type: boolean
                               description: >-
@@ -1587,6 +1693,18 @@ paths:
                               description: >-
                                 Numéro au Répertoire National des Associations (RNA)
                                 (source : base SIRENE)
+                            statut_bio:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                certification bio
+                                (source: Agence Bio)
+                            statut_entrepreneur_spectacle:
+                              type: boolean
+                              description: >-
+                                Statut des établissements ayant fait une demande de
+                                licence d'entrepreneur du spectacle
+                                (source: Ministère de la Culture)
                   total_results:
                     type: integer
                   page:

@@ -82,6 +82,14 @@ def extract_text_parameters(
         "convention_collective_renseignee",
         clean_parameter(request, param="convention_collective_renseignee"),
     )
+    egapro_renseignee = validate_bool_field(
+        "egapro_renseignee",
+        clean_parameter(request, param="egapro_renseignee"),
+    )
+    est_bio = validate_bool_field(
+        "est_bio",
+        clean_parameter(request, param="est_bio"),
+    )
     est_finess = validate_bool_field(
         "est_finess",
         clean_parameter(request, param="est_finess"),
@@ -101,6 +109,10 @@ def extract_text_parameters(
     est_association = validate_bool_field(
         "est_association",
         clean_parameter(request, param="est_association"),
+    )
+    est_organisme_formation = validate_bool_field(
+        "est_organisme_formation",
+        clean_parameter(request, param="est_organisme_formation"),
     )
     est_rge = validate_bool_field(
         "est_rge",
@@ -161,13 +173,16 @@ def extract_text_parameters(
         "section_activite_principale": section_activite_principale,
         "tranche_effectif_salarie_unite_legale": tranche_effectif_salarie,
         "convention_collective_renseignee": convention_collective_renseignee,
+        "egapro_renseignee": egapro_renseignee,
         "etat_administratif_unite_legale": etat_administratif,
         "est_entrepreneur_individuel": est_entrepreneur_individuel,
         "est_association": est_association,
         "est_uai": est_uai,
         "est_finess": est_finess,
+        "est_bio": est_bio,
         "est_collectivite_territoriale": est_collectivite_territoriale,
         "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
+        "est_organisme_formation": est_organisme_formation,
         "est_rge": est_rge,
         "est_service_public": est_service_public,
         "economie_sociale_solidaire_unite_legale": ess,

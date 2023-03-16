@@ -154,7 +154,7 @@ def text_search(index, offset: int, page_size: int, **params):
             )
             search_client = search_client.query(Q(text_query))
 
-    # Search by CA
+    # Search by chiffre d'affaire or resultat net in bilan_financier
     is_bilan_bilan_used = is_any_bilan_filter_used(**params)
     if is_bilan_bilan_used:
         search_client = search_bilan(

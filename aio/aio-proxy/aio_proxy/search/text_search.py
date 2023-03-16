@@ -95,6 +95,8 @@ def text_search(index, offset: int, page_size: int, **params):
         **params,
     )
 
+    # Boolean nested field filters unite_legale
+    # For now, only use for bilan_financier object
     search_client = filter_search_by_bool_nested_fields_unite_legale(
         search_client,
         filters_to_include=[

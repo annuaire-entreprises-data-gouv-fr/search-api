@@ -12,7 +12,6 @@ def search_bilan(
     for filter in bilan_filters_to_include:
         filter_value = params.get(filter, None)
         if filter_value is not None:
-
             if "min" in filter:
                 operator = "gte"
             if "max" in filter:

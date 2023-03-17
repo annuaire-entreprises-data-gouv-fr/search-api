@@ -835,7 +835,7 @@ paths:
                           type: string
                           example: "H"
                           description: Calculée à partir de l'activité principale.
-                        slug_annuaire_entreprise:
+                        slug_annuaire_entreprises:
                           type: string
                           example: "mon-entreprise-412455469"
                           description: >-
@@ -1568,7 +1568,7 @@ paths:
                           type: string
                           example: "H"
                           description: Calculée à partir de l'activité principale.                        
-                        slug_annuaire_entreprise:
+                        slug_annuaire_entreprises:
                           type: string
                           example: "mon-entreprise-412455469"
                           description: >-

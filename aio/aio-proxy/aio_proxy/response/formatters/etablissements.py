@@ -78,7 +78,6 @@ def format_etablissements_list(etablissements=None):
         "geo_adresse",
         "indice_repetition",
         "libelle_cedex",
-        "libelle_commune",
         "libelle_commune_etranger",
         "libelle_pays_etranger",
         "libelle_voie",

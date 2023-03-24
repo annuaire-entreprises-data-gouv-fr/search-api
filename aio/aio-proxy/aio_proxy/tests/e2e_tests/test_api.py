@@ -154,7 +154,7 @@ def test_min_per_page():
 
 def test_page_number():
     """
-    test if giving a page number higher than 1000, return a value error
+    test if giving a page number higher than 1000 returns a value error
     """
     path = "search?q=ganymede&page=10001"
     response = session.get(url=base_url + path)

@@ -279,7 +279,7 @@ paths:
             type: boolean
             enum:
               - true
-              - false          
+              - false
         - name: ca_min
           in: query
           description: >-
@@ -839,7 +839,7 @@ paths:
                           type: string
                           example: "mon-entreprise-412455469"
                           description: >-
-                            Slug de l'unité légale calculée à partir de ses 
+                            Slug de l'unité légale calculée à partir de ses
                             dénominations et de son siren.
                             Utilisé par le site annuaire-entreprises
                         matching_etablissements:
@@ -866,7 +866,7 @@ paths:
                                   étranger + libelle pays étranger*
                               commune:
                                 type: string
-                                example: "31150"
+                                example: "75115"
                                 description: >-
                                   Le code géographique de la commune de localisation de
                                   l'établissement, hors adresse à l'étranger (source :
@@ -897,6 +897,11 @@ paths:
                                 description: >-
                                   Latitude de l'établissement (source : base SIRENE
                                   géocodée par Etalab).
+                              libelle_commune:
+                                type: string
+                                example: "PARIS 15"
+                                description: >-
+                                  Libellé de la commune (source : base SIRENE).
                               liste_enseignes:
                                 type: array
                                 nullable: true
@@ -1567,12 +1572,12 @@ paths:
                         section_activite_principale:
                           type: string
                           example: "H"
-                          description: Calculée à partir de l'activité principale.                        
+                          description: Calculée à partir de l'activité principale.
                         slug_annuaire_entreprises:
                           type: string
                           example: "mon-entreprise-412455469"
                           description: >-
-                            Slug de l'unité légale calculée à partir de ses 
+                            Slug de l'unité légale calculée à partir de ses
                             dénominations et de son siren.
                             Utilisé par le site annuaire-entreprises
                         matching_etablissements:
@@ -1630,6 +1635,11 @@ paths:
                                 description: >-
                                   Latitude de l'établissement (source : base SIRENE
                                   géocodée par Etalab).
+                              libelle_commune:
+                                type: string
+                                example: "PARIS 15"
+                                description: >-
+                                  Libellé de la commune (source : base SIRENE).
                               liste_enseignes:
                                 type: array
                                 nullable: true

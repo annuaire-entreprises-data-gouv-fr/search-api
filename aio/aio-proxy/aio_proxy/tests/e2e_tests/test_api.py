@@ -152,6 +152,15 @@ def test_min_per_page():
     assert response.status_code == client_error_status_code
 
 
+def test_page_number():
+    """
+    test if giving a page number higher than 1000 returns a value error
+    """
+    path = "search?q=ganymede&page=10001"
+    response = session.get(url=base_url + path)
+    assert response.status_code == client_error_status_code
+
+
 def test_siren_search():
     """
     test if valid `siren` search returns results

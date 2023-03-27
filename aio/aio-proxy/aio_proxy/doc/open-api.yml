@@ -269,49 +269,6 @@ paths:
             enum:
               - true
               - false
-        - name: bilan_renseigne
-          in: query
-          description: >-
-            Uniquement les entreprises dont le bilan est renseigné
-            (Source : INPI)
-          required: false
-          schema:
-            type: boolean
-            enum:
-              - true
-              - false
-        - name: ca_min
-          in: query
-          description: >-
-            Valeur minimale du chiffre d'affaire de l'entreprise
-          example: "100000"
-          required: false
-          schema:
-            type: integer
-        - name: ca_max
-          in: query
-          description: >-
-            Valeur maximale du chiffre d'affaire de l'entreprise
-          example: "100000"
-          required: false
-          schema:
-            type: integer
-        - name: resultat_net_min
-          in: query
-          description: >-
-            Valeur minimale du résultat net de l'entreprise
-          example: "100000"
-          required: false
-          schema:
-            type: integer
-        - name: resultat_net_max
-          in: query
-          description: >-
-            Valeur maximale du résultat net de l'entreprise
-          example: "100000"
-          required: false
-          schema:
-            type: integer
         - name: etat_administratif
           in: query
           description: >-
@@ -969,33 +926,9 @@ paths:
                             oneOf:
                               - $ref: '#/components/schemas/dirigeant_pp'
                               - $ref: '#/components/schemas/dirigeant_pm'
-                        bilan_financier:
-                          type: object
-                          properties:
-                            ca:
-                              type: integer
-                              example: 100000
-                              description: >-
-                                Chiffre d'affaire de l'entreprise
-                            resultat_net:
-                              type: integer
-                              example: 100000
-                              description: >-
-                                Résultat net de l'entreprise
-                            date_cloture_exercice:
-                              type: string
-                              example: "2021-12-31"
-                              description: >-
-                                Date de cloture de l'exercice du bilan
                         complements:
                           type: object
                           properties:
-                            bilan_renseigne:
-                              type: boolean
-                              description: >-
-                                Entreprise ayant un bilan renseigne
-                                (source : INPI)
-                              example: true
                             collectivite_territoriale:
                               type: object
                               $ref: >-
@@ -1707,33 +1640,9 @@ paths:
                             oneOf:
                               - $ref: '#/components/schemas/dirigeant_pp'
                               - $ref: '#/components/schemas/dirigeant_pm'
-                        bilan_financier:
-                          type: object
-                          properties:
-                            ca:
-                              type: integer
-                              example: 100000
-                              description: >-
-                                Chiffre d'affaire de l'entreprise
-                            resultat_net:
-                              type: integer
-                              example: 100000
-                              description: >-
-                                Résultat net de l'entreprise
-                            date_cloture_exercice:
-                              type: string
-                              example: "2021-12-31"
-                              description: >-
-                                Date de cloture de l'exercice du bilan
                         complements:
                           type: object
                           properties:
-                            bilan_renseigne:
-                              type: boolean
-                              description: >-
-                                Entreprise ayant un bilan renseigne
-                                (source : INPI)
-                              example: true
                             collectivite_territoriale:
                               type: object
                               $ref: >-

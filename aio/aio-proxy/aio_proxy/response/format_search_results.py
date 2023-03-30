@@ -80,7 +80,6 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"
                 ),
-                "statut_bio": get_field("statut_bio"),
                 "statut_entrepreneur_spectacle": get_field(
                     "statut_entrepreneur_spectacle",
                 ),

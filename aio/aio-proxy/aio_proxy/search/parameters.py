@@ -248,6 +248,10 @@ def extract_geo_parameters(request):
         "inclure_etablissements",
         clean_parameter(request, param="inclure_etablissements"),
     )
+    inclure_slug = validate_bool_field(
+        "inclure_slug",
+        clean_parameter(request, param="inclure_slug"),
+    )
     matching_size = parse_and_validate_matching_size(request)
     parameters = {
         "lat": lat,
@@ -257,5 +261,6 @@ def extract_geo_parameters(request):
         "section_activite_principale": section_activite_principale,
         "inclure_etablissements": inclure_etablissements,
         "matching_size": matching_size,
+        "inclure_slug": inclure_slug,
     }
     return parameters, page, per_page

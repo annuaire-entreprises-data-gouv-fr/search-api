@@ -93,6 +93,7 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
             etablissements = format_etablissements_list(get_field("etablissements"))
             result_formatted["etablissements"] = etablissements
 
+        # Slug is only included when param is True
         if include_slug:
             result_formatted["slug_annuaire_entreprises"] = get_field("slug")
 

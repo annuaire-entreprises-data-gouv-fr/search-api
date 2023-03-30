@@ -11,7 +11,7 @@ from aio_proxy.response.formatters.etablissements import (
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
-def format_search_results(results, include_etablissements=False):
+def format_search_results(results, include_etablissements=False, include_slug=False):
     """Format API response to follow a specific schema."""
     formatted_results = []
     for result in results:
@@ -85,7 +85,6 @@ def format_search_results(results, include_etablissements=False):
                     "statut_entrepreneur_spectacle",
                 ),
             },
-            "slug_annuaire_entreprises": get_field("slug"),
         }
 
         # If 'include_etablissements' param is True, return 'etablissements' object
@@ -93,6 +92,10 @@ def format_search_results(results, include_etablissements=False):
         if include_etablissements:
             etablissements = format_etablissements_list(get_field("etablissements"))
             result_formatted["etablissements"] = etablissements
+
+        # Slug is only included when param is True
+        if include_slug:
+            result_formatted["slug_annuaire_entreprises"] = get_field("slug")
 
         # Include score field for dev environment
         if is_dev_env():

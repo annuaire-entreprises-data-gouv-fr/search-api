@@ -30,6 +30,7 @@ def text_search(index, offset: int, page_size: int, **params):
     search_client = index.search()
 
     include_etablissements = params["inclure_etablissements"]
+    include_slug = params["inclure_slug"]
 
     # Filter by siren/siret first (if query is a `siren` or 'siret' number), and return
     # search results directly without text search.
@@ -45,9 +46,10 @@ def text_search(index, offset: int, page_size: int, **params):
             page_size=page_size,
             is_text_search=False,
             include_etablissements=include_etablissements,
+            include_slug=include_slug,
         )
 
-    # always apply this filter to prevent displaying non allowed information
+    # always apply this filter to prevent displaying private information
     search_client = search_client.filter(
         "term", **{"statut_diffusion_unite_legale": "O"}
     )
@@ -249,4 +251,5 @@ def text_search(index, offset: int, page_size: int, **params):
         page_size=page_size,
         is_text_search=is_text_search,
         include_etablissements=include_etablissements,
+        include_slug=include_slug,
     )

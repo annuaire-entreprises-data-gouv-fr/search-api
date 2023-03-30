@@ -30,7 +30,10 @@ def api_response(
     results = search_results["response"]
     execution_time = search_results["execution_time"]
     include_etablissements = search_results["include_etablissements"]
-    results_formatted = format_search_results(results, include_etablissements)
+    include_slug = search_results["include_slug"]
+    results_formatted = format_search_results(
+        results, include_etablissements, include_slug
+    )
     response_formatted = format_response(
         results_formatted, total_results, page, per_page, execution_time
     )

@@ -49,7 +49,7 @@ def geo_search(index, offset: int, page_size: int, **params):
         search_client = search_client.source(exclude=["etablissements"])
     # By default, exclude etablissements list from response
     include_slug = params["inclure_slug"]
-    if not include_etablissements:
+    if not include_slug:
         search_client = search_client.source(exclude=["etablissements"])
     return sort_and_execute_search(
         search=search_client,

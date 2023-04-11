@@ -1,4 +1,5 @@
 import json
+import logging
 from collections.abc import Callable
 
 from aio_proxy.decorators.http_exception import http_exception_handler
@@ -43,8 +44,9 @@ def api_response(
     except ValueError as error:
         with push_scope() as scope:
             # group value errors together based on their request and response
-            scope.fingerprint = [str(error)]
-            capture_exception(error)
+            scope.fingerprint = ["Bad Request"]
+            # capture_exception(error)
+            logging.warning(f"Bad request: {error}")
             raise error
     # capture error in Sentry
     except Exception as error:

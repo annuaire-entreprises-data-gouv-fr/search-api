@@ -43,7 +43,7 @@ def api_response(
         return web.json_response(text=json.dumps(response_formatted, default=str))
     except ValueError as error:
         with push_scope() as scope:
-            # group value errors together based on their request and response
+            # group value errors together based on their response (Bad request)
             scope.fingerprint = ["Bad Request"]
             # capture_exception(error)
             logging.warning(f"Bad request: {error}")

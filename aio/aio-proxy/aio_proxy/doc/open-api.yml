@@ -135,7 +135,7 @@ paths:
           in: query
           description: >-
             <a href=https://www.insee.fr/fr/information/6051727> Code de
-            département en deux chiffres</a>. Ce paramètre filtre sur les
+            département en deux ou trois chiffres</a>. Ce paramètre filtre sur les
             établissements et accepte une valeur unique ou une liste de valeurs
             séparées par des virgules.
           required: false

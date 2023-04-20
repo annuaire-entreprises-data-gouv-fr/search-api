@@ -1,6 +1,7 @@
 from aio_proxy.parsers.activite_principale import validate_activite_principale
 from aio_proxy.parsers.ban_params import ban_params
 from aio_proxy.parsers.bool_fields import validate_bool_field
+from aio_proxy.parsers.categorie_entreprise import validate_categorie_entreprise
 from aio_proxy.parsers.code_commune import validate_code_commune
 from aio_proxy.parsers.code_postal import validate_code_postal
 from aio_proxy.parsers.collectivite_territoriale import (
@@ -63,6 +64,9 @@ def extract_text_parameters(
     bilan_renseigne = validate_bool_field(
         "bilan_renseigne",
         clean_parameter(request, param="bilan_renseigne"),
+    )
+    categorie_entreprise = validate_categorie_entreprise(
+        str_to_list(clean_parameter(request, param="categorie_entreprise"))
     )
     code_commune = validate_code_commune(
         str_to_list(clean_parameter(request, param="code_commune"))
@@ -218,6 +222,7 @@ def extract_text_parameters(
         "type_personne": type_personne,
         "matching_size": matching_size,
         "nature_juridique_unite_legale": nature_juridique,
+        "categorie_entreprise": categorie_entreprise,
     }
 
     # Check if at least one param has been provided in the request

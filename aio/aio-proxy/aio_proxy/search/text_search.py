@@ -82,6 +82,7 @@ def text_search(index, offset: int, page_size: int, **params):
             "nature_juridique_unite_legale",
             "section_activite_principale",
             "tranche_effectif_salarie_unite_legale",
+            "categorie_entreprise",
         ],
         **params,
     )

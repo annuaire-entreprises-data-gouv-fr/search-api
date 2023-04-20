@@ -22,7 +22,7 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
 
         # Hide some fields if non-diffusible
         is_non_diffusible = (
-            True if get_field("statut_diffusion_unite_legale") == "P" else False
+            True if get_field("statut_diffusion_unite_legale") != "O" else False
         )
 
         result_formatted = {

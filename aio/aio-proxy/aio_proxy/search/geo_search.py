@@ -6,7 +6,8 @@ from elasticsearch_dsl import Q
 def geo_search(index, offset: int, page_size: int, **params):
     search_client = index.search()
 
-    # always apply this filter to prevent displaying non allowed information
+    # Always apply this filter in geo search to prevent displaying non-diffusible
+    # data
     search_client = search_client.filter(
         "term", **{"statut_diffusion_unite_legale": "O"}
     )

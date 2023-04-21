@@ -8,6 +8,7 @@ from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
+from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fields
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
@@ -18,6 +19,11 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
 
         def get_field(field, default=None):
             return get_value(result, field, default)
+
+        # Hide some fields if non-diffusible
+        is_non_diffusible = (
+            True if get_field("statut_diffusion_unite_legale") != "O" else False
+        )
 
         result_formatted = {
             "siren": get_field("siren"),
@@ -34,13 +40,15 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
             "nombre_etablissements_ouverts": int(
                 get_field("nombre_etablissements_ouverts", default=0)
             ),
-            "siege": format_siege(get_field("siege")),
+            "siege": format_siege(get_field("siege"), is_non_diffusible),
             "activite_principale": get_field("activite_principale_unite_legale"),
             "categorie_entreprise": get_field("categorie_entreprise"),
             "date_creation": get_field("date_creation_unite_legale"),
             "date_mise_a_jour": get_field("date_mise_a_jour_unite_legale"),
             "dirigeants": format_dirigeants(
-                get_field("dirigeants_pp"), get_field("dirigeants_pm")
+                get_field("dirigeants_pp"),
+                get_field("dirigeants_pm"),
+                is_non_diffusible,
             ),
             "etat_administratif": get_field("etat_administratif_unite_legale"),
             "nature_juridique": get_field("nature_juridique_unite_legale"),
@@ -49,7 +57,7 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
                 "tranche_effectif_salarie_unite_legale"
             ),
             "matching_etablissements": format_etablissements_list(
-                get_field("matching_etablissements")
+                get_field("matching_etablissements"), is_non_diffusible
             ),
             "complements": {
                 "collectivite_territoriale": format_collectivite_territoriale(
@@ -89,12 +97,18 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
         # If 'include_etablissements' param is True, return 'etablissements' object
         # even if it's empty, otherwise do not return object
         if include_etablissements:
-            etablissements = format_etablissements_list(get_field("etablissements"))
+            etablissements = format_etablissements_list(
+                get_field("etablissements"), is_non_diffusible
+            )
             result_formatted["etablissements"] = etablissements
 
         # Slug is only included when param is True
         if include_slug:
             result_formatted["slug_annuaire_entreprises"] = get_field("slug")
+
+        # Hide most fields if unité légale is non-diffusible
+        if is_non_diffusible:
+            result_formatted = hide_non_diffusible_fields(result_formatted)
 
         # Include score field for dev environment
         if is_dev_env():

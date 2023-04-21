@@ -49,11 +49,11 @@ def text_search(index, offset: int, page_size: int, **params):
             include_slug=include_slug,
         )
 
-    # always apply this filter to prevent displaying private information
+    # Always apply this filter for text search to prevent displaying non-diffusible
+    # data
     search_client = search_client.filter(
         "term", **{"statut_diffusion_unite_legale": "O"}
     )
-
     # Filter results by term using 'unité légale' related filters in the request
     search_client = filter_term_search_unite_legale(
         search_client,

@@ -3,67 +3,60 @@ from aio_proxy.response.helpers import get_value
 
 
 def format_etablissement(source_etablissement):
+    def get_field(field, default=None):
+        return get_value(source_etablissement, field, default)
+
     formatted_etablissement = {
-        "activite_principale": get_value(source_etablissement, "activite_principale"),
-        "activite_principale_registre_metier": get_value(
-            source_etablissement, "activite_principale_registre_metier"
+        "activite_principale": get_field("activite_principale"),
+        "activite_principale_registre_metier": get_field(
+            "activite_principale_registre_metier"
         ),
-        "adresse": get_value(source_etablissement, "adresse"),
-        "cedex": get_value(source_etablissement, "cedex"),
-        "code_pays_etranger": get_value(source_etablissement, "code_pays_etranger"),
-        "code_postal": get_value(source_etablissement, "code_postal"),
-        "commune": get_value(source_etablissement, "commune"),
-        "complement_adresse": get_value(source_etablissement, "complement_adresse"),
-        "coordonnees": get_value(source_etablissement, "coordonnees"),
-        "date_creation": get_value(source_etablissement, "date_creation"),
-        "date_debut_activite": get_value(source_etablissement, "date_debut_activite"),
-        "departement": get_value(source_etablissement, "departement"),
-        "distribution_speciale": get_value(
-            source_etablissement, "distribution_speciale"
-        ),
-        "est_siege": get_value(source_etablissement, "est_siege"),
-        "etat_administratif": get_value(source_etablissement, "etat_administratif"),
-        "geo_adresse": get_value(source_etablissement, "geo_adresse"),
-        "geo_id": get_value(source_etablissement, "geo_id"),
-        "indice_repetition": get_value(source_etablissement, "indice_repetition"),
-        "latitude": get_value(source_etablissement, "latitude"),
-        "libelle_cedex": get_value(source_etablissement, "libelle_cedex"),
-        "libelle_commune": get_value(source_etablissement, "libelle_commune"),
-        "libelle_commune_etranger": get_value(
-            source_etablissement, "libelle_commune_etranger"
-        ),
-        "libelle_pays_etranger": get_value(
-            source_etablissement, "libelle_pays_etranger"
-        ),
-        "libelle_voie": get_value(source_etablissement, "libelle_voie"),
+        "adresse": get_field("adresse"),
+        "cedex": get_field("cedex"),
+        "code_pays_etranger": get_field("code_pays_etranger"),
+        "code_postal": get_field("code_postal"),
+        "commune": get_field("commune"),
+        "complement_adresse": get_field("complement_adresse"),
+        "coordonnees": get_field("coordonnees"),
+        "date_creation": get_field("date_creation"),
+        "date_debut_activite": get_field("date_debut_activite"),
+        "departement": get_field("departement"),
+        "distribution_speciale": get_field("distribution_speciale"),
+        "est_siege": get_field("est_siege"),
+        "etat_administratif": get_field("etat_administratif"),
+        "geo_adresse": get_field("geo_adresse"),
+        "geo_id": get_field("geo_id"),
+        "indice_repetition": get_field("indice_repetition"),
+        "latitude": get_field("latitude"),
+        "libelle_cedex": get_field("libelle_cedex"),
+        "libelle_commune": get_field("libelle_commune"),
+        "libelle_commune_etranger": get_field("libelle_commune_etranger"),
+        "libelle_pays_etranger": get_field("libelle_pays_etranger"),
+        "libelle_voie": get_field("libelle_voie"),
         "liste_enseignes": format_enseignes(
             [
-                get_value(source_etablissement, "enseigne_1"),
-                get_value(source_etablissement, "enseigne_2"),
-                get_value(source_etablissement, "enseigne_3"),
+                get_field("enseigne_1"),
+                get_field("enseigne_2"),
+                get_field("enseigne_3"),
             ]
         ),
-        "liste_finess": get_value(source_etablissement, "liste_finess"),
-        "liste_id_bio": get_value(source_etablissement, "liste_id_bio"),
-        "liste_idcc": get_value(source_etablissement, "liste_idcc"),
-        "liste_id_organisme_formation": get_value(
-            source_etablissement, "liste_id_organisme_formation"
-        ),
-        "liste_rge": get_value(source_etablissement, "liste_rge"),
-        "liste_uai": get_value(source_etablissement, "liste_uai"),
-        "longitude": get_value(source_etablissement, "longitude"),
-        "nom_commercial": get_value(source_etablissement, "nom_commercial"),
-        "numero_voie": get_value(source_etablissement, "numero_voie"),
-        "siret": get_value(source_etablissement, "siret"),
-        "tranche_effectif_salarie": get_value(
-            source_etablissement, "tranche_effectif_salarie"
-        ),
-        "type_voie": get_value(source_etablissement, "type_voie"),
+        "liste_finess": get_field("liste_finess"),
+        "liste_id_bio": get_field("liste_id_bio"),
+        "liste_idcc": get_field("liste_idcc"),
+        "liste_id_organisme_formation": get_field("liste_id_organisme_formation"),
+        "liste_rge": get_field("liste_rge"),
+        "liste_uai": get_field("liste_uai"),
+        "longitude": get_field("longitude"),
+        "nom_commercial": get_field("nom_commercial"),
+        "numero_voie": get_field("numero_voie"),
+        "siret": get_field("siret"),
+        "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
+        "type_voie": get_field("type_voie"),
     }
     return formatted_etablissement
 
 
-def format_etablissements_list(etablissements=None):
+def format_etablissements_list(etablissements=None, is_non_diffusible=False):
     hidden_fields = [
         "activite_principale_registre_metier",
         "coordonnees",
@@ -89,13 +82,39 @@ def format_etablissements_list(etablissements=None):
     if etablissements:
         for etablissement in etablissements:
             etablissement_formatted = format_etablissement(etablissement)
-            # Hide certain fields from response
+            # Hide field belonging to a non-diffusible unite legale
+            if is_non_diffusible:
+                etablissement_formatted = hide_non_diffusible_etablissement_fields(
+                    etablissement_formatted
+                )
+            # Hide certain fields from response to avoid bulky response
             for field in hidden_fields:
                 del etablissement_formatted[field]
             etablissements_formatted.append(etablissement_formatted)
     return etablissements_formatted
 
 
-def format_siege(siege=None):
+def format_siege(siege=None, is_non_diffusible=False):
     siege_formatted = format_etablissement(siege)
+    if is_non_diffusible:
+        siege_formatted = hide_non_diffusible_etablissement_fields(siege_formatted)
     return siege_formatted
+
+
+def hide_non_diffusible_etablissement_fields(etablissement):
+    non_diffusible_fields = [
+        "cedex",
+        "code_postal",
+        "complement_adresse",
+        "distribution_speciale",
+        "indice_repetition",
+        "libelle_cedex",
+        "libelle_voie",
+        "liste_enseignes",
+        "nom_commercial",
+        "numero_voie",
+        "type_voie",
+    ]
+    for field in non_diffusible_fields:
+        etablissement[field] = "[NON-DIFFUSIBLE]"
+    return etablissement

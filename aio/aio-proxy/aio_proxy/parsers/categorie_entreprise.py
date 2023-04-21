@@ -6,8 +6,8 @@ def validate_categorie_entreprise(list_categorie_entreprise_clean: list[str]):
         extracted and cleaned.
 
     Returns:
-        None if activite_principale_clean is None.
-        list_activite_principale_clean if valid.
+        None if categorie_entreprise_clean is None.
+        list_categorie_entreprise_clean if valid.
 
     Raises:
         ValueError: if one of the values in list_categorie_entreprise_clean is not valid

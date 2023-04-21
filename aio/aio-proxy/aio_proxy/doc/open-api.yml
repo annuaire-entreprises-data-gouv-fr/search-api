@@ -88,6 +88,19 @@ paths:
           required: false
           schema:
             type: string
+        - name: categorie_entreprise
+          in: query
+          description: >-
+            Catégorie d'entreprise de l'unité légale. Ce paramètre accepte une valeur
+            unique ou une liste de valeurs séparées par des virgules.
+          required: false
+          example: "PME,ETI"
+          schema:
+            type: string
+            enum:
+              - PME
+              - ETI
+              - GE
         - name: code_collectivite_territoriale
           in: query
           description: >-

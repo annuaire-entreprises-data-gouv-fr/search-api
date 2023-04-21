@@ -177,3 +177,12 @@ def test_banned_param():
     path = "search?localisation=45000"
     response = session.get(url=base_url + path)
     assert response.status_code == client_error_status_code
+
+
+def test_categorie_entreprise():
+    """
+    test categorie_entreprise filter
+    """
+    path = "search?categorie_entreprise=GE,PME"
+    response = session.get(url=base_url + path)
+    assert response.status_code == ok_status_code

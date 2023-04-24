@@ -262,7 +262,7 @@ paths:
             Uniquement les structures reconnues comme service public.
 
             Attention : Ce filtre se base sur des règles de gestion documentées
-            <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/c4820119dfbf480979166540ee64278d33abb772/data_enrichment.py#L70>ici</a>.
+            <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/97b81953f060015b881f44482897a066f2cd34cf/data_enrichment.py#L103>ici</a>.
 
             Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
           required: false

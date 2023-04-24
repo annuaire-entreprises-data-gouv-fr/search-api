@@ -103,9 +103,10 @@ def format_siege(siege=None, is_non_diffusible=False):
 
 def hide_non_diffusible_etablissement_fields(etablissement):
     # in order to keep `liste_enseignes` as an array of "NON-DIFFUSIBLE" strings
-    etablissement["liste_enseignes"] = ["[NON-DIFFUSIBLE]"] * len(
-        etablissement["liste_enseignes"]
-    )
+    if etablissement["liste_enseignes"]:
+        etablissement["liste_enseignes"] = [
+            "[NON-DIFFUSIBLE]" for enseigne in etablissement["liste_enseignes"]
+        ]
     non_diffusible_fields = [
         "cedex",
         "code_postal",

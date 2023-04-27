@@ -12,7 +12,9 @@ from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fie
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
-def format_search_results(results, include_etablissements=False, include_slug=False):
+def format_search_results(
+    results, include_etablissements=False, include_slug=False, include_score=False
+):
     """Format API response to follow a specific schema."""
     formatted_results = []
     for result in results:
@@ -111,12 +113,16 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
         if include_slug:
             result_formatted["slug_annuaire_entreprises"] = get_field("slug")
 
+        # Score is only included when param is True
+        if include_score:
+            result_formatted["score"] = get_field("meta")["score"]
+
         # Hide most fields if unité légale is non-diffusible
         if is_non_diffusible:
             result_formatted = hide_non_diffusible_fields(result_formatted)
 
-        # Include score field for dev environment
+        # Include search score and tree field for dev environment
         if is_dev_env():
-            result_formatted["score"] = get_field("meta")
+            result_formatted["meta"] = get_field("meta")
         formatted_results.append(result_formatted)
     return formatted_results

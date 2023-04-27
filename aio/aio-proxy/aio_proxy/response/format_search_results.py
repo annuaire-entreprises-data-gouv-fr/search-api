@@ -56,6 +56,7 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
             "tranche_effectif_salarie": get_field(
                 "tranche_effectif_salarie_unite_legale"
             ),
+            "statut_diffusion": get_field("statut_diffusion_unite_legale"),
             "matching_etablissements": format_etablissements_list(
                 get_field("matching_etablissements"), is_non_diffusible
             ),

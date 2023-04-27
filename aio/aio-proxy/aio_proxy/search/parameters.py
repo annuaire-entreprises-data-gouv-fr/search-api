@@ -179,6 +179,10 @@ def extract_text_parameters(
         "inclure_slug",
         clean_parameter(request, param="inclure_slug"),
     )
+    inclure_score = validate_bool_field(
+        "inclure_score",
+        clean_parameter(request, param="inclure_score"),
+    )
 
     matching_size = parse_and_validate_matching_size(request)
 
@@ -217,6 +221,7 @@ def extract_text_parameters(
         "id_uai": id_uai,
         "id_rge": id_rge,
         "inclure_etablissements": inclure_etablissements,
+        "inclure_score": inclure_score,
         "inclure_slug": inclure_slug,
         "code_collectivite_territoriale": code_collectivite_territoriale,
         "nom_personne": nom_personne,

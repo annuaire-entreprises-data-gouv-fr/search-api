@@ -246,6 +246,17 @@ paths:
             enum:
               - true
               - false
+        - name: est_qualiopi
+          in: query
+          description: >-
+            Uniquement les entreprises ayant ayant une certification de la marque «
+            Qualiopi »
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_rge
           in: query
           description: >-
@@ -700,15 +711,6 @@ paths:
                               items:
                                 type: string
                               example: ["0923"]
-                            liste_id_organisme_formation:
-                              type: array
-                              description: >-
-                                Liste des numéro de déclaration d’activité des
-                                établissement organismes de formation
-                                (source : Ministère du Travail).
-                              items:
-                                type: string
-                              example: ["7423P001123"]
                             liste_rge:
                               type: array
                               items:
@@ -979,6 +981,20 @@ paths:
                               description: >-
                                 Entreprise ayant au moins un établissement organisme de
                                 formation (source: Ministère du Travail)
+                            est_qualiopi:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant une certification de la
+                                marque « Qualiopi » (source: Ministère du Travail)
+                            liste_id_organisme_formation:
+                              type: array
+                              description: >-
+                                Liste des numéro de déclaration d’activité des
+                                établissement organismes de formation
+                                (source : Ministère du Travail).
+                              items:
+                                type: string
+                              example: [ "7423P001123" ]
                             est_rge:
                               type: boolean
                               description: >-
@@ -1406,15 +1422,6 @@ paths:
                               items:
                                 type: string
                               example: ["7423P001123"]
-                            liste_id_organisme_formation:
-                              type: array
-                              description: >-
-                                Liste des numéro de déclaration d’activité des
-                                établissement organismes de formation
-                                (source : Ministère du Travail).
-                              items:
-                                type: string
-                              example: ["0923"]
                             liste_rge:
                               type: array
                               items:
@@ -1686,6 +1693,20 @@ paths:
                               description: >-
                                 Entreprise ayant au moins un établissement organisme de
                                 formation (source: Ministère du Travail)
+                            est_qualiopi:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant une certification de la
+                                marque « Qualiopi » (source: Ministère du Travail)
+                            liste_id_organisme_formation:
+                              type: array
+                              description: >-
+                                Liste des numéro de déclaration d’activité des
+                                établissement organismes de formation
+                                (source : Ministère du Travail).
+                              items:
+                                type: string
+                              example: [ "0923" ]
                             est_rge:
                               type: boolean
                               description: >-

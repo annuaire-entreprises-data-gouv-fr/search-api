@@ -31,6 +31,7 @@ def text_search(index, offset: int, page_size: int, **params):
 
     include_etablissements = params["inclure_etablissements"]
     include_slug = params["inclure_slug"]
+    include_score = params["inclure_score"]
 
     # Filter by siren/siret first (if query is a `siren` or 'siret' number), and return
     # search results directly without text search.
@@ -47,6 +48,7 @@ def text_search(index, offset: int, page_size: int, **params):
             is_text_search=False,
             include_etablissements=include_etablissements,
             include_slug=include_slug,
+            include_score=include_score,
         )
 
     # Always apply this filter for text search to prevent displaying non-diffusible
@@ -254,4 +256,5 @@ def text_search(index, offset: int, page_size: int, **params):
         is_text_search=is_text_search,
         include_etablissements=include_etablissements,
         include_slug=include_slug,
+        include_score=include_score,
     )

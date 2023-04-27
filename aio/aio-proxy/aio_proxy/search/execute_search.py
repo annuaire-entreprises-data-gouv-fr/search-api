@@ -9,7 +9,7 @@ MAX_TOTAL_RESULTS = 10000
 
 
 def execute_and_format_search_response(
-    search, offset, page_size, include_etablissements, include_slug
+    search, offset, page_size, include_etablissements, include_slug, include_score
 ):
     search_max_total_results = search
     search = search[offset : (offset + page_size)]
@@ -55,6 +55,7 @@ def execute_and_format_search_response(
         "execution_time": execution_time,
         "include_etablissements": include_etablissements,
         "include_slug": include_slug,
+        "include_score": include_score,
     }
     return search_response
 
@@ -84,6 +85,7 @@ def sort_and_execute_search(
     is_text_search: bool,
     include_etablissements: bool,
     include_slug: bool,
+    include_score: bool,
 ) -> dict:
     search = search.extra(track_scores=True)
     search = search.extra(explain=True)
@@ -100,6 +102,7 @@ def sort_and_execute_search(
             page_size,
             include_etablissements,
             include_slug,
+            include_score,
         )
 
     # To make sure the page and page size are part of the cache key

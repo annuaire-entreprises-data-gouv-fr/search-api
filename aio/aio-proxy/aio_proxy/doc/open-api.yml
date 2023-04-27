@@ -807,6 +807,13 @@ paths:
                           type: string
                           example: "H"
                           description: Calculée à partir de l'activité principale.
+                        statut_diffusion:
+                          type: string
+                          example: "O"
+                          description: >-
+                            Statut de diffusion de l'unité légale.
+                            Toutes les unités légales diffusibles ont le statut de
+                            diffusion à "O". Les unités légales ayant fait l'objet d'une demande d'opposition ont le statut de diffusion à "P" pour diffusion partielle (source : base SIRENE).
                         matching_etablissements:
                           type: array
                           items:
@@ -1519,6 +1526,13 @@ paths:
                           type: string
                           example: "H"
                           description: Calculée à partir de l'activité principale.
+                        statut_diffusion:
+                          type: string
+                          example: "O"
+                          description: >-
+                            Statut de diffusion de l'unité légale.
+                            Toutes les unités légales diffusibles ont le statut de
+                            diffusion à "O". Les unités légales ayant fait l'objet d'une demande d'opposition ont le statut de diffusion à "P" pour diffusion partielle (source : base SIRENE).
                         matching_etablissements:
                           type: array
                           items:

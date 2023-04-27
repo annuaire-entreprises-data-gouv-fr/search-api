@@ -46,10 +46,9 @@ def extract_text_parameters(
         request: request object.
 
     Returns:
-        terms (str): full text search query.
+        parameters(dict): key/value pairs containing filter values.
         page (int): page number.
         per_page (int): number of results per page.
-        filters (dict): key/value pairs containing filter values.
 
     Raises:
         HTTPBadRequest: if ValueError or KeyError raised.
@@ -122,6 +121,10 @@ def extract_text_parameters(
     est_organisme_formation = validate_bool_field(
         "est_organisme_formation",
         clean_parameter(request, param="est_organisme_formation"),
+    )
+    est_qualiopi = validate_bool_field(
+        "est_qualiopi",
+        clean_parameter(request, param="est_qualiopi"),
     )
     est_rge = validate_bool_field(
         "est_rge",
@@ -205,6 +208,7 @@ def extract_text_parameters(
         "est_collectivite_territoriale": est_collectivite_territoriale,
         "est_entrepreneur_spectacle": est_entrepreneur_spectacle,
         "est_organisme_formation": est_organisme_formation,
+        "est_qualiopi": est_qualiopi,
         "est_rge": est_rge,
         "est_service_public": est_service_public,
         "economie_sociale_solidaire_unite_legale": ess,

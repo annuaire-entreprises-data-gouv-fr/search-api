@@ -10,3 +10,4 @@ unfixable = []
 [tool.ruff.pylint]
 max-args = 10
 max-branches = 20
+max-statements = 60

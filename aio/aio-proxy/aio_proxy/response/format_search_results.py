@@ -82,6 +82,10 @@ def format_search_results(results, include_etablissements=False, include_slug=Fa
                 ),
                 "est_finess": get_field("est_finess"),
                 "est_organisme_formation": get_field("est_organisme_formation"),
+                "est_qualiopi": get_field("est_qualiopi"),
+                "liste_id_organisme_formation": get_field(
+                    "liste_id_organisme_formation"
+                ),
                 "est_rge": get_field("est_rge"),
                 "est_service_public": get_field("est_service_public"),
                 "est_uai": get_field("est_uai"),

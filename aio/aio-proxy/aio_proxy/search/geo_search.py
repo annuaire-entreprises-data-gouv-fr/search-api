@@ -50,6 +50,7 @@ def geo_search(index, offset: int, page_size: int, **params):
         search_client = search_client.source(exclude=["etablissements"])
     # By default, exclude etablissements list from response
     include_slug = params["inclure_slug"]
+    include_score = params["inclure_score"]
     return sort_and_execute_search(
         search=search_client,
         offset=offset,
@@ -57,4 +58,5 @@ def geo_search(index, offset: int, page_size: int, **params):
         is_text_search=True,
         include_etablissements=include_etablissements,
         include_slug=include_slug,
+        include_score=include_score,
     )

@@ -49,12 +49,12 @@ info:
     ## Monitoring de l'API
 
     Une supervision du service en temps réel est
-    disponible [ici](https://annuaire-entreprises.data.gouv.fr/sources-de-donnees#APIRecherched%E2%80%99entreprises).
+    disponible [ici](https://annuaire-entreprises.data.gouv.fr/donnees/api#recherche-entreprise).
 
 
     ## Infolettre
 
-    Vous pouvez vous abonner [ici](https://app.mailjet.com/widget/iframe/zR1/NZO) à
+    Vous pouvez vous abonner [ici](https://redir.entreprise.api.gouv.fr/wgt/ls12/2qo/form?c=dfdffd14) à
     l'infolettre pour être informé des mises à jour de la part de l’équipe.
 
 openapi: 3.0.0

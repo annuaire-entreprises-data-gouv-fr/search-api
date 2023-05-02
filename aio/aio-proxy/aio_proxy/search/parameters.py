@@ -11,9 +11,9 @@ from aio_proxy.parsers.convention_collective import validate_id_convention_colle
 from aio_proxy.parsers.date_parser import parse_and_validate_date, validate_date_range
 from aio_proxy.parsers.departement import validate_departement
 from aio_proxy.parsers.empty_params import check_empty_params
-from aio_proxy.parsers.ess import match_ess_bool_to_value
 from aio_proxy.parsers.etat_administratif import validate_etat_administratif
 from aio_proxy.parsers.finess import validate_id_finess
+from aio_proxy.parsers.insee_bool import match_bool_to_insee_value
 from aio_proxy.parsers.int_parser import parse_and_validate_int
 from aio_proxy.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.parsers.list_parser import str_to_list
@@ -134,7 +134,13 @@ def extract_text_parameters(
         "est_service_public",
         clean_parameter(request, param="est_service_public"),
     )
-    ess = match_ess_bool_to_value(
+    est_societe_mission = match_bool_to_insee_value(
+        validate_bool_field(
+            "est_societe_mission",
+            clean_parameter(request, param="est_societe_mission"),
+        )
+    )
+    ess = match_bool_to_insee_value(
         validate_bool_field(
             "est_ess",
             clean_parameter(request, param="est_ess"),
@@ -215,6 +221,7 @@ def extract_text_parameters(
         "est_qualiopi": est_qualiopi,
         "est_rge": est_rge,
         "est_service_public": est_service_public,
+        "est_societe_mission": est_societe_mission,
         "economie_sociale_solidaire_unite_legale": ess,
         "id_convention_collective": id_convention_collective,
         "id_finess": id_finess,

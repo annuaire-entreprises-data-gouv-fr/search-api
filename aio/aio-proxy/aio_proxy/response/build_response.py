@@ -34,8 +34,9 @@ def api_response(
         execution_time = search_results["execution_time"]
         include_etablissements = search_results["include_etablissements"]
         include_slug = search_results["include_slug"]
+        include_score = search_results["include_score"]
         results_formatted = format_search_results(
-            results, include_etablissements, include_slug
+            results, include_etablissements, include_slug, include_score
         )
         response_formatted = format_response(
             results_formatted, total_results, page, per_page, execution_time

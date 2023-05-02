@@ -19,7 +19,6 @@ def build_etablissements_filters(**params):
     e.g "convention_collective_renseignee" -> "liste_idcc",
         "est_bio" -> "liste_id_bio",
         "est_finess" -> "liste_finess",
-        "est_organisme_formation" -> "liste_id_organisme_formation",
         "est_uai" -> "liste_uai",
         "est_entrepreneur_spectacle" -> "est_entrepreneur_spectacle",
         "est_rge" -> "est_rge",
@@ -35,7 +34,6 @@ def build_etablissements_filters(**params):
         "convention_collective_renseignee",
         "est_finess",
         "est_bio",
-        "est_organisme_formation",
         "est_uai",
         "est_rge",
     ]

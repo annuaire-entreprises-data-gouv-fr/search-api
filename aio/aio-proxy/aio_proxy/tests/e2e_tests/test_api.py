@@ -14,7 +14,7 @@ session.mount("https://", adapter)
 ok_status_code = 200
 client_error_status_code = 400
 min_total_results_la_poste = 10
-min_total_results_service_public = 1000
+min_total_results_filters = 1000
 
 
 def test_fetch_company():
@@ -139,7 +139,7 @@ def test_est_service_public():
     path_filter_with_text = "search?est_service_public=true&q=ministere"
     response_filters_with_text = session.get(url=base_url + path_filter_with_text)
     assert response_filters_only.status_code == ok_status_code
-    assert total_results > min_total_results_service_public
+    assert total_results > min_total_results_filters
     assert response_filters_with_text.status_code == ok_status_code
 
 
@@ -195,3 +195,15 @@ def test_near_point():
     path = "near_point?lat=48&long=2&radius=5"
     response = session.get(url=base_url + path)
     assert response.status_code == ok_status_code
+
+
+def test_organisme_formation():
+    """
+    test est_organisme_formation et est_qualiopi
+    """
+    path = "search?est_organisme_formation=true&est_qualiopi=true"
+    response = session.get(url=base_url + path)
+    response_json = response.json()
+    total_results = response_json["total_results"]
+    assert response.status_code == ok_status_code
+    assert total_results > min_total_results_filters

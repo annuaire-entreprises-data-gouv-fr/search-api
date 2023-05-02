@@ -2,11 +2,11 @@ from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
-from aio_proxy.response.formatters.ess import format_ess
 from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
+from aio_proxy.response.formatters.insee_bool import format_insee_bool
 from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fields
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
@@ -88,6 +88,9 @@ def format_search_results(
                 ),
                 "est_rge": get_field("est_rge"),
                 "est_service_public": get_field("est_service_public"),
+                "est_societe_mission": format_insee_bool(
+                    get_field("est_societe_mission")
+                ),
                 "est_uai": get_field("est_uai"),
                 "identifiant_association": get_field(
                     "identifiant_association_unite_legale"

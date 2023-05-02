@@ -186,3 +186,12 @@ def test_categorie_entreprise():
     path = "search?categorie_entreprise=GE,PME"
     response = session.get(url=base_url + path)
     assert response.status_code == ok_status_code
+
+
+def test_near_point():
+    """
+    test near point endpoint
+    """
+    path = "near_point?lat=48&long=2&radius=5"
+    response = session.get(url=base_url + path)
+    assert response.status_code == ok_status_code

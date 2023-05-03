@@ -64,8 +64,6 @@ def format_etablissements_list(etablissements=None, is_non_diffusible=False):
         "code_pays_etranger",
         "code_postal",
         "complement_adresse",
-        "date_creation",
-        "date_debut_activite",
         "departement",
         "distribution_speciale",
         "geo_adresse",

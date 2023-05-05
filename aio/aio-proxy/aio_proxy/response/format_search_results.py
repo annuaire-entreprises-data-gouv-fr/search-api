@@ -1,4 +1,3 @@
-from aio_proxy.response.formatters.bool import format_bool_field
 from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
@@ -72,14 +71,12 @@ def format_search_results(
                 "convention_collective_renseignee": get_field(
                     "convention_collective_renseignee"
                 ),
-                "egapro_renseignee": format_bool_field(get_field("egapro_renseignee")),
+                "egapro_renseignee": get_field("egapro_renseignee"),
                 "est_bio": get_field("est_bio"),
                 "est_entrepreneur_individuel": get_field(
                     "est_entrepreneur_individuel", default=False
                 ),
-                "est_entrepreneur_spectacle": format_bool_field(
-                    get_field("est_entrepreneur_spectacle")
-                ),
+                "est_entrepreneur_spectacle": get_field("est_entrepreneur_spectacle"),
                 "est_ess": format_ess(
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),

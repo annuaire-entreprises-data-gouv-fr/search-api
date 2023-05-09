@@ -77,7 +77,7 @@ def format_search_results(
                     "est_entrepreneur_individuel", default=False
                 ),
                 "est_entrepreneur_spectacle": get_field("est_entrepreneur_spectacle"),
-                "est_ess": format_ess(
+                "est_ess": format_insee_bool(
                     get_field("economie_sociale_solidaire_unite_legale")
                 ),
                 "est_finess": get_field("est_finess"),

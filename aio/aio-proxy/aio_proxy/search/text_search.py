@@ -62,6 +62,7 @@ def text_search(index, offset: int, page_size: int, **params):
         filters_to_include=[
             "convention_collective_renseignee",
             "economie_sociale_solidaire_unite_legale",
+            "egapro_renseignee",
             "est_bio",
             "est_entrepreneur_individuel",
             "est_entrepreneur_spectacle",
@@ -94,7 +95,6 @@ def text_search(index, offset: int, page_size: int, **params):
     search_client = filter_search_by_bool_fields_unite_legale(
         search_client,
         filters_to_include=[
-            "egapro_renseignee",
             "est_association",
             "est_collectivite_territoriale",
         ],

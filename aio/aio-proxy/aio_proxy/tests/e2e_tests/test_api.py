@@ -207,3 +207,15 @@ def test_organisme_formation():
     total_results = response_json["total_results"]
     assert response.status_code == ok_status_code
     assert total_results > min_total_results_filters
+
+
+def test_societe_a_mission():
+    """
+    test est_societe_mission
+    """
+    path = "search?est_societe_mission=true"
+    response = session.get(url=base_url + path)
+    response_json = response.json()
+    total_results = response_json["total_results"]
+    assert response.status_code == ok_status_code
+    assert total_results > min_total_results_filters

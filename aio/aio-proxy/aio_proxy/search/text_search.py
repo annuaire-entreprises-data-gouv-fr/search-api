@@ -25,13 +25,10 @@ from aio_proxy.search.queries.text import build_text_query
 from elasticsearch_dsl import Q
 
 
-def text_search(index, offset: int, page_size: int, **params):
-    query_terms = params["terms"]
+def text_search(index, search_params):
+    text_search_params = search_params.params
+    query_terms = text_search_params.terms
     search_client = index.search()
-
-    include_etablissements = params["inclure_etablissements"]
-    include_slug = params["inclure_slug"]
-    include_score = params["inclure_score"]
 
     # Filter by siren/siret first (if query is a `siren` or 'siret' number), and return
     # search results directly without text search.
@@ -43,12 +40,8 @@ def text_search(index, offset: int, page_size: int, **params):
             search_client = filter_by_siret(search_client, query_terms_clean)
         return sort_and_execute_search(
             search=search_client,
-            offset=offset,
-            page_size=page_size,
+            search_params=text_search_params,
             is_text_search=False,
-            include_etablissements=include_etablissements,
-            include_slug=include_slug,
-            include_score=include_score,
         )
 
     # Always apply this filter for text search to prevent displaying non-diffusible
@@ -59,6 +52,7 @@ def text_search(index, offset: int, page_size: int, **params):
     # Filter results by term using 'unité légale' related filters in the request
     search_client = filter_term_search_unite_legale(
         search_client,
+        text_search_params,
         filters_to_include=[
             "convention_collective_renseignee",
             "economie_sociale_solidaire_unite_legale",
@@ -75,12 +69,12 @@ def text_search(index, offset: int, page_size: int, **params):
             "etat_administratif_unite_legale",
             "est_societe_mission",
         ],
-        **params,
     )
 
     # Filter results by list of terms, using 'unité légale' related list of values
     search_client = filter_term_list_search_unite_legale(
         search_client,
+        text_search_params,
         filters_to_include=[
             "activite_principale_unite_legale",
             "code_collectivite_territoriale",
@@ -89,32 +83,31 @@ def text_search(index, offset: int, page_size: int, **params):
             "tranche_effectif_salarie_unite_legale",
             "categorie_entreprise",
         ],
-        **params,
     )
 
     # Boolean filters for unité légale
     search_client = filter_search_by_bool_fields_unite_legale(
         search_client,
+        text_search_params,
         filters_to_include=[
             "est_association",
             "est_collectivite_territoriale",
         ],
-        **params,
     )
 
     # Boolean nested field filters unite_legale
     # For now, only use for bilan_financier object
     search_client = filter_search_by_bool_nested_fields_unite_legale(
         search_client,
+        text_search_params,
         filters_to_include=[
             "bilan_renseigne",
         ],
         path="bilan_financier",
-        **params,
     )
 
     # Check if any etablissements filters are used
-    etablissement_filter_used = is_any_etablissement_filter_used(**params)
+    etablissement_filter_used = is_any_etablissement_filter_used(text_search_params)
 
     if etablissement_filter_used:
         # Filters applied on établissements, 1st application of filters before text
@@ -125,7 +118,9 @@ def text_search(index, offset: int, page_size: int, **params):
         # These filters are applied always, even with a query search, since we do not
         # include inner hits in this particular search query
         filters_etablissements_query_without_inner_hits = (
-            build_nested_etablissements_filters_query(with_inner_hits=False, **params)
+            build_nested_etablissements_filters_query(
+                text_search_params, with_inner_hits=False
+            )
         )
         if filters_etablissements_query_without_inner_hits:
             search_client = search_client.query(
@@ -135,10 +130,10 @@ def text_search(index, offset: int, page_size: int, **params):
         # Filters applied on établissement with text search
         if query_terms:
             text_query = build_text_query(
-                terms=query_terms, matching_size=params["matching_size"]
+                terms=query_terms, matching_size=text_search_params.matching_size
             )
             text_query_with_filters = add_nested_etablissements_filters_to_text_query(
-                text_query, **params
+                text_query, text_search_params
             )
             search_client = search_client.query(Q(text_query_with_filters))
 
@@ -146,7 +141,7 @@ def text_search(index, offset: int, page_size: int, **params):
         else:
             filters_etablissements_query_with_inner_hits = (
                 build_nested_etablissements_filters_query(
-                    with_inner_hits=True, **params
+                    text_search_params, with_inner_hits=True
                 )
             )
             if filters_etablissements_query_with_inner_hits:
@@ -157,28 +152,30 @@ def text_search(index, offset: int, page_size: int, **params):
         # Text search only without etablissements filters
         if query_terms:
             text_query = build_text_query(
-                terms=query_terms, matching_size=params["matching_size"]
+                terms=query_terms, matching_size=text_search_params.matching_size
             )
             search_client = search_client.query(Q(text_query))
 
     # Search by chiffre d'affaire or resultat net in bilan_financier
-    is_bilan_bilan_used = is_any_bilan_filter_used(**params)
+    is_bilan_bilan_used = is_any_bilan_filter_used(text_search_params)
     if is_bilan_bilan_used:
         search_client = search_bilan(
             search_client,
+            text_search_params,
             bilan_filters_to_include=[
                 "ca_min",
                 "ca_max",
                 "resultat_net_min",
                 "resultat_net_max",
             ],
-            **params,
         )
 
     # Search 'élus' only
-    if params["type_personne"] == "ELU":
+    type_personne = text_search_params.type_personne
+    if type_personne == "ELU":
         search_client = search_person(
             search_client,
+            text_search_params,
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -191,12 +188,12 @@ def text_search(index, offset: int, page_size: int, **params):
                     "match_date": "date_naissance",
                 },
             ],
-            **params,
         )
     # Search 'dirigeants' only
-    elif params["type_personne"] == "DIRIGEANT":
+    elif type_personne == "DIRIGEANT":
         search_client = search_person(
             search_client,
+            text_search_params,
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -209,12 +206,12 @@ def text_search(index, offset: int, page_size: int, **params):
                     "match_date": "date_naissance",
                 },
             ],
-            **params,
         )
     else:
         # Search both 'élus' and 'dirigeants'
         search_client = search_person(
             search_client,
+            text_search_params,
             "nom_personne",
             "prenoms_personne",
             "min_date_naiss_personne",
@@ -233,7 +230,6 @@ def text_search(index, offset: int, page_size: int, **params):
                     "match_date": "date_naissance",
                 },
             ],
-            **params,
         )
 
     # Sorting is only applied for text queries and not filters
@@ -243,19 +239,16 @@ def text_search(index, offset: int, page_size: int, **params):
         "nom_personne",
         "prenoms_personne",
     ]:
-        if params[item]:
+        if getattr(text_search_params, item):
             is_text_search = True
 
     # By default, exclude etablissements list from response
+    include_etablissements = text_search_params.inclure_etablissements
     if not include_etablissements:
         search_client = search_client.source(exclude=["etablissements"])
 
     return sort_and_execute_search(
         search=search_client,
-        offset=offset,
-        page_size=page_size,
+        search_params=text_search_params,
         is_text_search=is_text_search,
-        include_etablissements=include_etablissements,
-        include_slug=include_slug,
-        include_score=include_score,
     )

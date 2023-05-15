@@ -3,8 +3,9 @@ from aio_proxy.search.filters.term_filters import filter_term_list_search_unite_
 from elasticsearch_dsl import Q
 
 
-def geo_search(index, offset: int, page_size: int, **params):
+def geo_search(index, search_params):
     search_client = index.search()
+    geo_search_params = search_params.params
 
     # Always apply this filter in geo search to prevent displaying non-diffusible
     # data
@@ -15,11 +16,11 @@ def geo_search(index, offset: int, page_size: int, **params):
     # Use filters to reduce search results
     search_client = filter_term_list_search_unite_legale(
         search_client,
+        geo_search_params,
         filters_to_include=[
             "activite_principale_unite_legale",
             "section_activite_principale",
         ],
-        **params,
     )
     geo_query = {
         "nested": {
@@ -28,35 +29,29 @@ def geo_search(index, offset: int, page_size: int, **params):
                 "bool": {
                     "filter": {
                         "geo_distance": {
-                            "distance": f"{params['radius']}km",
+                            "distance": f"{geo_search_params.radius}km",
                             "etablissements.coordonnees": {
-                                "lat": params["lat"],
-                                "lon": params["lon"],
+                                "lat": geo_search_params.lat,
+                                "lon": geo_search_params.lon,
                             },
                         },
                     }
                 }
             },
             "inner_hits": {
-                "size": params["matching_size"],
+                "size": geo_search_params.matching_size,
             },
         }
     }
     search_client = search_client.query(Q(geo_query))
 
     # By default, exclude etablissements list from response
-    include_etablissements = params["inclure_etablissements"]
+    include_etablissements = geo_search_params.inclure_etablissements
     if not include_etablissements:
         search_client = search_client.source(exclude=["etablissements"])
     # By default, exclude etablissements list from response
-    include_slug = params["inclure_slug"]
-    include_score = params["inclure_score"]
     return sort_and_execute_search(
         search=search_client,
-        offset=offset,
-        page_size=page_size,
+        search_params=geo_search_params,
         is_text_search=True,
-        include_etablissements=include_etablissements,
-        include_slug=include_slug,
-        include_score=include_score,
     )

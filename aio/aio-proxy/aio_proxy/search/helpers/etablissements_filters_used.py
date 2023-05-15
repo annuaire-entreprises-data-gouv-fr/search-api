@@ -1,4 +1,4 @@
-def is_any_etablissement_filter_used(**params) -> bool:
+def is_any_etablissement_filter_used(search_params) -> bool:
     etablissements_filters = [
         "commune",
         "code_postal",
@@ -14,7 +14,7 @@ def is_any_etablissement_filter_used(**params) -> bool:
         "id_finess",
         "id_rge",
     ]
-    for param_name, param_value in params.items():
+    for param_name, param_value in vars(search_params).items():
         if param_value is not None and param_name in etablissements_filters:
             return True
     return False

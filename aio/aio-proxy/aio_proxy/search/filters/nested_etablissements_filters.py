@@ -1,7 +1,7 @@
 from aio_proxy.search.helpers.elastic_fields import get_elasticsearch_field_name
 
 
-def build_etablissements_filters(**params):
+def build_etablissements_filters(search_params):
     """Three types of searches are implemented to filter `établissements` values:
 
     1. Filter search by exact matches on text values,
@@ -43,7 +43,7 @@ def build_etablissements_filters(**params):
     must_not_filters = []
 
     # params is the list of parameters (filters) provided in the request
-    for param_name, param_value in params.items():
+    for param_name, param_value in vars(search_params).items():
         should_apply_text_filter = (
             param_value is not None and param_name in text_filters
         )
@@ -87,7 +87,7 @@ def build_etablissements_filters(**params):
     return terms_filters, must_filters, must_not_filters
 
 
-def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
+def build_nested_etablissements_filters_query(search_params, with_inner_hits=False):
     filters_query = {
         "nested": {
             "path": "etablissements",
@@ -96,7 +96,7 @@ def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
     }
 
     terms_filters, must_filters, must_not_filters = build_etablissements_filters(
-        **params
+        search_params
     )
 
     if not (terms_filters or must_filters or must_not_filters):
@@ -111,16 +111,16 @@ def build_nested_etablissements_filters_query(with_inner_hits=False, **params):
 
     if with_inner_hits:
         filters_query["nested"]["inner_hits"] = {
-            "size": params["matching_size"],
+            "size": search_params.matching_size,
             "sort": {"etablissements.etat_administratif": {"order": "asc"}},
         }
 
     return filters_query
 
 
-def add_nested_etablissements_filters_to_text_query(text_query, **params):
+def add_nested_etablissements_filters_to_text_query(text_query, search_params):
     terms_filters, must_filters, must_not_filters = build_etablissements_filters(
-        **params
+        search_params
     )
     # Number `5` corresponds to the index of the nested query in the text query
     # every time a new query is added to the text query before the nested query,

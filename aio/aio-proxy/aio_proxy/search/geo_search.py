@@ -48,7 +48,7 @@ def geo_search(index, search_params):
     # By default, exclude etablissements list from response
     include_etablissements = geo_search_params.inclure_etablissements
     if not include_etablissements:
-        search_client = search_client.source(exclude=["etablissements"])
+        search_client = search_client.source(excludes=["etablissements"])
     # By default, exclude etablissements list from response
     return sort_and_execute_search(
         search=search_client,

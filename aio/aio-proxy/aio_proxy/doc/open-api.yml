@@ -282,6 +282,16 @@ paths:
             enum:
               - true
               - false
+        - name: est_societe_mission
+          in: query
+          description: >-
+            Uniquement les sociétés qui appartiennent au champ des sociétés à mission.
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_uai
           in: query
           description: >-
@@ -1018,6 +1028,12 @@ paths:
 
                                 Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
                               example: false
+                            est_societe_mission:
+                              type: boolean
+                              example: false
+                              description: >-
+                                Société qui appartient au champ des sociétés à
+                                mission.
                             est_uai:
                               type: boolean
                               description: >-
@@ -1737,6 +1753,12 @@ paths:
 
                                 Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
                               example: false
+                            est_societe_mission:
+                              type: boolean
+                              example: false
+                              description: >-
+                                Société qui appartient au champ des sociétés à
+                                mission.
                             est_uai:
                               type: boolean
                               description: >-

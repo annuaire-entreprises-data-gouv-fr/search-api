@@ -73,6 +73,7 @@ def text_search(index, offset: int, page_size: int, **params):
             "est_service_public",
             "est_uai",
             "etat_administratif_unite_legale",
+            "est_societe_mission",
         ],
         **params,
     )

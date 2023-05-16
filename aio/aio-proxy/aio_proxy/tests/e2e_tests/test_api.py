@@ -13,7 +13,7 @@ session.mount("https://", adapter)
 
 ok_status_code = 200
 client_error_status_code = 400
-min_total_results_la_poste = 10
+min_total_results = 10
 min_total_results_filters = 1000
 
 
@@ -28,7 +28,7 @@ def test_fetch_company():
     siren = response_json["results"][0]["siren"]
     print(response)
     assert response.status_code == ok_status_code
-    assert total_results > min_total_results_la_poste
+    assert total_results > min_total_results
     assert siren == "356000000"
 
 
@@ -218,4 +218,4 @@ def test_societe_a_mission():
     response_json = response.json()
     total_results = response_json["total_results"]
     assert response.status_code == ok_status_code
-    assert total_results > min_total_results_filters
+    assert total_results > min_total_results

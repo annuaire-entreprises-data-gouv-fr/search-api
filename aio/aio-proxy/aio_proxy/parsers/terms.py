@@ -22,7 +22,7 @@ def check_short_terms_and_no_param(search_params):
     Except matching size, because this param always has a default value.
 
     Args:
-        params: dict of query parameters
+        search_params: dict of query parameters
 
     Raises:
         ValueError.
@@ -36,7 +36,7 @@ def check_short_terms_and_no_param(search_params):
             for val in [
                 y
                 for x, y in vars(search_params).items()
-                if x != "terms" and x != "matching_size"
+                if x not in ["terms", "page", "per_page", "matching_size"]
             ]
         )
     ):

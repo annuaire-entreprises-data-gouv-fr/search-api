@@ -8,8 +8,8 @@ def format_response(
         "results": formatted_search_results,
         # Cap total results at 10000
         "total_results": min(int(total_results), 10000),
-        "page": search_params.params.page + 1,
-        "per_page": search_params.params.per_page,
+        "page": search_params.page + 1,
+        "per_page": search_params.per_page,
     }
     remainder_results = response["total_results"] % response["per_page"]
     response["total_pages"] = (

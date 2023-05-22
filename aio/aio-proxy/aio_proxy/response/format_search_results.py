@@ -99,9 +99,9 @@ def format_search_results(results, search_params):
             },
         }
 
-        include_etablissements = search_params.params.inclure_etablissements
-        include_slug = search_params.params.inclure_slug
-        include_score = search_params.params.inclure_score
+        include_etablissements = search_params.inclure_etablissements
+        include_slug = search_params.inclure_slug
+        include_score = search_params.inclure_score
         # If 'include_etablissements' param is True, return 'etablissements' object
         # even if it's empty, otherwise do not return object
         if include_etablissements:

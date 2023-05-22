@@ -92,9 +92,10 @@ class SearchParams:
     radius: float = None
 
 
-class TextSearchParamsFactory:
-    def __init__(self, request):
-        self.params = SearchParams(
+class SearchParamsBuilder:
+    @staticmethod
+    def get_text_search_params(request):
+        params = SearchParams(
             page=parse_and_validate_page(request),
             per_page=parse_and_validate_per_page(request),
             terms=parse_and_validate_terms(request),
@@ -235,23 +236,12 @@ class TextSearchParamsFactory:
                 )
             ),
         )
-        self.check_and_validate_params(request)
+        SearchParamsBuilder.check_and_validate_params(request, params)
+        return params
 
-    def check_and_validate_params(self, request):
-        check_empty_params(self.params)
-        ban_params(request, "localisation")
-        validate_date_range(
-            self.params.min_date_naiss_personne,
-            self.params.max_date_naiss_personne,
-        )
-        # Prevent performance issues by refusing query terms less than 3 characters
-        # unless another param is provided
-        check_short_terms_and_no_param(self.params)
-
-
-class GeoSearchParamsFactory:
-    def __init__(self, request):
-        self.params = SearchParams(
+    @staticmethod
+    def get_geo_search_params(request):
+        params = SearchParams(
             page=parse_and_validate_page(request),
             per_page=parse_and_validate_per_page(request),
             lat=parse_and_validate_latitude(request),
@@ -279,3 +269,16 @@ class GeoSearchParamsFactory:
             ),
             matching_size=parse_and_validate_matching_size(request),
         )
+        return params
+
+    @staticmethod
+    def check_and_validate_params(request, params):
+        check_empty_params(params)
+        ban_params(request, "localisation")
+        validate_date_range(
+            params.min_date_naiss_personne,
+            params.max_date_naiss_personne,
+        )
+        # Prevent performance issues by refusing query terms less than 3 characters
+        # unless another param is provided
+        check_short_terms_and_no_param(params)

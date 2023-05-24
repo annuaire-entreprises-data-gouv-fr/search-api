@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.date_parser import validate_date_range
+from aio_proxy.request.helpers import validate_date_range
 
 
 @pytest.mark.parametrize(

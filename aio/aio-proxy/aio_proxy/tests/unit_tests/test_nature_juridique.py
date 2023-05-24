@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.nature_juridique import validate_nature_juridique
+from aio_proxy.request.parsers.nature_juridique import validate_nature_juridique
 
 
 @pytest.mark.parametrize(

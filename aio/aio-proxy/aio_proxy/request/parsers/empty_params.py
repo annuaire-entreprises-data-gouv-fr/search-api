@@ -8,9 +8,9 @@ def check_empty_params(parameters):
     empty_parameters = all(
         val is None
         for val in [
-            y
-            for x, y in vars(parameters).items()
-            if x not in ["page", "per_page", "matching_size"]
+            param_value
+            for param, param_value in vars(parameters).items()
+            if param not in ["page", "per_page", "matching_size"]
         ]
     )
     if empty_parameters:

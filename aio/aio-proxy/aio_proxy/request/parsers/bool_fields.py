@@ -2,7 +2,7 @@ from aio_proxy.request.parsers.string_parser import clean_parameter
 
 
 def parse_and_validate_bool_field(request, param: str) -> bool | None:
-    """Check the validity of field.
+    """Parse and check the validity of a field.
 
     Args:
         request: http request

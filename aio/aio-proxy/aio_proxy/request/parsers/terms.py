@@ -34,9 +34,9 @@ def check_short_terms_and_no_param(search_params):
         and all(
             val is None
             for val in [
-                y
-                for x, y in vars(search_params).items()
-                if x not in ["terms", "page", "per_page", "matching_size"]
+                param_value
+                for param, param_value in vars(search_params).items()
+                if param not in ["terms", "page", "per_page", "matching_size"]
             ]
         )
     ):

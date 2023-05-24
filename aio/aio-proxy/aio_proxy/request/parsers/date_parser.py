@@ -23,12 +23,3 @@ def parse_and_validate_date(request, param: str, default_value=None):
     if date_string is None:
         return None
     return date.fromisoformat(date_string)
-
-
-@value_exception_handler(
-    error="Veuillez indiquer une date minimale inférieure à la date maximale."
-)
-def validate_date_range(min_date=None, max_date=None):
-    if min_date and max_date:
-        if max_date < min_date:
-            raise ValueError

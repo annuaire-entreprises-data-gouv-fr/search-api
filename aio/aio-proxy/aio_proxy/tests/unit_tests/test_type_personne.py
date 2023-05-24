@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.type_personne import validate_type_personne
+from aio_proxy.request.parsers.type_personne import validate_type_personne
 
 
 @pytest.mark.parametrize(

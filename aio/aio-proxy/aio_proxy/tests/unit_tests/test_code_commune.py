@@ -1,14 +1,14 @@
 import pytest
-from aio_proxy.parsers.code_commune import validate_code_commune
+from aio_proxy.request.parsers.code_commune import validate_code_commune
 
 
 @pytest.mark.parametrize("code_commune, expected", [(["02017"], ["02017"]), ([], [])])
-def test_validate_code_commune(code_commune: str, expected: str):
+def test_validate_code_commune(code_commune: list[str], expected: list[str]):
     assert validate_code_commune(code_commune) == expected
 
 
 @pytest.mark.parametrize("code_commune", [["1A90", "0"]])
-def test_validate_code_commune_fail_1(code_commune: str):
+def test_validate_code_commune_fail_1(code_commune: list[str]):
     with pytest.raises(
         ValueError, match="Chaque" " code commune doit contenir 5 caractères !"
     ):
@@ -16,7 +16,7 @@ def test_validate_code_commune_fail_1(code_commune: str):
 
 
 @pytest.mark.parametrize("code_commune", [["093BA"], ["AAAAA"]])
-def test_validate_code_commune_fail_2(code_commune: str):
+def test_validate_code_commune_fail_2(code_commune: list[str]):
     with pytest.raises(
         ValueError, match="Au moins un" " des codes communes est non valide."
     ):

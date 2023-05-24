@@ -16,25 +16,27 @@ def parse_and_validate_terms(request, default_value=None):
     return terms
 
 
-def check_short_terms_and_no_param(params):
+def check_short_terms_and_no_param(search_params):
     """Prevent performance issues by refusing query terms less than 3 characters.
     Accept less than 3 characters if at least one parameter is filled.
     Except matching size, because this param always has a default value.
 
     Args:
-        params: dict of query parameters
+        search_params: dict of query parameters
 
     Raises:
         ValueError.
     """
     min_chars_in_terms = 3
     if (
-        params["terms"] is not None
-        and len(params["terms"]) < min_chars_in_terms
+        search_params.terms is not None
+        and len(search_params.terms) < min_chars_in_terms
         and all(
             val is None
             for val in [
-                params[x] for x in params if x != "terms" and x != "matching_size"
+                param_value
+                for param, param_value in vars(search_params).items()
+                if param not in ["terms", "page", "per_page", "matching_size"]
             ]
         )
     ):

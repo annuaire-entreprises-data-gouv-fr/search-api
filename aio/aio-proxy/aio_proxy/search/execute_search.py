@@ -8,9 +8,9 @@ MIN_EXECUTION_TIME = 400
 MAX_TOTAL_RESULTS = 10000
 
 
-def execute_and_format_search_response(
-    search, offset, page_size, include_etablissements, include_slug, include_score
-):
+def execute_and_format_search_response(search, search_params):
+    offset = search_params.page
+    page_size = search_params.per_page
     search_max_total_results = search
     search = search[offset : (offset + page_size)]
     search_results = search.execute()
@@ -53,15 +53,12 @@ def execute_and_format_search_response(
         "total_results": total_results,
         "response": response,
         "execution_time": execution_time,
-        "include_etablissements": include_etablissements,
-        "include_slug": include_slug,
-        "include_score": include_score,
     }
     return search_response
 
 
 def sort_search(search, is_text_search: bool):
-    # Sorting is very heavy on performance if there is no
+    # Sorting is very heavy on performance if there are no
     # search terms (only filters). As there is no search terms, we can
     # exclude this sorting because score is the same for all results
     # documents. Beware, nom and prenoms are search fields.
@@ -80,12 +77,8 @@ def sort_search(search, is_text_search: bool):
 
 def sort_and_execute_search(
     search,
-    offset: int,
-    page_size: int,
+    search_params,
     is_text_search: bool,
-    include_etablissements: bool,
-    include_slug: bool,
-    include_score: bool,
 ) -> dict:
     search = search.extra(track_scores=True)
     search = search.extra(explain=True)
@@ -96,16 +89,11 @@ def sort_and_execute_search(
 
     # Execute search
     def get_search_response():
-        return execute_and_format_search_response(
-            search,
-            offset,
-            page_size,
-            include_etablissements,
-            include_slug,
-            include_score,
-        )
+        return execute_and_format_search_response(search, search_params)
 
     # To make sure the page and page size are part of the cache key
+    offset = search_params.page
+    page_size = search_params.per_page
     cache_key = search[offset : (offset + page_size)]
 
     search_response = cache_strategy(

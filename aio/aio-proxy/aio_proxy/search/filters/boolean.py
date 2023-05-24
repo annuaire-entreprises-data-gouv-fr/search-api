@@ -3,9 +3,11 @@ from elasticsearch_dsl import Q
 
 
 def filter_search_by_bool_fields_unite_legale(
-    search, filters_to_include: list, **params
+    search,
+    search_params,
+    filters_to_include: list,
 ):
-    for param_name, param_value in params.items():
+    for param_name, param_value in vars(search_params).items():
         should_apply_bool_filter = (
             param_value is not None and param_name in filters_to_include
         )
@@ -34,9 +36,9 @@ def filter_search_by_bool_fields_unite_legale(
 
 
 def filter_search_by_bool_nested_fields_unite_legale(
-    search, filters_to_include: list, path, **params
+    search, search_params, filters_to_include: list, path
 ):
-    for param_name, param_value in params.items():
+    for param_name, param_value in vars(search_params).items():
         should_apply_bool_filter = (
             param_value is not None and param_name in filters_to_include
         )

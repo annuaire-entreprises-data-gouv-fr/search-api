@@ -11,9 +11,7 @@ from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fie
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
-def format_search_results(
-    results, include_etablissements=False, include_slug=False, include_score=False
-):
+def format_search_results(results, search_params):
     """Format API response to follow a specific schema."""
     formatted_results = []
     for result in results:
@@ -101,6 +99,9 @@ def format_search_results(
             },
         }
 
+        include_etablissements = search_params.inclure_etablissements
+        include_slug = search_params.inclure_slug
+        include_score = search_params.inclure_score
         # If 'include_etablissements' param is True, return 'etablissements' object
         # even if it's empty, otherwise do not return object
         if include_etablissements:

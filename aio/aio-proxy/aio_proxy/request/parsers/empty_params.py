@@ -7,7 +7,11 @@ def check_empty_params(parameters):
     # default value) raise value error
     empty_parameters = all(
         val is None
-        for val in [parameters[x] for x in parameters if x != "matching_size"]
+        for val in [
+            param_value
+            for param, param_value in vars(parameters).items()
+            if param not in ["page", "per_page", "matching_size"]
+        ]
     )
     if empty_parameters:
         raise ValueError

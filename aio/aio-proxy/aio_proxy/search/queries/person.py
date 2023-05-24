@@ -3,19 +3,19 @@ from elasticsearch_dsl import query
 
 def search_person(
     search,
+    search_params,
     param_nom,
     param_prenom,
     param_date_min,
     param_date_max,
     list_persons,
-    **params,
 ):
     search_options = []
     for person in list_persons:
         person_filters = []
         boost_queries = []
         # Nom
-        nom_person = params.get(param_nom, None)
+        nom_person = getattr(search_params, param_nom)
         if nom_person:
             # match queries returns any document containing the search item,
             # even if it contains another item
@@ -43,7 +43,7 @@ def search_person(
             )
 
         # Prénoms
-        prenoms_person = params.get(param_prenom, None)
+        prenoms_person = getattr(search_params, param_prenom)
         if prenoms_person:
             # Same logic as "nom" is used for "prenoms"
             for prenom in prenoms_person.split(" "):
@@ -69,7 +69,7 @@ def search_person(
             )
 
         # Date de naissance
-        min_date_naiss_person = params.get(param_date_min, None)
+        min_date_naiss_person = getattr(search_params, param_date_min)
         if min_date_naiss_person:
             person_filters.append(
                 {
@@ -83,7 +83,7 @@ def search_person(
                 }
             )
 
-        max_date_naiss_person = params.get(param_date_max, None)
+        max_date_naiss_person = getattr(search_params, param_date_max)
         if max_date_naiss_person:
             person_filters.append(
                 {

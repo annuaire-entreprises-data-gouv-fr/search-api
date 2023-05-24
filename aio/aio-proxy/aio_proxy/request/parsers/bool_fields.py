@@ -1,9 +1,12 @@
-def validate_bool_field(param: str, param_value: str) -> bool | None:
-    """Check the validity of field.
+from aio_proxy.request.parsers.string_parser import clean_parameter
+
+
+def parse_and_validate_bool_field(request, param: str) -> bool | None:
+    """Parse and check the validity of a field.
 
     Args:
+        request: http request
         param (str): param extracted from request
-        param_value (str): param_value extracted from request
 
     Returns:
         None if value is not correct.
@@ -12,6 +15,7 @@ def validate_bool_field(param: str, param_value: str) -> bool | None:
     Raises:
         ValueError: if field not valid.
     """
+    param_value = clean_parameter(request, param)
     if param_value is None:
         return None
     if param_value not in ["TRUE", "FALSE"]:

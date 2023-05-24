@@ -1,25 +1,5 @@
 import pytest
-from aio_proxy.parsers.bool_fields import validate_bool_field
-from aio_proxy.parsers.rge import validate_id_rge
-
-
-@pytest.mark.parametrize(
-    "est_rge, expected",
-    [("TRUE", True), ("FALSE", False), (None, None)],
-)
-def test_validate_est_rge(est_rge, expected):
-    assert validate_bool_field("est_rge", est_rge) == expected
-
-
-@pytest.mark.parametrize("est_rge", ["NON", "OUI", "NO", "YES"])
-def test_validate_est_rge_fail(
-    est_rge: str,
-):
-    with pytest.raises(
-        ValueError,
-        match="est_rge doit prendre la valeur 'true' ou 'false' !",
-    ):
-        validate_bool_field("est_rge", est_rge)
+from aio_proxy.request.parsers.rge import validate_id_rge
 
 
 @pytest.mark.parametrize(

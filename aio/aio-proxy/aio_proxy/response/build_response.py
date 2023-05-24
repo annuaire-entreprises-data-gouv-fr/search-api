@@ -25,21 +25,14 @@ def api_response(
         total_pages)
     """
     try:
-        parameters, page, per_page = extract_function(request)
-        search_results = search_function(
-            ElasticsearchSireneIndex, page * per_page, per_page, **parameters
-        )
+        search_params = extract_function(request)
+        search_results = search_function(ElasticsearchSireneIndex, search_params)
         total_results = search_results["total_results"]
         results = search_results["response"]
         execution_time = search_results["execution_time"]
-        include_etablissements = search_results["include_etablissements"]
-        include_slug = search_results["include_slug"]
-        include_score = search_results["include_score"]
-        results_formatted = format_search_results(
-            results, include_etablissements, include_slug, include_score
-        )
+        results_formatted = format_search_results(results, search_params)
         response_formatted = format_response(
-            results_formatted, total_results, page, per_page, execution_time
+            results_formatted, total_results, execution_time, search_params
         )
         return web.json_response(text=json.dumps(response_formatted, default=str))
     except ValueError as error:

@@ -4,13 +4,13 @@ from elasticsearch_dsl import query
 
 def search_bilan(
     search,
+    search_params,
     bilan_filters_to_include,
-    **params,
 ):
     search_options = []
     bilan_filters = []
     for filter in bilan_filters_to_include:
-        filter_value = params.get(filter, None)
+        filter_value = getattr(search_params, filter)
         if filter_value is not None:
             if "min" in filter:
                 operator = "gte"

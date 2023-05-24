@@ -1,5 +1,5 @@
 import pytest
-from aio_proxy.parsers.section_activite_principale import (
+from aio_proxy.request.parsers.section_activite_principale import (
     validate_section_activite_principale,
 )
 
@@ -9,14 +9,14 @@ from aio_proxy.parsers.section_activite_principale import (
     [(["A", "A"]), ([], [])],
 )
 def test_validate_section_activite_principale(
-    section_activite_principale: str, expected: str
+    section_activite_principale: list[str], expected: list[str]
 ):
     assert validate_section_activite_principale(section_activite_principale) == expected
 
 
 @pytest.mark.parametrize("section_activite_principale", [["Z", "68.20B"]])
 def test_validate_section_activite_principale_fail(
-    section_activite_principale: str,
+    section_activite_principale: list[str],
 ):
     with pytest.raises(
         ValueError,

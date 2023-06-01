@@ -57,7 +57,7 @@ class SearchParamsBuilder:
             inclure_etablissements=parse_and_validate_bool_field(
                 request, param="inclure_etablissements"
             ),
-            nature_juridique=validate_nature_juridique(
+            nature_juridique_unite_legale=validate_nature_juridique(
                 str_to_list(clean_parameter(request, param="nature_juridique"))
             ),
             id_rge=validate_id_rge(clean_parameter(request, param="id_rge")),
@@ -76,10 +76,10 @@ class SearchParamsBuilder:
             type_personne=validate_type_personne(
                 clean_parameter(request, param="type_personne")
             ),
-            etat_administratif=validate_etat_administratif(
+            etat_administratif_unite_legale=validate_etat_administratif(
                 clean_parameter(request, param="etat_administratif")
             ),
-            activite_principale=validate_activite_principale(
+            activite_principale_unite_legale=validate_activite_principale(
                 str_to_list(clean_parameter(request, param="activite_principale"))
             ),
             bilan_renseigne=parse_and_validate_bool_field(
@@ -88,7 +88,7 @@ class SearchParamsBuilder:
             categorie_entreprise=validate_categorie_entreprise(
                 str_to_list(clean_parameter(request, param="categorie_entreprise"))
             ),
-            code_commune=validate_code_commune(
+            commune=validate_code_commune(
                 str_to_list(clean_parameter(request, param="code_commune"))
             ),
             code_postal=validate_code_postal(
@@ -105,7 +105,7 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="section_activite_principale")
                 )
             ),
-            tranche_effectif_salarie=validate_tranche_effectif_salarie(
+            tranche_effectif_salarie_unite_legale=validate_tranche_effectif_salarie(
                 str_to_list(clean_parameter(request, param="tranche_effectif_salarie"))
             ),
             convention_collective_renseignee=parse_and_validate_bool_field(
@@ -137,7 +137,7 @@ class SearchParamsBuilder:
             est_societe_mission=match_bool_to_insee_value(
                 parse_and_validate_bool_field(request, param="est_societe_mission"),
             ),
-            ess=match_bool_to_insee_value(
+            economie_sociale_solidaire_unite_legale=match_bool_to_insee_value(
                 parse_and_validate_bool_field(request, param="est_ess"),
             ),
             id_convention_collective=validate_id_convention_collective(
@@ -162,7 +162,7 @@ class SearchParamsBuilder:
             lat=parse_and_validate_latitude(request),
             lon=parse_and_validate_longitude(request),
             radius=parse_and_validate_radius(request),
-            activite_principale=validate_activite_principale(
+            activite_principale_unite_legale=validate_activite_principale(
                 str_to_list(clean_parameter(request, param="activite_principale"))
             ),
             section_activite_principale=validate_section_activite_principale(

@@ -9,7 +9,7 @@ MAX_TOTAL_RESULTS = 10000
 
 
 def execute_and_format_search_response(search, search_params):
-    offset = search_params.page
+    offset = search_params.page*per_page
     page_size = search_params.per_page
     search_max_total_results = search
     search = search[offset : (offset + page_size)]
@@ -92,7 +92,7 @@ def sort_and_execute_search(
         return execute_and_format_search_response(search, search_params)
 
     # To make sure the page and page size are part of the cache key
-    offset = search_params.page
+    offset = search_params.page*per_page
     page_size = search_params.per_page
     cache_key = search[offset : (offset + page_size)]
 

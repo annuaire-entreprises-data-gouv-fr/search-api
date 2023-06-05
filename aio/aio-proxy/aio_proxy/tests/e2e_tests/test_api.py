@@ -46,13 +46,13 @@ class APIResponseTester:
 
     def test_client_error_response(self, path):
         response = self.get_api_response(path)
-        print(response)
         assert response.status_code == client_error_status_code, (
             f"API response code is " f"{response.status_code}, expected 400."
         )
 
     def test_field_value(self, path, field_name, expected_value):
         response = self.get_api_response(path)
+        print(response)
         if response.status_code == ok_status_code:
             response_value = get_field_value(response["results"][0], field_name)
             assert (

@@ -46,6 +46,7 @@ class APIResponseTester:
 
     def test_client_error_response(self, path):
         response = self.get_api_response(path)
+        print(response)
         assert response.status_code == client_error_status_code, (
             f"API response code is " f"{response.status_code}, expected 400."
         )
@@ -71,12 +72,6 @@ class APIResponseTester:
 def api_response_tester():
     api_url = "http://localhost:4500/"
     return APIResponseTester(api_url)
-
-
-def test_api_response_fields(api_response_tester):
-    api_response_tester.test_field_value("field1", "value1")
-    api_response_tester.test_field_value("field2", "value2")
-    # Add more field tests as needed
 
 
 def test_fetch_company(api_response_tester):

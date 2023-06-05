@@ -1,5 +1,6 @@
 import pytest
 import requests
+from requests.adapters import HTTPAdapter, Retry
 
 ok_status_code = 200
 client_error_status_code = 400
@@ -29,7 +30,12 @@ class APIResponseTester:
         self.api_url = api_url
 
     def get_api_response(self, path):
-        response = requests.get(url=self.api_url + path)
+        session = requests.Session()
+        retry = Retry(connect=3, backoff_factor=3)
+        adapter = HTTPAdapter(max_retries=retry)
+        session.mount("http://", adapter)
+        session.mount("https://", adapter)
+        response = session.get(url=self.api_url + path)
         return response.json()
 
     def assert_api_response_code_200(self, path):

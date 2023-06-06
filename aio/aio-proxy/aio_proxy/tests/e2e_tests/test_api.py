@@ -240,4 +240,5 @@ def test_societe_a_mission(api_response_tester):
     test est_societe_mission
     """
     path = "search?est_societe_mission=true"
-    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    api_response_tester.test_number_of_results(path, 500)
+    api_response_tester.test_field_value(path, "complements.est_societe_mission", True)

@@ -42,6 +42,7 @@ def format_search_results(results, search_params):
             "siege": format_siege(get_field("siege"), is_non_diffusible),
             "activite_principale": get_field("activite_principale_unite_legale"),
             "categorie_entreprise": get_field("categorie_entreprise"),
+            "annee_categorie_entreprise": get_field("annee_categorie_entreprise"),
             "date_creation": get_field("date_creation_unite_legale"),
             "date_mise_a_jour": get_field("date_mise_a_jour_unite_legale"),
             "dirigeants": format_dirigeants(
@@ -54,6 +55,9 @@ def format_search_results(results, search_params):
             "section_activite_principale": get_field("section_activite_principale"),
             "tranche_effectif_salarie": get_field(
                 "tranche_effectif_salarie_unite_legale"
+            ),
+            "annee_tranche_effectif_salarie": get_field(
+                "annee_tranche_effectif_salarie"
             ),
             "statut_diffusion": get_field("statut_diffusion_unite_legale"),
             "matching_etablissements": format_etablissements_list(

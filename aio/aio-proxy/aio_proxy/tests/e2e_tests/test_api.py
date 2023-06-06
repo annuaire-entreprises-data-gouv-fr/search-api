@@ -224,7 +224,7 @@ def test_min_per_page(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
 
 
-def test_est_service_public():
+def test_est_service_public(api_response_tester):
     """
     test if `est_service_public`  filter returns results with and without text search.
     """
@@ -235,7 +235,7 @@ def test_est_service_public():
     api_response_tester.test_field_value(path, "complements.est_service_public", True)
 
 
-def test_societe_a_mission():
+def test_societe_a_mission(api_response_tester):
     """
     test est_societe_mission
     """

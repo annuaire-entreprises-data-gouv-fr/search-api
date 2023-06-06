@@ -36,25 +36,29 @@ class APIResponseTester:
         session.mount("http://", adapter)
         session.mount("https://", adapter)
         response = session.get(url=self.api_url + path)
-        return response.json()
+        return response
+
+    def get_api_response_code(self, path):
+        response = self.get_api_response(path)
+        return response.status_code
 
     def assert_api_response_code_200(self, path):
-        response = self.get_api_response(path)
+        response_status_code = self.get_api_response_code(path)
         assert (
-            response.status_code == ok_status_code
-        ), f"API response code is {response.status_code}, expected 200."
+            response_status_code == ok_status_code
+        ), f"API response code is {response_status_code}, expected 200."
 
-    def test_client_error_response(self, path):
-        response = self.get_api_response(path)
-        assert response.status_code == client_error_status_code, (
-            f"API response code is " f"{response.status_code}, expected 400."
+    def assert_api_response_code_400(self, path):
+        response_status_code = self.get_api_response_code(path)
+        assert response_status_code == client_error_status_code, (
+            f"API response code is " f"{response_status_code}, expected 400."
         )
 
     def test_field_value(self, path, field_name, expected_value):
         response = self.get_api_response(path)
-        print(response)
         if response.status_code == ok_status_code:
-            response_value = get_field_value(response["results"][0], field_name)
+            # response = response.json()
+            response_value = get_field_value(response.json()["results"][0], field_name)
             assert (
                 response_value == expected_value
             ), f"Field '{field_name}' has unexpected value."
@@ -62,7 +66,7 @@ class APIResponseTester:
     def test_number_of_results(self, path, expected_min_count):
         response = self.get_api_response(path)
         if response.status_code == ok_status_code:
-            count = response["total_results"]
+            count = response.json()["total_results"]
             assert (
                 count >= expected_min_count
             ), f"Expected minimum {expected_min_count} results, but found {count}."

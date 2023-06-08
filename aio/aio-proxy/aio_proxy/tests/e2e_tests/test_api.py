@@ -217,8 +217,63 @@ def test_egapro_renseignee(api_response_tester):
 def test_est_association(api_response_tester):
     path = "search?est_association=True"
     response = api_response_tester.get_api_response(path)
-    id_asso = response.json()["results"][0]["complements"]["identifient_association"]
+    id_asso = response.json()["results"][0]["complements"]["identifiant_association"]
     assert id_asso is not None
+
+
+def test_est_collectivite_territoriale(api_response_tester):
+    path = "search?est_collectivite_territoriale=true"
+    response = api_response_tester.get_api_response(path)
+    coll_terr = response.json()["results"][0]["complements"][
+        "collectivite_territoriale"
+    ]
+    assert coll_terr is not None
+
+
+def test_est_bio(api_response_tester):
+    path = "search?est_bio=true"
+    api_response_tester.test_field_value(path, "complements.est_bio", True)
+
+
+def test_est_entrepreneur_individuel(api_response_tester):
+    path = "search?est_entrepreneur_individuel=true"
+    api_response_tester.test_field_value(
+        path, "complements.est_entrepreneur_individuel", True
+    )
+
+
+def test_est_entrepreneur_spectacle(api_response_tester):
+    path = "search?est_entrepreneur_spectacle=true"
+    api_response_tester.test_field_value(
+        path, "complements.est_entrepreneur_spectacle", True
+    )
+
+
+def test_est_rge(api_response_tester):
+    path = "search?est_rge=true"
+    api_response_tester.test_field_value(path, "complements.est_rge", True)
+
+
+def test_est_finess(api_response_tester):
+    path = "search?est_finess=true"
+    api_response_tester.test_field_value(path, "complements.est_finess", True)
+
+
+def test_est_ess(api_response_tester):
+    path = "search?est_ess=true"
+    api_response_tester.test_field_value(path, "complements.est_ess", True)
+
+
+def test_est_organisme_formation(api_response_tester):
+    path = "search?est_organisme_formation=true"
+    api_response_tester.test_field_value(
+        path, "complements.est_organisme_formation", True
+    )
+
+
+def test_est_qualiopi(api_response_tester):
+    path = "search?est_qualiopi=true"
+    api_response_tester.test_field_value(path, "complements.est_qualiopi", True)
 
 
 # Test code postal

@@ -339,3 +339,12 @@ def test_date_naiss_interval(api_response_tester):
         "1990-01-01&date_naissance_personne_max=1989-01-01"
     )
     api_response_tester.assert_api_response_code_400(path)
+
+
+def test_type_personne(api_response_tester):
+    path = "search?type_personne=elu&nom_personne=xavier"
+    response = api_response_tester.get_api_response(path)
+    elus = response.json()["results"][0]["complements"]["collectivite_territoriale"][
+        "elus"
+    ]
+    assert elus is not None

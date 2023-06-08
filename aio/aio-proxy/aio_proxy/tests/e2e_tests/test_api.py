@@ -1,3 +1,5 @@
+import re
+
 import pytest
 from aio_proxy.tests.e2e_tests.response_tester import APIResponseTester
 
@@ -192,3 +194,48 @@ def test_activite_principale_filter(api_response_tester):
 def test_categorie_entreprise(api_response_tester):
     path = "search?categorie_entreprise=PME"
     api_response_tester.test_field_value(path, "categorie_entreprise", "PME")
+
+
+def test_code_collectivite_territoriale(api_response_tester):
+    path = "search?code_collectivite_territoriale=75C"
+    api_response_tester.test_field_value(
+        path, "complements.collectivite_territoriale.code", "75C"
+    )
+
+
+def test_convention_collective_renseignee(api_response_tester):
+    path = "search?convention_collective_renseignee=true"
+    api_response_tester.test_field_value(
+        path, "complements.convention_collective_renseignee", True
+    )
+
+
+def test_departement(api_response_tester):
+    path = "search?departement=10"
+    response = api_response_tester.get_api_response(path)
+    commune = response.json()["results"][0]["matching_etablissements"]["0"]["commune"]
+    assert re.match(r"^10\w{3}$", commune) is not None
+
+
+def test_egapro_renseignee(api_response_tester):
+    path = "search?egapro_renseignee=true"
+    api_response_tester.test_field_value(path, "complements.egaproo_renseignee", True)
+
+
+def test_est_association(api_response_tester):
+    path = "search?est_association=True"
+    response = api_response_tester.get_api_response(path)
+    id_asso = response.json()["results"][0]["complements"]["identifient_asssociaiton"]
+    assert id_asso is not None
+
+
+def test_est_bio(api_response_tester):
+    path = "search?est_collectivite_territoriale=true"
+    response = api_response_tester.get_api_response(path)
+    coll_terr = response.json()["results"][0]["complements"][
+        "collectivite_territoriale"
+    ]
+    assert coll_terr is not None
+
+
+# Test code postal

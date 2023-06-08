@@ -348,6 +348,3 @@ def test_date_naiss_interval(api_response_tester):
         "1990-01-01&date_naissance_personne_max=1989-01-01"
     )
     api_response_tester.assert_api_response_code_400(path)
-
-
-# Test code postal

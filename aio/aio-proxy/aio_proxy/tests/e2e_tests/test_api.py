@@ -162,7 +162,7 @@ def test_est_service_public(api_response_tester):
     api_response_tester.test_field_value(path, "complements.est_service_public", True)
 
 
-def test_societe_a_mission(api_response_tester):
+def test_est_societe_a_mission(api_response_tester):
     """
     test est_societe_mission
     """
@@ -274,6 +274,25 @@ def test_est_organisme_formation(api_response_tester):
 def test_est_qualiopi(api_response_tester):
     path = "search?est_qualiopi=true"
     api_response_tester.test_field_value(path, "complements.est_qualiopi", True)
+
+
+def test_est_uai(api_response_tester):
+    path = "search?est_uai=true"
+    api_response_tester.test_field_value(path, "complements.est_uai", True)
+
+
+def test_etat_administratif(api_response_tester):
+    path = "search?etat_administratif=C"
+    api_response_tester.test_field_value(path, "etat_administratif", "C")
+
+
+def test_id_convention_collective(api_response_tester):
+    path = "search?id_convention_collective=1090"
+    response = api_response_tester.get_api_response(path)
+    liste_idcc = response.json()["results"][0]["matching_etablissements"][0][
+        "liste_idcc"
+    ]
+    assert "1090" in liste_idcc
 
 
 # Test code postal

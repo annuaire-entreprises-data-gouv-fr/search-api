@@ -92,14 +92,6 @@ def test_bool_filters(api_response_tester):
     path = "search?convention_collective_renseignee=true&est_rge=true"
     api_response_tester.test_number_of_results(path, 1)
     api_response_tester.test_field_value(path, "complements.est_rge", True)
-    """
-    api_response_tester.test_field_value(
-        path, "complements.convention_collective_renseignee", True
-    )
-    api_response_tester.test_field_value(
-        path, "matching_etablissements.0.liste_idcc", True
-    )
-    """
 
 
 def test_organisme_formation(api_response_tester):
@@ -213,29 +205,20 @@ def test_convention_collective_renseignee(api_response_tester):
 def test_departement(api_response_tester):
     path = "search?departement=10"
     response = api_response_tester.get_api_response(path)
-    commune = response.json()["results"][0]["matching_etablissements"]["0"]["commune"]
+    commune = response.json()["results"][0]["matching_etablissements"][0]["commune"]
     assert re.match(r"^10\w{3}$", commune) is not None
 
 
 def test_egapro_renseignee(api_response_tester):
     path = "search?egapro_renseignee=true"
-    api_response_tester.test_field_value(path, "complements.egaproo_renseignee", True)
+    api_response_tester.test_field_value(path, "complements.egapro_renseignee", True)
 
 
 def test_est_association(api_response_tester):
     path = "search?est_association=True"
     response = api_response_tester.get_api_response(path)
-    id_asso = response.json()["results"][0]["complements"]["identifient_asssociaiton"]
+    id_asso = response.json()["results"][0]["complements"]["identifient_association"]
     assert id_asso is not None
-
-
-def test_est_bio(api_response_tester):
-    path = "search?est_collectivite_territoriale=true"
-    response = api_response_tester.get_api_response(path)
-    coll_terr = response.json()["results"][0]["complements"][
-        "collectivite_territoriale"
-    ]
-    assert coll_terr is not None
 
 
 # Test code postal

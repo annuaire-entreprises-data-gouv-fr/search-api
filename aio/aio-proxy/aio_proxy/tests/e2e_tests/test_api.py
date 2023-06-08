@@ -295,4 +295,27 @@ def test_id_convention_collective(api_response_tester):
     assert "1090" in liste_idcc
 
 
+def test_id_finess(api_response_tester):
+    path = "search?id_finess=010003853"
+    response = api_response_tester.get_api_response(path)
+    liste_finess = response.json()["results"][0]["matching_etablissements"][0][
+        "liste_finess"
+    ]
+    assert "010003853" in liste_finess
+
+
+def test_id_rge(api_response_tester):
+    path = "search?id_rge=8611M10D109"
+    response = api_response_tester.get_api_response(path)
+    liste_rge = response.json()["results"][0]["matching_etablissements"][0]["liste_rge"]
+    assert "8611M10D109" in liste_rge
+
+
+def test_id_uai(api_response_tester):
+    path = "search?id_uai=0022004T"
+    response = api_response_tester.get_api_response(path)
+    liste_uai = response.json()["results"][0]["matching_etablissements"][0]["liste_uai"]
+    assert "0022004T" in liste_uai
+
+
 # Test code postal

@@ -318,4 +318,36 @@ def test_id_uai(api_response_tester):
     assert "0022004T" in liste_uai
 
 
+def test_nature_juridique(api_response_tester):
+    path = "search?nature_juridique=7344"
+    api_response_tester.test_field_value(path, "nature_juridique", "7344")
+
+
+def test_section_activite_principale(api_response_tester):
+    path = "search?section_activite_principale=A"
+    api_response_tester.test_field_value(path, "section_activite_principale", "A")
+
+
+def test_tranche_effectif_salarie(api_response_tester):
+    path = "search?tranche_effectif_salarie=01"
+    api_response_tester.test_field_value(path, "tranche_effectif_salarie", "01")
+
+
+def test_type_personne(api_response_tester):
+    path = "search?type_personne=elu"
+    response = api_response_tester.get_api_response(path)
+    elus = response.json()["results"][0]["complements"]["collectivite_territoriale"][
+        "elus"
+    ]
+    assert elus is not None
+
+
+def test_date_naiss_interval(api_response_tester):
+    path = (
+        "search?date_naissance_personne_min="
+        "1990-01-01&date_naissance_personne_max=1989-01-01"
+    )
+    api_response_tester.assert_api_response_code_400(path)
+
+
 # Test code postal

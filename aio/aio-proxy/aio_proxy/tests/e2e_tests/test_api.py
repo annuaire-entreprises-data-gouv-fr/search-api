@@ -333,15 +333,6 @@ def test_tranche_effectif_salarie(api_response_tester):
     api_response_tester.test_field_value(path, "tranche_effectif_salarie", "01")
 
 
-def test_type_personne(api_response_tester):
-    path = "search?type_personne=elu"
-    response = api_response_tester.get_api_response(path)
-    elus = response.json()["results"][0]["complements"]["collectivite_territoriale"][
-        "elus"
-    ]
-    assert elus is not None
-
-
 def test_date_naiss_interval(api_response_tester):
     path = (
         "search?date_naissance_personne_min="

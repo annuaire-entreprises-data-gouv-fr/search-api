@@ -783,6 +783,12 @@ paths:
                           description: >-
                             Tranche d'effectif salarié de l'unité légale (source :
                             base SIRENE).
+                        annee_tranche_effectif_salarie:
+                          type: string
+                          example: "2020"
+                          description: >-
+                            Année de validité de la tranche d'effectif salarié de
+                            l'unité légale (source : base SIRENE).
                         date_mise_a_jour:
                           type: string
                           format: date
@@ -796,6 +802,13 @@ paths:
                           example: "GE"
                           description: >-
                             Catégorie d'entreprise de l'unité légale (source : base
+                            SIRENE).
+                        annee_categorie_entreprise:
+                          type: string
+                          example: "2020"
+                          description: >-
+                            Année de validité correspondant à la catégorie
+                            d'entreprise diffusée (source : base
                             SIRENE).
                         etat_administratif:
                           type: string
@@ -1507,6 +1520,12 @@ paths:
                           description: >-
                             Tranche d'effectif salarié de l'unité légale (source :
                             base SIRENE).
+                        annee_tranche_effectif_salarie:
+                          type: string
+                          example: "2020"
+                          description: >-
+                            Année de validité de la tranche d'effectif salarié de
+                            l'unité légale (source : base SIRENE).
                         date_mise_a_jour:
                           type: string
                           format: date
@@ -1520,6 +1539,13 @@ paths:
                           example: "GE"
                           description: >-
                             Catégorie d'entreprise de l'unité légale  source : base
+                            SIRENE).
+                        annee_categorie_entreprise:
+                          type: string
+                          example: "2020"
+                          description: >-
+                            Année de validité correspondant à la catégorie
+                            d'entreprise diffusée (source : base
                             SIRENE).
                         etat_administratif:
                           type: string

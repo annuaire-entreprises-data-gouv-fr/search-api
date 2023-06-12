@@ -1132,7 +1132,7 @@ paths:
             format: float
         - name: radius
           in: query
-          description: Radius de recherche
+          description: Radius de recherche, inférieur ou égal à 50km.
           required: false
           schema:
             type: number

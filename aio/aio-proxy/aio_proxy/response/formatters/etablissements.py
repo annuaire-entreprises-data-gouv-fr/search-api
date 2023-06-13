@@ -62,7 +62,6 @@ def format_etablissements_list(etablissements=None, is_non_diffusible=False):
         "coordonnees",
         "cedex",
         "code_pays_etranger",
-        "code_postal",
         "complement_adresse",
         "departement",
         "distribution_speciale",

@@ -8,10 +8,8 @@ from elasticsearch_dsl import connections
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
-from aio_proxy.request.search_params_builder import SearchParamsBuilder
+from aio_proxy.request.search_type import SearchType
 from aio_proxy.response.build_response import api_response
-from aio_proxy.search.geo_search import geo_search
-from aio_proxy.search.text_search import text_search
 
 load_dotenv()
 
@@ -52,8 +50,7 @@ routes = web.RouteTableDef()
 async def search_text_endpoint(request):
     return api_response(
         request,
-        extract_function=SearchParamsBuilder.get_text_search_params,
-        search_function=text_search,
+        search_type=SearchType.TEXT,
     )
 
 
@@ -61,6 +58,5 @@ async def search_text_endpoint(request):
 async def near_point_endpoint(request):
     return api_response(
         request,
-        extract_function=SearchParamsBuilder.get_geo_search_params,
-        search_function=geo_search,
+        search_type=SearchType.GEO,
     )

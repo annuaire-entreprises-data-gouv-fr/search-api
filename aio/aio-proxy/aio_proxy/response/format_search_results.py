@@ -1,3 +1,5 @@
+from aio_proxy.response.formatters.bilan_financier import format_bilan
+from aio_proxy.response.formatters.bool import format_bool_field
 from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
@@ -63,7 +65,9 @@ def format_search_results(results, search_params):
             "matching_etablissements": format_etablissements_list(
                 get_field("matching_etablissements"), is_non_diffusible
             ),
+            "bilan_financier": format_bilan(get_field("bilan_financier")),
             "complements": {
+                "bilan_renseigne": format_bool_field(get_field("bilan_financier")),
                 "collectivite_territoriale": format_collectivite_territoriale(
                     get_field("colter_code"),
                     get_field("colter_code_insee"),

@@ -83,9 +83,6 @@ class SearchParamsBuilder:
             activite_principale_unite_legale=validate_activite_principale(
                 str_to_list(clean_parameter(request, param="activite_principale"))
             ),
-            bilan_renseigne=parse_and_validate_bool_field(
-                request, param="bilan_renseigne"
-            ),
             categorie_entreprise=validate_categorie_entreprise(
                 str_to_list(clean_parameter(request, param="categorie_entreprise"))
             ),

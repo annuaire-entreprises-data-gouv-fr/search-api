@@ -9,7 +9,6 @@ class SearchParams:
     per_page: int = None
     terms: str = None
     activite_principale_unite_legale: list = None
-    bilan_renseigne: str = None
     categorie_entreprise: list = None
     commune: list = None
     code_postal: list = None

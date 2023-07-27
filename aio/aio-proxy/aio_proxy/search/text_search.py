@@ -1,6 +1,5 @@
 from aio_proxy.search.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
-    filter_search_by_bool_nested_fields_unite_legale,
 )
 from aio_proxy.search.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
@@ -89,19 +88,6 @@ def build_es_search_text_query(es_search_builder):
                 "est_association",
                 "est_collectivite_territoriale",
             ],
-        )
-
-        # Boolean nested field filters unite_legale
-        # For now, only use for bilan_financier object
-        es_search_builder.es_search_client = (
-            filter_search_by_bool_nested_fields_unite_legale(
-                es_search_builder.es_search_client,
-                es_search_builder.search_params,
-                filters_to_include=[
-                    "bilan_renseigne",
-                ],
-                path="bilan_financier",
-            )
         )
 
         # Check if any etablissements filters are used

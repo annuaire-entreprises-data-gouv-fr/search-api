@@ -15,11 +15,10 @@ natures_juridiques = load_file("natures-juridiques.json")
 tranches_effectifs = load_file("tranches-effectifs.json")
 sections_codes_naf = load_file("sections-codes-NAF.json")
 valid_fields = [
-    "SIEGE",
-    "DIRIGEANTS",
-    "MATCHING_ETABLISSEMENTS",
     "COMPLEMENTS",
+    "DIRIGEANTS",
     "FINANCES",
-    "AUCUN",
+    "SIEGE",
+    "MATCHING_ETABLISSEMENTS",
 ]
 valid_admin_fields = ["ETABLISSEMENTS", "SCORE", "SLUG"]

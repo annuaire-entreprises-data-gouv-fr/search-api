@@ -15,10 +15,6 @@ from aio_proxy.request.parsers.date_parser import parse_and_validate_date
 from aio_proxy.request.parsers.departement import validate_departement
 from aio_proxy.request.parsers.empty_params import check_empty_params
 from aio_proxy.request.parsers.etat_administratif import validate_etat_administratif
-from aio_proxy.request.parsers.fields import (
-    should_include_etablissements,
-    validate_selected_fields,
-)
 from aio_proxy.request.parsers.finess import validate_id_finess
 from aio_proxy.request.parsers.insee_bool import match_bool_to_insee_value
 from aio_proxy.request.parsers.int_parser import parse_and_validate_int
@@ -32,6 +28,11 @@ from aio_proxy.request.parsers.radius import parse_and_validate_radius
 from aio_proxy.request.parsers.rge import validate_id_rge
 from aio_proxy.request.parsers.section_activite_principale import (
     validate_section_activite_principale,
+)
+from aio_proxy.request.parsers.selected_fields import (
+    should_include_etablissements,
+    validate_inclusion_fields,
+    validate_selected_fields,
 )
 from aio_proxy.request.parsers.string_parser import clean_parameter, parse_parameter
 from aio_proxy.request.parsers.terms import (
@@ -149,14 +150,15 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="code_collectivite_territoriale")
                 )
             ),
-            inclure_champs=validate_selected_fields(
-                str_to_list(clean_parameter(request, param="inclure_champs"))
+            minimal=parse_and_validate_bool_field(request, param="minimal"),
+            include=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include"))
             ),
-            champs_admin=validate_selected_fields(
-                str_to_list(clean_parameter(request, param="champs_admin")), admin=True
+            include_admin=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include_admin")), admin=True
             ),
             inclure_etablissements=should_include_etablissements(
-                str_to_list(clean_parameter(request, param="champs_admin"))
+                str_to_list(clean_parameter(request, param="include_admin"))
             ),
         )
         SearchParamsBuilder.check_and_validate_params(request, params)
@@ -181,14 +183,15 @@ class SearchParamsBuilder:
             inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
             inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
             matching_size=parse_and_validate_matching_size(request),
-            inclure_champs=validate_selected_fields(
-                str_to_list(clean_parameter(request, param="inclure_champs"))
+            minimal=parse_and_validate_bool_field(request, param="minimal"),
+            include=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include"))
             ),
-            champs_admin=validate_selected_fields(
-                str_to_list(clean_parameter(request, param="champs_admin")), admin=True
+            include_admin=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include_admin")), admin=True
             ),
             inclure_etablissements=should_include_etablissements(
-                str_to_list(clean_parameter(request, param="champs_admin"))
+                str_to_list(clean_parameter(request, param="include_admin"))
             ),
         )
         return params
@@ -197,6 +200,7 @@ class SearchParamsBuilder:
     def check_and_validate_params(request, params):
         check_empty_params(params)
         ban_params(request, "localisation")
+        validate_inclusion_fields(params.minimal, params.include)
         validate_date_range(
             params.min_date_naiss_personne,
             params.max_date_naiss_personne,

@@ -15,7 +15,10 @@ from aio_proxy.request.parsers.date_parser import parse_and_validate_date
 from aio_proxy.request.parsers.departement import validate_departement
 from aio_proxy.request.parsers.empty_params import check_empty_params
 from aio_proxy.request.parsers.etat_administratif import validate_etat_administratif
-from aio_proxy.request.parsers.fields import validate_fields
+from aio_proxy.request.parsers.fields import (
+    include_etablissements,
+    validate_selected_fields,
+)
 from aio_proxy.request.parsers.finess import validate_id_finess
 from aio_proxy.request.parsers.insee_bool import match_bool_to_insee_value
 from aio_proxy.request.parsers.int_parser import parse_and_validate_int
@@ -56,9 +59,6 @@ class SearchParamsBuilder:
             matching_size=parse_and_validate_matching_size(request),
             inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
             inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
-            inclure_etablissements=parse_and_validate_bool_field(
-                request, param="inclure_etablissements"
-            ),
             nature_juridique_unite_legale=validate_nature_juridique(
                 str_to_list(clean_parameter(request, param="nature_juridique"))
             ),
@@ -149,8 +149,14 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="code_collectivite_territoriale")
                 )
             ),
-            inclure_champs=validate_fields(
+            inclure_champs=validate_selected_fields(
                 str_to_list(clean_parameter(request, param="inclure_champs"))
+            ),
+            champs_admin=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="champs_admin")), admin=True
+            ),
+            inclure_etablissements=include_etablissements(
+                str_to_list(clean_parameter(request, param="champs_admin"))
             ),
         )
         SearchParamsBuilder.check_and_validate_params(request, params)
@@ -172,14 +178,17 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="section_activite_principale")
                 )
             ),
-            inclure_etablissements=parse_and_validate_bool_field(
-                request, param="inclure_etablissements"
-            ),
             inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
             inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
             matching_size=parse_and_validate_matching_size(request),
-            inclure_champs=validate_fields(
+            inclure_champs=validate_selected_fields(
                 str_to_list(clean_parameter(request, param="inclure_champs"))
+            ),
+            champs_admin=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="champs_admin")), admin=True
+            ),
+            inclure_etablissements=include_etablissements(
+                str_to_list(clean_parameter(request, param="champs_admin"))
             ),
         )
         return params

@@ -54,3 +54,4 @@ class SearchParams:
     lon: float = None
     radius: float = None
     inclure_champs: list = None
+    champs_admin: list = None

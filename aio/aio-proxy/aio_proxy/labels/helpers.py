@@ -20,7 +20,6 @@ valid_fields = [
     "MATCHING_ETABLISSEMENTS",
     "COMPLEMENTS",
     "FINANCES",
-    "ETABLISSEMENTS",
-    "SCORE",
-    "SLUG",
+    "AUCUN",
 ]
+valid_admin_fields = ["ETABLISSEMENTS", "SCORE", "SLUG"]

@@ -127,11 +127,12 @@ def format_search_results(results, search_params):
         score = get_field("meta")["score"]
         slug = get_field("slug")
 
-        include_fields = search_params.inclure_champs
-        if include_fields:
+        minimal_response = search_params.minimal
+        include_fields = search_params.include
+        if minimal_response:
             select_fields_to_include(include_fields, result_formatted)
 
-        include_admin_fields = search_params.champs_admin
+        include_admin_fields = search_params.include_admin
         if include_admin_fields:
             select_admin_fields(
                 include_admin_fields, etablissements, score, slug, result_formatted

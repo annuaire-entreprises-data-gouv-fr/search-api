@@ -17,7 +17,7 @@ def validate_selected_fields(list_fields_clean: list[str], admin=False):
     return list_fields_clean
 
 
-def include_etablissements(admin_fields):
+def should_include_etablissements(admin_fields):
     if admin_fields and "ETABLISSEMENTS" in admin_fields:
         return True
-    return False
+    return None

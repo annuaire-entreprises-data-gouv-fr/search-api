@@ -16,7 +16,7 @@ from aio_proxy.request.parsers.departement import validate_departement
 from aio_proxy.request.parsers.empty_params import check_empty_params
 from aio_proxy.request.parsers.etat_administratif import validate_etat_administratif
 from aio_proxy.request.parsers.fields import (
-    include_etablissements,
+    should_include_etablissements,
     validate_selected_fields,
 )
 from aio_proxy.request.parsers.finess import validate_id_finess
@@ -155,7 +155,7 @@ class SearchParamsBuilder:
             champs_admin=validate_selected_fields(
                 str_to_list(clean_parameter(request, param="champs_admin")), admin=True
             ),
-            inclure_etablissements=include_etablissements(
+            inclure_etablissements=should_include_etablissements(
                 str_to_list(clean_parameter(request, param="champs_admin"))
             ),
         )
@@ -187,7 +187,7 @@ class SearchParamsBuilder:
             champs_admin=validate_selected_fields(
                 str_to_list(clean_parameter(request, param="champs_admin")), admin=True
             ),
-            inclure_etablissements=include_etablissements(
+            inclure_etablissements=should_include_etablissements(
                 str_to_list(clean_parameter(request, param="champs_admin"))
             ),
         )

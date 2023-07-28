@@ -352,7 +352,7 @@ def test_type_personne(api_response_tester):
 
 def test_selected_fields(api_response_tester):
     path = (
-        "search?q=ganymede&inclure_champs=siege,diriegants&admin_champs=etablissements"
+        "search?q=ganymede&inclure_champs=siege,dirigeants&champs_admin=etablissements"
     )
     response = api_response_tester.get_api_response(path)
     etablissements = response.json()["results"][0]["etablissements"]

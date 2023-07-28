@@ -1,12 +1,15 @@
 from aio_proxy.decorators.value_exception import value_exception_handler
-from aio_proxy.labels.helpers import valid_admin_fields, valid_fields
+from aio_proxy.labels.helpers import (
+    valid_admin_fields_to_select,
+    valid_fields_to_select,
+)
 
 
 def validate_selected_fields(list_fields_clean: list[str], admin=False):
     if admin:
-        valid_fields_to_check = valid_admin_fields
+        valid_fields_to_check = valid_admin_fields_to_select
     else:
-        valid_fields_to_check = valid_fields
+        valid_fields_to_check = valid_fields_to_select
     if list_fields_clean is None:
         return []
     for field in list_fields_clean:

@@ -3,7 +3,12 @@ from aio_proxy.labels.helpers import valid_fields_to_select
 
 def select_fields_to_include(include_fields, response: dict):
     # Remove the fields from the result
-    # In case "minimal=True", all extra fields are removed
+    # In case "minimal=True" and include_fields is None, all extra fields are removed
+    if include_fields is None:
+        for field in valid_fields_to_select:
+            if field.lower() in response:
+                del response[field.lower()]
+
     for field in valid_fields_to_select:
         if field not in include_fields and field.lower() in response:
             del response[field.lower()]

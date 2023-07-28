@@ -11,7 +11,7 @@ def validate_selected_fields(list_fields_clean: list[str], admin=False):
     else:
         valid_fields_to_check = valid_fields_to_select
     if list_fields_clean is None:
-        return []
+        return None
     for field in list_fields_clean:
         if field not in valid_fields_to_check:
             valid_fields_lowercase = [field.lower() for field in valid_fields_to_check]

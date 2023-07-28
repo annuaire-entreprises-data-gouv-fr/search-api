@@ -352,7 +352,8 @@ def test_type_personne(api_response_tester):
 
 def test_selected_fields(api_response_tester):
     path = (
-        "search?q=ganymede&inclure_champs=siege,dirigeants&champs_admin=etablissements"
+        "search?q=ganymede&minimal=True&include=siege,dirigeants"
+        "&include_admin=etablissements"
     )
     response = api_response_tester.get_api_response(path)
     etablissements = response.json()["results"][0]["etablissements"]
@@ -363,11 +364,16 @@ def test_selected_fields(api_response_tester):
     assert "complements" not in response.json()["results"][0]
 
 
-def test_no_selected_fields(api_response_tester):
-    path = "search?q=ganymede&inclure_champs=aucun"
+def test_minimal_response(api_response_tester):
+    path = "search?q=ganymede&minimal=True"
     response = api_response_tester.get_api_response(path)
     assert "siege" not in response.json()["results"][0]
     assert "dirigeants" not in response.json()["results"][0]
     assert "score" not in response.json()["results"][0]
     assert "complements" not in response.json()["results"][0]
     assert "matching_etablissements" not in response.json()["results"][0]
+
+
+def test_minimal_fail(api_response_tester):
+    path = "search?q=ganymede&include=siege"
+    api_response_tester.assert_api_response_code_400(path)

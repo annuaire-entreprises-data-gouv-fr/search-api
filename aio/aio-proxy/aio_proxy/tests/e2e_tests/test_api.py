@@ -357,8 +357,8 @@ def test_selected_fields(api_response_tester):
     response = api_response_tester.get_api_response(path)
     etablissements = response.json()["results"][0]["etablissements"]
     assert etablissements
-    assert "siege" not in response.json()["results"][0]
-    assert "dirigeants" not in response.json()["results"][0]
+    assert "siege" in response.json()["results"][0]
+    assert "dirigeants" in response.json()["results"][0]
     assert "score" not in response.json()["results"][0]
     assert "complements" not in response.json()["results"][0]
 

@@ -348,3 +348,26 @@ def test_type_personne(api_response_tester):
         "elus"
     ]
     assert elus is not None
+
+
+def test_selected_fields(api_response_tester):
+    path = (
+        "search?q=ganymede&inclure_champs=siege,diriegants&admin_champs=etablissements"
+    )
+    response = api_response_tester.get_api_response(path)
+    etablissements = response.json()["results"][0]["etablissements"]
+    assert etablissements
+    assert "siege" not in response.json()["results"][0]
+    assert "dirigeants" not in response.json()["results"][0]
+    assert "score" not in response.json()["results"][0]
+    assert "complements" not in response.json()["results"][0]
+
+
+def test_no_selected_fields(api_response_tester):
+    path = "search?q=ganymede&inclure_champs=aucun"
+    response = api_response_tester.get_api_response(path)
+    assert "siege" not in response.json()["results"][0]
+    assert "dirigeants" not in response.json()["results"][0]
+    assert "score" not in response.json()["results"][0]
+    assert "complements" not in response.json()["results"][0]
+    assert "matching_etablissements" not in response.json()["results"][0]

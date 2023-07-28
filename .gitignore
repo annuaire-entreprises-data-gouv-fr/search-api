@@ -8,3 +8,4 @@ pg-airflow/
 pytest_cache/
 venv/
 redis-data/
+.vscode/

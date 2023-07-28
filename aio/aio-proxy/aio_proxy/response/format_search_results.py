@@ -9,6 +9,7 @@ from aio_proxy.response.formatters.etablissements import (
 )
 from aio_proxy.response.formatters.insee_bool import format_insee_bool
 from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fields
+from aio_proxy.response.formatters.selected_fields import select_fields_to_include
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
@@ -123,6 +124,19 @@ def format_search_results(results, search_params):
         # Score is only included when param is True
         if include_score:
             result_formatted["score"] = get_field("meta")["score"]
+
+        # Select fields to return
+        etablissements = format_etablissements_list(
+            get_field("etablissements"), is_non_diffusible
+        )
+        score = get_field("meta")["score"]
+        slug = get_field("slug")
+
+        include_fields = search_params.inclure_champs
+        if include_fields:
+            select_fields_to_include(
+                include_fields, etablissements, score, slug, result_formatted
+            )
 
         # Hide most fields if unité légale is non-diffusible
         if is_non_diffusible:

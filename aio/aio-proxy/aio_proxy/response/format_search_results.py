@@ -109,17 +109,6 @@ def format_search_results(results, search_params):
             },
         }
 
-        include_slug = search_params.inclure_slug
-        include_score = search_params.inclure_score
-
-        # Slug is only included when param is True
-        if include_slug:
-            result_formatted["slug_annuaire_entreprises"] = get_field("slug")
-
-        # Score is only included when param is True
-        if include_score:
-            result_formatted["score"] = get_field("meta")["score"]
-
         # Select fields to return
         if search_params.minimal:
             select_fields_to_include(search_params.include, result_formatted)

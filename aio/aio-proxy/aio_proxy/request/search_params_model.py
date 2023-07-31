@@ -47,9 +47,6 @@ class SearchParams:
     type_personne: str = None
     etat_administratif_unite_legale: str = None
     nature_juridique_unite_legale: list = None
-    inclure_etablissements: bool = None
-    inclure_slug: bool = None
-    inclure_score: bool = None
     matching_size: str = None
     lat: float = None
     lon: float = None

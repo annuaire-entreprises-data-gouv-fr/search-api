@@ -377,3 +377,10 @@ def test_minimal_response(api_response_tester):
 def test_minimal_fail(api_response_tester):
     path = "search?q=ganymede&include=siege"
     api_response_tester.assert_api_response_code_400(path)
+
+
+def test_region_filter(api_response_tester):
+    path = "search?region=76"
+    response = api_response_tester.get_api_response(path)
+    region_etablissement = response.json()["results"][0]["etablissements"][0]["region"]
+    assert region_etablissement == "76"

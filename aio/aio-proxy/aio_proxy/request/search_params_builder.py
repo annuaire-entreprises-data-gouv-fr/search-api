@@ -29,6 +29,11 @@ from aio_proxy.request.parsers.rge import validate_id_rge
 from aio_proxy.request.parsers.section_activite_principale import (
     validate_section_activite_principale,
 )
+from aio_proxy.request.parsers.selected_fields import (
+    should_include_etablissements,
+    validate_inclusion_fields,
+    validate_selected_fields,
+)
 from aio_proxy.request.parsers.string_parser import clean_parameter, parse_parameter
 from aio_proxy.request.parsers.terms import (
     check_short_terms_and_no_param,
@@ -55,9 +60,6 @@ class SearchParamsBuilder:
             matching_size=parse_and_validate_matching_size(request),
             inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
             inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
-            inclure_etablissements=parse_and_validate_bool_field(
-                request, param="inclure_etablissements"
-            ),
             nature_juridique_unite_legale=validate_nature_juridique(
                 str_to_list(clean_parameter(request, param="nature_juridique"))
             ),
@@ -148,6 +150,16 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="code_collectivite_territoriale")
                 )
             ),
+            minimal=parse_and_validate_bool_field(request, param="minimal"),
+            include=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include"))
+            ),
+            include_admin=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include_admin")), admin=True
+            ),
+            inclure_etablissements=should_include_etablissements(
+                str_to_list(clean_parameter(request, param="include_admin"))
+            ),
         )
         SearchParamsBuilder.check_and_validate_params(request, params)
         return params
@@ -168,12 +180,19 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="section_activite_principale")
                 )
             ),
-            inclure_etablissements=parse_and_validate_bool_field(
-                request, param="inclure_etablissements"
-            ),
             inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
             inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
             matching_size=parse_and_validate_matching_size(request),
+            minimal=parse_and_validate_bool_field(request, param="minimal"),
+            include=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include"))
+            ),
+            include_admin=validate_selected_fields(
+                str_to_list(clean_parameter(request, param="include_admin")), admin=True
+            ),
+            inclure_etablissements=should_include_etablissements(
+                str_to_list(clean_parameter(request, param="include_admin"))
+            ),
         )
         return params
 
@@ -181,6 +200,7 @@ class SearchParamsBuilder:
     def check_and_validate_params(request, params):
         check_empty_params(params)
         ban_params(request, "localisation")
+        validate_inclusion_fields(params.minimal, params.include)
         validate_date_range(
             params.min_date_naiss_personne,
             params.max_date_naiss_personne,

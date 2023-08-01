@@ -9,6 +9,10 @@ from aio_proxy.response.formatters.etablissements import (
 )
 from aio_proxy.response.formatters.insee_bool import format_insee_bool
 from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fields
+from aio_proxy.response.formatters.selected_fields import (
+    select_admin_fields,
+    select_fields_to_include,
+)
 from aio_proxy.response.helpers import format_nom_complet, get_value, is_dev_env
 
 
@@ -105,16 +109,8 @@ def format_search_results(results, search_params):
             },
         }
 
-        include_etablissements = search_params.inclure_etablissements
         include_slug = search_params.inclure_slug
         include_score = search_params.inclure_score
-        # If 'include_etablissements' param is True, return 'etablissements' object
-        # even if it's empty, otherwise do not return object
-        if include_etablissements:
-            etablissements = format_etablissements_list(
-                get_field("etablissements"), is_non_diffusible
-            )
-            result_formatted["etablissements"] = etablissements
 
         # Slug is only included when param is True
         if include_slug:
@@ -123,6 +119,24 @@ def format_search_results(results, search_params):
         # Score is only included when param is True
         if include_score:
             result_formatted["score"] = get_field("meta")["score"]
+
+        # Select fields to return
+        if search_params.minimal:
+            select_fields_to_include(search_params.include, result_formatted)
+
+        if search_params.include_admin:
+            etablissements = format_etablissements_list(
+                get_field("etablissements"), is_non_diffusible
+            )
+            score = get_field("meta")["score"]
+            slug = get_field("slug")
+            select_admin_fields(
+                search_params.include_admin,
+                etablissements,
+                score,
+                slug,
+                result_formatted,
+            )
 
         # Hide most fields if unité légale is non-diffusible
         if is_non_diffusible:

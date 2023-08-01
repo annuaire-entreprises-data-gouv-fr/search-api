@@ -53,3 +53,6 @@ class SearchParams:
     lat: float = None
     lon: float = None
     radius: float = None
+    minimal: bool = None
+    include: list = None
+    include_admin: list = None

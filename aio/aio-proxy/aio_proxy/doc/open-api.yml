@@ -489,6 +489,45 @@ paths:
           schema:
             type: integer
             default: 10
+        - name: minimal
+          in: query
+          description: >-
+            Permet retourner une réponse minmale, qui exclut les champs secondaires.
+            Voir "include" pour en savoir plus
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: include
+          in: query
+          description: >-
+            ATTENTION : Ce paramètre ne peut être
+            appelé qu'avec le champs "minimal=True".
+
+
+            Permet de ne demander que certains des champs secondaires
+
+
+            Valeurs possibles :
+
+              * complements
+              * dirigeants
+              * finances
+              * matching_etablissements
+              * siege
+
+
+            Par défaut tous les champs sont inclus.
+
+
+            Ce paramètre accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+
+          example: "siege,complements"
+          schema:
+            type: string
         - name: page
           in: query
           description: Le numéro de la page à retourner.
@@ -1232,6 +1271,44 @@ paths:
           schema:
             type: integer
             default: 10
+        - name: minimal
+          in: query
+          description: >-
+            Permet retourner une réponse minmale, qui exclut les champs secondaires.
+            Voir "include" pour en savoir plus
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: include
+          in: query
+          description: >-
+            ATTENTION : Ce paramètre ne peut être
+            appelé qu'avec le champs "minimal=True".
+
+
+            Permet de ne demander que certains des champs secondaires
+
+
+            Valeurs possibles :
+
+              * complements
+              * dirigeants
+              * finances
+              * matching_etablissements
+              * siege
+
+
+            Par défaut tous les champs sont inclus.
+
+
+            Ce paramètre accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          example: "siege,complements"
+          schema:
+            type: string
         - name: page
           in: query
           description: Le numéro de la page à retourner

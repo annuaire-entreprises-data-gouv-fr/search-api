@@ -492,8 +492,8 @@ paths:
         - name: minimal
           in: query
           description: >-
-            Permet retourner une réponse minmale, qui exclut les champs secondaires.
-            Voir "include" pour en savoir plus
+            Permet de retourner une réponse minmale, qui exclut les champs secondaires.
+            Voir "include" pour en savoir plus.
           required: false
           schema:
             type: boolean
@@ -507,7 +507,7 @@ paths:
             appelé qu'avec le champs "minimal=True".
 
 
-            Permet de ne demander que certains des champs secondaires
+            Permet de ne demander que certains des champs secondaires.
 
 
             Valeurs possibles :
@@ -1274,8 +1274,8 @@ paths:
         - name: minimal
           in: query
           description: >-
-            Permet retourner une réponse minmale, qui exclut les champs secondaires.
-            Voir "include" pour en savoir plus
+            Permet de retourner une réponse minmale, qui exclut les champs secondaires.
+            Voir "include" pour en savoir plus.
           required: false
           schema:
             type: boolean
@@ -1289,7 +1289,7 @@ paths:
             appelé qu'avec le champs "minimal=True".
 
 
-            Permet de ne demander que certains des champs secondaires
+            Permet de ne demander que certains des champs secondaires.
 
 
             Valeurs possibles :

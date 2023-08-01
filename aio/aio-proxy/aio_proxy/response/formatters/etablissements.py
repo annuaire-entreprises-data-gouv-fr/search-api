@@ -49,6 +49,7 @@ def format_etablissement(source_etablissement):
         "longitude": get_field("longitude"),
         "nom_commercial": get_field("nom_commercial"),
         "numero_voie": get_field("numero_voie"),
+        "region": get_field("region"),
         "siret": get_field("siret"),
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
         "type_voie": get_field("type_voie"),

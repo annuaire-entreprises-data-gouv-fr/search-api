@@ -5,7 +5,7 @@ def build_etablissements_filters(search_params):
     """Three types of searches are implemented to filter `établissements` values:
 
     1. Filter search by exact matches on text values,
-        e.g. : "departement", "code_postal", "commune"
+        e.g. : "departement", "code_postal", "commune", "region"
 
     2. Filter search by matching an id in an array of ids,
         e.g. ids : "id_convention_collective",
@@ -27,7 +27,7 @@ def build_etablissements_filters(search_params):
     # Id filters are used in the `should` clause
     id_filters = ["id_finess", "id_rge", "id_uai", "id_convention_collective"]
     # Text filters are used in the `must` clause
-    text_filters = ["departement", "code_postal", "commune"]
+    text_filters = ["departement", "code_postal", "commune", "region"]
     # Bool filters are used in both `must` and `must_not` clauses depending on the
     # filter value
     bool_filters = [

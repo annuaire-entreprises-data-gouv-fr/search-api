@@ -13,6 +13,7 @@ codes_naf = load_file("codes-NAF.json")
 departements = load_file("departements.json")
 natures_juridiques = load_file("natures-juridiques.json")
 tranches_effectifs = load_file("tranches-effectifs.json")
+regions = load_file("regions.json")
 sections_codes_naf = load_file("sections-codes-NAF.json")
 valid_fields_to_select = [
     "COMPLEMENTS",

@@ -13,6 +13,7 @@ def is_any_etablissement_filter_used(search_params) -> bool:
         "id_uai",
         "id_finess",
         "id_rge",
+        "region",
     ]
     for param_name, param_value in vars(search_params).items():
         if param_value is not None and param_name in etablissements_filters:

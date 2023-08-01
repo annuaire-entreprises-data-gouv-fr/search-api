@@ -156,6 +156,17 @@ paths:
           schema:
             type: string
             pattern: \b([013-8]\d?|2[aAbB1-9]?|9[0-59]?|97[12346])\b
+        - name: region
+          in: query
+          description: >-
+            <a href=https://www.insee.fr/fr/information/6051727> Code de
+            région en deux chiffres</a>. Ce paramètre filtre sur les
+            établissements et accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          required: false
+          example: "11,76"
+          schema:
+            type: string
         - name: egapro_renseignee
           in: query
           description: >-
@@ -827,6 +838,13 @@ paths:
                               example: "9"
                               description: >-
                                 Numéro dans la voie (source : base SIRENE).
+                            region:
+                              type: string
+                              nullable: true
+                              example: "11"
+                              description: >-
+                                Code région de l'établissement (source : base
+                                SIRENE).
                             siret:
                               type: string
                               example: "35600000000048"
@@ -1606,6 +1624,13 @@ paths:
                               example: "9"
                               description: >-
                                 Numéro dans la voie (source : base SIRENE).
+                            region:
+                              type: string
+                              nullable: true
+                              example: "11"
+                              description: >-
+                                Code région de l'établissement (source : base
+                                SIRENE).
                             siret:
                               type: string
                               example: "35600000000048"

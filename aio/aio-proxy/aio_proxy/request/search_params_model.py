@@ -13,6 +13,7 @@ class SearchParams:
     commune: list = None
     code_postal: list = None
     departement: list = None
+    region: list = None
     est_entrepreneur_individuel: str = None
     section_activite_principale: list = None
     tranche_effectif_salarie_unite_legale: list = None

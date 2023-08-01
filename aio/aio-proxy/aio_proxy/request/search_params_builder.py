@@ -25,6 +25,7 @@ from aio_proxy.request.parsers.nature_juridique import validate_nature_juridique
 from aio_proxy.request.parsers.page import parse_and_validate_page
 from aio_proxy.request.parsers.per_page import parse_and_validate_per_page
 from aio_proxy.request.parsers.radius import parse_and_validate_radius
+from aio_proxy.request.parsers.region import validate_region
 from aio_proxy.request.parsers.rge import validate_id_rge
 from aio_proxy.request.parsers.section_activite_principale import (
     validate_section_activite_principale,
@@ -96,6 +97,9 @@ class SearchParamsBuilder:
             ),
             departement=validate_departement(
                 str_to_list(clean_parameter(request, param="departement"))
+            ),
+            region=validate_region(
+                str_to_list(clean_parameter(request, param="region"))
             ),
             est_entrepreneur_individuel=parse_and_validate_bool_field(
                 request, param="est_entrepreneur_individuel"

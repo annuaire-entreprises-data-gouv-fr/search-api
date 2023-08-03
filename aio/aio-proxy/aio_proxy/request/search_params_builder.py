@@ -59,8 +59,6 @@ class SearchParamsBuilder:
             per_page=parse_and_validate_per_page(request),
             terms=parse_and_validate_terms(request),
             matching_size=parse_and_validate_matching_size(request),
-            inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
-            inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
             nature_juridique_unite_legale=validate_nature_juridique(
                 str_to_list(clean_parameter(request, param="nature_juridique"))
             ),
@@ -184,8 +182,6 @@ class SearchParamsBuilder:
                     clean_parameter(request, param="section_activite_principale")
                 )
             ),
-            inclure_slug=parse_and_validate_bool_field(request, param="inclure_slug"),
-            inclure_score=parse_and_validate_bool_field(request, param="inclure_score"),
             matching_size=parse_and_validate_matching_size(request),
             minimal=parse_and_validate_bool_field(request, param="minimal"),
             include=validate_selected_fields(

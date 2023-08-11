@@ -20,15 +20,15 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
         }
     else:
         corresponding_es_field = {
-            "convention_collective_renseignee": "unite_legale.liste_idcc",
-            "est_bio": "unite_legale.liste_id_bio",
-            "est_finess": "unite_legale.liste_finess",
-            "est_rge": "unite_legale.liste_rge",
-            "est_uai": "unite_legale.liste_uai",
-            "id_convention_collective": "unite_legale.liste_idcc",
-            "id_finess": "unite_legale.liste_finess",
-            "id_rge": "unite_legale.liste_rge",
-            "id_uai": "unite_legale.liste_uai",
+            "convention_collective_renseignee": "liste_idcc",
+            "est_bio": "liste_id_bio",
+            "est_finess": "liste_finess",
+            "est_rge": "liste_rge",
+            "est_uai": "liste_uai",
+            "id_convention_collective": "liste_idcc",
+            "id_finess": "liste_finess",
+            "id_rge": "liste_rge",
+            "id_uai": "liste_uai",
         }
     if param_name in corresponding_es_field:
         return corresponding_es_field[param_name]

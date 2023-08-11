@@ -32,4 +32,4 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
         }
     if param_name in corresponding_es_field:
         return corresponding_es_field[param_name]
-    return param_name
+    return f"unite_legale.{param_name}"

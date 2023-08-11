@@ -102,7 +102,6 @@ class ElasticSearchRunner:
         self.total_results = cached_search_results["total_results"]
         self.es_search_results = cached_search_results["response"]
         self.execution_time = cached_search_results["execution_time"]
-        logging.info(f"%%%%%%%{self.es_search_results}")
 
     def should_cache_search_response(self):
         """Cache search response if execution time is higher than 400 ms"""

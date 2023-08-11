@@ -21,7 +21,14 @@ def search_person(
             # even if it contains another item
             for nom in nom_person.split(" "):
                 person_filters.append(
-                    {"match": {person["type_person"] + "." + person["match_nom"]: nom}}
+                    {
+                        "match": {
+                            "unite_legale."
+                            + person["type_person"]
+                            + "."
+                            + person["match_nom"]: nom
+                        }
+                    }
                 )
             # match_phrase on the name `keyword` makes sure to boost the documents
             # with the exact match
@@ -31,7 +38,8 @@ def search_person(
             boost_queries.append(
                 {
                     "match_phrase": {
-                        person["type_person"]
+                        "unite_legale."
+                        + person["type_person"]
                         + "."
                         + person["match_nom"]
                         + ".keyword": {
@@ -50,14 +58,18 @@ def search_person(
                 person_filters.append(
                     {
                         "match": {
-                            person["type_person"] + "." + person["match_prenom"]: prenom
+                            "unite_legale."
+                            + person["type_person"]
+                            + "."
+                            + person["match_prenom"]: prenom
                         }
                     }
                 )
             boost_queries.append(
                 {
                     "match_phrase": {
-                        person["type_person"]
+                        "unite_legale."
+                        + person["type_person"]
                         + "."
                         + person["match_prenom"]
                         + ".keyword": {
@@ -75,7 +87,8 @@ def search_person(
                 {
                     "range": {
                         **{
-                            person["type_person"]
+                            "unite_legale."
+                            + person["type_person"]
                             + "."
                             + person["match_date"]: {"gte": min_date_naiss_person}
                         }
@@ -89,7 +102,8 @@ def search_person(
                 {
                     "range": {
                         **{
-                            person["type_person"]
+                            "unite_legale."
+                            + person["type_person"]
                             + "."
                             + person["match_date"]: {"lte": max_date_naiss_person}
                         }
@@ -110,7 +124,7 @@ def search_person(
             search_options.append(
                 query.Q(
                     "nested",
-                    path=person["type_person"],
+                    path="unite_legale." + person["type_person"],
                     query=query.Bool(must=person_filters, should=boost_queries),
                 )
             )

@@ -41,7 +41,7 @@ def build_es_search_text_query(es_search_builder):
         # Always apply this filter for text search to prevent displaying
         # non-diffusible data
         es_search_builder.es_search_client = es_search_builder.es_search_client.filter(
-            "term", **{"statut_diffusion_unite_legale": "O"}
+            "term", **{"unite_legale.statut_diffusion_unite_legale": "O"}
         )
         # Filter results by term using 'unité légale' related filters in the request
         es_search_builder.es_search_client = filter_term_search_unite_legale(

@@ -13,6 +13,7 @@ def test_validate_type_personne(type_personne: str, expected: str):
 @pytest.mark.parametrize("type_personne", ["DIR", "GERANT"])
 def test_validate_type_personne_fail(type_personne: str):
     with pytest.raises(
-        ValueError, match="type_personne doit prendre la valeur 'dirigeant' ou 'elu' !"
+        ValueError,
+        match="type_personne doit prendre la valeur 'dirigeant' ou 'elu' !",
     ):
         validate_type_personne(type_personne)

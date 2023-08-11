@@ -25,7 +25,7 @@ def build_text_query(terms: str, matching_size: int):
                     "function_score": {
                         "query": {
                             "match_phrase": {
-                                "identifiant_association_unite_legale": {
+                                "unite_legale.identifiant_association_unite_legale": {
                                     "query": terms,
                                     "boost": 50,
                                     "_name": "exact match identifiant association",
@@ -68,7 +68,7 @@ def build_text_query(terms: str, matching_size: int):
                     "function_score": {
                         "query": {
                             "match_phrase": {
-                                "sigle.keyword": {
+                                "unite_legale.sigle.keyword": {
                                     "query": terms,
                                     "boost": 100,
                                     "_name": "exact sigle match",
@@ -84,13 +84,13 @@ def build_text_query(terms: str, matching_size: int):
                             "multi_match": {
                                 "query": terms,
                                 "fields": [
-                                    "nom_raison_sociale",
-                                    "denomination_usuelle_1_unite_legale",
-                                    "denomination_usuelle_2_unite_legale",
-                                    "denomination_usuelle_3_unite_legale",
-                                    "sigle",
-                                    "nom",
-                                    "prenom",
+                                    "unite_legale.nom_raison_sociale",
+                                    "unite_legale.denomination_usuelle_1_unite_legale",
+                                    "unite_legale.denomination_usuelle_2_unite_legale",
+                                    "unite_legale.denomination_usuelle_3_unite_legale",
+                                    "unite_legale.sigle",
+                                    "unite_legale.nom",
+                                    "unite_legale.prenom",
                                 ],
                                 "type": "cross_fields",
                                 "operator": "AND",
@@ -104,14 +104,14 @@ def build_text_query(terms: str, matching_size: int):
                     "function_score": {
                         "query": {
                             "nested": {
-                                "path": "etablissements",
+                                "path": "unite_legale.etablissements",
                                 "query": {
                                     "bool": {
                                         "should": [
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_1. "
-                                                    "keyword": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_1.keyword": {
                                                         "query": terms,
                                                         "boost": 25,
                                                         "_name": "exact match "
@@ -121,7 +121,8 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "etablissements.enseigne_1": {
+                                                    "unite_legale.\
+                                                     etablissements.enseigne_1": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -132,8 +133,8 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_2. "
-                                                    "keyword": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_2.keyword": {
                                                         "query": terms,
                                                         "boost": 25,
                                                         "_name": "exact match "
@@ -143,7 +144,8 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "etablissements.enseigne_2": {
+                                                    "unite_legale.etablissements.\
+                                                        enseigne_2": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -154,7 +156,7 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match_phrase": {
-                                                    "etablissements.enseigne_3."
+                                                    "unite_legale.etablissements.enseigne_3."
                                                     "keyword": {
                                                         "query": terms,
                                                         "boost": 25,
@@ -165,7 +167,8 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "etablissements.enseigne_3": {
+                                                    "unite_legale.etablissements.\
+                                                        enseigne_3": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -176,7 +179,8 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "etablissements.adresse": {
+                                                    "unite_legale.etablissements.\
+                                                        adresse": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "_name": "partial match "
@@ -186,7 +190,8 @@ def build_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "etablissements.nom_commercial": {
+                                                    "unite_legale.etablissements.\
+                                                        nom_commercial": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -199,15 +204,15 @@ def build_text_query(terms: str, matching_size: int):
                                                 "multi_match": {
                                                     "query": terms,
                                                     "fields": [
-                                                        "etablissements.nom_complet^15",
-                                                        "etablissements.enseigne_1",
-                                                        "etablissements.enseigne_2",
-                                                        "etablissements.enseigne_3",
-                                                        "etablissements.nom_commercial",
-                                                        "etablissements.adresse",
-                                                        "etablissements.commune",
-                                                        "etablissements.concat_"
-                                                        "enseigne_adresse_siren_siret",
+                                                        "unite_legale.etablissements.nom_complet^15",
+                                                        "unite_legale.etablissements.enseigne_1",
+                                                        "unite_legale.etablissements.enseigne_2",
+                                                        "unite_legale.etablissements.enseigne_3",
+                                                        "unite_legale.etablissements.nom_commercial",
+                                                        "unite_legale.etablissements.adresse",
+                                                        "unite_legale.etablissements.commune",
+                                                        "unite_legale.etablissements.concat_"
+                                                        "unite_legale.enseigne_adresse_siren_siret",
                                                     ],
                                                     "type": "cross_fields",
                                                     "operator": "AND",
@@ -221,9 +226,8 @@ def build_text_query(terms: str, matching_size: int):
                                 "inner_hits": {
                                     "size": matching_size,
                                     "sort": {
-                                        "etablissements.etat_administratif": {
-                                            "order": "asc"
-                                        }
+                                        "unite_legale.etablissements."
+                                        "etat_administratif": {"order": "asc"}
                                     },
                                 },
                             }
@@ -236,7 +240,7 @@ def build_text_query(terms: str, matching_size: int):
                     "function_score": {
                         "query": {
                             "match": {
-                                "liste_dirigeants": {
+                                "unite_legale.liste_dirigeants": {
                                     "query": terms,
                                     "operator": "AND",
                                     "boost": 10,
@@ -251,7 +255,7 @@ def build_text_query(terms: str, matching_size: int):
                     "function_score": {
                         "query": {
                             "match": {
-                                "liste_elus": {
+                                "unite_legale.liste_elus": {
                                     "query": terms,
                                     "operator": "AND",
                                     "boost": 10,

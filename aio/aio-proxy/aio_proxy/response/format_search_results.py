@@ -8,7 +8,9 @@ from aio_proxy.response.formatters.etablissements import (
     format_siege,
 )
 from aio_proxy.response.formatters.insee_bool import format_insee_bool
-from aio_proxy.response.formatters.non_diffusible import hide_non_diffusible_fields
+from aio_proxy.response.formatters.non_diffusible import (
+    hide_non_diffusible_fields,
+)
 from aio_proxy.response.formatters.selected_fields import (
     select_admin_fields,
     select_fields_to_include,
@@ -22,7 +24,7 @@ def format_search_results(results, search_params):
     for result in results:
 
         def get_field(field, default=None):
-            return get_value(result, field, default)
+            return get_value(result["unite_legale"], field, default)
 
         # Hide some fields if non-diffusible
         is_non_diffusible = (
@@ -66,7 +68,7 @@ def format_search_results(results, search_params):
             ),
             "statut_diffusion": get_field("statut_diffusion_unite_legale"),
             "matching_etablissements": format_etablissements_list(
-                get_field("matching_etablissements"), is_non_diffusible
+                get_value(result, "matching_etablissements"), is_non_diffusible
             ),
             "finances": format_bilan(get_field("bilan_financier")),
             "complements": {
@@ -117,7 +119,7 @@ def format_search_results(results, search_params):
             etablissements = format_etablissements_list(
                 get_field("etablissements"), is_non_diffusible
             )
-            score = get_field("meta")["score"]
+            score = get_value(result, "meta")["score"]
             slug = get_field("slug")
             select_admin_fields(
                 search_params.include_admin,
@@ -133,6 +135,6 @@ def format_search_results(results, search_params):
 
         # Include search score and tree field for dev environment
         if is_dev_env():
-            result_formatted["meta"] = get_field("meta")
+            result_formatted["meta"] = get_value(result, "meta")
         formatted_results.append(result_formatted)
     return formatted_results

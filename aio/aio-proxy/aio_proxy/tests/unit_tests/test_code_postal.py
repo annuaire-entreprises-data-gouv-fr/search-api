@@ -3,7 +3,8 @@ from aio_proxy.request.parsers.code_postal import validate_code_postal
 
 
 @pytest.mark.parametrize(
-    "code_postal, expected", [(["45000", "69000"], ["45000", "69000"]), ([], [])]
+    "code_postal, expected",
+    [(["45000", "69000"], ["45000", "69000"]), ([], [])],
 )
 def test_validate_code_postal(code_postal: list[str], expected: list[str]):
     assert validate_code_postal(code_postal) == expected

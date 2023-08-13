@@ -1,5 +1,7 @@
 import pytest
-from aio_proxy.request.parsers.categorie_entreprise import validate_categorie_entreprise
+from aio_proxy.request.parsers.categorie_entreprise import (
+    validate_categorie_entreprise,
+)
 
 
 @pytest.mark.parametrize(

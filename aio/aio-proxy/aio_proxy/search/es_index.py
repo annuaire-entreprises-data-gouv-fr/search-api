@@ -2,7 +2,7 @@ from aio_proxy.search.helpers.color import CURRENT_COLOR
 from elasticsearch_dsl import Document
 
 
-class ElasticsearchSireneIndex(Document):
+class StructureMapping(Document):
     """
 
     Model-like class for persisting documents in elasticsearch.

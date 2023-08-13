@@ -2,10 +2,10 @@ import logging
 from datetime import timedelta
 
 from aio_proxy.request.search_type import SearchType
-from aio_proxy.search.es_index import ElasticsearchSireneIndex
+from aio_proxy.search.es_index import StructureMapping
 from aio_proxy.search.geo_search import build_es_search_geo_query
 from aio_proxy.search.helpers.helpers import (
-    execute_and_agg_total_results_by_siren,
+    execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
     page_through_results,
 )
@@ -19,7 +19,7 @@ MAX_TOTAL_RESULTS = 10000
 
 class ElasticSearchRunner:
     def __init__(self, search_params, search_type):
-        self.es_search_client = ElasticsearchSireneIndex.search()
+        self.es_search_client = StructureMapping.search()
         self.search_type = search_type
         self.search_params = search_params
         self.has_full_text_query = False
@@ -36,13 +36,13 @@ class ElasticSearchRunner:
         if self.has_full_text_query:
             self.es_search_client = self.es_search_client.sort(
                 {"_score": {"order": "desc"}},
-                {"etat_administratif_unite_legale": {"order": "asc"}},
+                {"unite_legale.etat_administratif_unite_legale": {"order": "asc"}},
             )
         # If only filters are used, use nombre établissements ouverts to sort the
         # results
         else:
             self.es_search_client = self.es_search_client.sort(
-                {"nombre_etablissements_ouverts": {"order": "desc"}},
+                {"unite_legale.nombre_etablissements_ouverts": {"order": "desc"}},
             )
 
     def execute_and_format_es_search(self):
@@ -57,14 +57,14 @@ class ElasticSearchRunner:
         # the aggregation causes timeouts on API. We return by default 10 000 results.
         max_results_exceeded = self.total_results >= MAX_TOTAL_RESULTS
         if not max_results_exceeded:
-            execute_and_agg_total_results_by_siren(self)
+            execute_and_agg_total_results_by_identifiant(self)
 
         self.es_search_results = []
-        for matching_unite_legale in es_response.hits:
-            matching_unite_legale_dict = extract_ul_and_etab_from_es_response(
-                matching_unite_legale
+        for matching_structure in es_response.hits:
+            matching_structure_dict = extract_ul_and_etab_from_es_response(
+                matching_structure
             )
-            self.es_search_results.append(matching_unite_legale_dict)
+            self.es_search_results.append(matching_structure_dict)
 
     def sort_and_execute_es_search_query(self):
         self.es_search_client = self.es_search_client.extra(
@@ -73,7 +73,7 @@ class ElasticSearchRunner:
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
         self.es_search_client = self.es_search_client.update_from_dict(
-            {"collapse": {"field": "siren"}}
+            {"collapse": {"field": "identifiant"}}
         )
         # Sort results
         self.sort_es_search_query()

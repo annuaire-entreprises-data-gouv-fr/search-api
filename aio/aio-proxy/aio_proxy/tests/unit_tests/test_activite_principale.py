@@ -1,5 +1,7 @@
 import pytest
-from aio_proxy.request.parsers.activite_principale import validate_activite_principale
+from aio_proxy.request.parsers.activite_principale import (
+    validate_activite_principale,
+)
 
 
 @pytest.mark.parametrize(
@@ -13,7 +15,8 @@ def test_validate_activite_principale(activite_principale, expected):
 @pytest.mark.parametrize("activite_principale", [["11111", "2733Z"]])
 def test_validate_activite_principale_fail_1(activite_principale: list[str]):
     with pytest.raises(
-        ValueError, match="Chaque activité principale doit contenir 6 caractères."
+        ValueError,
+        match="Chaque activité principale doit contenir 6 caractères.",
     ):
         validate_activite_principale(activite_principale)
 
@@ -21,6 +24,7 @@ def test_validate_activite_principale_fail_1(activite_principale: list[str]):
 @pytest.mark.parametrize("activite_principale", [["27.33A"]])
 def test_validate_activite_principale_fail_2(activite_principale: list[str]):
     with pytest.raises(
-        ValueError, match="Au moins une des" " activités principales est inconnue."
+        ValueError,
+        match="Au moins une des" " activités principales est inconnue.",
     ):
         validate_activite_principale(activite_principale)

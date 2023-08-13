@@ -1,8 +1,12 @@
 from aio_proxy.request.helpers import validate_date_range
-from aio_proxy.request.parsers.activite_principale import validate_activite_principale
+from aio_proxy.request.parsers.activite_principale import (
+    validate_activite_principale,
+)
 from aio_proxy.request.parsers.ban_params import ban_params
 from aio_proxy.request.parsers.bool_fields import parse_and_validate_bool_field
-from aio_proxy.request.parsers.categorie_entreprise import validate_categorie_entreprise
+from aio_proxy.request.parsers.categorie_entreprise import (
+    validate_categorie_entreprise,
+)
 from aio_proxy.request.parsers.code_commune import validate_code_commune
 from aio_proxy.request.parsers.code_postal import validate_code_postal
 from aio_proxy.request.parsers.collectivite_territoriale import (
@@ -14,13 +18,17 @@ from aio_proxy.request.parsers.convention_collective import (
 from aio_proxy.request.parsers.date_parser import parse_and_validate_date
 from aio_proxy.request.parsers.departement import validate_departement
 from aio_proxy.request.parsers.empty_params import check_empty_params
-from aio_proxy.request.parsers.etat_administratif import validate_etat_administratif
+from aio_proxy.request.parsers.etat_administratif import (
+    validate_etat_administratif,
+)
 from aio_proxy.request.parsers.finess import validate_id_finess
 from aio_proxy.request.parsers.insee_bool import match_bool_to_insee_value
 from aio_proxy.request.parsers.int_parser import parse_and_validate_int
 from aio_proxy.request.parsers.latitude import parse_and_validate_latitude
 from aio_proxy.request.parsers.longitude import parse_and_validate_longitude
-from aio_proxy.request.parsers.matching_size import parse_and_validate_matching_size
+from aio_proxy.request.parsers.matching_size import (
+    parse_and_validate_matching_size,
+)
 from aio_proxy.request.parsers.nature_juridique import validate_nature_juridique
 from aio_proxy.request.parsers.page import parse_and_validate_page
 from aio_proxy.request.parsers.per_page import parse_and_validate_per_page
@@ -35,12 +43,17 @@ from aio_proxy.request.parsers.selected_fields import (
     validate_inclusion_fields,
     validate_selected_fields,
 )
-from aio_proxy.request.parsers.string_parser import clean_parameter, parse_parameter
+from aio_proxy.request.parsers.string_parser import (
+    clean_parameter,
+    parse_parameter,
+)
 from aio_proxy.request.parsers.terms import (
     check_short_terms_and_no_param,
     parse_and_validate_terms,
 )
-from aio_proxy.request.parsers.tranche_effectif import validate_tranche_effectif_salarie
+from aio_proxy.request.parsers.tranche_effectif import (
+    validate_tranche_effectif_salarie,
+)
 from aio_proxy.request.parsers.type_personne import validate_type_personne
 from aio_proxy.request.parsers.uai import validate_id_uai
 from aio_proxy.request.search_params_model import SearchParams
@@ -157,7 +170,8 @@ class SearchParamsBuilder:
                 str_to_list(clean_parameter(request, param="include"))
             ),
             include_admin=validate_selected_fields(
-                str_to_list(clean_parameter(request, param="include_admin")), admin=True
+                str_to_list(clean_parameter(request, param="include_admin")),
+                admin=True,
             ),
             inclure_etablissements=should_include_etablissements(
                 str_to_list(clean_parameter(request, param="include_admin"))
@@ -188,7 +202,8 @@ class SearchParamsBuilder:
                 str_to_list(clean_parameter(request, param="include"))
             ),
             include_admin=validate_selected_fields(
-                str_to_list(clean_parameter(request, param="include_admin")), admin=True
+                str_to_list(clean_parameter(request, param="include_admin")),
+                admin=True,
             ),
             inclure_etablissements=should_include_etablissements(
                 str_to_list(clean_parameter(request, param="include_admin"))

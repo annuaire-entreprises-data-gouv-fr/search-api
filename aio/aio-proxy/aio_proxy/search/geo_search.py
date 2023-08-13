@@ -6,7 +6,7 @@ def build_es_search_geo_query(es_search_builder):
     # Always apply this filter in geo search to prevent displaying non-diffusible
     # data
     es_search_builder.es_search_client = es_search_builder.es_search_client.filter(
-        "term", **{"statut_diffusion_unite_legale": "O"}
+        "term", **{"unite_legale.statut_diffusion_unite_legale": "O"}
     )
 
     # Use filters to reduce search results
@@ -20,13 +20,13 @@ def build_es_search_geo_query(es_search_builder):
     )
     geo_query = {
         "nested": {
-            "path": "etablissements",
+            "path": "unite_legale.etablissements",
             "query": {
                 "bool": {
                     "filter": {
                         "geo_distance": {
                             "distance": f"{es_search_builder.search_params.radius}km",
-                            "etablissements.coordonnees": {
+                            "unite_legale.etablissements.coordonnees": {
                                 "lat": es_search_builder.search_params.lat,
                                 "lon": es_search_builder.search_params.lon,
                             },
@@ -46,6 +46,6 @@ def build_es_search_geo_query(es_search_builder):
     # By default, exclude etablissements list from response
     if not es_search_builder.search_params.inclure_etablissements:
         es_search_builder.es_search_client = es_search_builder.es_search_client.source(
-            excludes=["etablissements"]
+            excludes=["unite_legale.etablissements"]
         )
     es_search_builder.has_full_text_query = True

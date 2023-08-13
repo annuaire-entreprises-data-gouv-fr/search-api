@@ -41,7 +41,10 @@ def cache_strategy(
         should_cache = should_cache_value()
         if should_cache:
             set_cache_value(
-                redis_client_cache, request_cache_key, value_to_cache, time_to_live
+                redis_client_cache,
+                request_cache_key,
+                value_to_cache,
+                time_to_live,
             )
         return value_to_cache
     except Exception as error:

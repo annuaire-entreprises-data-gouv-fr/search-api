@@ -9,14 +9,14 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
     # "liste_rge" es field for "est_rge" filter).
     if search_unite_legale:
         corresponding_es_field = {
-            "bilan_renseigne": "bilan_financier.ca",
-            "ca_min": "bilan_financier.ca",
-            "ca_max": "bilan_financier.ca",
-            "resultat_net_min": "bilan_financier.resultat_net",
-            "resultat_net_max": "bilan_financier.resultat_net",
-            "code_collectivite_territoriale": "colter_code",
-            "est_association": "identifiant_association_unite_legale",
-            "est_collectivite_territoriale": "colter_code",
+            "bilan_renseigne": "unite_legale.bilan_financier.ca",
+            "ca_min": "unite_legale.bilan_financier.ca",
+            "ca_max": "unite_legale.bilan_financier.ca",
+            "resultat_net_min": "unite_legale.bilan_financier.resultat_net",
+            "resultat_net_max": "unite_legale.bilan_financier.resultat_net",
+            "code_collectivite_territoriale": "unite_legale.colter_code",
+            "est_association": "unite_legale.identifiant_association_unite_legale",
+            "est_collectivite_territoriale": "unite_legale.colter_code",
         }
     else:
         corresponding_es_field = {
@@ -32,4 +32,4 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
         }
     if param_name in corresponding_es_field:
         return corresponding_es_field[param_name]
-    return param_name
+    return f"unite_legale.{param_name}"

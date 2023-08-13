@@ -32,7 +32,7 @@ def search_bilan(
         search_options.append(
             query.Q(
                 "nested",
-                path="bilan_financier",
+                path="unite_legale.bilan_financier",
                 query=query.Bool(must=bilan_filters),
             )
         )

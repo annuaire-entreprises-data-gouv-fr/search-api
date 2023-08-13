@@ -1,4 +1,6 @@
-def validate_id_convention_collective(id_convention_collective: str) -> str | None:
+def validate_id_convention_collective(
+    id_convention_collective: str,
+) -> str | None:
     """Check the validity of id convention collective.
 
     Args:

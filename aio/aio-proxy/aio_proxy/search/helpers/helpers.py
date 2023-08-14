@@ -10,7 +10,7 @@ def extract_ul_and_etab_from_es_response(structure):
         structure_dict["matching_etablissements"] = []
         for matching_etablissement in matching_etablissements:
             structure_dict["matching_etablissements"].append(
-                matching_etablissement["_source"]
+                matching_etablissement["_source"].to_dict()
             )
     except Exception:
         structure_dict["matching_etablissements"] = []

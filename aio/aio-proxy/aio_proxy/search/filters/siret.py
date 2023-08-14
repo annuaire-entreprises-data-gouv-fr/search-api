@@ -7,7 +7,11 @@ def filter_by_siret(search, siret_string):
         "nested": {
             "path": "unite_legale.etablissements",
             "query": {
-                "bool": {"filter": [{"term": {"etablissements.siret": siret_string}}]}
+                "bool": {
+                    "filter": [
+                        {"term": {"unite_legale.etablissements.siret": siret_string}}
+                    ]
+                }
             },
             "inner_hits": {},
         }

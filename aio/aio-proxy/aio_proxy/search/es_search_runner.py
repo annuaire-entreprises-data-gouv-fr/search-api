@@ -37,6 +37,7 @@ class ElasticSearchRunner:
             self.es_search_client = self.es_search_client.sort(
                 {"_score": {"order": "desc"}},
                 {"unite_legale.etat_administratif_unite_legale": {"order": "asc"}},
+                {"unite_legale.nombre_etablissements_ouverts": {"order": "desc"}},
             )
         # If only filters are used, use nombre établissements ouverts to sort the
         # results

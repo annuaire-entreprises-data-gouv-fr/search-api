@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 from aio_proxy.response.formatters.elus import format_elus
 from aio_proxy.response.unite_legale_model import UniteLegaleCollectiviteTerritoriale
 
@@ -13,11 +11,9 @@ def format_collectivite_territoriale(
     if colter_code is None:
         return None
     else:
-        return asdict(
-            UniteLegaleCollectiviteTerritoriale(
-                code=colter_code,
-                code_insee=colter_code_insee,
-                elus=format_elus(colter_elus),  # Format elus if provided
-                niveau=colter_niveau,
-            )
-        )
+        return UniteLegaleCollectiviteTerritoriale(
+            code=colter_code,
+            code_insee=colter_code_insee,
+            elus=format_elus(colter_elus),  # Format elus if provided
+            niveau=colter_niveau,
+        ).dict()

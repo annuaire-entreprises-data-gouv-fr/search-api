@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 from aio_proxy.response.helpers import get_value
 from aio_proxy.response.unite_legale_model import UniteLegaleElu
 
@@ -21,5 +19,5 @@ def format_elus(elus=None):
                 fonction=get_value(elu, "fonction"),
                 sexe=get_value(elu, "sexe"),
             )
-            formatted_elus.append(asdict(formatted_elu))
+            formatted_elus.append(formatted_elu.dict())
     return formatted_elus

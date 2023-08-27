@@ -1,5 +1,6 @@
 from aio_proxy.response.formatters.enseignes import format_enseignes
 from aio_proxy.response.helpers import get_value
+from aio_proxy.response.unite_legale_model import UniteLegaleEtablissement
 
 
 def format_etablissement(source_etablissement):
@@ -54,7 +55,7 @@ def format_etablissement(source_etablissement):
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
         "type_voie": get_field("type_voie"),
     }
-    return formatted_etablissement
+    return UniteLegaleEtablissement(**formatted_etablissement)
 
 
 def format_etablissements_list(etablissements=None, is_non_diffusible=False):
@@ -79,7 +80,7 @@ def format_etablissements_list(etablissements=None, is_non_diffusible=False):
     etablissements_formatted = []
     if etablissements:
         for etablissement in etablissements:
-            etablissement_formatted = format_etablissement(etablissement)
+            etablissement_formatted = format_etablissement(etablissement).dict()
             # Hide field belonging to a non-diffusible unite legale
             if is_non_diffusible:
                 etablissement_formatted = hide_non_diffusible_etablissement_fields(
@@ -88,15 +89,17 @@ def format_etablissements_list(etablissements=None, is_non_diffusible=False):
             # Hide certain fields from response to avoid bulky response
             for field in hidden_fields:
                 del etablissement_formatted[field]
-            etablissements_formatted.append(etablissement_formatted)
+            etablissements_formatted.append(
+                UniteLegaleEtablissement(**etablissement_formatted)
+            )
     return etablissements_formatted
 
 
 def format_siege(siege=None, is_non_diffusible=False):
-    siege_formatted = format_etablissement(siege)
+    siege_formatted = format_etablissement(siege).dict()
     if is_non_diffusible:
         siege_formatted = hide_non_diffusible_etablissement_fields(siege_formatted)
-    return siege_formatted
+    return UniteLegaleEtablissement(**siege_formatted)
 
 
 def hide_non_diffusible_etablissement_fields(etablissement):

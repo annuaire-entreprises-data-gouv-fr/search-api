@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 from aio_proxy.response.helpers import get_value
 from aio_proxy.response.unite_legale_model import (
     UniteLegaleDirigeantsPM,
@@ -33,7 +31,7 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None, is_non_diffusible=
                     qualite=get_value(dirigeant_pp, "qualite"),
                     type_dirigeant="personne physique",
                 )
-            dirigeants.append(asdict(dirigeant))
+            dirigeants.append(dirigeant)
     if dirigeants_pm:
         for dirigeant_pm in dirigeants_pm:
             sigle = (
@@ -48,5 +46,5 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None, is_non_diffusible=
                 qualite=get_value(dirigeant_pm, "qualite"),
                 type_dirigeant="personne morale",
             )
-            dirigeants.append(asdict(dirigeant))
+            dirigeants.append(dirigeant)
     return dirigeants

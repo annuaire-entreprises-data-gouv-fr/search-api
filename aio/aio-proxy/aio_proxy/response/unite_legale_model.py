@@ -127,7 +127,7 @@ class UniteLegaleResponse(BaseModel):
     annee_tranche_effectif_salarie: str | None = None
     statut_diffusion: str = None
     matching_etablissements: list[UniteLegaleEtablissement] | None = None
-    etablissements: UniteLegaleEtablissement | None = None
+    etablissements: list[UniteLegaleEtablissement] | None = None
     finances: dict[str, UniteLegaleFinances] | None = None
     complements: UniteLegaleComplements = None
     score: float = None

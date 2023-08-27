@@ -78,9 +78,9 @@ class UniteLegaleFinances(BaseModel):
 
 
 class UniteLegaleCollectiviteTerritoriale(BaseModel):
-    code: str = None
-    code_insee: str = None
-    elus: list[UniteLegaleElu] = None
+    code: str | None = None
+    code_insee: str | None = None
+    elus: list[UniteLegaleElu] | None = None
     niveau: str | None = None
 
 

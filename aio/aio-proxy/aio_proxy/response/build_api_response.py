@@ -1,12 +1,13 @@
 import json
 
+from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.request.search_params_builder import SearchParamsBuilder
 from aio_proxy.response.response_builder import ResponseBuilder
 from aio_proxy.search.es_search_runner import ElasticSearchRunner
 from aiohttp import web
 
 
-# @http_exception_handler
+@http_exception_handler
 def build_api_response(
     request,
     search_type,

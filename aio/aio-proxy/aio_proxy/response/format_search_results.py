@@ -61,9 +61,6 @@ def format_single_unite_legale(result, search_params):
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie_unite_legale"),
         "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),
         "statut_diffusion": get_field("statut_diffusion_unite_legale"),
-        "matching_etablissements": format_etablissements_list(
-            get_value(result, "matching_etablissements"), is_non_diffusible
-        ),
     }
     formatted_unite_legale = UniteLegaleResponse(**unite_legale_fields)
 
@@ -123,6 +120,11 @@ def format_single_unite_legale(result, search_params):
                 ),
             )
             formatted_unite_legale.complements = complements
+        if field == "MATCHING_ETABLISSEMENTS":
+            matching_etablissements = format_etablissements_list(
+                get_value(result, "matching_etablissements"), is_non_diffusible
+            )
+            formatted_unite_legale.matching_etablissements = matching_etablissements
         if field == "SLUG":
             slug = get_field("slug")
             formatted_unite_legale.slug = slug

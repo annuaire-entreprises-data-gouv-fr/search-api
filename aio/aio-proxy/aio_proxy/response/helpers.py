@@ -42,7 +42,13 @@ def create_fields_to_include(search_params):
         else:
             return search_params.include
     else:
-        return ["SIEGE", "FINANCES", "COMPLEMENTS", "DIRIGEANTS"]
+        return [
+            "SIEGE",
+            "FINANCES",
+            "COMPLEMENTS",
+            "DIRIGEANTS",
+            "MATCHING_ETABLISSEMENTS",
+        ]
 
 
 def create_admin_fields_to_include(search_params):

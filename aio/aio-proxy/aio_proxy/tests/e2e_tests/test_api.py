@@ -386,3 +386,15 @@ def test_region_filter(api_response_tester):
         "region"
     ]
     assert region_etablissement == "76"
+
+
+def test_non_diffusibilite(api_response_tester):
+    path = "search?q=300210820&include_admin=etablissements"
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["results"][0]["nom_complet"] == "[NON-DIFFUSIBLE]"
+    assert response.json()["results"][0]["siege"]["code_postal"] == "[NON-DIFFUSIBLE]"
+    for etablissement in response.json()["results"][0]["etablissements"]:
+        assert etablissement["code_postal"] == "[NON-DIFFUSIBLE]"
+    for dirigeant in response.json()["results"][0]["dirirgeants"]:
+        assert dirigeant["prenoms"] == "[NON-DIFFUSIBLE]"
+        assert dirigeant["nom"] == "[NON-DIFFUSIBLE]"

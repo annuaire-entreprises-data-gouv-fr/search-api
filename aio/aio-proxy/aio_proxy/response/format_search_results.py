@@ -26,11 +26,6 @@ from aio_proxy.response.unite_legale_model import (
 
 def format_single_unite_legale(result, search_params):
     result_unite_legale = result["unite_legale"]
-    is_non_diffusible = (
-        True
-        if result_unite_legale.get("statut_diffusion_unite_legale") != "O"
-        else False
-    )
 
     def get_field(field, default=None):
         return result_unite_legale.get(field, default)
@@ -71,13 +66,12 @@ def format_single_unite_legale(result, search_params):
 
     for field in fields_to_include:
         if field == "SIEGE":
-            siege = format_siege(get_field("siege"), is_non_diffusible)
+            siege = format_siege(get_field("siege"))
             formatted_unite_legale.siege = siege
         if field == "DIRIGEANTS":
             dirigeants = format_dirigeants(
                 get_field("dirigeants_pp"),
                 get_field("dirigeants_pm"),
-                is_non_diffusible,
             )
             formatted_unite_legale.dirigeants = dirigeants
 
@@ -122,16 +116,14 @@ def format_single_unite_legale(result, search_params):
             formatted_unite_legale.complements = complements
         if field == "MATCHING_ETABLISSEMENTS":
             matching_etablissements = format_etablissements_list(
-                get_value(result, "matching_etablissements"), is_non_diffusible
+                get_value(result, "matching_etablissements")
             )
             formatted_unite_legale.matching_etablissements = matching_etablissements
         if field == "SLUG":
             slug = get_field("slug")
             formatted_unite_legale.slug = slug
         if field == "ETABLISSEMENTS":
-            etablissements = format_etablissements_list(
-                get_field("etablissements"), is_non_diffusible
-            )
+            etablissements = format_etablissements_list(get_field("etablissements"))
             formatted_unite_legale.etablissements = etablissements
         if field == "SCORE":
             score = result.get("meta")["score"]
@@ -142,6 +134,11 @@ def format_single_unite_legale(result, search_params):
         formatted_unite_legale.meta = meta
 
     # Hide most fields if unité légale is non-diffusible
+    is_non_diffusible = (
+        True
+        if result_unite_legale.get("statut_diffusion_unite_legale") != "O"
+        else False
+    )
     if is_non_diffusible:
         formatted_unite_legale = hide_non_diffusible_fields(
             formatted_unite_legale.dict(exclude_unset=True)

@@ -58,7 +58,7 @@ def format_etablissement(source_etablissement):
     return UniteLegaleEtablissement(**formatted_etablissement)
 
 
-def format_etablissements_list(etablissements=None, is_non_diffusible=False):
+def format_etablissements_list(etablissements=None):
     hidden_fields = [
         "activite_principale_registre_metier",
         "coordonnees",
@@ -81,11 +81,6 @@ def format_etablissements_list(etablissements=None, is_non_diffusible=False):
     if etablissements:
         for etablissement in etablissements:
             etablissement_formatted = format_etablissement(etablissement).dict()
-            # Hide field belonging to a non-diffusible unite legale
-            if is_non_diffusible:
-                etablissement_formatted = hide_non_diffusible_etablissement_fields(
-                    etablissement_formatted
-                )
             # Hide certain fields from response to avoid bulky response
             for field in hidden_fields:
                 del etablissement_formatted[field]
@@ -95,31 +90,6 @@ def format_etablissements_list(etablissements=None, is_non_diffusible=False):
     return etablissements_formatted
 
 
-def format_siege(siege=None, is_non_diffusible=False):
+def format_siege(siege=None):
     siege_formatted = format_etablissement(siege).dict()
-    if is_non_diffusible:
-        siege_formatted = hide_non_diffusible_etablissement_fields(siege_formatted)
     return UniteLegaleEtablissement(**siege_formatted)
-
-
-def hide_non_diffusible_etablissement_fields(etablissement):
-    # in order to keep `liste_enseignes` as an array of "NON-DIFFUSIBLE" strings
-    if etablissement["liste_enseignes"]:
-        etablissement["liste_enseignes"] = [
-            "[NON-DIFFUSIBLE]" for enseigne in etablissement["liste_enseignes"]
-        ]
-    non_diffusible_fields = [
-        "cedex",
-        "code_postal",
-        "complement_adresse",
-        "distribution_speciale",
-        "indice_repetition",
-        "libelle_cedex",
-        "libelle_voie",
-        "nom_commercial",
-        "numero_voie",
-        "type_voie",
-    ]
-    for field in non_diffusible_fields:
-        etablissement[field] = "[NON-DIFFUSIBLE]"
-    return etablissement

@@ -147,7 +147,7 @@ def format_single_unite_legale(result, search_params):
 
     # `exclude_unset`` option hides fields which were not
     # explicitly set when creating response object
-    return formatted_unite_legale.dict(exclude_unset=True)
+    return formatted_unite_legale
 
 
 def format_search_results(results, search_params):

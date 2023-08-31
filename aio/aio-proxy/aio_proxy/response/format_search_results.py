@@ -1,3 +1,6 @@
+from aio_proxy.response.association_model import (
+    AssociationResponse,
+)
 from aio_proxy.response.formatters.bilan_financier import format_bilan
 from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
@@ -150,6 +153,47 @@ def format_single_unite_legale(result, search_params):
     return formatted_unite_legale
 
 
+def format_single_association(result, search_params):
+    result_association = result["association"]
+
+    def get_field(field, default=None):
+        return result_association.get(field, default)
+
+    association_fields = {
+        "identifiant_association": get_field("identifiant_association"),
+        "siret": get_field("siret"),
+        "siren": get_field("siren"),
+        "titre": get_field("titre"),
+        "date_creation": get_field("date_creation"),
+        "numero_voie": get_field("numero_voie"),
+        "type_voie": get_field("type_voie"),
+        "libelle_voie": get_field("libelle_voie"),
+        "code_postal": get_field("code_postal"),
+        "commune": get_field("commune"),
+        "libelle_commune": get_field("libelle_commune"),
+        "complement_adresse": get_field("complement_adresse"),
+        "indice_repetition": get_field("indice_repetition"),
+        "distribution_speciale": get_field("distribution_speciale"),
+    }
+    formatted_association = AssociationResponse(**association_fields)
+
+    # Some search parameters control fields included in api response
+    fields_to_include = create_admin_fields_to_include(search_params)
+    for field in fields_to_include:
+        if field == "SLUG":
+            slug = result.get("slug")
+            formatted_association.slug = slug
+        if field == "SCORE":
+            score = result.get("meta")["score"]
+            formatted_association.score = score
+    # Include search score and tree field for dev environment
+    if is_dev_env():
+        meta = result.get("meta")
+        formatted_association.meta = meta
+
+    return formatted_association
+
+
 def format_search_results(results, search_params):
     """Main formatting function for all results."""
     formatted_results = []
@@ -157,5 +201,9 @@ def format_search_results(results, search_params):
         # If structure is unite légale
         if "unite_legale" in result:
             formatted_result = format_single_unite_legale(result, search_params)
+            formatted_results.append(formatted_result)
+        # If structure is unite légale
+        if "association" in result:
+            formatted_result = format_single_association(result, search_params)
             formatted_results.append(formatted_result)
     return formatted_results

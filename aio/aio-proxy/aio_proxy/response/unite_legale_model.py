@@ -66,11 +66,6 @@ class UniteLegaleDirigeantsPP(BaseModel):
     type_dirigeant: str = "personne physique"
 
 
-class UniteLegaleDirigeant(BaseModel):
-    dirigeants_pm: list[UniteLegaleDirigeantsPM] | None
-    dirigeants_pp: list[UniteLegaleDirigeantsPP] | None
-
-
 class UniteLegaleFinances(BaseModel):
     annee_cloture_exercice: str | None = None
     ca: int | None = None
@@ -117,9 +112,7 @@ class UniteLegaleResponse(BaseModel):
     annee_categorie_entreprise: str | None = None
     date_creation: str | None = None
     date_mise_a_jour: str | None = None
-    dirigeants: (
-        list[UniteLegaleDirigeantsPP] | list[UniteLegaleDirigeantsPM] | None
-    ) = None
+    dirigeants: (list[UniteLegaleDirigeantsPP | UniteLegaleDirigeantsPM] | None) = None
     etat_administratif: str = None
     nature_juridique: str | None = None
     section_activite_principale: str | None = None

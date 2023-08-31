@@ -21,7 +21,7 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None, is_non_diffusible=
                 qualite=get_value(dirigeant_pp, "qualite"),
                 type_dirigeant="personne physique",
             )
-        dirigeants.append(dirigeant)
+            dirigeants.append(dirigeant)
     if dirigeants_pm:
         for dirigeant_pm in dirigeants_pm:
             sigle = (

@@ -112,7 +112,7 @@ class UniteLegaleResponse(BaseModel):
     annee_categorie_entreprise: str | None = None
     date_creation: str | None = None
     date_mise_a_jour: str | None = None
-    dirigeants: (list[UniteLegaleDirigeantsPP | UniteLegaleDirigeantsPM] | None) = None
+    dirigeants: (list[UniteLegaleDirigeantsPP | UniteLegaleDirigeantsPM]) | None = None
     etat_administratif: str = None
     nature_juridique: str | None = None
     section_activite_principale: str | None = None

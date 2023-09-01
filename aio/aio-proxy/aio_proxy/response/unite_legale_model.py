@@ -1,22 +1,24 @@
+from typing import Literal
+
 from pydantic import BaseModel
 
 
 class UniteLegaleEtablissement(BaseModel):
     activite_principale: str | None = None
     activite_principale_registre_metier: str | None = None
-    adresse: str = None
+    adresse: str | None = None
     cedex: str | None = None
     code_pays_etranger: str | None = None
     code_postal: str | None = None
     commune: str | None = None
     complement_adresse: str | None = None
     coordonnees: str | None = None
-    date_creation: str = None
+    date_creation: str | None = None
     date_debut_activite: str | None = None
     departement: str | None = None
     distribution_speciale: str | None = None
     est_siege: bool = None
-    etat_administratif: str = None
+    etat_administratif: str | None = None
     geo_adresse: str | None = None
     geo_id: str | None = None
     indice_repetition: str | None = None
@@ -55,7 +57,7 @@ class UniteLegaleDirigeantsPM(BaseModel):
     denomination: str | None = None
     sigle: str | None = None
     qualite: str | None = None
-    type_dirigeant: str = "personne morale"
+    type_dirigeant: Literal["personne morale"]
 
 
 class UniteLegaleDirigeantsPP(BaseModel):
@@ -63,7 +65,7 @@ class UniteLegaleDirigeantsPP(BaseModel):
     prenoms: str | None = None
     annee_de_naissance: str | None = None
     qualite: str | None = None
-    type_dirigeant: str = "personne physique"
+    type_dirigeant: Literal["personne physique"]
 
 
 class UniteLegaleFinances(BaseModel):

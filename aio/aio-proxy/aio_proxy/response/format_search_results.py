@@ -64,32 +64,33 @@ def format_single_unite_legale(result, search_params):
         if field == "SIEGE":
             siege = format_siege(get_field("siege"))
             formatted_unite_legale.siege = siege
-        if field == "DIRIGEANTS":
+        elif field == "DIRIGEANTS":
             dirigeants = format_dirigeants(
                 get_field("dirigeants_pp"),
                 get_field("dirigeants_pm"),
             )
             formatted_unite_legale.dirigeants = dirigeants
-        if field == "FINANCES":
+        elif field == "FINANCES":
             finances = format_bilan(get_field("bilan_financier"))
             formatted_unite_legale.finances = finances
-        if field == "COMPLEMENTS":
+        elif field == "COMPLEMENTS":
             complements = format_complements(result_unite_legale)
             formatted_unite_legale.complements = complements
-        if field == "MATCHING_ETABLISSEMENTS":
+        elif field == "MATCHING_ETABLISSEMENTS":
             matching_etablissements = format_etablissements_list(
                 get_value(result, "matching_etablissements")
             )
             formatted_unite_legale.matching_etablissements = matching_etablissements
-        if field == "SLUG":
+        elif field == "SLUG":
             slug = get_field("slug")
             formatted_unite_legale.slug = slug
-        if field == "ETABLISSEMENTS":
+        elif field == "ETABLISSEMENTS":
             etablissements = format_etablissements_list(get_field("etablissements"))
             formatted_unite_legale.etablissements = etablissements
-        if field == "SCORE":
+        elif field == "SCORE":
             score = result.get("meta")["score"]
             formatted_unite_legale.score = score
+
     # Include search score and tree field for dev environment
     if is_dev_env():
         meta = result.get("meta")

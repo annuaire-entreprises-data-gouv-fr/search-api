@@ -1,14 +1,10 @@
 from aio_proxy.response.formatters.bilan_financier import format_bilan
-from aio_proxy.response.formatters.collectivite_territoriale import (
-    format_collectivite_territoriale,
-)
 from aio_proxy.response.formatters.complements import format_complements
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
 from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
-from aio_proxy.response.formatters.insee_bool import format_insee_bool
 from aio_proxy.response.formatters.nom_complet import format_nom_complet
 from aio_proxy.response.formatters.non_diffusible import (
     hide_non_diffusible_fields,
@@ -74,45 +70,11 @@ def format_single_unite_legale(result, search_params):
                 get_field("dirigeants_pm"),
             )
             formatted_unite_legale.dirigeants = dirigeants
-
         if field == "FINANCES":
             finances = format_bilan(get_field("bilan_financier"))
             formatted_unite_legale.finances = finances
         if field == "COMPLEMENTS":
-            complements = format_complements(
-                collectivite_territoriale=format_collectivite_territoriale(
-                    get_field("colter_code"),
-                    get_field("colter_code_insee"),
-                    get_field("colter_elus"),
-                    get_field("colter_niveau"),
-                ),
-                convention_collective_renseignee=get_field(
-                    "convention_collective_renseignee"
-                ),
-                egapro_renseignee=get_field("egapro_renseignee"),
-                est_bio=get_field("est_bio"),
-                est_entrepreneur_individuel=get_field(
-                    "est_entrepreneur_individuel", default=False
-                ),
-                est_entrepreneur_spectacle=get_field("est_entrepreneur_spectacle"),
-                est_ess=format_insee_bool(
-                    get_field("economie_sociale_solidaire_unite_legale")
-                ),
-                est_finess=get_field("est_finess"),
-                est_organisme_formation=get_field("est_organisme_formation"),
-                est_qualiopi=get_field("est_qualiopi"),
-                liste_id_organisme_formation=get_field("liste_id_organisme_formation"),
-                est_rge=get_field("est_rge"),
-                est_service_public=get_field("est_service_public"),
-                est_societe_mission=format_insee_bool(get_field("est_societe_mission")),
-                est_uai=get_field("est_uai"),
-                identifiant_association=get_field(
-                    "identifiant_association_unite_legale"
-                ),
-                statut_entrepreneur_spectacle=get_field(
-                    "statut_entrepreneur_spectacle",
-                ),
-            )
+            complements = format_complements(result_unite_legale)
             formatted_unite_legale.complements = complements
         if field == "MATCHING_ETABLISSEMENTS":
             matching_etablissements = format_etablissements_list(

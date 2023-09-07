@@ -17,7 +17,7 @@ class Etablissement(BaseModel):
     date_debut_activite: str | None = None
     departement: str | None = None
     distribution_speciale: str | None = None
-    est_siege: bool = None
+    est_siege: bool = False
     etat_administratif: str | None = None
     geo_adresse: str | None = None
     geo_id: str | None = None
@@ -53,7 +53,7 @@ class Elu(BaseModel):
 
 
 class DirigeantsPM(BaseModel):
-    siren: str = None
+    siren: str | None = None
     denomination: str | None = None
     sigle: str | None = None
     qualite: str | None = None
@@ -83,31 +83,31 @@ class CollectiviteTerritoriale(BaseModel):
 
 class Complements(BaseModel):
     collectivite_territoriale: CollectiviteTerritoriale | None = None
-    convention_collective_renseignee: bool = None
-    egapro_renseignee: bool = None
-    est_bio: bool = None
-    est_entrepreneur_individuel: bool = None
-    est_entrepreneur_spectacle: bool = None
-    est_ess: bool = None
-    est_finess: bool = None
-    est_organisme_formation: bool = None
-    est_qualiopi: bool = None
+    convention_collective_renseignee: bool = False
+    egapro_renseignee: bool = False
+    est_bio: bool = False
+    est_entrepreneur_individuel: bool = False
+    est_entrepreneur_spectacle: bool = False
+    est_ess: bool = False
+    est_finess: bool = False
+    est_organisme_formation: bool = False
+    est_qualiopi: bool = False
     liste_id_organisme_formation: list | None = None
-    est_rge: bool = None
-    est_service_public: bool = None
-    est_societe_mission: bool = None
-    est_uai: bool = None
+    est_rge: bool = False
+    est_service_public: bool = False
+    est_societe_mission: bool = False
+    est_uai: bool = False
     identifiant_association: str | None = None
     statut_entrepreneur_spectacle: str | None = None
 
 
 class UniteLegaleResponse(BaseModel):
-    siren: str = None
+    siren: str
     nom_complet: str | None = None
     nom_raison_sociale: str | None = None
     sigle: str | None = None
-    nombre_etablissements: int = None
-    nombre_etablissements_ouverts: int = None
+    nombre_etablissements: int | None = None
+    nombre_etablissements_ouverts: int | None = None
     siege: Etablissement = None
     activite_principale: str | None = None
     categorie_entreprise: str | None = None
@@ -115,16 +115,16 @@ class UniteLegaleResponse(BaseModel):
     date_creation: str | None = None
     date_mise_a_jour: str | None = None
     dirigeants: (list[DirigeantsPP | DirigeantsPM] | None) = None
-    etat_administratif: str = None
+    etat_administratif: str | None = None
     nature_juridique: str | None = None
     section_activite_principale: str | None = None
     tranche_effectif_salarie: str | None = None
     annee_tranche_effectif_salarie: str | None = None
-    statut_diffusion: str = None
+    statut_diffusion: str | None = None
     matching_etablissements: list[Etablissement] | None = None
     etablissements: list[Etablissement] | None = None
     finances: dict[str, Finances] | None = None
     complements: Complements = None
-    score: float = None
-    slug: str = None
-    meta: dict = None
+    score: float | None = None
+    slug: str | None = None
+    meta: dict | None = None

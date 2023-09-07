@@ -1,6 +1,6 @@
 from aio_proxy.response.formatters.enseignes import format_enseignes
 from aio_proxy.response.helpers import get_value
-from aio_proxy.response.unite_legale_model import UniteLegaleEtablissement
+from aio_proxy.response.unite_legale_model import Etablissement
 
 
 def format_etablissement(source_etablissement):
@@ -55,7 +55,7 @@ def format_etablissement(source_etablissement):
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
         "type_voie": get_field("type_voie"),
     }
-    return UniteLegaleEtablissement(**formatted_etablissement)
+    return Etablissement(**formatted_etablissement)
 
 
 def format_etablissements_list(etablissements=None):
@@ -84,12 +84,10 @@ def format_etablissements_list(etablissements=None):
             # Hide certain fields from response to avoid bulky response
             for field in hidden_fields:
                 del etablissement_formatted[field]
-            etablissements_formatted.append(
-                UniteLegaleEtablissement(**etablissement_formatted)
-            )
+            etablissements_formatted.append(Etablissement(**etablissement_formatted))
     return etablissements_formatted
 
 
 def format_siege(siege=None):
     siege_formatted = format_etablissement(siege).dict()
-    return UniteLegaleEtablissement(**siege_formatted)
+    return Etablissement(**siege_formatted)

@@ -2,7 +2,7 @@ from aio_proxy.response.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
 from aio_proxy.response.formatters.insee_bool import format_insee_bool
-from aio_proxy.response.unite_legale_model import UniteLegaleComplements
+from aio_proxy.response.unite_legale_model import Complements
 
 
 def format_complements(result_unite_legale):
@@ -35,7 +35,7 @@ def format_complements(result_unite_legale):
     statut_entrepreneur_spectacle = get_field(
         "statut_entrepreneur_spectacle",
     )
-    return UniteLegaleComplements(
+    return Complements(
         collectivite_territoriale=collectivite_territoriale,
         convention_collective_renseignee=convention_collective_renseignee,
         egapro_renseignee=egapro_renseignee,

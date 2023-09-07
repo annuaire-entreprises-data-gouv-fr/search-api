@@ -1,5 +1,5 @@
 from aio_proxy.response.helpers import get_value
-from aio_proxy.response.unite_legale_model import UniteLegaleElu
+from aio_proxy.response.unite_legale_model import Elu
 
 
 def format_elus(elus=None):
@@ -12,7 +12,7 @@ def format_elus(elus=None):
                 else None
             )
 
-            formatted_elu = UniteLegaleElu(
+            formatted_elu = Elu(
                 nom=get_value(elu, "nom"),
                 prenoms=get_value(elu, "prenom"),
                 annee_de_naissance=annee_de_naissance,

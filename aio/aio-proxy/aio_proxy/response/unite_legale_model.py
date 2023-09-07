@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class UniteLegaleEtablissement(BaseModel):
+class Etablissement(BaseModel):
     activite_principale: str | None = None
     activite_principale_registre_metier: str | None = None
     adresse: str | None = None
@@ -44,7 +44,7 @@ class UniteLegaleEtablissement(BaseModel):
     type_voie: str | None = None
 
 
-class UniteLegaleElu(BaseModel):
+class Elu(BaseModel):
     nom: str | None = None
     prenoms: str | None = None
     annee_de_naissance: str | None = None
@@ -52,7 +52,7 @@ class UniteLegaleElu(BaseModel):
     sexe: str | None = None
 
 
-class UniteLegaleDirigeantsPM(BaseModel):
+class DirigeantsPM(BaseModel):
     siren: str = None
     denomination: str | None = None
     sigle: str | None = None
@@ -60,7 +60,7 @@ class UniteLegaleDirigeantsPM(BaseModel):
     type_dirigeant: Literal["personne morale"]
 
 
-class UniteLegaleDirigeantsPP(BaseModel):
+class DirigeantsPP(BaseModel):
     nom: str | None = None
     prenoms: str | None = None
     annee_de_naissance: str | None = None
@@ -68,21 +68,21 @@ class UniteLegaleDirigeantsPP(BaseModel):
     type_dirigeant: Literal["personne physique"]
 
 
-class UniteLegaleFinances(BaseModel):
+class Finances(BaseModel):
     annee_cloture_exercice: str | None = None
     ca: int | None = None
     resultat_net: int | None = None
 
 
-class UniteLegaleCollectiviteTerritoriale(BaseModel):
+class CollectiviteTerritoriale(BaseModel):
     code: str | None = None
     code_insee: str | None = None
-    elus: list[UniteLegaleElu] | None = None
+    elus: list[Elu] | None = None
     niveau: str | None = None
 
 
-class UniteLegaleComplements(BaseModel):
-    collectivite_territoriale: UniteLegaleCollectiviteTerritoriale | None = None
+class Complements(BaseModel):
+    collectivite_territoriale: CollectiviteTerritoriale | None = None
     convention_collective_renseignee: bool = None
     egapro_renseignee: bool = None
     est_bio: bool = None
@@ -108,23 +108,23 @@ class UniteLegaleResponse(BaseModel):
     sigle: str | None = None
     nombre_etablissements: int = None
     nombre_etablissements_ouverts: int = None
-    siege: UniteLegaleEtablissement = None
+    siege: Etablissement = None
     activite_principale: str | None = None
     categorie_entreprise: str | None = None
     annee_categorie_entreprise: str | None = None
     date_creation: str | None = None
     date_mise_a_jour: str | None = None
-    dirigeants: (list[UniteLegaleDirigeantsPP | UniteLegaleDirigeantsPM] | None) = None
+    dirigeants: (list[DirigeantsPP | DirigeantsPM] | None) = None
     etat_administratif: str = None
     nature_juridique: str | None = None
     section_activite_principale: str | None = None
     tranche_effectif_salarie: str | None = None
     annee_tranche_effectif_salarie: str | None = None
     statut_diffusion: str = None
-    matching_etablissements: list[UniteLegaleEtablissement] | None = None
-    etablissements: list[UniteLegaleEtablissement] | None = None
-    finances: dict[str, UniteLegaleFinances] | None = None
-    complements: UniteLegaleComplements = None
+    matching_etablissements: list[Etablissement] | None = None
+    etablissements: list[Etablissement] | None = None
+    finances: dict[str, Finances] | None = None
+    complements: Complements = None
     score: float = None
     slug: str = None
     meta: dict = None

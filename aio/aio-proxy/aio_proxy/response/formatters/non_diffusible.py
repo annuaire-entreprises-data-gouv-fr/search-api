@@ -13,7 +13,7 @@ def hide_non_diffusible_fields(result_formatted):
         )
 
     if result_formatted.get("dirigeants"):
-        result_formatted["dirigeants"] = hide_non_diffusible_dirirgeants_fields(
+        result_formatted["dirigeants"] = hide_non_diffusible_dirigeants_fields(
             result_formatted["dirigeants"]
         )
 
@@ -26,7 +26,7 @@ def hide_non_diffusible_fields(result_formatted):
     return result_formatted
 
 
-def hide_non_diffusible_dirirgeants_fields(dirigeants):
+def hide_non_diffusible_dirigeants_fields(dirigeants):
     for dirigeant in dirigeants:
         if dirigeant["type_dirigeant"] == "personne physique":
             dirigeant["nom"] = "[NON-DIFFUSIBLE]"

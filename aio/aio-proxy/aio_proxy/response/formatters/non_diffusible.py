@@ -4,29 +4,24 @@ def hide_non_diffusible_fields(result_formatted):
         "nom_raison_sociale",
         "sigle",
     ]
-    for field in result_formatted.keys():
-        if field in hidden_fields:
-            result_formatted[field] = "[NON-DIFFUSIBLE]"
+    for field in hidden_fields:
+        result_formatted[field] = "[NON-DIFFUSIBLE]"
 
-        if field == "siege":
-            result_formatted["siege"] = hide_non_diffusible_etablissement_fields(
-                result_formatted["siege"]
-            )
+    if result_formatted.get("siege"):
+        result_formatted["siege"] = hide_non_diffusible_etablissement_fields(
+            result_formatted["siege"]
+        )
 
-        if field == "dirigeants":
-            result_formatted["dirigeants"] = hide_non_diffusible_dirirgeants_fields(
-                result_formatted["dirigeants"]
-            )
+    if result_formatted.get("dirigeants"):
+        result_formatted["dirigeants"] = hide_non_diffusible_dirirgeants_fields(
+            result_formatted["dirigeants"]
+        )
 
-        if field == "matching_etablissements":
-            for matching_etablissement in result_formatted["matching_etablissements"]:
-                matching_etablissement = hide_non_diffusible_etablissement_fields(
-                    matching_etablissement
-                )
+    for matching_etablissement in result_formatted.get("matching_etablissements", []):
+        hide_non_diffusible_etablissement_fields(matching_etablissement)
 
-        if field == "etablissements":
-            for etablissement in result_formatted["etablissements"]:
-                etablissement = hide_non_diffusible_etablissement_fields(etablissement)
+    for etablissement in result_formatted.get("etablissements", []):
+        hide_non_diffusible_etablissement_fields(etablissement)
 
     return result_formatted
 

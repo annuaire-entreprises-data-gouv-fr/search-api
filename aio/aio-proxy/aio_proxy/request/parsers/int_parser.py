@@ -7,6 +7,7 @@ def parse_and_validate_int(request, param: str, default_value=None):
     except ValueError:
         raise ValueError("Veuillez indiquer un entier. Exemple : 100000")
 
+    # Elasticsearch `long` type maxes out at this range
     min_val = -9223372036854775295
     max_val = 9223372036854775295
 

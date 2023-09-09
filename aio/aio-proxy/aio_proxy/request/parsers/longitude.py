@@ -16,7 +16,13 @@ def parse_and_validate_longitude(request):
     """
     min_longitude = -180
     max_longitude = 180
-    lon = float(request.rel_url.query.get("long"))
+    lon_str = request.rel_url.query.get("long")
+    if lon_str == "nan":
+        raise ValueError
+    try:
+        lon = float(lon_str)
+    except ValueError:
+        raise ValueError
     if lon > max_longitude or lon < min_longitude:
         raise ValueError
     return lon

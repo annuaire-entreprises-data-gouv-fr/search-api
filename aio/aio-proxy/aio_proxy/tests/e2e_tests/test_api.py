@@ -423,7 +423,5 @@ def test_near_point_nan_values(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["erreur"]
-        == """Veuillez indiquer
-      une latitude entre -90° et 90°."""
+        response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
     )

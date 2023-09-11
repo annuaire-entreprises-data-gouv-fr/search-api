@@ -413,3 +413,15 @@ def test_non_diffusibilite(api_response_tester):
     for dirigeant in response.json()["results"][0]["dirigeants"]:
         assert dirigeant["prenoms"] == "[NON-DIFFUSIBLE]"
         assert dirigeant["nom"] == "[NON-DIFFUSIBLE]"
+
+
+def test_near_point_nan_values(api_response_tester):
+    """
+    test near point endpoint with nan values
+    """
+    path = "near_point?lat=nan&long=nan"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
+    )

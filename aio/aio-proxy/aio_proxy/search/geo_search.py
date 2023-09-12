@@ -44,7 +44,7 @@ def build_es_search_geo_query(es_search_builder):
     )
 
     # By default, exclude etablissements list from response
-    if not es_search_builder.search_params.inclure_etablissements:
+    if "ETABLISSEMENTS" not in es_search_builder.search_params.include_admin:
         es_search_builder.es_search_client = es_search_builder.es_search_client.source(
             excludes=["unite_legale.etablissements"]
         )

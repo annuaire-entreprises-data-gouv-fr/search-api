@@ -241,7 +241,12 @@ def build_es_search_text_query(es_search_builder):
                 es_search_builder.has_full_text_query = True
 
         # By default, exclude etablissements list from response
-        if not es_search_builder.search_params.inclure_etablissements:
+        include_atablissements = (
+            es_search_builder.search_params.include_admin
+            and "ETABLISSEMENTS" in es_search_builder.search_params.include_admin
+        )
+
+        if not include_atablissements:
             es_search_builder.es_search_client = (
                 es_search_builder.es_search_client.source(excludes=["etablissements"])
             )

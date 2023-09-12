@@ -54,4 +54,3 @@ class SearchParams:
     minimal: bool = None
     include: list = None
     include_admin: list = None
-    inclure_etablissements: bool = None

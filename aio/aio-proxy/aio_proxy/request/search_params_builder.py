@@ -39,7 +39,6 @@ from aio_proxy.request.parsers.section_activite_principale import (
     validate_section_activite_principale,
 )
 from aio_proxy.request.parsers.selected_fields import (
-    should_include_etablissements,
     validate_inclusion_fields,
     validate_selected_fields,
 )
@@ -173,9 +172,6 @@ class SearchParamsBuilder:
                 str_to_list(clean_parameter(request, param="include_admin")),
                 admin=True,
             ),
-            inclure_etablissements=should_include_etablissements(
-                str_to_list(clean_parameter(request, param="include_admin"))
-            ),
         )
         SearchParamsBuilder.check_and_validate_params(request, params)
         return params
@@ -204,9 +200,6 @@ class SearchParamsBuilder:
             include_admin=validate_selected_fields(
                 str_to_list(clean_parameter(request, param="include_admin")),
                 admin=True,
-            ),
-            inclure_etablissements=should_include_etablissements(
-                str_to_list(clean_parameter(request, param="include_admin"))
             ),
         )
         return params

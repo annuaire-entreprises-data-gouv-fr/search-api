@@ -15,6 +15,9 @@ from aio_proxy.search.helpers.bilan_filters_used import is_any_bilan_filter_used
 from aio_proxy.search.helpers.etablissements_filters_used import (
     is_any_etablissement_filter_used,
 )
+from aio_proxy.search.helpers.exclude_etablissements import (
+    exclude_etablissements_from_search,
+)
 from aio_proxy.search.parsers.siren import is_siren
 from aio_proxy.search.parsers.siret import is_siret
 from aio_proxy.search.queries.bilan import search_bilan
@@ -240,8 +243,4 @@ def build_es_search_text_query(es_search_builder):
             if getattr(es_search_builder.search_params, item):
                 es_search_builder.has_full_text_query = True
 
-        # By default, exclude etablissements list from response
-        if not es_search_builder.search_params.inclure_etablissements:
-            es_search_builder.es_search_client = (
-                es_search_builder.es_search_client.source(excludes=["etablissements"])
-            )
+        exclude_etablissements_from_search(es_search_builder)

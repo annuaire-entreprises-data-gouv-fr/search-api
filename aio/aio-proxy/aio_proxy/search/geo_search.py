@@ -1,4 +1,7 @@
 from aio_proxy.search.filters.term_filters import filter_term_list_search_unite_legale
+from aio_proxy.search.helpers.exclude_etablissements import (
+    exclude_etablissements_from_search,
+)
 from elasticsearch_dsl import Q
 
 
@@ -43,9 +46,5 @@ def build_es_search_geo_query(es_search_builder):
         Q(geo_query)
     )
 
-    # By default, exclude etablissements list from response
-    if not es_search_builder.search_params.inclure_etablissements:
-        es_search_builder.es_search_client = es_search_builder.es_search_client.source(
-            excludes=["unite_legale.etablissements"]
-        )
+    exclude_etablissements_from_search(es_search_builder)
     es_search_builder.has_full_text_query = True

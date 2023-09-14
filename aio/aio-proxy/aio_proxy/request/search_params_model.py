@@ -53,4 +53,3 @@ class SearchParams(BaseModel):
     minimal: bool | None = False
     include: list | None = None
     include_admin: list | None = None
-

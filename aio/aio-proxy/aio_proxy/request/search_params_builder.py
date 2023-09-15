@@ -1,4 +1,4 @@
-from aio_proxy.request.helpers import validate_date_range
+from aio_proxy.request.helpers import validate_date_range, validate_results_window
 from aio_proxy.request.parsers.activite_principale import (
     validate_activite_principale,
 )
@@ -202,6 +202,7 @@ class SearchParamsBuilder:
                 admin=True,
             ),
         )
+        validate_results_window(params.page, params.per_page)
         return params
 
     @staticmethod
@@ -213,6 +214,7 @@ class SearchParamsBuilder:
             params.min_date_naiss_personne,
             params.max_date_naiss_personne,
         )
+        validate_results_window(params.page, params.per_page)
         # Prevent performance issues by refusing query terms less than 3 characters
         # unless another param is provided
         check_short_terms_and_no_param(params)

@@ -13,15 +13,12 @@ def http_exception_handler(func):
     def inner_function(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except (
-            elasticsearch.exceptions.RequestError,
-            TypeError,
-        ) as error:
+        except elasticsearch.exceptions.RequestError as error:
             raise web.HTTPBadRequest(
                 text=serialize_error_text(str(error)),
                 content_type="application/json",
             )
-        except ValueError as error:
+        except (ValueError, TypeError) as error:
             with push_scope() as scope:
                 # group value errors together based on their response (Bad request)
                 scope.fingerprint = ["Bad Request"]

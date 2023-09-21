@@ -6,11 +6,11 @@ from aio_proxy.response.response_model import ResponseModel
 class ResponseBuilder:
     def __init__(self, search_params, es_search_results):
         self.total_results = min(int(es_search_results.total_results), 10000)
-        self.per_page = search_params.per_page
+        self.per_page = search_params["per_page"]
         self.results = format_search_results(
             es_search_results.es_search_results, search_params
         )
-        self.page = search_params.page + 1
+        self.page = search_params["page"] + 1
         self.total_pages = self.calculate_total_pages()
         response = ResponseModel(
             results=self.results,

@@ -4,9 +4,7 @@ import pathlib
 import aiohttp
 from aiohttp import web
 from aiohttp_swagger3 import ReDocUiSettings, SwaggerDocs
-from elasticapm.contrib.aiohttp import ElasticAPM
 
-from aio_proxy.response.helpers import APM_URL, CURRENT_ENV
 from aio_proxy.routes import routes
 from aio_proxy.settings import config
 
@@ -30,12 +28,14 @@ def main():
         components=open_api_path,
     )
     app["config"] = config
+    """
     app["ELASTIC_APM"] = {
         "SERVICE_NAME": "SEARCH APM",
         "SERVER_URL": APM_URL,
         "ELASTIC_APM_ENVIRONMENT": CURRENT_ENV,
     }
     ElasticAPM(app)
+    """
     web.run_app(app, host=config["host"], port=config["port"])
     app.on_startup.append(swagger)
 

@@ -1,21 +1,3 @@
-def parse_and_validate_terms(request, default_value=None):
-    """Extract search terms from request.
-
-    Args:
-        request: HTTP request.
-        default_value:
-
-    Returns:
-        terms if given.
-    Raises:
-        ValueError: otherwise.
-    """
-    terms = request.rel_url.query.get("q", default_value)
-    if terms:
-        return terms.upper()
-    return terms
-
-
 def check_short_terms_and_no_param(search_params):
     """Prevent performance issues by refusing query terms less than 3 characters.
     Accept less than 3 characters if at least one parameter is filled.
@@ -29,13 +11,13 @@ def check_short_terms_and_no_param(search_params):
     """
     min_chars_in_terms = 3
     if (
-        search_params.terms is not None
-        and len(search_params.terms) < min_chars_in_terms
+        search_params.get("terms", None) is not None
+        and len(search_params.get("terms", None)) < min_chars_in_terms
         and all(
             val is None
             for val in [
                 param_value
-                for param, param_value in vars(search_params).items()
+                for param, param_value in search_params.items()
                 if param not in ["terms", "page", "per_page", "matching_size"]
             ]
         )

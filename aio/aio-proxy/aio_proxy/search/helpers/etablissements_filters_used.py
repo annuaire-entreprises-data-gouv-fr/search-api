@@ -15,7 +15,7 @@ def is_any_etablissement_filter_used(search_params) -> bool:
         "id_rge",
         "region",
     ]
-    for param_name, param_value in vars(search_params).items():
+    for param_name, param_value in search_params.items():
         if param_value is not None and param_name in etablissements_filters:
             return True
     return False

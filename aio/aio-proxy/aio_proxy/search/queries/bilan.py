@@ -10,7 +10,7 @@ def search_bilan(
     search_options = []
     bilan_filters = []
     for filter in bilan_filters_to_include:
-        filter_value = getattr(search_params, filter)
+        filter_value = search_params.get(filter, None)
         if filter_value is not None:
             if "min" in filter:
                 operator = "gte"

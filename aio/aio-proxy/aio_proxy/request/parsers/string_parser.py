@@ -1,4 +1,4 @@
-def clean_parameter(request, param: str):
+def clean_parameter(param: str):
     """Extract and clean param from request.
     Remove white spaces and use upper case.
 
@@ -10,16 +10,13 @@ def clean_parameter(request, param: str):
         None if None.
         clean_param otherwise.
     """
-    param = parse_parameter(request, param)
     if param is None:
         return None
+    param = param.replace("-", " ")
     param_clean = param.replace(" ", "").upper()
     return param_clean
 
 
-def parse_parameter(request, param: str, default_value=None):
-    param = request.rel_url.query.get(param, default_value)
-    if param is None:
-        return None
+def clean_name(param: str):
     param = param.replace("-", " ").lower()
     return param

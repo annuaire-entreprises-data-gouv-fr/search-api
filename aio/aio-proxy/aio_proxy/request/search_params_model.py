@@ -1,4 +1,5 @@
 import re
+from datetime import date, datetime
 
 from aio_proxy.labels.helpers import (
     codes_naf,
@@ -10,7 +11,13 @@ from aio_proxy.labels.helpers import (
     valid_admin_fields_to_select,
     valid_fields_to_select,
 )
-from pydantic import BaseModel, validator
+from aio_proxy.request.parsers.insee_bool import match_bool_to_insee_value
+from aio_proxy.request.parsers.string_parser import (
+    clean_name,
+    clean_parameter,
+)
+from aio_proxy.utils.utils import str_to_list
+from pydantic import BaseModel, field_validator
 
 MAX_PAGE_VALUE = 1000
 MIN_PAGE_NUMBER = 0
@@ -45,7 +52,7 @@ class SearchParams(BaseModel):
     est_qualiopi: bool | None = None
     est_rge: bool | None = None
     est_service_public: bool | None = None
-    est_societe_mission: bool | None = None
+    est_societe_mission: str | None = None
     economie_sociale_solidaire_unite_legale: str | None = None
     id_convention_collective: str | None = None
     id_finess: str | None = None
@@ -54,8 +61,8 @@ class SearchParams(BaseModel):
     id_rge: str | None = None
     nom_personne: str | None = None
     prenoms_personne: str | None = None
-    min_date_naiss_personne: str | None = None
-    max_date_naiss_personne: str | None = None
+    min_date_naiss_personne: datetime | None = None
+    max_date_naiss_personne: datetime | None = None
     ca_min: str | None = None
     ca_max: str | None = None
     resultat_net_min: float | None = None
@@ -71,163 +78,188 @@ class SearchParams(BaseModel):
     include: list | None = None
     include_admin: list | None = None
 
-    @validator("page", pre=True, always=True)
+    @field_validator("page", mode="before")
     def validate_page(cls, page):
-        page = page - 1  # default 1
-        # 1000 is elasticsearch's default page limit
-        if page <= MIN_PAGE_NUMBER - 1 or page >= MAX_PAGE_VALUE:
-            raise ValueError(
-                "Veuillez indiquer un numéro de page entier entre 1 "
-                "et 1000, par défaut 1."
+        try:
+            page = int(page) - 1  # default 1
+            # 1000 is elasticsearch's default page limit
+            if page <= MIN_PAGE_NUMBER - 1 or page >= MAX_PAGE_VALUE:
+                raise TypeError
+        except TypeError:
+            raise TypeError(
+                "Veuillez indiquer un numéro de page entier entre 1 et "
+                "1000, par défaut 1."
             )
         return page
 
-    @validator("per_page", pre=True, always=True)
+    @field_validator("per_page", mode="before")
     def validate_per_page(cls, per_page):
         max_per_page = 25
         min_per_page = 1
-        if per_page > max_per_page or per_page < min_per_page:
-            raise ValueError(
+        try:
+            if per_page > max_per_page or per_page < min_per_page:
+                raise TypeError
+            return per_page
+        except TypeError:
+            raise TypeError(
                 "Veuillez indiquer un `per_page` entre 1 et 25, par défaut 10."
             )
-        return per_page
 
-    @validator("terms", pre=True, always=True)
+    @field_validator("terms", mode="before")
     def validate_terms(cls, terms):
-        if terms:
-            return terms.upper()
-        return terms
+        return terms.upper()
 
-    @validator("matching_size", pre=True, always=True)
+    @field_validator("matching_size", mode="before")
     def validate_matching_size(cls, matching_size):
         min_matching_size = 0
         max_matching_size = 100
-        if matching_size <= min_matching_size or matching_size > max_matching_size:
-            raise ValueError(
+        try:
+            if matching_size <= min_matching_size or matching_size > max_matching_size:
+                raise TypeError
+            return matching_size
+        except TypeError:
+            raise TypeError(
                 "Veuillez indiquer un nombre d'établissements"
                 "connexes entier entre 1 et "
                 "100, par défaut 10."
             )
-        return matching_size
 
-    @validator("nature_juridique_unite_legale", pre=True, always=True)
-    def validate_nature_juridique(cls, list_nature_juridique):
+    @field_validator("nature_juridique_unite_legale", mode="before")
+    def validate_nature_juridique(cls, nature_juridique):
+        list_nature_juridique = str_to_list(clean_parameter(nature_juridique))
         for nature_juridique in list_nature_juridique:
             if nature_juridique not in natures_juridiques:
-                raise ValueError(
+                raise TypeError(
                     f"Au moins une nature juridique est non valide. "
                     f"Les natures juridiques valides : "
                     f"{[nature_juridique for nature_juridique in natures_juridiques]}."
                 )
         return list_nature_juridique
 
-    @validator(
-        "min_date_naiss_personne", "max_date_naiss_personne", pre=True, always=True
-    )
-    def validate_date(cls, date):
-        return date.fromisoformat(date)
+    @field_validator("nom_personne", "prenoms_personne", mode="before")
+    def validate_nom(cls, nom):
+        return clean_name(nom)
 
-    @validator(
+    @field_validator(
+        "min_date_naiss_personne", "max_date_naiss_personne", mode="before"
+    )
+    def validate_date(cls, date_string):
+        try:
+            return date.fromisoformat(date_string)
+        except ValueError:
+            raise TypeError(
+                "Veuillez indiquer une date sous"
+                "le format : aaaa-mm-jj. Exemple : '1990-01-02'"
+            )
+
+    @field_validator(
         "ca_min",
         "ca_max",
         "resultat_net_min",
         "resultat_net_max",
-        pre=True,
-        always=True,
+        mode="before",
     )
     def validate_long_int(cls, int_val):
         # Elasticsearch `long` type maxes out at this range
         min_val = -9223372036854775295
         max_val = 9223372036854775295
-
-        if min_val <= int_val <= max_val:
-            return int_val
-        else:
-            raise ValueError(
+        try:
+            if min_val <= int(int_val) <= max_val:
+                return int(int_val)
+        except TypeError:
+            raise TypeError(
                 f"Veuillez indiquer un entier entre {min_val} et {max_val}."
             )
 
-    @validator("type_personne", pre=True, always=True)
+    @field_validator("type_personne", mode="before")
     def validate_type_personne(cls, type_personne):
-        if type_personne not in ["ELU", "DIRIGEANT"]:
-            raise ValueError(
+        if type_personne.upper() not in ["ELU", "DIRIGEANT"]:
+            raise TypeError(
                 "type_personne doit prendre la valeur 'dirigeant' ou 'elu' !"
             )
         return type_personne
 
-    @validator("etat_administratif_unite_legale", pre=True, always=True)
+    @field_validator("etat_administratif_unite_legale", mode="before")
     def validate_etat_administratif(cls, etat_administratif):
-        if etat_administratif not in ["A", "C"]:
-            raise ValueError("L'état administratif doit prendre la valeur 'A' ou 'C' !")
+        if etat_administratif.upper() not in ["A", "C"]:
+            raise TypeError("L'état administratif doit prendre la valeur 'A' ou 'C' !")
         return etat_administratif
 
-    @validator("activite_principale_unite_legale", pre=True, always=True)
+    @field_validator("activite_principale_unite_legale", mode="before")
     def validate_activite_principale(cls, activite_principale_unite_legale):
+        list_activite_principale = str_to_list(
+            clean_parameter(activite_principale_unite_legale)
+        )
         length_activite_principale = 6
-        for activite_principale in activite_principale_unite_legale:
+        for activite_principale in list_activite_principale:
             if len(activite_principale) != length_activite_principale:
-                raise ValueError(
+                raise TypeError(
                     "Chaque activité principale doit contenir 6 caractères."
                 )
             if activite_principale not in codes_naf:
-                raise ValueError("Au moins une des activités principales est inconnue.")
-        return activite_principale_unite_legale
+                raise TypeError("Au moins une des activités principales est inconnue.")
+        return list_activite_principale
 
-    @validator("categorie_entreprise", pre=True, always=True)
-    def validate_categorie_entreprise(cls, list_categorie_entreprise):
+    @field_validator("categorie_entreprise", mode="before")
+    def validate_categorie_entreprise(cls, categorie_entreprise):
+        list_categorie_entreprise = str_to_list(clean_parameter(categorie_entreprise))
         for categorie_entreprise in list_categorie_entreprise:
             if categorie_entreprise not in ["GE", "PME", "ETI"]:
-                raise ValueError(
+                raise TypeError(
                     "Chaque catégorie d'entreprise doit prendre une de ces "
                     "valeurs 'GE', 'PME' ou 'ETI'."
                 )
         return list_categorie_entreprise
 
-    @validator("commune", pre=True, always=True)
-    def validate_commune(cls, list_commune):
+    @field_validator("commune", mode="before")
+    def validate_commune(cls, commune):
+        list_commune = str_to_list(clean_parameter(commune))
         length_code_commune = 5
         for code_commune in list_commune:
             if len(code_commune) != length_code_commune:
-                raise ValueError("Chaque code commune doit contenir 5 caractères !")
+                raise TypeError("Chaque code commune doit contenir 5 caractères !")
             codes_valides = r"^([013-9]\d|2[AB1-9])\d{3}$"
             if not re.search(codes_valides, code_commune):
-                raise ValueError("Au moins un des codes communes est non valide.")
+                raise TypeError("Au moins un des codes communes est non valide.")
         return list_commune
 
-    @validator("code_postal", pre=True, always=True)
-    def validate_code_postal(cls, list_code_postal):
+    @field_validator("code_postal", mode="before")
+    def validate_code_postal(cls, code_postal):
+        list_code_postal = str_to_list(clean_parameter(code_postal))
         length_cod_postal = 5
         for code_postal in list_code_postal:
             if len(code_postal) != length_cod_postal:
-                raise ValueError("Chaque code postal doit contenir 5 caractères !")
+                raise TypeError("Chaque code postal doit contenir 5 caractères !")
             codes_valides = "^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$"
             if not re.search(codes_valides, code_postal):
-                raise ValueError("Au moins un code postal est non valide.")
+                raise TypeError("Au moins un code postal est non valide.")
         return list_code_postal
 
-    @validator("departement", pre=True, always=True)
-    def validate_departement(cls, list_departement):
+    @field_validator("departement", mode="before")
+    def validate_departement(cls, departement):
+        list_departement = str_to_list(clean_parameter(departement))
         for departement in list_departement:
             if departement not in departements:
-                raise ValueError(
+                raise TypeError(
                     f"Au moins un département est non valide."
                     f" Les départements valides"
                     f" : {[dep for dep in departements]}"
                 )
         return list_departement
 
-    @validator("region", pre=True, always=True)
-    def validate_region(cls, list_region):
+    @field_validator("region", mode="before")
+    def validate_region(cls, region):
+        list_region = str_to_list(clean_parameter(region))
         for region in list_region:
             if region not in regions:
-                raise ValueError(
+                raise TypeError(
                     f"Au moins une region est non valide."
                     f" Les région valides"
                     f" : {regions}"
                 )
         return list_region
 
-    @validator(
+    @field_validator(
         "est_entrepreneur_individuel",
         "convention_collective_renseignee",
         "egapro_renseignee",
@@ -241,134 +273,142 @@ class SearchParams(BaseModel):
         "est_qualiopi",
         "est_rge",
         "est_service_public",
-        "est_societe_mission",
-        "economie_sociale_solidaire_unite_legale",
         "minimal",
-        pre=True,
-        always=True,
+        mode="before",
     )
-    def validate_bool(cls, bool, field):
-        param_name = field.name
-        if bool not in ["TRUE", "FALSE"]:
-            raise ValueError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
-        return bool == "TRUE"
+    def validate_bool(cls, boolean, info):
+        param_name = info.field_name
+        if boolean.upper() not in ["TRUE", "FALSE"]:
+            raise TypeError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
+        return boolean.upper() == "TRUE"
 
-    @validator("section_activite_principale", pre=True, always=True)
-    def validate_section_activite_principale(cls, list_section_activite_principale):
+    @field_validator(
+        "est_societe_mission", "economie_sociale_solidaire_unite_legale", mode="before"
+    )
+    def validate_societe_a_mission(cls, boolean, info):
+        param_name = info.field_name
+        if boolean.upper() not in ["TRUE", "FALSE"]:
+            # Using TypeError because it is not wrapped in a Validation Error
+            # in Pydantic
+            raise TypeError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
+        return match_bool_to_insee_value(boolean.upper() == "TRUE")
+
+    @field_validator("section_activite_principale", mode="before")
+    def validate_section_activite_principale(cls, section_activite_principale):
+        list_section_activite_principale = str_to_list(
+            clean_parameter(section_activite_principale)
+        )
         for section_activite_principale in list_section_activite_principale:
             if section_activite_principale not in sections_codes_naf:
-                raise ValueError(
+                raise TypeError(
                     "Au moins une section d'activité principale est non valide."
                 )
         return list_section_activite_principale
 
-    @validator("tranche_effectif_salarie_unite_legale", pre=True, always=True)
-    def validate_tranche_effectif_salarie(cls, list_tranche_effectif_salarie):
+    @field_validator("tranche_effectif_salarie_unite_legale", mode="before")
+    def validate_tranche_effectif_salarie(cls, tranche_effectif_salarie):
+        list_tranche_effectif_salarie = str_to_list(
+            clean_parameter(tranche_effectif_salarie)
+        )
         length_tranche_effectif_salarie = 2
         for tranche_effectif_salarie in list_tranche_effectif_salarie:
             if len(tranche_effectif_salarie) != length_tranche_effectif_salarie:
-                raise ValueError("Chaque tranche salariés doit contenir 2 caractères.")
+                raise TypeError("Chaque tranche salariés doit contenir 2 caractères.")
             if tranche_effectif_salarie not in tranches_effectifs:
-                raise ValueError("Au moins une tranche salariés est non valide.")
+                raise TypeError("Au moins une tranche salariés est non valide.")
         return list_tranche_effectif_salarie
 
-    @validator("id_convention_collective", pre=True, always=True)
+    @field_validator("id_convention_collective", mode="before")
     def validate_id_convention_collective(cls, id_convention_collective):
         length_convention_collective = 4
         if len(id_convention_collective) != length_convention_collective:
-            raise ValueError(
+            raise TypeError(
                 "L'identifiant de convention collective doit contenir 4 caractères."
             )
         return id_convention_collective
 
-    @validator("id_finess", pre=True, always=True)
+    @field_validator("id_finess", mode="before")
     def validate_id_finess(cls, id_finess):
         len_id_finess = 9
         if len(id_finess) != len_id_finess:
-            raise ValueError("L'identifiant FINESS doit contenir 9 caractères.")
+            raise TypeError("L'identifiant FINESS doit contenir 9 caractères.")
         return id_finess
 
-    @validator("id_uai", pre=True, always=True)
+    @field_validator("id_uai", mode="before")
     def validate_id_uai(cls, id_uai):
         length_id_uai = 8
         if len(id_uai) != length_id_uai:
-            raise ValueError("L'identifiant UAI doit contenir 8 caractères.")
+            raise TypeError("L'identifiant UAI doit contenir 8 caractères.")
         return id_uai
 
-    @validator("code_collectivite_territoriale", pre=True, always=True)
-    def validate_code_collectivite_territoriale(cls, list_code_cc):
+    @field_validator("code_collectivite_territoriale", mode="before")
+    def validate_code_collectivite_territoriale(cls, code_cc):
+        list_code_cc = str_to_list(clean_parameter(code_cc))
         min_len_code_collectivite_territoriale = 2
         for code_collectivite_territoriale in list_code_cc:
             if (
                 len(code_collectivite_territoriale)
                 < min_len_code_collectivite_territoriale
             ):
-                raise ValueError(
+                raise TypeError(
                     "Chaque identifiant code insee d'une collectivité "
                     "territoriale doit contenir au moins 2 caractères."
                 )
         return list_code_cc
 
-    @validator("include", pre=True, always=True)
-    def validate_include(cls, list_fields):
-        valid_fields_to_check = valid_fields_to_select
+    @field_validator("include", "include_admin", mode="before")
+    def validate_include(cls, fields, info):
+        list_fields = str_to_list(clean_parameter(fields))
+        if info.field_name == "include_admin":
+            valid_fields_to_check = valid_admin_fields_to_select
+        else:
+            valid_fields_to_check = valid_fields_to_select
         for field in list_fields:
             if field not in valid_fields_to_check:
                 valid_fields_lowercase = [
                     field.lower() for field in valid_fields_to_check
                 ]
-                raise ValueError(
+                raise TypeError(
                     f"Au moins un champ à inclure est non valide. "
                     f"Les champs valides : {valid_fields_lowercase}."
                 )
         return list_fields
 
-    @validator("include_admin", pre=True, always=True)
-    def validate_include_admin(cls, list_fields):
-        valid_fields_to_check = valid_admin_fields_to_select
-        for field in list_fields:
-            if field not in valid_fields_to_check:
-                valid_fields_lowercase = [
-                    field.lower() for field in valid_fields_to_check
-                ]
-                raise ValueError(
-                    f"Au moins un champ à inclure est non valide. "
-                    f"Les champs valides : {valid_fields_lowercase}."
-                )
-        return list_fields
-
-    @validator("lat", pre=True, always=True)
+    @field_validator("lat", mode="before")
     def validate_lat(cls, lat):
         min_latitude = -90
         max_latitude = 90
         if lat == "nan":
-            raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
         try:
             lat = float(lat)
-        except ValueError:
-            raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+        except TypeError:
+            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
         if lat > max_latitude or lat < min_latitude:
-            raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
 
-    @validator("lon", pre=True, always=True)
+    @field_validator("lon", mode="before")
     def validate_lon(cls, lon):
         min_longitude = -180
         max_longitude = 180
         if lon == "nan":
-            raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
         try:
             lon = float(lon)
-        except ValueError:
-            raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+        except TypeError:
+            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
         if lon > max_longitude or lon < min_longitude:
-            raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
         return lon
 
-    @validator("radius", pre=True, always=True)
+    @field_validator("radius", mode="before")
     def validate_radius(cls, radius):
-        if radius <= MIN_RADIUS or radius > MAX_RADIUS:
-            raise ValueError(
+        try:
+            if float(radius) <= MIN_RADIUS or float(radius) > MAX_RADIUS:
+                raise TypeError
+            return float(radius)
+        except TypeError:
+            raise TypeError(
                 "Veuillez indiquer un radius entier ou flottant "
                 "bentre 0 et 50 (en km)."
             )
-        return radius

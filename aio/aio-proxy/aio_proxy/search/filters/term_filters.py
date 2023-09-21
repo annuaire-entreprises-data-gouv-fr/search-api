@@ -9,7 +9,7 @@ def filter_term_search_unite_legale(
     """Use filters to reduce search results."""
     # search_params is the object containing the list of parameters (filters) provided
     # in the request
-    for param_name, param_value in vars(search_params).items():
+    for param_name, param_value in search_params.items():
         if param_value is not None and param_name in filters_to_include:
             search = search.filter(
                 "term",
@@ -28,7 +28,7 @@ def filter_term_list_search_unite_legale(
     """Use filters to reduce search results."""
     # search_params is the object containing the list of parameters (filters) provided
     # in the request
-    for param_name, param_value in vars(search_params).items():
+    for param_name, param_value in search_params.items():
         if param_value is not None and param_name in filters_to_include:
             search = search.filter(
                 "terms",

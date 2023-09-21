@@ -36,11 +36,11 @@ def hash_string(string: str):
 
 
 def create_fields_to_include(search_params):
-    if search_params.minimal:
-        if search_params.include is None:
+    if search_params["minimal"]:
+        if search_params["include"] is None:
             return []
         else:
-            return search_params.include
+            return search_params["include"]
     else:
         return [
             "SIEGE",
@@ -52,7 +52,7 @@ def create_fields_to_include(search_params):
 
 
 def create_admin_fields_to_include(search_params):
-    if search_params.include_admin is None:
+    if search_params["include_admin"] is None:
         return []
     else:
-        return search_params.include_admin
+        return search_params["include_admin"]

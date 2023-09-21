@@ -36,7 +36,7 @@ def page_through_results(es_search_builder):
         ElasticSearchBuilder Instance with pagination
 
     """
-    size = es_search_builder.search_params.per_page
-    offset = es_search_builder.search_params.page * size
+    size = es_search_builder.search_params["per_page"]
+    offset = es_search_builder.search_params["page"] * size
     search_client = es_search_builder.es_search_client
     return search_client[offset : (offset + size)]

@@ -1,5 +1,5 @@
 import re
-from datetime import date, datetime
+from datetime import date
 
 from aio_proxy.labels.helpers import (
     codes_naf,
@@ -19,10 +19,45 @@ from aio_proxy.request.parsers.string_parser import (
 from aio_proxy.utils.utils import str_to_list
 from pydantic import BaseModel, field_validator
 
-MAX_PAGE_VALUE = 1000
-MIN_PAGE_NUMBER = 0
-MIN_RADIUS = 0
-MAX_RADIUS = 50
+FIELD_LIMITS = {
+    "page": {"min": 1, "max": 1000, "default": 1, "alias": "page"},
+    "per_page": {"min": 1, "max": 25, "default": 10, "alias": "per_page"},
+    "matching_size": {
+        "min": 1,
+        "max": 100,
+        "default": 10,
+        "alias": "limite_matching_etablissements",
+    },
+    "ca_min": {
+        "min": -9223372036854775295,
+        "max": 9223372036854775295,
+        "default": None,
+        "alias": "ca_min",
+    },
+    "ca_max": {
+        "min": -9223372036854775295,
+        "max": 9223372036854775295,
+        "default": None,
+        "alias": "ca_max",
+    },
+    "resultat_net_min": {
+        "min": -9223372036854775295,
+        "max": 9223372036854775295,
+        "default": None,
+        "alias": "resultat_net_min",
+    },
+    "resultat_net_max": {
+        "min": -9223372036854775295,
+        "max": 9223372036854775295,
+        "default": None,
+        "alias": "resultat_net_max",
+    },
+    "lon": {"min": -180, "max": 180, "default": None, "alias": "longitude"},
+    "lat": {"min": -90, "max": 90, "default": None, "alias": "latitude"},
+    "radius": {"min": 0, "max": 50, "default": 5, "alias": "radius"},
+}
+
+FIELD_VALUES = {"type_personne": ["ELU", "DIRIGEANT"]}
 
 
 class SearchParams(BaseModel):
@@ -61,12 +96,12 @@ class SearchParams(BaseModel):
     id_rge: str | None = None
     nom_personne: str | None = None
     prenoms_personne: str | None = None
-    min_date_naiss_personne: datetime | None = None
-    max_date_naiss_personne: datetime | None = None
-    ca_min: str | None = None
-    ca_max: str | None = None
-    resultat_net_min: float | None = None
-    resultat_net_max: float | None = None
+    min_date_naiss_personne: date | None = None
+    max_date_naiss_personne: date | None = None
+    ca_min: int | None = None
+    ca_max: int | None = None
+    resultat_net_min: int | None = None
+    resultat_net_max: int | None = None
     type_personne: str | None = None
     etat_administratif_unite_legale: str | None = None
     nature_juridique_unite_legale: list | None = None
@@ -78,51 +113,40 @@ class SearchParams(BaseModel):
     include: list | None = None
     include_admin: list | None = None
 
-    @field_validator("page", mode="before")
-    def validate_page(cls, page):
+    @field_validator("page", "per_page", "matching_size", mode="before")
+    def validate_integer(cls, value, info):
         try:
-            page = int(page) - 1  # default 1
-            # 1000 is elasticsearch's default page limit
-            if page <= MIN_PAGE_NUMBER - 1 or page >= MAX_PAGE_VALUE:
-                raise TypeError
-        except TypeError:
-            raise TypeError(
-                "Veuillez indiquer un numéro de page entier entre 1 et "
-                "1000, par défaut 1."
-            )
-        return page
+            int(value)
+        except ValueError:
+            raise TypeError(f"Veuillez indiquer un `{info.field_name}` entier.")
+        return int(value)
 
-    @field_validator("per_page", mode="before")
-    def validate_per_page(cls, per_page):
-        max_per_page = 25
-        min_per_page = 1
+    @field_validator("radius", "lat", "lon", mode="before")
+    def validate_float(cls, value, info):
         try:
-            if per_page > max_per_page or per_page < min_per_page:
-                raise TypeError
-            return per_page
-        except TypeError:
+            if value == "nan":
+                raise ValueError
+            float(value)
+        except ValueError:
+            raise TypeError(f"Veuillez indiquer un `{info.field_name}` flottant.")
+        return float(value)
+
+    @field_validator(
+        "page", "per_page", "matching_size", "radius", "lat", "lon", mode="after"
+    )
+    def validate_number_range(cls, value, info):
+        limits = FIELD_LIMITS.get(info.field_name)
+        if int(value) < limits["min"] or int(value) > limits["max"]:
             raise TypeError(
-                "Veuillez indiquer un `per_page` entre 1 et 25, par défaut 10."
+                f"Veuillez indiquer un paramètre `{info.field_name}` entre"
+                f"`{limits['min']}` et `{limits['max']}`,"
+                f"par défaut `{limits['default']}`."
             )
+        return value
 
     @field_validator("terms", mode="before")
-    def validate_terms(cls, terms):
+    def make_uppercase(cls, terms):
         return terms.upper()
-
-    @field_validator("matching_size", mode="before")
-    def validate_matching_size(cls, matching_size):
-        min_matching_size = 0
-        max_matching_size = 100
-        try:
-            if matching_size <= min_matching_size or matching_size > max_matching_size:
-                raise TypeError
-            return matching_size
-        except TypeError:
-            raise TypeError(
-                "Veuillez indiquer un nombre d'établissements"
-                "connexes entier entre 1 et "
-                "100, par défaut 10."
-            )
 
     @field_validator("nature_juridique_unite_legale", mode="before")
     def validate_nature_juridique(cls, nature_juridique):
@@ -146,29 +170,10 @@ class SearchParams(BaseModel):
     def validate_date(cls, date_string):
         try:
             return date.fromisoformat(date_string)
-        except ValueError:
+        except Exception:
             raise TypeError(
                 "Veuillez indiquer une date sous"
                 "le format : aaaa-mm-jj. Exemple : '1990-01-02'"
-            )
-
-    @field_validator(
-        "ca_min",
-        "ca_max",
-        "resultat_net_min",
-        "resultat_net_max",
-        mode="before",
-    )
-    def validate_long_int(cls, int_val):
-        # Elasticsearch `long` type maxes out at this range
-        min_val = -9223372036854775295
-        max_val = 9223372036854775295
-        try:
-            if min_val <= int(int_val) <= max_val:
-                return int(int_val)
-        except TypeError:
-            raise TypeError(
-                f"Veuillez indiquer un entier entre {min_val} et {max_val}."
             )
 
     @field_validator("type_personne", mode="before")
@@ -177,7 +182,7 @@ class SearchParams(BaseModel):
             raise TypeError(
                 "type_personne doit prendre la valeur 'dirigeant' ou 'elu' !"
             )
-        return type_personne
+        return type_personne.upper()
 
     @field_validator("etat_administratif_unite_legale", mode="before")
     def validate_etat_administratif(cls, etat_administratif):
@@ -221,7 +226,7 @@ class SearchParams(BaseModel):
             codes_valides = r"^([013-9]\d|2[AB1-9])\d{3}$"
             if not re.search(codes_valides, code_commune):
                 raise TypeError("Au moins un des codes communes est non valide.")
-        return list_commune
+        return list_commune  # todo : separate validators
 
     @field_validator("code_postal", mode="before")
     def validate_code_postal(cls, code_postal):
@@ -328,7 +333,7 @@ class SearchParams(BaseModel):
         return id_convention_collective
 
     @field_validator("id_finess", mode="before")
-    def validate_id_finess(cls, id_finess):
+    def validate_id_finess(cls, id_finess):  # *kwargs {'id_fitness' : id_fitness}
         len_id_finess = 9
         if len(id_finess) != len_id_finess:
             raise TypeError("L'identifiant FINESS doit contenir 9 caractères.")
@@ -373,42 +378,3 @@ class SearchParams(BaseModel):
                     f"Les champs valides : {valid_fields_lowercase}."
                 )
         return list_fields
-
-    @field_validator("lat", mode="before")
-    def validate_lat(cls, lat):
-        min_latitude = -90
-        max_latitude = 90
-        if lat == "nan":
-            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
-        try:
-            lat = float(lat)
-        except TypeError:
-            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
-        if lat > max_latitude or lat < min_latitude:
-            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
-
-    @field_validator("lon", mode="before")
-    def validate_lon(cls, lon):
-        min_longitude = -180
-        max_longitude = 180
-        if lon == "nan":
-            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
-        try:
-            lon = float(lon)
-        except TypeError:
-            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
-        if lon > max_longitude or lon < min_longitude:
-            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
-        return lon
-
-    @field_validator("radius", mode="before")
-    def validate_radius(cls, radius):
-        try:
-            if float(radius) <= MIN_RADIUS or float(radius) > MAX_RADIUS:
-                raise TypeError
-            return float(radius)
-        except TypeError:
-            raise TypeError(
-                "Veuillez indiquer un radius entier ou flottant "
-                "bentre 0 et 50 (en km)."
-            )

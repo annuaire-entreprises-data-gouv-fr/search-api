@@ -28,19 +28,17 @@ def build_es_search_geo_query(es_search_builder):
                 "bool": {
                     "filter": {
                         "geo_distance": {
-                            "distance": (
-                                f'{es_search_builder.search_params["radius"]}km'
-                            ),
+                            "distance": (f"{es_search_builder.search_params.radius}km"),
                             "unite_legale.etablissements.coordonnees": {
-                                "lat": es_search_builder.search_params["lat"],
-                                "lon": es_search_builder.search_params["lon"],
+                                "lat": es_search_builder.search_params.lat,
+                                "lon": es_search_builder.search_params.lon,
                             },
                         },
                     }
                 }
             },
             "inner_hits": {
-                "size": es_search_builder.search_params["matching_size"],
+                "size": es_search_builder.search_params.matching_size,
             },
         }
     }

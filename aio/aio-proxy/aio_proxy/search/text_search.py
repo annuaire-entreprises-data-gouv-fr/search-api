@@ -1,3 +1,5 @@
+import logging
+
 from aio_proxy.search.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
 )
@@ -27,7 +29,7 @@ from elasticsearch_dsl import Q
 
 
 def build_es_search_text_query(es_search_builder):
-    query_terms = es_search_builder.search_params["terms"]
+    query_terms = es_search_builder.search_params.terms
     # Filter by siren/siret first (if query is a `siren` or 'siret' number),
     # and return search results directly without text search.
     if is_siren(query_terms) or is_siret(query_terms):
@@ -40,6 +42,8 @@ def build_es_search_text_query(es_search_builder):
             es_search_builder.es_search_client = filter_by_siret(
                 es_search_builder.es_search_client, query_terms_clean
             )
+        logging.info(f"++++++++++++{es_search_builder.es_search_client.to_dict()}")
+
     else:
         # Always apply this filter for text search to prevent displaying
         # non-diffusible data
@@ -123,7 +127,7 @@ def build_es_search_text_query(es_search_builder):
             if query_terms:
                 text_query = build_text_query(
                     terms=query_terms,
-                    matching_size=es_search_builder.search_params["matching_size"],
+                    matching_size=es_search_builder.search_params.matching_size,
                 )
                 text_query_with_filters = (
                     add_nested_etablissements_filters_to_text_query(
@@ -151,7 +155,7 @@ def build_es_search_text_query(es_search_builder):
             # Text search only without etablissements filters
             text_query = build_text_query(
                 terms=query_terms,
-                matching_size=es_search_builder.search_params["matching_size"],
+                matching_size=es_search_builder.search_params.matching_size,
             )
             es_search_builder.es_search_client = (
                 es_search_builder.es_search_client.query(Q(text_query))
@@ -172,7 +176,7 @@ def build_es_search_text_query(es_search_builder):
             )
 
         # Search 'élus' only
-        type_personne = es_search_builder.search_params["type_personne"]
+        type_personne = es_search_builder.search_params.type_personne
         if type_personne == "ELU":
             es_search_builder.es_search_client = search_person(
                 es_search_builder.es_search_client,
@@ -239,7 +243,7 @@ def build_es_search_text_query(es_search_builder):
             "nom_personne",
             "prenoms_personne",
         ]:
-            if es_search_builder.search_params.get(item, None):
+            if es_search_builder.search_params.dict().get(item, None):
                 es_search_builder.has_full_text_query = True
 
         exclude_etablissements_from_search(es_search_builder)

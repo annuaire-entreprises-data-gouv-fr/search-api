@@ -48,6 +48,7 @@ class ElasticSearchRunner:
 
     def execute_and_format_es_search(self):
         self.es_search_client = page_through_results(self)
+        logging.info(f"))))))))))))))){self.es_search_client.to_dict()}")
         es_response = self.es_search_client.execute()
         self.total_results = es_response.hits.total.value
         self.execution_time = es_response.took
@@ -73,9 +74,11 @@ class ElasticSearchRunner:
         )
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
+
         self.es_search_client = self.es_search_client.update_from_dict(
             {"collapse": {"field": "identifiant"}}
         )
+
         # Sort results
         self.sort_es_search_query()
 

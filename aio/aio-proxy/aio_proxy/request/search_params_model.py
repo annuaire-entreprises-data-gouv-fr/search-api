@@ -202,7 +202,7 @@ class SearchParams(BaseModel):
     @field_validator(
         "est_societe_mission", "economie_sociale_solidaire_unite_legale", mode="after"
     )
-    def convert_bool_to_insee_value(cls, boolean, info):
+    def convert_bool_to_insee_value(cls, boolean):
         return match_bool_to_insee_value(boolean)
 
     @field_validator("id_convention_collective", "id_finess", "id_uai", mode="before")

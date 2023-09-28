@@ -44,12 +44,12 @@ class SearchParams(BaseModel):
     est_qualiopi: bool | None = None
     est_rge: bool | None = None
     est_service_public: bool | None = None
-    est_societe_mission: str | None = None
-    economie_sociale_solidaire_unite_legale: str | None = None
+    est_societe_mission: bool | None = None
+    economie_sociale_solidaire_unite_legale: bool | None = None
     id_convention_collective: str | None = None
     id_finess: str | None = None
     id_uai: str | None = None
-    code_collectivite_territoriale: str | None = None
+    code_collectivite_territoriale: list | None = None
     id_rge: str | None = None
     nom_personne: str | None = None
     prenoms_personne: str | None = None
@@ -108,7 +108,10 @@ class SearchParams(BaseModel):
         return value
 
     @field_validator(
-        "terms", "type_personne", "etat_administratif_unite_legale", mode="before"
+        "terms",
+        "type_personne",
+        "etat_administratif_unite_legale",
+        mode="before",
     )
     def make_uppercase(cls, value):
         return value.upper()
@@ -222,8 +225,8 @@ class SearchParams(BaseModel):
         for value in list_values:
             if len(value) < min_value_len:
                 raise TypeError(
-                    "Chaque identifiant code insee d'une collectivité "
-                    "territoriale doit contenir au moins 2 caractères."
+                    """Chaque identifiant code insee d'une collectivité
+                    territoriale doit contenir au moins 2 caractères."""
                 )
         return list_values
 

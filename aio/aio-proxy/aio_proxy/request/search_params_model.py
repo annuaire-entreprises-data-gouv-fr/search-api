@@ -8,10 +8,10 @@ from aio_proxy.request.field_values import (
     VALID_FIELD_VALUES,
     VALID_FIELDS_TO_SELECT,
 )
-from aio_proxy.request.parsers.insee_bool import match_bool_to_insee_value
-from aio_proxy.utils.utils import (
+from aio_proxy.request.helpers import (
     check_params_are_none_except_excluded,
     clean_str,
+    match_bool_to_insee_value,
     str_to_list,
 )
 from pydantic import BaseModel, field_validator, model_validator
@@ -70,6 +70,7 @@ class SearchParams(BaseModel):
     include: list | None = None
     include_admin: list | None = None
 
+    # Field Validators (involve one field at a time)
     @field_validator("page", "per_page", "matching_size", mode="before")
     def cast_as_integer(cls, value, info):
         try:
@@ -258,6 +259,7 @@ class SearchParams(BaseModel):
                 )
         return list_fields
 
+    # Model Validators (involve more than one field at a time)
     @model_validator(mode="after")
     def validate_date_range(self):
         min_date_naiss = self.min_date_naiss_personne

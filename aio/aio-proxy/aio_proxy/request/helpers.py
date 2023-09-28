@@ -1,24 +1,37 @@
-from aio_proxy.decorators.value_exception import value_exception_handler
+def match_bool_to_insee_value(bool_value: bool) -> str | None:
+    """Match bool filter value to corresponding INSEE field value .
+
+    Args:
+        bool_value (str): `est_var` value extracted from request
+
+    Returns:
+        None if `est_var`is None.
+        "O" if `est_var` is True.
+        "N" if `est_var` is False.
+
+    """
+    if bool_value is None:
+        return None
+    if bool_value is True:
+        insee_value = "O"
+    else:
+        insee_value = "N"
+    return insee_value
 
 
-@value_exception_handler(
-    error="Veuillez indiquer une date minimale inférieure à la date maximale."
-)
-def validate_date_range(min_date=None, max_date=None):
-    if min_date and max_date:
-        if max_date < min_date:
-            raise ValueError
+def str_to_list(string_values: str) -> list[str]:
+    values_list = string_values.split(",")
+    return values_list
 
 
-MAX_RESULTS = 10000
+def clean_str(param: str):
+    param = param.replace("-", " ")
+    param_clean = param.replace(" ", "").upper()
+    return param_clean
 
 
-@value_exception_handler(
-    error="Le nombre total de résultats est restreint à 10 000. Pour garantir cela, "
-    "le produit du numéro de page (par défaut, page = 1) et du nombre de résultats "
-    "par page (par défaut, per_page = 10), c'est-à-dire `page * per_page`, ne doit pas "
-    "excéder 10 000."
-)
-def validate_results_window(page=1, per_page=10):
-    if page * per_page > MAX_RESULTS:
-        raise ValueError
+def check_params_are_none_except_excluded(fields_dict, excluded_fields):
+    for key, value in fields_dict.items():
+        if key not in excluded_fields and value is not None:
+            return False
+    return True

@@ -9,17 +9,17 @@ def load_file(file_name: str):
     return file_decoded
 
 
-codes_naf = load_file("codes-NAF.json")
-departements = load_file("departements.json")
-natures_juridiques = load_file("natures-juridiques.json")
-tranches_effectifs = load_file("tranches-effectifs.json")
-regions = load_file("regions.json")
-sections_codes_naf = load_file("sections-codes-NAF.json")
-valid_fields_to_select = [
+CODES_NAF = load_file("codes-NAF.json")
+DEPARTEMENTS = load_file("departements.json")
+NATURES_JURIDIQUES = load_file("natures-juridiques.json")
+TRANCHES_EFFECTIFS = load_file("tranches-effectifs.json")
+REGIONS = load_file("regions.json")
+SECTIONS_CODES_NAF = load_file("sections-codes-NAF.json")
+VALID_FIELDS_TO_SELECT = [
     "COMPLEMENTS",
     "DIRIGEANTS",
     "FINANCES",
     "SIEGE",
     "MATCHING_ETABLISSEMENTS",
 ]
-valid_admin_fields_to_select = ["ETABLISSEMENTS", "SCORE", "SLUG"]
+VALID_ADMIN_FIELDS_TO_SELECT = ["ETABLISSEMENTS", "SCORE", "SLUG"]

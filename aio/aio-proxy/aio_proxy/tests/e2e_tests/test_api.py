@@ -42,6 +42,11 @@ def test_error_query(api_response_tester):
     """
     path = "search?qs=ganymede"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer au moins un paramètre de recherche."
+    )
 
 
 def test_accept_three_characters(api_response_tester):
@@ -58,6 +63,12 @@ def test_format_date_naissance(api_response_tester):
     """
     path = "search?date_naissance_personne_min=13/09/2001"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer une date sous le format : aaaa-mm-jj. "
+        "Exemple : '1990-01-02'"
+    )
 
 
 def test_query_too_short(api_response_tester):
@@ -66,6 +77,12 @@ def test_query_too_short(api_response_tester):
     """
     path = "search?q=ab"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "3 caractères minimum pour les termes de la requête "
+        "(ou utilisez au moins un filtre)"
+    )
 
 
 def test_short_query_with_filter(api_response_tester):
@@ -82,6 +99,12 @@ def test_terms_empty_only(api_response_tester):
     """
     path = "search?q="
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "3 caractères minimum pour les termes de la requête "
+        "(ou utilisez au moins un filtre)"
+    )
 
 
 def test_bool_filters(api_response_tester):
@@ -124,6 +147,11 @@ def test_banned_param(api_response_tester):
     """
     path = "search?localisation=45000"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer au moins un paramètre de recherche."
+    )
 
 
 def test_siren_search(api_response_tester):
@@ -156,6 +184,11 @@ def test_page_number(api_response_tester):
     """
     path = "search?q=ganymede&page=10001"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `page` entre `1` "
+        "et `1000`, par défaut `1`."
+    )
 
 
 def test_min_per_page(api_response_tester):
@@ -164,6 +197,11 @@ def test_min_per_page(api_response_tester):
     """
     path = "search?q=ganymede&per_page=0"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `per_page` "
+        "entre `1` et `25`, par défaut `10`."
+    )
 
 
 def test_est_service_public(api_response_tester):
@@ -354,6 +392,11 @@ def test_date_naiss_interval(api_response_tester):
         "1990-01-01&date_naissance_personne_max=1989-01-01"
     )
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer une date minimale inférieure à la date maximale."
+    )
 
 
 def test_type_personne(api_response_tester):
@@ -392,6 +435,12 @@ def test_minimal_response(api_response_tester):
 def test_minimal_fail(api_response_tester):
     path = "search?q=ganymede&include=siege"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer si vous souhaitez une réponse minimale avec le filtre "
+        "`minimal=True`` avant de préciser les champs à inclure."
+    )
 
 
 def test_region_filter(api_response_tester):

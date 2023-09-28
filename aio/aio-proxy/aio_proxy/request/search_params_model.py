@@ -103,7 +103,7 @@ class SearchParams(BaseModel):
             raise TypeError(
                 f"Veuillez indiquer un paramètre `{info.field_name}` entre "
                 f"`{limits['min']}` et `{limits['max']}`, "
-                "par défaut `{limits['default']}`."
+                f"par défaut `{limits['default']}`."
             )
         return value
 

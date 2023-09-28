@@ -435,3 +435,16 @@ def test_near_point_without_lat(api_response_tester):
     assert (
         response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
     )
+
+
+def test_minimal_param_only(api_response_tester):
+    """
+    test if only minimal and include param are given
+    """
+    path = "search?minimal=true&include=siege"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer au moins un paramètre de recherche."
+    )

@@ -305,7 +305,14 @@ class SearchParams(BaseModel):
         because they always have a default value) raise value error
         Check if all non-default parameters are empty, raise a ValueError if they are
         """
-        excluded_fields = ["page", "per_page", "matching_size"]
+        excluded_fields = [
+            "page",
+            "per_page",
+            "matching_size",
+            "minimal",
+            "include",
+            "include_admin",
+        ]
 
         all_fields_are_null_except_excluded = check_params_are_none_except_excluded(
             self.dict(exclude_unset=True), excluded_fields
@@ -321,7 +328,15 @@ class SearchParams(BaseModel):
         Except matching size, because this param always has a default value.
         """
         # List of parameters to exclude from the check
-        excluded_fields = ["page", "per_page", "matching_size", "terms"]
+        excluded_fields = [
+            "page",
+            "per_page",
+            "matching_size",
+            "terms",
+            "minimal",
+            "include",
+            "include_admin",
+        ]
 
         all_fields_are_null_except_excluded = check_params_are_none_except_excluded(
             self.dict(exclude_unset=True), excluded_fields

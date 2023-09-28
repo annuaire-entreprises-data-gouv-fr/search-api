@@ -1,63 +1,20 @@
 import re
 from datetime import date
 
-from aio_proxy.labels.helpers import (
-    codes_naf,
-    departements,
-    natures_juridiques,
-    regions,
-    sections_codes_naf,
-    tranches_effectifs,
-    valid_admin_fields_to_select,
-    valid_fields_to_select,
+from aio_proxy.request.field_values import (
+    FIELD_LENGTHS,
+    NUMERIC_FIELD_LIMITS,
+    VALID_ADMIN_FIELDS_TO_SELECT,
+    VALID_FIELD_VALUES,
+    VALID_FIELDS_TO_SELECT,
 )
 from aio_proxy.request.parsers.insee_bool import match_bool_to_insee_value
-from aio_proxy.request.parsers.string_parser import (
-    clean_name,
-    clean_parameter,
+from aio_proxy.utils.utils import (
+    check_params_are_none_except_excluded,
+    clean_str,
+    str_to_list,
 )
-from aio_proxy.utils.utils import str_to_list
-from pydantic import BaseModel, field_validator
-
-FIELD_LIMITS = {
-    "page": {"min": 1, "max": 1000, "default": 1, "alias": "page"},
-    "per_page": {"min": 1, "max": 25, "default": 10, "alias": "per_page"},
-    "matching_size": {
-        "min": 1,
-        "max": 100,
-        "default": 10,
-        "alias": "limite_matching_etablissements",
-    },
-    "ca_min": {
-        "min": -9223372036854775295,
-        "max": 9223372036854775295,
-        "default": None,
-        "alias": "ca_min",
-    },
-    "ca_max": {
-        "min": -9223372036854775295,
-        "max": 9223372036854775295,
-        "default": None,
-        "alias": "ca_max",
-    },
-    "resultat_net_min": {
-        "min": -9223372036854775295,
-        "max": 9223372036854775295,
-        "default": None,
-        "alias": "resultat_net_min",
-    },
-    "resultat_net_max": {
-        "min": -9223372036854775295,
-        "max": 9223372036854775295,
-        "default": None,
-        "alias": "resultat_net_max",
-    },
-    "lon": {"min": -180, "max": 180, "default": None, "alias": "longitude"},
-    "lat": {"min": -90, "max": 90, "default": None, "alias": "latitude"},
-    "radius": {"min": 0, "max": 50, "default": 5, "alias": "radius"},
-}
-
-FIELD_VALUES = {"type_personne": ["ELU", "DIRIGEANT"]}
+from pydantic import BaseModel, field_validator, model_validator
 
 
 class SearchParams(BaseModel):
@@ -114,155 +71,107 @@ class SearchParams(BaseModel):
     include_admin: list | None = None
 
     @field_validator("page", "per_page", "matching_size", mode="before")
-    def validate_integer(cls, value, info):
+    def cast_as_integer(cls, value, info):
         try:
             int(value)
         except ValueError:
-            raise TypeError(f"Veuillez indiquer un `{info.field_name}` entier.")
+            raise TypeError(
+                f"Veuillez indiquer un paramètre `{info.field_name}` entier."
+            )
         return int(value)
 
     @field_validator("radius", "lat", "lon", mode="before")
-    def validate_float(cls, value, info):
+    def cast_as_float(cls, value, info):
         try:
             if value == "nan":
                 raise ValueError
             float(value)
         except ValueError:
-            raise TypeError(f"Veuillez indiquer un `{info.field_name}` flottant.")
+            raise TypeError(
+                f"Veuillez indiquer un paramètre `{info.field_name}` flottant."
+            )
         return float(value)
 
     @field_validator(
         "page", "per_page", "matching_size", "radius", "lat", "lon", mode="after"
     )
-    def validate_number_range(cls, value, info):
-        limits = FIELD_LIMITS.get(info.field_name)
-        if int(value) < limits["min"] or int(value) > limits["max"]:
+    # Apply after first validator and Pydantic internal validation
+    def check_if_number_in_range(cls, value, info):
+        limits = NUMERIC_FIELD_LIMITS.get(info.field_name)
+        if value < limits["min"] or value > limits["max"]:
             raise TypeError(
-                f"Veuillez indiquer un paramètre `{info.field_name}` entre"
-                f"`{limits['min']}` et `{limits['max']}`,"
-                f"par défaut `{limits['default']}`."
+                f"""Veuillez indiquer un paramètre `{info.field_name}` entre
+                `{limits['min']}` et `{limits['max']}`,
+                par défaut `{limits['default']}`."""
             )
         return value
 
-    @field_validator("terms", mode="before")
-    def make_uppercase(cls, terms):
-        return terms.upper()
-
-    @field_validator("nature_juridique_unite_legale", mode="before")
-    def validate_nature_juridique(cls, nature_juridique):
-        list_nature_juridique = str_to_list(clean_parameter(nature_juridique))
-        for nature_juridique in list_nature_juridique:
-            if nature_juridique not in natures_juridiques:
-                raise TypeError(
-                    f"Au moins une nature juridique est non valide. "
-                    f"Les natures juridiques valides : "
-                    f"{[nature_juridique for nature_juridique in natures_juridiques]}."
-                )
-        return list_nature_juridique
-
-    @field_validator("nom_personne", "prenoms_personne", mode="before")
-    def validate_nom(cls, nom):
-        return clean_name(nom)
+    @field_validator(
+        "terms", "type_personne", "etat_administratif_unite_legale", mode="before"
+    )
+    def make_uppercase(cls, value):
+        return value.upper()
 
     @field_validator(
-        "min_date_naiss_personne", "max_date_naiss_personne", mode="before"
+        "nature_juridique_unite_legale",
+        "categorie_entreprise",
+        "departement",
+        "tranche_effectif_salarie_unite_legale",
+        "section_activite_principale",
+        "region",
+        "activite_principale_unite_legale",
+        "code_collectivite_territoriale",
+        "commune",
+        "code_postal",
+        "include",
+        "include_admin",
+        mode="before",
     )
-    def validate_date(cls, date_string):
-        try:
-            return date.fromisoformat(date_string)
-        except Exception:
+    def convert_str_to_list(cls, str_of_values):
+        list_of_values = str_to_list(clean_str(str_of_values))
+        return list_of_values
+
+    @field_validator("code_postal", "commune", mode="after")
+    def list_of_values_should_match_regular_expression(cls, list_values, info):
+        for value in list_values:
+            valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
+            if not re.search(valid_values, value):
+                raise TypeError(
+                    f"""Au moins une valeur du paramètre {info.field_name}
+                    est non valide."""
+                )
+        return list_values
+
+    @field_validator(
+        "nature_juridique_unite_legale",
+        "categorie_entreprise",
+        "departement",
+        "tranche_effectif_salarie_unite_legale",
+        "section_activite_principale",
+        "region",
+        "activite_principale_unite_legale",
+        mode="after",
+    )
+    def list_of_values_must_be_valid(cls, list_of_values, info):
+        valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
+        for value in list_of_values:
+            if value not in valid_values:
+                raise TypeError(
+                    f"""Au moins un paramètre
+                    `{VALID_FIELD_VALUES.get(info.field_name)['alias']}` est non valide.
+                    Les valeurs valides : {[value for value in valid_values]}."""
+                )
+        return list_of_values
+
+    @field_validator("type_personne", "etat_administratif_unite_legale", mode="after")
+    def field_must_be_in_valid_list(cls, value, info):
+        valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
+        if value not in valid_values:
             raise TypeError(
-                "Veuillez indiquer une date sous"
-                "le format : aaaa-mm-jj. Exemple : '1990-01-02'"
+                f"""Le paramètre `{VALID_FIELD_VALUES.get(info.field_name)['alias']}`
+                doit prendre une des valeurs suivantes {valid_values}."""
             )
-
-    @field_validator("type_personne", mode="before")
-    def validate_type_personne(cls, type_personne):
-        if type_personne.upper() not in ["ELU", "DIRIGEANT"]:
-            raise TypeError(
-                "type_personne doit prendre la valeur 'dirigeant' ou 'elu' !"
-            )
-        return type_personne.upper()
-
-    @field_validator("etat_administratif_unite_legale", mode="before")
-    def validate_etat_administratif(cls, etat_administratif):
-        if etat_administratif.upper() not in ["A", "C"]:
-            raise TypeError("L'état administratif doit prendre la valeur 'A' ou 'C' !")
-        return etat_administratif
-
-    @field_validator("activite_principale_unite_legale", mode="before")
-    def validate_activite_principale(cls, activite_principale_unite_legale):
-        list_activite_principale = str_to_list(
-            clean_parameter(activite_principale_unite_legale)
-        )
-        length_activite_principale = 6
-        for activite_principale in list_activite_principale:
-            if len(activite_principale) != length_activite_principale:
-                raise TypeError(
-                    "Chaque activité principale doit contenir 6 caractères."
-                )
-            if activite_principale not in codes_naf:
-                raise TypeError("Au moins une des activités principales est inconnue.")
-        return list_activite_principale
-
-    @field_validator("categorie_entreprise", mode="before")
-    def validate_categorie_entreprise(cls, categorie_entreprise):
-        list_categorie_entreprise = str_to_list(clean_parameter(categorie_entreprise))
-        for categorie_entreprise in list_categorie_entreprise:
-            if categorie_entreprise not in ["GE", "PME", "ETI"]:
-                raise TypeError(
-                    "Chaque catégorie d'entreprise doit prendre une de ces "
-                    "valeurs 'GE', 'PME' ou 'ETI'."
-                )
-        return list_categorie_entreprise
-
-    @field_validator("commune", mode="before")
-    def validate_commune(cls, commune):
-        list_commune = str_to_list(clean_parameter(commune))
-        length_code_commune = 5
-        for code_commune in list_commune:
-            if len(code_commune) != length_code_commune:
-                raise TypeError("Chaque code commune doit contenir 5 caractères !")
-            codes_valides = r"^([013-9]\d|2[AB1-9])\d{3}$"
-            if not re.search(codes_valides, code_commune):
-                raise TypeError("Au moins un des codes communes est non valide.")
-        return list_commune  # todo : separate validators
-
-    @field_validator("code_postal", mode="before")
-    def validate_code_postal(cls, code_postal):
-        list_code_postal = str_to_list(clean_parameter(code_postal))
-        length_cod_postal = 5
-        for code_postal in list_code_postal:
-            if len(code_postal) != length_cod_postal:
-                raise TypeError("Chaque code postal doit contenir 5 caractères !")
-            codes_valides = "^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$"
-            if not re.search(codes_valides, code_postal):
-                raise TypeError("Au moins un code postal est non valide.")
-        return list_code_postal
-
-    @field_validator("departement", mode="before")
-    def validate_departement(cls, departement):
-        list_departement = str_to_list(clean_parameter(departement))
-        for departement in list_departement:
-            if departement not in departements:
-                raise TypeError(
-                    f"Au moins un département est non valide."
-                    f" Les départements valides"
-                    f" : {[dep for dep in departements]}"
-                )
-        return list_departement
-
-    @field_validator("region", mode="before")
-    def validate_region(cls, region):
-        list_region = str_to_list(clean_parameter(region))
-        for region in list_region:
-            if region not in regions:
-                raise TypeError(
-                    f"Au moins une region est non valide."
-                    f" Les région valides"
-                    f" : {regions}"
-                )
-        return list_region
+        return value
 
     @field_validator(
         "est_entrepreneur_individuel",
@@ -279,102 +188,142 @@ class SearchParams(BaseModel):
         "est_rge",
         "est_service_public",
         "minimal",
+        "est_societe_mission",
+        "economie_sociale_solidaire_unite_legale",
         mode="before",
     )
-    def validate_bool(cls, boolean, info):
+    def convert_str_to_bool(cls, boolean, info):
         param_name = info.field_name
         if boolean.upper() not in ["TRUE", "FALSE"]:
             raise TypeError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
         return boolean.upper() == "TRUE"
 
     @field_validator(
-        "est_societe_mission", "economie_sociale_solidaire_unite_legale", mode="before"
+        "est_societe_mission", "economie_sociale_solidaire_unite_legale", mode="after"
     )
-    def validate_societe_a_mission(cls, boolean, info):
-        param_name = info.field_name
-        if boolean.upper() not in ["TRUE", "FALSE"]:
-            # Using TypeError because it is not wrapped in a Validation Error
-            # in Pydantic
-            raise TypeError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
-        return match_bool_to_insee_value(boolean.upper() == "TRUE")
+    def convert_bool_to_insee_value(cls, boolean, info):
+        return match_bool_to_insee_value(boolean)
 
-    @field_validator("section_activite_principale", mode="before")
-    def validate_section_activite_principale(cls, section_activite_principale):
-        list_section_activite_principale = str_to_list(
-            clean_parameter(section_activite_principale)
-        )
-        for section_activite_principale in list_section_activite_principale:
-            if section_activite_principale not in sections_codes_naf:
-                raise TypeError(
-                    "Au moins une section d'activité principale est non valide."
-                )
-        return list_section_activite_principale
-
-    @field_validator("tranche_effectif_salarie_unite_legale", mode="before")
-    def validate_tranche_effectif_salarie(cls, tranche_effectif_salarie):
-        list_tranche_effectif_salarie = str_to_list(
-            clean_parameter(tranche_effectif_salarie)
-        )
-        length_tranche_effectif_salarie = 2
-        for tranche_effectif_salarie in list_tranche_effectif_salarie:
-            if len(tranche_effectif_salarie) != length_tranche_effectif_salarie:
-                raise TypeError("Chaque tranche salariés doit contenir 2 caractères.")
-            if tranche_effectif_salarie not in tranches_effectifs:
-                raise TypeError("Au moins une tranche salariés est non valide.")
-        return list_tranche_effectif_salarie
-
-    @field_validator("id_convention_collective", mode="before")
-    def validate_id_convention_collective(cls, id_convention_collective):
-        length_convention_collective = 4
-        if len(id_convention_collective) != length_convention_collective:
+    @field_validator("id_convention_collective", "id_finess", "id_uai", mode="before")
+    def check_str_length(cls, field_value, info):
+        field_length = FIELD_LENGTHS.get(info.field_name)
+        if len(field_value) != field_length:
             raise TypeError(
-                "L'identifiant de convention collective doit contenir 4 caractères."
+                f"Le paramètre `{info.field_name}` "
+                f"doit contenir {field_length} caractères."
             )
-        return id_convention_collective
+        return field_value
 
-    @field_validator("id_finess", mode="before")
-    def validate_id_finess(cls, id_finess):  # *kwargs {'id_fitness' : id_fitness}
-        len_id_finess = 9
-        if len(id_finess) != len_id_finess:
-            raise TypeError("L'identifiant FINESS doit contenir 9 caractères.")
-        return id_finess
-
-    @field_validator("id_uai", mode="before")
-    def validate_id_uai(cls, id_uai):
-        length_id_uai = 8
-        if len(id_uai) != length_id_uai:
-            raise TypeError("L'identifiant UAI doit contenir 8 caractères.")
-        return id_uai
-
-    @field_validator("code_collectivite_territoriale", mode="before")
-    def validate_code_collectivite_territoriale(cls, code_cc):
-        list_code_cc = str_to_list(clean_parameter(code_cc))
-        min_len_code_collectivite_territoriale = 2
-        for code_collectivite_territoriale in list_code_cc:
-            if (
-                len(code_collectivite_territoriale)
-                < min_len_code_collectivite_territoriale
-            ):
+    @field_validator("code_collectivite_territoriale", mode="after")
+    def check_min_str_length_in_list(cls, list_values, info):
+        min_value_len = FIELD_LENGTHS.get(info.field_name)
+        for value in list_values:
+            if len(value) < min_value_len:
                 raise TypeError(
-                    "Chaque identifiant code insee d'une collectivité "
-                    "territoriale doit contenir au moins 2 caractères."
+                    """Chaque identifiant code insee d'une collectivité
+                    territoriale doit contenir au moins 2 caractères."""
                 )
-        return list_code_cc
+        return list_values
 
-    @field_validator("include", "include_admin", mode="before")
-    def validate_include(cls, fields, info):
-        list_fields = str_to_list(clean_parameter(fields))
+    @field_validator("nom_personne", "prenoms_personne", mode="before")
+    def clean_name(cls, value):
+        return value.replace("-", " ").lower()
+
+    @field_validator(
+        "min_date_naiss_personne", "max_date_naiss_personne", mode="before"
+    )
+    def check_date_format(cls, date_string):
+        try:
+            return date.fromisoformat(date_string)
+        except Exception:
+            raise TypeError(
+                """Veuillez indiquer une date sous
+                le format : aaaa-mm-jj. Exemple : '1990-01-02'"""
+            )
+
+    @field_validator("include", "include_admin", mode="after")
+    def validate_include(cls, list_fields, info):
         if info.field_name == "include_admin":
-            valid_fields_to_check = valid_admin_fields_to_select
+            valid_fields_to_check = VALID_ADMIN_FIELDS_TO_SELECT
         else:
-            valid_fields_to_check = valid_fields_to_select
+            valid_fields_to_check = VALID_FIELDS_TO_SELECT
         for field in list_fields:
             if field not in valid_fields_to_check:
                 valid_fields_lowercase = [
                     field.lower() for field in valid_fields_to_check
                 ]
                 raise TypeError(
-                    f"Au moins un champ à inclure est non valide. "
-                    f"Les champs valides : {valid_fields_lowercase}."
+                    f"""Au moins un champ à inclure est non valide.
+                    Les champs valides : {valid_fields_lowercase}."""
                 )
         return list_fields
+
+    @model_validator(mode="after")
+    def validate_date_range(self):
+        min_date_naiss = self.min_date_naiss_personne
+        max_date_naiss = self.max_date_naiss_personne
+        if min_date_naiss and max_date_naiss:
+            if max_date_naiss < min_date_naiss:
+                raise TypeError(
+                    "Veuillez indiquer une date minimale inférieure à la date maximale."
+                )
+        return self
+
+    @model_validator(mode="after")
+    def validate_inclusion_fields(self):
+        include = self.include
+        minimal = self.minimal
+        if include and (minimal is None or minimal is False):
+            raise TypeError(
+                """Veuillez indiquer si vous souhaitez une réponse minimale
+                avec le filtre `minimal=True`` avant de préciser les
+                champs à inclure."""
+            )
+        return self
+
+    @model_validator(mode="after")
+    def check_if_all_empty_params(self):
+        """
+        If all parameters are empty (except matching size and pagination
+        because they always have a default value) raise value error
+        Check if all non-default parameters are empty, raise a ValueError if they are
+        """
+        excluded_fields = ["page", "per_page", "matching_size"]
+
+        all_fields_are_null_except_excluded = check_params_are_none_except_excluded(
+            self.dict(exclude_unset=True), excluded_fields
+        )
+        if all_fields_are_null_except_excluded:
+            raise TypeError("Veuillez indiquer au moins un paramètre de recherche.")
+        return self
+
+    @model_validator(mode="after")
+    def check_if_short_terms_and_no_other_param(self):
+        """Prevent performance issues by refusing query terms less than 3 characters.
+        Accept less than 3 characters if at least one parameter is filled.
+        Except matching size, because this param always has a default value.
+        """
+        # List of parameters to exclude from the check
+        excluded_fields = ["page", "per_page", "matching_size", "terms"]
+
+        all_fields_are_null_except_excluded = check_params_are_none_except_excluded(
+            self.dict(exclude_unset=True), excluded_fields
+        )
+        if (
+            self.terms is not None
+            and len(self.terms) < FIELD_LENGTHS["terms"]
+            and all_fields_are_null_except_excluded
+        ):
+            raise TypeError(
+                "3 caractères minimum pour les termes de la requête "
+                + "(ou utilisez au moins un filtre)"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def check_if_both_lon_and_lat_are_given(self):
+        if (self.lat is None) and (self.lon is not None):
+            raise TypeError("Veuillez indiquer une latitude entre -90° et 90°.")
+        if (self.lon is None) and (self.lat is not None):
+            raise TypeError("Veuillez indiquer une longitude entre -180° et 180°.")
+        return self

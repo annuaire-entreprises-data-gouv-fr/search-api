@@ -7,6 +7,15 @@ from aio_proxy.labels.helpers import (
     TRANCHES_EFFECTIFS,
 )
 
+VALID_FIELDS_TO_SELECT = [
+    "COMPLEMENTS",
+    "DIRIGEANTS",
+    "FINANCES",
+    "SIEGE",
+    "MATCHING_ETABLISSEMENTS",
+]
+VALID_ADMIN_FIELDS_TO_SELECT = ["ETABLISSEMENTS", "SCORE", "SLUG"]
+
 NUMERIC_FIELD_LIMITS = {
     "page": {"min": 1, "max": 1000, "default": 1, "alias": "page"},
     "per_page": {"min": 1, "max": 25, "default": 10, "alias": "per_page"},
@@ -100,4 +109,5 @@ FIELD_LENGTHS = {
     "code_collectivite_territoriale": 2,
     "commune": 5,
     "code_postal": 5,
+    "terms": 3,
 }

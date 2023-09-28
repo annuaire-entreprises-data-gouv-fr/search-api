@@ -48,7 +48,6 @@ class ElasticSearchRunner:
 
     def execute_and_format_es_search(self):
         self.es_search_client = page_through_results(self)
-        logging.info(f"))))))))))))))){self.es_search_client.to_dict()}")
         es_response = self.es_search_client.execute()
         self.total_results = es_response.hits.total.value
         self.execution_time = es_response.took

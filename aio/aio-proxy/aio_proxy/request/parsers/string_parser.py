@@ -15,8 +15,3 @@ def clean_parameter(param: str):
     param = param.replace("-", " ")
     param_clean = param.replace(" ", "").upper()
     return param_clean
-
-
-def clean_name(param: str):
-    param = param.replace("-", " ").lower()
-    return param

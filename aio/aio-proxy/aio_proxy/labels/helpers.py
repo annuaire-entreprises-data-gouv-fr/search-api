@@ -15,11 +15,3 @@ NATURES_JURIDIQUES = load_file("natures-juridiques.json")
 TRANCHES_EFFECTIFS = load_file("tranches-effectifs.json")
 REGIONS = load_file("regions.json")
 SECTIONS_CODES_NAF = load_file("sections-codes-NAF.json")
-VALID_FIELDS_TO_SELECT = [
-    "COMPLEMENTS",
-    "DIRIGEANTS",
-    "FINANCES",
-    "SIEGE",
-    "MATCHING_ETABLISSEMENTS",
-]
-VALID_ADMIN_FIELDS_TO_SELECT = ["ETABLISSEMENTS", "SCORE", "SLUG"]

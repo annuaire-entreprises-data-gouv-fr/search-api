@@ -422,6 +422,16 @@ def test_near_point_nan_values(api_response_tester):
     path = "near_point?lat=nan&long=nan"
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == "Veuillez indiquer un paramètre `lat` flottant."
+
+
+def test_near_point_without_lat(api_response_tester):
+    """
+    test near point endpoint without giving latitude
+    """
+    path = "near_point?long=67"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
     assert (
         response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
     )

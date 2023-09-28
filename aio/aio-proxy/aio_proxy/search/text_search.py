@@ -1,5 +1,3 @@
-import logging
-
 from aio_proxy.search.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
 )
@@ -42,7 +40,6 @@ def build_es_search_text_query(es_search_builder):
             es_search_builder.es_search_client = filter_by_siret(
                 es_search_builder.es_search_client, query_terms_clean
             )
-        logging.info(f"++++++++++++{es_search_builder.es_search_client.to_dict()}")
 
     else:
         # Always apply this filter for text search to prevent displaying

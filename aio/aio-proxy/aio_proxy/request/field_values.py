@@ -52,6 +52,7 @@ NUMERIC_FIELD_LIMITS = {
     "lon": {"min": -180, "max": 180, "default": None, "alias": "longitude"},
     "lat": {"min": -90, "max": 90, "default": None, "alias": "latitude"},
     "radius": {"min": 0, "max": 50, "default": 5, "alias": "radius"},
+    "total_results": {"min": 0, "max": 10000},
 }
 
 

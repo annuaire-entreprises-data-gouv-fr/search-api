@@ -101,9 +101,9 @@ class SearchParams(BaseModel):
         limits = NUMERIC_FIELD_LIMITS.get(info.field_name)
         if value < limits["min"] or value > limits["max"]:
             raise TypeError(
-                f"""Veuillez indiquer un paramètre `{info.field_name}` entre
-                `{limits['min']}` et `{limits['max']}`,
-                par défaut `{limits['default']}`."""
+                f"Veuillez indiquer un paramètre `{info.field_name}` entre "
+                f"`{limits['min']}` et `{limits['max']}`, "
+                "par défaut `{limits['default']}`."
             )
         return value
 
@@ -138,8 +138,8 @@ class SearchParams(BaseModel):
             valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
             if not re.search(valid_values, value):
                 raise TypeError(
-                    f"""Au moins une valeur du paramètre {info.field_name}
-                    est non valide."""
+                    f"sAu moins une valeur du paramètre {info.field_name} "
+                    "est non valide."
                 )
         return list_values
 
@@ -158,9 +158,10 @@ class SearchParams(BaseModel):
         for value in list_of_values:
             if value not in valid_values:
                 raise TypeError(
-                    f"""Au moins un paramètre
-                    `{VALID_FIELD_VALUES.get(info.field_name)['alias']}` est non valide.
-                    Les valeurs valides : {[value for value in valid_values]}."""
+                    f"Au moins un paramètre "
+                    f"`{VALID_FIELD_VALUES.get(info.field_name)['alias']}` "
+                    f"est non valide. "
+                    f"Les valeurs valides : {[value for value in valid_values]}."
                 )
         return list_of_values
 
@@ -169,8 +170,8 @@ class SearchParams(BaseModel):
         valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
         if value not in valid_values:
             raise TypeError(
-                f"""Le paramètre `{VALID_FIELD_VALUES.get(info.field_name)['alias']}`
-                doit prendre une des valeurs suivantes {valid_values}."""
+                f"Le paramètre `{VALID_FIELD_VALUES.get(info.field_name)['alias']}` "
+                f"doit prendre une des valeurs suivantes {valid_values}."
             )
         return value
 
@@ -221,8 +222,8 @@ class SearchParams(BaseModel):
         for value in list_values:
             if len(value) < min_value_len:
                 raise TypeError(
-                    """Chaque identifiant code insee d'une collectivité
-                    territoriale doit contenir au moins 2 caractères."""
+                    "Chaque identifiant code insee d'une collectivité "
+                    "territoriale doit contenir au moins 2 caractères."
                 )
         return list_values
 
@@ -238,8 +239,8 @@ class SearchParams(BaseModel):
             return date.fromisoformat(date_string)
         except Exception:
             raise TypeError(
-                """Veuillez indiquer une date sous
-                le format : aaaa-mm-jj. Exemple : '1990-01-02'"""
+                "Veuillez indiquer une date sous "
+                "le format : aaaa-mm-jj. Exemple : '1990-01-02'"
             )
 
     @field_validator("include", "include_admin", mode="after")
@@ -254,12 +255,26 @@ class SearchParams(BaseModel):
                     field.lower() for field in valid_fields_to_check
                 ]
                 raise TypeError(
-                    f"""Au moins un champ à inclure est non valide.
-                    Les champs valides : {valid_fields_lowercase}."""
+                    "Au moins un champ à inclure est non valide. "
+                    f"Les champs valides : {valid_fields_lowercase}."
                 )
         return list_fields
 
     # Model Validators (involve more than one field at a time)
+    @model_validator(mode="after")
+    def total_results_should_be_smaller_than_10000(self):
+        page = self.page
+        per_page = self.per_page
+        if page * per_page > NUMERIC_FIELD_LIMITS["total_results"]["max"]:
+            raise TypeError(
+                "Le nombre total de résultats est restreint à 10 000. "
+                "Pour garantir cela, le produit du numéro de page "
+                "(par défaut, page = 1) et du nombre de résultats par page "
+                "(par défaut, per_page = 10), c'est-à-dire `page * per_page`, "
+                "ne doit pas excéder 10 000."
+            )
+        return self
+
     @model_validator(mode="after")
     def validate_date_range(self):
         min_date_naiss = self.min_date_naiss_personne
@@ -277,9 +292,9 @@ class SearchParams(BaseModel):
         minimal = self.minimal
         if include and (minimal is None or minimal is False):
             raise TypeError(
-                """Veuillez indiquer si vous souhaitez une réponse minimale
-                avec le filtre `minimal=True`` avant de préciser les
-                champs à inclure."""
+                "Veuillez indiquer si vous souhaitez une réponse minimale "
+                "avec le filtre `minimal=True`` avant de préciser les "
+                "champs à inclure."
             )
         return self
 

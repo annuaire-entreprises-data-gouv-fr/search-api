@@ -72,7 +72,7 @@ class SearchParams(BaseModel):
 
     # Field Validators (involve one field at a time)
     @field_validator("page", "per_page", "matching_size", mode="before")
-    def cast_as_integer(cls, value, info):
+    def cast_as_integer(cls, value: str, info) -> int:
         try:
             int(value)
         except ValueError:
@@ -82,7 +82,7 @@ class SearchParams(BaseModel):
         return int(value)
 
     @field_validator("radius", "lat", "lon", mode="before")
-    def cast_as_float(cls, value, info):
+    def cast_as_float(cls, value: str, info) -> float:
         try:
             if value == "nan":
                 raise ValueError
@@ -99,10 +99,10 @@ class SearchParams(BaseModel):
     # Apply after first validator and Pydantic internal validation
     def check_if_number_in_range(cls, value, info):
         limits = NUMERIC_FIELD_LIMITS.get(info.field_name)
-        if value < limits["min"] or value > limits["max"]:
+        if value < limits.get("min") or value > limits.get("max"):
             raise ValueError(
                 f"Veuillez indiquer un paramètre `{info.field_name}` entre "
-                f"`{limits['min']}` et `{limits['max']}`, "
+                f"`{limits.get('min')}` et `{limits.get('max')}`, "
                 f"par défaut `{limits['default']}`."
             )
         return value
@@ -113,7 +113,7 @@ class SearchParams(BaseModel):
         "etat_administratif_unite_legale",
         mode="before",
     )
-    def make_uppercase(cls, value):
+    def make_uppercase(cls, value: str) -> str:
         return value.upper()
 
     @field_validator(
@@ -131,12 +131,14 @@ class SearchParams(BaseModel):
         "include_admin",
         mode="before",
     )
-    def convert_str_to_list(cls, str_of_values):
+    def convert_str_to_list(cls, str_of_values: str) -> list[str]:
         list_of_values = str_to_list(clean_str(str_of_values))
         return list_of_values
 
     @field_validator("code_postal", "commune", mode="after")
-    def list_of_values_should_match_regular_expression(cls, list_values, info):
+    def list_of_values_should_match_regular_expression(
+        cls, list_values: list[str], info
+    ) -> list[str]:
         for value in list_values:
             valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
             if not re.search(valid_values, value):
@@ -156,7 +158,7 @@ class SearchParams(BaseModel):
         "activite_principale_unite_legale",
         mode="after",
     )
-    def list_of_values_must_be_valid(cls, list_of_values, info):
+    def list_of_values_must_be_valid(cls, list_of_values: list[str], info) -> list[str]:
         valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
         for value in list_of_values:
             if value not in valid_values:
@@ -169,7 +171,7 @@ class SearchParams(BaseModel):
         return list_of_values
 
     @field_validator("type_personne", "etat_administratif_unite_legale", mode="after")
-    def field_must_be_in_valid_list(cls, value, info):
+    def field_must_be_in_valid_list(cls, value: str, info) -> str:
         valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
         if value not in valid_values:
             raise ValueError(
@@ -197,7 +199,7 @@ class SearchParams(BaseModel):
         "economie_sociale_solidaire_unite_legale",
         mode="before",
     )
-    def convert_str_to_bool(cls, boolean, info):
+    def convert_str_to_bool(cls, boolean: str, info) -> bool:
         param_name = info.field_name
         if boolean.upper() not in ["TRUE", "FALSE"]:
             raise ValueError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
@@ -206,11 +208,11 @@ class SearchParams(BaseModel):
     @field_validator(
         "est_societe_mission", "economie_sociale_solidaire_unite_legale", mode="after"
     )
-    def convert_bool_to_insee_value(cls, boolean):
+    def convert_bool_to_insee_value(cls, boolean: bool) -> str:
         return match_bool_to_insee_value(boolean)
 
     @field_validator("id_convention_collective", "id_finess", "id_uai", mode="before")
-    def check_str_length(cls, field_value, info):
+    def check_str_length(cls, field_value: str, info) -> str:
         field_length = FIELD_LENGTHS.get(info.field_name)
         if len(field_value) != field_length:
             raise ValueError(
@@ -220,7 +222,7 @@ class SearchParams(BaseModel):
         return field_value
 
     @field_validator("code_collectivite_territoriale", mode="after")
-    def check_min_str_length_in_list(cls, list_values, info):
+    def check_min_str_length_in_list(cls, list_values: list[str], info) -> list[str]:
         min_value_len = FIELD_LENGTHS.get(info.field_name)
         for value in list_values:
             if len(value) < min_value_len:
@@ -231,13 +233,13 @@ class SearchParams(BaseModel):
         return list_values
 
     @field_validator("nom_personne", "prenoms_personne", mode="before")
-    def clean_name(cls, value):
+    def clean_name(cls, value: str) -> str:
         return value.replace("-", " ").lower()
 
     @field_validator(
         "min_date_naiss_personne", "max_date_naiss_personne", mode="before"
     )
-    def check_date_format(cls, date_string):
+    def check_date_format(cls, date_string: str) -> date:
         try:
             return date.fromisoformat(date_string)
         except Exception:
@@ -247,7 +249,7 @@ class SearchParams(BaseModel):
             )
 
     @field_validator("include", "include_admin", mode="after")
-    def validate_include(cls, list_fields, info):
+    def validate_include(cls, list_fields: list[str], info) -> list[str]:
         if info.field_name == "include_admin":
             valid_fields_to_check = VALID_ADMIN_FIELDS_TO_SELECT
         else:

@@ -5,7 +5,7 @@ def is_any_bilan_filter_used(search_params) -> bool:
         "resultat_net_min",
         "resultat_net_max",
     ]
-    for param_name, param_value in vars(search_params).items():
+    for param_name, param_value in search_params.dict().items():
         if param_value is not None and param_name in bilan_filters:
             return True
     return False

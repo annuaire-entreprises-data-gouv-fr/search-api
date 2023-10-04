@@ -73,9 +73,11 @@ class ElasticSearchRunner:
         )
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
+
         self.es_search_client = self.es_search_client.update_from_dict(
             {"collapse": {"field": "identifiant"}}
         )
+
         # Sort results
         self.sort_es_search_query()
 

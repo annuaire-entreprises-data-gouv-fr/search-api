@@ -37,6 +37,6 @@ def page_through_results(es_search_builder):
 
     """
     size = es_search_builder.search_params.per_page
-    offset = es_search_builder.search_params.page * size
+    offset = (es_search_builder.search_params.page - 1) * size
     search_client = es_search_builder.es_search_client
     return search_client[offset : (offset + size)]

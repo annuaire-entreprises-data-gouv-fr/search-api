@@ -10,7 +10,7 @@ class ResponseBuilder:
         self.results = format_search_results(
             es_search_results.es_search_results, search_params
         )
-        self.page = search_params.page + 1
+        self.page = search_params.page
         self.total_pages = self.calculate_total_pages()
         response = ResponseModel(
             results=self.results,

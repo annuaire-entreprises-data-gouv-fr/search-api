@@ -15,7 +15,7 @@ def search_person(
         person_filters = []
         boost_queries = []
         # Nom
-        nom_person = getattr(search_params, param_nom)
+        nom_person = search_params.dict().get(param_nom, "None")
         if nom_person:
             # match queries returns any document containing the search item,
             # even if it contains another item
@@ -51,7 +51,7 @@ def search_person(
             )
 
         # Prénoms
-        prenoms_person = getattr(search_params, param_prenom)
+        prenoms_person = search_params.dict().get(param_prenom, None)
         if prenoms_person:
             # Same logic as "nom" is used for "prenoms"
             for prenom in prenoms_person.split(" "):
@@ -81,7 +81,7 @@ def search_person(
             )
 
         # Date de naissance
-        min_date_naiss_person = getattr(search_params, param_date_min)
+        min_date_naiss_person = search_params.dict().get(param_date_min, None)
         if min_date_naiss_person:
             person_filters.append(
                 {
@@ -96,7 +96,7 @@ def search_person(
                 }
             )
 
-        max_date_naiss_person = getattr(search_params, param_date_max)
+        max_date_naiss_person = search_params.dict().get(param_date_max, None)
         if max_date_naiss_person:
             person_filters.append(
                 {

@@ -43,7 +43,7 @@ def build_etablissements_filters(search_params):
     must_not_filters = []
 
     # params is the list of parameters (filters) provided in the request
-    for param_name, param_value in vars(search_params).items():
+    for param_name, param_value in search_params.dict().items():
         should_apply_text_filter = (
             param_value is not None and param_name in text_filters
         )

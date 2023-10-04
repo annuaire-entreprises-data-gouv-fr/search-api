@@ -33,6 +33,7 @@ def test_personne_filter(api_response_tester):
         "=2000-01-01"
     )
     api_response_tester.test_field_value(path, "siren", "880878145")
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, 1)
 
 
@@ -42,6 +43,11 @@ def test_error_query(api_response_tester):
     """
     path = "search?qs=ganymede"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer au moins un paramètre de recherche."
+    )
 
 
 def test_accept_three_characters(api_response_tester):
@@ -58,6 +64,12 @@ def test_format_date_naissance(api_response_tester):
     """
     path = "search?date_naissance_personne_min=13/09/2001"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer une date sous le format : aaaa-mm-jj. "
+        "Exemple : '1990-01-02'"
+    )
 
 
 def test_query_too_short(api_response_tester):
@@ -66,6 +78,12 @@ def test_query_too_short(api_response_tester):
     """
     path = "search?q=ab"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "3 caractères minimum pour les termes de la requête "
+        "(ou utilisez au moins un filtre)"
+    )
 
 
 def test_short_query_with_filter(api_response_tester):
@@ -82,6 +100,12 @@ def test_terms_empty_only(api_response_tester):
     """
     path = "search?q="
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "3 caractères minimum pour les termes de la requête "
+        "(ou utilisez au moins un filtre)"
+    )
 
 
 def test_bool_filters(api_response_tester):
@@ -90,6 +114,7 @@ def test_bool_filters(api_response_tester):
     établissements` with `rge` and `convention collective` ids.
     """
     path = "search?convention_collective_renseignee=true&est_rge=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, 1)
     api_response_tester.test_field_value(path, "complements.est_rge", True)
 
@@ -99,6 +124,7 @@ def test_organisme_formation(api_response_tester):
     test est_organisme_formation et est_qualiopi
     """
     path = "search?est_organisme_formation=true&est_qualiopi=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
@@ -124,6 +150,11 @@ def test_banned_param(api_response_tester):
     """
     path = "search?localisation=45000"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer au moins un paramètre de recherche."
+    )
 
 
 def test_siren_search(api_response_tester):
@@ -156,6 +187,11 @@ def test_page_number(api_response_tester):
     """
     path = "search?q=ganymede&page=10001"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `page` entre `1` "
+        "et `1000`, par défaut `1`."
+    )
 
 
 def test_min_per_page(api_response_tester):
@@ -164,6 +200,11 @@ def test_min_per_page(api_response_tester):
     """
     path = "search?q=ganymede&per_page=0"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `per_page` "
+        "entre `1` et `25`, par défaut `10`."
+    )
 
 
 def test_est_service_public(api_response_tester):
@@ -171,6 +212,7 @@ def test_est_service_public(api_response_tester):
     test if `est_service_public`  filter returns results with and without text search.
     """
     path = "search?est_service_public=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, min_total_results_filters)
     api_response_tester.test_field_value(path, "complements.est_service_public", True)
     path = "search?est_service_public=true&q=ministere"
@@ -182,12 +224,14 @@ def test_est_societe_a_mission(api_response_tester):
     test est_societe_mission
     """
     path = "search?est_societe_mission=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, 500)
     api_response_tester.test_field_value(path, "complements.est_societe_mission", True)
 
 
 def test_commune_filter(api_response_tester):
     path = "search?code_commune=35235"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
         path, "matching_etablissements.0.commune", "35235"
     )
@@ -195,16 +239,19 @@ def test_commune_filter(api_response_tester):
 
 def test_activite_principale_filter(api_response_tester):
     path = "search?activite_principale=01.12Z"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "activite_principale", "01.12Z")
 
 
 def test_categorie_entreprise(api_response_tester):
     path = "search?categorie_entreprise=PME"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "categorie_entreprise", "PME")
 
 
 def test_code_collectivite_territoriale(api_response_tester):
     path = "search?code_collectivite_territoriale=75C"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
         path, "complements.collectivite_territoriale.code", "75C"
     )
@@ -212,6 +259,7 @@ def test_code_collectivite_territoriale(api_response_tester):
 
 def test_convention_collective_renseignee(api_response_tester):
     path = "search?convention_collective_renseignee=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
         path, "complements.convention_collective_renseignee", True
     )
@@ -219,6 +267,7 @@ def test_convention_collective_renseignee(api_response_tester):
 
 def test_departement(api_response_tester):
     path = "search?departement=10"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     commune = response.json()["results"][0]["matching_etablissements"][0]["commune"]
     assert re.match(r"^10\w{3}$", commune) is not None
@@ -226,11 +275,13 @@ def test_departement(api_response_tester):
 
 def test_egapro_renseignee(api_response_tester):
     path = "search?egapro_renseignee=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.egapro_renseignee", True)
 
 
 def test_est_association(api_response_tester):
     path = "search?est_association=True"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     id_asso = response.json()["results"][0]["complements"]["identifiant_association"]
     assert id_asso is not None
@@ -238,6 +289,7 @@ def test_est_association(api_response_tester):
 
 def test_est_collectivite_territoriale(api_response_tester):
     path = "search?est_collectivite_territoriale=true"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     coll_terr = response.json()["results"][0]["complements"][
         "collectivite_territoriale"
@@ -247,11 +299,13 @@ def test_est_collectivite_territoriale(api_response_tester):
 
 def test_est_bio(api_response_tester):
     path = "search?est_bio=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.est_bio", True)
 
 
 def test_est_entrepreneur_individuel(api_response_tester):
     path = "search?est_entrepreneur_individuel=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
         path, "complements.est_entrepreneur_individuel", True
     )
@@ -259,6 +313,7 @@ def test_est_entrepreneur_individuel(api_response_tester):
 
 def test_est_entrepreneur_spectacle(api_response_tester):
     path = "search?est_entrepreneur_spectacle=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
         path, "complements.est_entrepreneur_spectacle", True
     )
@@ -266,21 +321,25 @@ def test_est_entrepreneur_spectacle(api_response_tester):
 
 def test_est_rge(api_response_tester):
     path = "search?est_rge=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.est_rge", True)
 
 
 def test_est_finess(api_response_tester):
     path = "search?est_finess=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.est_finess", True)
 
 
 def test_est_ess(api_response_tester):
     path = "search?est_ess=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.est_ess", True)
 
 
 def test_est_organisme_formation(api_response_tester):
     path = "search?est_organisme_formation=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
         path, "complements.est_organisme_formation", True
     )
@@ -288,21 +347,25 @@ def test_est_organisme_formation(api_response_tester):
 
 def test_est_qualiopi(api_response_tester):
     path = "search?est_qualiopi=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.est_qualiopi", True)
 
 
 def test_est_uai(api_response_tester):
     path = "search?est_uai=true"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "complements.est_uai", True)
 
 
 def test_etat_administratif(api_response_tester):
     path = "search?etat_administratif=C"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "etat_administratif", "C")
 
 
 def test_id_convention_collective(api_response_tester):
     path = "search?id_convention_collective=1090"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     liste_idcc = response.json()["results"][0]["matching_etablissements"][0][
         "liste_idcc"
@@ -312,6 +375,7 @@ def test_id_convention_collective(api_response_tester):
 
 def test_id_finess(api_response_tester):
     path = "search?id_finess=010003853"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     liste_finess = response.json()["results"][0]["matching_etablissements"][0][
         "liste_finess"
@@ -321,6 +385,7 @@ def test_id_finess(api_response_tester):
 
 def test_id_rge(api_response_tester):
     path = "search?id_rge=8611M10D109"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     liste_rge = response.json()["results"][0]["matching_etablissements"][0]["liste_rge"]
     assert "8611M10D109" in liste_rge
@@ -328,6 +393,7 @@ def test_id_rge(api_response_tester):
 
 def test_id_uai(api_response_tester):
     path = "search?id_uai=0022004T"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     liste_uai = response.json()["results"][0]["matching_etablissements"][0]["liste_uai"]
     assert "0022004T" in liste_uai
@@ -335,16 +401,19 @@ def test_id_uai(api_response_tester):
 
 def test_nature_juridique(api_response_tester):
     path = "search?nature_juridique=7344"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "nature_juridique", "7344")
 
 
 def test_section_activite_principale(api_response_tester):
     path = "search?section_activite_principale=A"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "section_activite_principale", "A")
 
 
 def test_tranche_effectif_salarie(api_response_tester):
     path = "search?tranche_effectif_salarie=01"
+    api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, "tranche_effectif_salarie", "01")
 
 
@@ -354,11 +423,17 @@ def test_date_naiss_interval(api_response_tester):
         "1990-01-01&date_naissance_personne_max=1989-01-01"
     )
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer une date minimale inférieure à la date maximale."
+    )
 
 
 def test_type_personne(api_response_tester):
     path = "search?type_personne=elu&nom_personne=xavier"
     response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
     elus = response.json()["results"][0]["complements"]["collectivite_territoriale"][
         "elus"
     ]
@@ -371,6 +446,7 @@ def test_selected_fields(api_response_tester):
         "&include_admin=etablissements"
     )
     response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
     etablissements = response.json()["results"][0]["etablissements"]
     assert etablissements
     assert "siege" in response.json()["results"][0]
@@ -381,6 +457,7 @@ def test_selected_fields(api_response_tester):
 
 def test_minimal_response(api_response_tester):
     path = "search?q=ganymede&minimal=True"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     assert "siege" not in response.json()["results"][0]
     assert "dirigeants" not in response.json()["results"][0]
@@ -392,10 +469,17 @@ def test_minimal_response(api_response_tester):
 def test_minimal_fail(api_response_tester):
     path = "search?q=ganymede&include=siege"
     api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer si vous souhaitez une réponse minimale avec le filtre "
+        "`minimal=True`` avant de préciser les champs à inclure."
+    )
 
 
 def test_region_filter(api_response_tester):
     path = "search?region=76"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     region_etablissement = response.json()["results"][0]["matching_etablissements"][0][
         "region"
@@ -405,6 +489,7 @@ def test_region_filter(api_response_tester):
 
 def test_non_diffusibilite(api_response_tester):
     path = "search?q=300210820&include_admin=etablissements"
+    api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
     assert response.json()["results"][0]["nom_complet"] == "[NON-DIFFUSIBLE]"
     assert response.json()["results"][0]["siege"]["code_postal"] == "[NON-DIFFUSIBLE]"
@@ -422,6 +507,29 @@ def test_near_point_nan_values(api_response_tester):
     path = "near_point?lat=nan&long=nan"
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == "Veuillez indiquer un paramètre `lat` flottant."
+
+
+def test_near_point_without_lat(api_response_tester):
+    """
+    test near point endpoint without giving latitude
+    """
+    path = "near_point?long=67"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
     assert (
         response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
+    )
+
+
+def test_minimal_param_only(api_response_tester):
+    """
+    test if only minimal and include param are given
+    """
+    path = "search?minimal=true&include=siege"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"]
+        == "Veuillez indiquer au moins un paramètre de recherche."
     )

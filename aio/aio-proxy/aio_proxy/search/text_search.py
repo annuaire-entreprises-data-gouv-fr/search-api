@@ -40,6 +40,7 @@ def build_es_search_text_query(es_search_builder):
             es_search_builder.es_search_client = filter_by_siret(
                 es_search_builder.es_search_client, query_terms_clean
             )
+
     else:
         # Always apply this filter for text search to prevent displaying
         # non-diffusible data
@@ -147,16 +148,15 @@ def build_es_search_text_query(es_search_builder):
                             Q(filters_etablissements_query_with_inner_hits)
                         )
                     )
-        else:
+        elif query_terms:
             # Text search only without etablissements filters
-            if query_terms:
-                text_query = build_text_query(
-                    terms=query_terms,
-                    matching_size=es_search_builder.search_params.matching_size,
-                )
-                es_search_builder.es_search_client = (
-                    es_search_builder.es_search_client.query(Q(text_query))
-                )
+            text_query = build_text_query(
+                terms=query_terms,
+                matching_size=es_search_builder.search_params.matching_size,
+            )
+            es_search_builder.es_search_client = (
+                es_search_builder.es_search_client.query(Q(text_query))
+            )
 
         # Search by chiffre d'affaire or resultat net in bilan_financier
         is_bilan_bilan_used = is_any_bilan_filter_used(es_search_builder.search_params)
@@ -240,7 +240,7 @@ def build_es_search_text_query(es_search_builder):
             "nom_personne",
             "prenoms_personne",
         ]:
-            if getattr(es_search_builder.search_params, item):
+            if es_search_builder.search_params.dict().get(item, None):
                 es_search_builder.has_full_text_query = True
 
         exclude_etablissements_from_search(es_search_builder)

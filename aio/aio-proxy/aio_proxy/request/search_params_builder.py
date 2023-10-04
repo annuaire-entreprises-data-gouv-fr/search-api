@@ -6,6 +6,7 @@ class SearchParamsBuilder:
     """This class extracts parameter values from request and saves them in a
     SearchParams dataclass object."""
 
+    # Some field names in API do not exactly match their ariable name in Elasticsearch
     PARAMETER_MAPPING = {
         "q": "terms",
         "limite_matching_etablissements": "matching_size",
@@ -24,22 +25,21 @@ class SearchParamsBuilder:
     def map_request_parameters(request):
         # Extract all query parameters from the request
         request_params = request.rel_url.query
-
         mapped_params = {}
-        # Include parameters specified in PARAMETER_MAPPING with mapping
-        for http_param, model_field in SearchParamsBuilder.PARAMETER_MAPPING.items():
-            param_value = request_params.get(http_param, None)
-            if param_value is not None:
-                mapped_params[model_field] = param_value
-        # Include parameters not specified in PARAMETER_MAPPING without mapping
-        for key, value in request_params.items():
-            if key not in SearchParamsBuilder.PARAMETER_MAPPING:
-                mapped_params[key] = value
+        for param, param_value in request_params.items():
+            field_should_be_mapped = param in SearchParamsBuilder.PARAMETER_MAPPING
+            # Include parameters specified in PARAMETER_MAPPING with mapping
+            if field_should_be_mapped:
+                mapped_field = SearchParamsBuilder.PARAMETER_MAPPING[param]
+                mapped_params[mapped_field] = param_value
+            # Include parameters not specified in PARAMETER_MAPPING without mapping
+            else:
+                mapped_params[param] = param_value
         return mapped_params
 
     @staticmethod
     def get_search_params(request):
-        # Map the request parameters to match the Pydantic model's field names
+        """Map the request parameters to match the Pydantic model's field name."""
         mapped_params = SearchParamsBuilder.map_request_parameters(request)
         params = SearchParams(**mapped_params)
         return params

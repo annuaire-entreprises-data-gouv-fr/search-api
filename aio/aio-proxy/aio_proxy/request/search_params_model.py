@@ -141,7 +141,7 @@ class SearchParams(BaseModel):
             valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
             if not re.search(valid_values, value):
                 raise ValueError(
-                    f"sAu moins une valeur du paramètre {info.field_name} "
+                    f"Au moins une valeur du paramètre {info.field_name} "
                     "est non valide."
                 )
         return list_values

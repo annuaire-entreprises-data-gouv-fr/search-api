@@ -1,22 +1,15 @@
-def match_bool_to_insee_value(bool_value: bool) -> str | None:
+def match_bool_to_insee_value(bool_value: bool) -> str:
     """Match bool filter value to corresponding INSEE field value .
 
     Args:
-        bool_value (str): `est_var` value extracted from request
+        bool_value (str): `bool_value` value extracted from request
 
     Returns:
-        None if `est_var`is None.
-        "O" if `est_var` is True.
-        "N" if `est_var` is False.
+        "O" if `bool_value` is True.
+        "N" if `bool_value` is False.
 
     """
-    if bool_value is None:
-        return None
-    if bool_value is True:
-        insee_value = "O"
-    else:
-        insee_value = "N"
-    return insee_value
+    return "O" if bool_value else "N"
 
 
 def str_to_list(string_values: str) -> list[str]:

@@ -6,7 +6,7 @@ class SearchParamsBuilder:
     """This class extracts parameter values from request and saves them in a
     SearchParams dataclass object."""
 
-    # Some field names in API do not exactly match their ariable name in Elasticsearch
+    # Some field names in API do not exactly match their variable name in Elasticsearch
     PARAMETER_MAPPING = {
         "q": "terms",
         "limite_matching_etablissements": "matching_size",

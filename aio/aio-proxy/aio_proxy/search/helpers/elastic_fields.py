@@ -15,7 +15,6 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
             "resultat_net_min": "unite_legale.bilan_financier.resultat_net",
             "resultat_net_max": "unite_legale.bilan_financier.resultat_net",
             "code_collectivite_territoriale": "unite_legale.colter_code",
-            "est_association": "unite_legale.identifiant_association_unite_legale",
             "est_collectivite_territoriale": "unite_legale.colter_code",
         }
     else:

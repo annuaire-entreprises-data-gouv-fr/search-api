@@ -17,6 +17,7 @@ def format_complements(result_unite_legale):
     )
     convention_collective_renseignee = get_field("convention_collective_renseignee")
     egapro_renseignee = get_field("egapro_renseignee")
+    est_association = get_field("est_association")
     est_bio = get_field("est_bio")
     est_entrepreneur_individuel = get_field(
         "est_entrepreneur_individuel", default=False
@@ -39,6 +40,7 @@ def format_complements(result_unite_legale):
         collectivite_territoriale=collectivite_territoriale,
         convention_collective_renseignee=convention_collective_renseignee,
         egapro_renseignee=egapro_renseignee,
+        est_association=est_association,
         est_bio=est_bio,
         est_entrepreneur_individuel=est_entrepreneur_individuel,
         est_entrepreneur_spectacle=est_entrepreneur_spectacle,

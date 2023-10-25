@@ -108,6 +108,6 @@ jobs:
           python -m pip install --upgrade black
       # Include `--format=github` to enable automatic inline annotations.
       - name: Run Ruff
-        run: ruff check --diff --format=github .
+        run: ruff check --diff -- --format=github .
       - name: Run Black
         uses: psf/black@stable

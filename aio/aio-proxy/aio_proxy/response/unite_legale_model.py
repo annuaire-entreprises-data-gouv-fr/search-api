@@ -85,6 +85,7 @@ class Complements(BaseModel):
     collectivite_territoriale: CollectiviteTerritoriale | None = None
     convention_collective_renseignee: bool = False
     egapro_renseignee: bool = False
+    est_association: bool = False
     est_bio: bool = False
     est_entrepreneur_individuel: bool = False
     est_entrepreneur_spectacle: bool = False

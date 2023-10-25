@@ -179,7 +179,10 @@ paths:
               - false
         - name: est_association
           in: query
-          description: Uniquement les entreprises ayant un identifiant d'association.
+          description: >-
+            Uniquement les entreprises ayant un identifiant d'association ou
+            une nature juridique avec mention "association"
+            (5195, 9210, 9220, 9221, 9222, 9223, 9224, 9230, 9240, 9260).
           required: false
           schema:
             type: boolean
@@ -1074,6 +1077,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a un
                                 indice égalité professionnel H/F renseigné
+                            est_association:
+                              type: boolean
+                              example: false
+                              description: >-
+                                Association (source: INSEE)
                             est_bio:
                               type: boolean
                               description: >-
@@ -1861,6 +1869,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a un
                                 indice égalité professionnel H/F renseigné
+                            est_association:
+                              type: boolean
+                              example: false
+                              description: >-
+                                Association (source: INSEE)
                             est_bio:
                               type: boolean
                               description: >-

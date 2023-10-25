@@ -55,6 +55,7 @@ def build_es_search_text_query(es_search_builder):
                 "convention_collective_renseignee",
                 "economie_sociale_solidaire_unite_legale",
                 "egapro_renseignee",
+                "est_association",
                 "est_bio",
                 "est_entrepreneur_individuel",
                 "est_entrepreneur_spectacle",
@@ -89,7 +90,6 @@ def build_es_search_text_query(es_search_builder):
             es_search_builder.es_search_client,
             es_search_builder.search_params,
             filters_to_include=[
-                "est_association",
                 "est_collectivite_territoriale",
             ],
         )

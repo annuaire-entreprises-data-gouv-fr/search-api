@@ -19,6 +19,20 @@ def http_exception_handler(func):
                 text=serialize_error_text(str(error)),
                 content_type="application/json",
             )
+        except elasticsearch.exceptions.ConnectionTimeout as error:
+            with push_scope() as scope:
+                # group value errors together based on their response
+                # (Bad request)
+                scope.fingerprint = ["Timeout query"]
+                # capture_exception(error)
+                logging.warning(f"Query too slow: {str(error)}")
+                response_text = serialize_error_text(
+                    "La requête de recherche est trop lente. "
+                    "Veuillez affiner votre requête ou réessayer ultérieurement."
+                )
+                return web.Response(
+                    text=response_text, content_type="application/json", status=504
+                )
         except ValidationError as err:
             with push_scope() as scope:
                 # group value errors together based on their response
@@ -34,6 +48,7 @@ def http_exception_handler(func):
                     ),
                     content_type="application/json",
                 )
+
         except BaseException as error:
             # capture error in Sentry
             capture_exception(error)

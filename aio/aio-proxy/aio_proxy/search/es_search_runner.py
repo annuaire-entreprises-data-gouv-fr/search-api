@@ -2,7 +2,6 @@ import logging
 from datetime import timedelta
 
 from aio_proxy.request.search_type import SearchType
-from aio_proxy.response.helpers import is_dev_env
 from aio_proxy.search.es_index import StructureMapping
 from aio_proxy.search.geo_search import build_es_search_geo_query
 from aio_proxy.search.helpers.helpers import (
@@ -20,7 +19,7 @@ MAX_TOTAL_RESULTS = 10000
 
 class ElasticSearchRunner:
     def __init__(self, search_params, search_type):
-        self.es_search_client = StructureMapping.search().params(request_timeout=1)
+        self.es_search_client = StructureMapping.search()
         self.search_type = search_type
         self.search_params = search_params
         self.has_full_text_query = False
@@ -69,12 +68,9 @@ class ElasticSearchRunner:
             self.es_search_results.append(matching_structure_dict)
 
     def sort_and_execute_es_search_query(self):
-        self.es_search_client = self.es_search_client.extra(track_scores=True)
-
-        # explain query result in dev env
-        if is_dev_env():
-            self.es_search_client = self.es_search_client.extra(explain=True)
-
+        self.es_search_client = self.es_search_client.extra(
+            track_scores=True, explain=True
+        )
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
 

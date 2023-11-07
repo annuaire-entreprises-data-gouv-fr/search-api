@@ -19,7 +19,7 @@ MAX_TOTAL_RESULTS = 10000
 
 class ElasticSearchRunner:
     def __init__(self, search_params, search_type):
-        self.es_search_client = StructureMapping.search()
+        self.es_search_client = StructureMapping.search().params(request_timeout=1)
         self.search_type = search_type
         self.search_params = search_params
         self.has_full_text_query = False

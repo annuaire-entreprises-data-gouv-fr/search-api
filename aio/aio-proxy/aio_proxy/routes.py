@@ -41,6 +41,7 @@ connections.create_connection(
     hosts=[ELASTIC_URL],
     http_auth=(ELASTIC_USER, ELASTIC_PASSWORD),
     retry_on_timeout=True,
+    max_retries=1
 )
 
 routes = web.RouteTableDef()

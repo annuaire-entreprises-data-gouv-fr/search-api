@@ -582,7 +582,7 @@ paths:
                             denomination de l'unité légale | Nom et prénom | Nom inconnu
                             (dénomination usuelle : construite à partir des trois
                             champs de dénomination usuelle de la base SIRENE) (sigle de
-                            l'unité légale)
+                            l'unité légale).
                           example: "la poste"
                         nom_raison_sociale:
                           type: string
@@ -614,14 +614,21 @@ paths:
                               example: "53.10Z"
                               description: >-
                                 Activité principale de l'établissement (source : base
-                                SIRENE)
+                                SIRENE).
                             activite_principale_registre_metier:
                               type: string
                               nullable: true
                               example: null
                               description: >-
                                 Activité principale de l'établissement au Registre
-                                des Métiers (source : base SIRENE)
+                                des Métiers (source : base SIRENE).
+                            annee_tranche_effectif_salarie:
+                              type: string
+                              nullable: true
+                              example: "2020"
+                              description: >-
+                                Année de validité de la tranche d'effectif salarié de
+                                l'établissement (source : base SIRENE).
                             adresse:
                               type: string
                               example: >-
@@ -691,6 +698,14 @@ paths:
                               description: >-
                                 Date de début d'une période de l'historique d'un
                                 établissement (source : base SIRENE).
+                            date_mise_a_jour:
+                              type: string
+                              format: date
+                              nullable: true
+                              example: "2023-09-21T03:34:50"
+                              description: >-
+                                Date du dernier traitement de l'établissement dans le
+                                répertoire Sirene (source : base SIRENE).
                             departement:
                               type: string
                               nullable: true
@@ -939,7 +954,7 @@ paths:
                                 example: "53.10Z"
                                 description: >-
                                   Activité principale de l'établissement (source :
-                                  base SIRENE)
+                                  base SIRENE).
                               adresse:
                                 type: string
                                 example: >-
@@ -1397,7 +1412,7 @@ paths:
                           example: 12734
                         nombre_etablissements_ouverts:
                           type: integer
-                          title: Nombre des établissements ouverts de l'unité légale
+                          title: Nombre des établissements ouverts de l'unité légale.
                           example: 9524
                         siege:
                           type: object
@@ -1407,14 +1422,21 @@ paths:
                               example: "53.10Z"
                               description: >-
                                 Activité principale de l'établissement (source : base
-                                SIRENE)
+                                SIRENE).
                             activite_principale_registre_metier:
                               type: string
                               nullable: true
                               example: null
                               description: >-
                                 Activité principale de l'établissement au Registre
-                                des Métiers (source : base SIRENE)
+                                des Métiers (source : base SIRENE).
+                            annee_tranche_effectif_salarie:
+                              type: string
+                              nullable: true
+                              example: "2020"
+                              description: >-
+                                Année de validité de la tranche d'effectif salarié de
+                                l'établissement (source : base SIRENE).
                             adresse:
                               type: string
                               example: >-
@@ -1483,6 +1505,14 @@ paths:
                               description: >-
                                 Date de début d'une période de l'historique d'un
                                 établissement (source : base SIRENE).
+                            date_mise_a_jour:
+                              type: string
+                              format: date
+                              nullable: true
+                              example: "2023-09-21T03:34:50"
+                              description: >-
+                                Date du dernier traitement de l'établissement dans le
+                                répertoire Sirene (source : base SIRENE).
                             departement:
                               type: string
                               nullable: true

@@ -12,6 +12,7 @@ def format_etablissement(source_etablissement):
         "activite_principale_registre_metier": get_field(
             "activite_principale_registre_metier"
         ),
+        "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),
         "adresse": get_field("adresse"),
         "cedex": get_field("cedex"),
         "code_pays_etranger": get_field("code_pays_etranger"),
@@ -21,6 +22,7 @@ def format_etablissement(source_etablissement):
         "coordonnees": get_field("coordonnees"),
         "date_creation": get_field("date_creation"),
         "date_debut_activite": get_field("date_debut_activite"),
+        "date_mise_a_jour": get_field("date_mise_a_jour"),
         "departement": get_field("departement"),
         "distribution_speciale": get_field("distribution_speciale"),
         "est_siege": get_field("est_siege"),
@@ -76,6 +78,8 @@ def format_etablissements_list(etablissements=None):
         "numero_voie",
         "tranche_effectif_salarie",
         "type_voie",
+        "annee_tranche_effectif_salarie",
+        "date_mise_a_jour",
     ]
     etablissements_formatted = []
     if etablissements:

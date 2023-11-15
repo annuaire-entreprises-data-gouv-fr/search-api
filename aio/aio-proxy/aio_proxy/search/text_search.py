@@ -205,7 +205,7 @@ def build_es_search_text_query(es_search_builder):
                         "type_person": "dirigeants_pp",
                         "match_nom": "nom",
                         "match_prenom": "prenoms",
-                        "match_date": "date_naissance",
+                        "match_date": "date_de_naissance",
                     },
                 ],
             )
@@ -223,7 +223,7 @@ def build_es_search_text_query(es_search_builder):
                         "type_person": "dirigeants_pp",
                         "match_nom": "nom",
                         "match_prenom": "prenoms",
-                        "match_date": "date_naissance",
+                        "match_date": "date_de_naissance",
                     },
                     {
                         "type_person": "colter_elus",

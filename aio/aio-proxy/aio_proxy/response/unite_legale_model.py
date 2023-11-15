@@ -57,7 +57,6 @@ class Elu(BaseModel):
 class DirigeantsPM(BaseModel):
     siren: str | None = None
     denomination: str | None = None
-    sigle: str | None = None
     qualite: str | None = None
     type_dirigeant: Literal["personne morale"]
 
@@ -67,6 +66,7 @@ class DirigeantsPP(BaseModel):
     prenoms: str | None = None
     annee_de_naissance: str | None = None
     qualite: str | None = None
+    nationalite: str | None = None
     type_dirigeant: Literal["personne physique"]
 
 

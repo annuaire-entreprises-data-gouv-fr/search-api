@@ -18,6 +18,7 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
                 nom=get_value(dirigeant_pp, "nom"),
                 prenoms=get_value(dirigeant_pp, "prenoms"),
                 annee_de_naissance=annee_de_naissance,
+                date_de_naissance=get_value(dirigeant_pp, "date_de_naissance"),
                 qualite=get_value(dirigeant_pp, "role"),
                 nationalite=get_value(dirigeant_pp, "nationalite"),
                 type_dirigeant="personne physique",

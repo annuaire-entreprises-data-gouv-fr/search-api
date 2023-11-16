@@ -65,6 +65,7 @@ class DirigeantsPP(BaseModel):
     nom: str | None = None
     prenoms: str | None = None
     annee_de_naissance: str | None = None
+    date_de_naissance: str | None = None
     qualite: str | None = None
     nationalite: str | None = None
     type_dirigeant: Literal["personne physique"]

@@ -2061,6 +2061,10 @@ components:
           type: string
           description: Année de naissance du dirigeant
           example: '1964'
+        date_de_naissance:
+          type: string
+          description: Année et mois de naissance du dirigeant
+          example: '1964-09'
         qualite:
           type: string
           description: Qualité du dirigeant
@@ -2081,9 +2085,6 @@ components:
         denomination:
           type: string
           description: Dénomination de l'unité légale
-        sigle:
-          type: string
-          description: Sigle de l'unité légale
         qualite:
           type: string
           description: Qualité du dirigeant

@@ -2065,14 +2065,14 @@ components:
           type: string
           description: Année et mois de naissance du dirigeant
           example: '1964-09'
-        nationalite:
-          type: string
-          description: Nationalité du dirigeant
-          example: Française
         qualite:
           type: string
           description: Qualité du dirigeant
           example: Directeur général
+        nationalite:
+          type: string
+          description: Nationalité du dirigeant
+          example: Française
         type_dirigeant:
           type: string
           description: >-

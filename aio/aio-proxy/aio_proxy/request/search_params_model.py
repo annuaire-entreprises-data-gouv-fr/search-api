@@ -197,7 +197,6 @@ class SearchParams(BaseModel):
         "est_service_public",
         "minimal",
         "est_societe_mission",
-        "economie_sociale_solidaire_unite_legale",
         mode="before",
     )
     def convert_str_to_bool(cls, boolean: str, info) -> bool:

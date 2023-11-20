@@ -1114,7 +1114,9 @@ paths:
                               example: false
                             est_ess:
                               type: boolean
-                              description: Entreprise d'économie sociale et solidaire
+                              description: >-
+                                Entreprise d'économie sociale et solidaire
+                                (source: ESS France)
                               example: false
                             est_finess:
                               type: boolean
@@ -1921,7 +1923,9 @@ paths:
                               example: false
                             est_ess:
                               type: boolean
-                              description: Entreprise d'économie sociale et solidaire
+                              description: >-
+                                Entreprise d'économie sociale et solidaire
+                                (source: ESS France)
                               example: false
                             est_finess:
                               type: boolean

@@ -17,7 +17,6 @@ class SearchParamsBuilder:
         "activite_principale": "activite_principale_unite_legale",
         "code_commune": "commune",
         "tranche_effectif_salarie": "tranche_effectif_salarie_unite_legale",
-        "est_ess": "economie_sociale_solidaire_unite_legale",
         "long": "lon",
     }
 

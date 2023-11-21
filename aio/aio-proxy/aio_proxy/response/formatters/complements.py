@@ -23,7 +23,7 @@ def format_complements(result_unite_legale):
         "est_entrepreneur_individuel", default=False
     )
     est_entrepreneur_spectacle = get_field("est_entrepreneur_spectacle")
-    est_ess = format_insee_bool(get_field("economie_sociale_solidaire_unite_legale"))
+    est_ess = get_field("est_ess")
     est_finess = get_field("est_finess")
     est_organisme_formation = get_field("est_organisme_formation")
     est_qualiopi = get_field("est_qualiopi")

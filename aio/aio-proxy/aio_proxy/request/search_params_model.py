@@ -40,12 +40,12 @@ class SearchParams(BaseModel):
     est_collectivite_territoriale: bool | None = None
     est_entrepreneur_spectacle: bool | None = None
     est_association: bool | None = None
+    est_ess: bool | None = None
     est_organisme_formation: bool | None = None
     est_qualiopi: bool | None = None
     est_rge: bool | None = None
     est_service_public: bool | None = None
     est_societe_mission: bool | None = None
-    economie_sociale_solidaire_unite_legale: bool | None = None
     id_convention_collective: str | None = None
     id_finess: str | None = None
     id_uai: str | None = None
@@ -189,6 +189,7 @@ class SearchParams(BaseModel):
         "est_uai",
         "est_collectivite_territoriale",
         "est_entrepreneur_spectacle",
+        "est_ess",
         "est_association",
         "est_organisme_formation",
         "est_qualiopi",
@@ -196,7 +197,6 @@ class SearchParams(BaseModel):
         "est_service_public",
         "minimal",
         "est_societe_mission",
-        "economie_sociale_solidaire_unite_legale",
         mode="before",
     )
     def convert_str_to_bool(cls, boolean: str, info) -> bool:
@@ -205,9 +205,7 @@ class SearchParams(BaseModel):
             raise ValueError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
         return boolean.upper() == "TRUE"
 
-    @field_validator(
-        "est_societe_mission", "economie_sociale_solidaire_unite_legale", mode="after"
-    )
+    @field_validator("est_societe_mission", mode="after")
     def convert_bool_to_insee_value(cls, boolean: bool) -> str:
         return match_bool_to_insee_value(boolean)
 

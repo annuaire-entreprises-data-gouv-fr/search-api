@@ -1,4 +1,3 @@
-import logging
 import re
 
 import pytest
@@ -541,6 +540,4 @@ def test_metadata_cc_endpoint(api_response_tester):
     test metadata conventions collectives endpoint
     """
     path = "metadata/conventions_collectives"
-    response = api_response_tester.get_api_response(path)
-    logging.error(f"????????{response}")
     api_response_tester.assert_api_response_code_200(path)

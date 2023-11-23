@@ -533,3 +533,11 @@ def test_minimal_param_only(api_response_tester):
         response.json()["erreur"]
         == "Veuillez indiquer au moins un paramètre de recherche."
     )
+
+
+def test_metadata_cc_endpoint(api_response_tester):
+    """
+    test metadata convention collective endpoint
+    """
+    path = "metadata/convention_collective"
+    api_response_tester.assert_api_response_code_200(path)

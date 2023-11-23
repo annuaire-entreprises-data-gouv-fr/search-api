@@ -19,7 +19,7 @@ def get_metadata_json():
 
 
 @http_exception_handler
-def get_metadata_cc():
+def get_metadata_cc_response():
     cache_key = "cc_kali_json"
     json_content = cache_strategy(
         cache_key,

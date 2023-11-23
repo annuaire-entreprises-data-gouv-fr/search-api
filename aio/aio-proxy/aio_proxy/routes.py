@@ -10,7 +10,9 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 
 from aio_proxy.request.search_type import SearchType
 from aio_proxy.response.build_api_response import build_api_response
-from aio_proxy.response.metadata_endpoint.convention_collective import get_metadata_cc
+from aio_proxy.response.metadata_endpoint.convention_collective import (
+    get_metadata_cc_response,
+)
 
 load_dotenv()
 
@@ -68,4 +70,4 @@ async def conventions_collectives_endpoint(request):
     """
     Endpoint for serving the convention collective JSON file.
     """
-    return get_metadata_cc()
+    return get_metadata_cc_response()

@@ -7,6 +7,8 @@ from aio_proxy.utils.redis import RedisClient
 
 
 def build_key(key):
+    if isinstance(key, str):
+        return hash_string(key)
     serialised_key = json.dumps(key.to_dict())
     return hash_string(serialised_key)
 

@@ -542,5 +542,5 @@ def test_metadata_cc_endpoint(api_response_tester):
     """
     path = "metadata/conventions_collectives"
     response = api_response_tester.get_api_response(path)
-    logging.info(f"????????{response}")
+    logging.error(f"????????{response}")
     api_response_tester.assert_api_response_code_200(path)

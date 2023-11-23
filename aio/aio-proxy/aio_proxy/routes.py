@@ -10,6 +10,7 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 
 from aio_proxy.request.search_type import SearchType
 from aio_proxy.response.build_api_response import build_api_response
+from aio_proxy.response.metadata_endpoint.convention_collective import get_metadata_cc
 
 load_dotenv()
 
@@ -60,3 +61,11 @@ async def near_point_endpoint(request):
         request,
         search_type=SearchType.GEO,
     )
+
+
+@routes.get("/metadata/convention_collective")
+async def convention_collective_endpoint(request):
+    """
+    Endpoint for serving the convention collective JSON file.
+    """
+    return get_metadata_cc()

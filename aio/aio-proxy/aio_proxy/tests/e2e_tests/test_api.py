@@ -537,7 +537,7 @@ def test_minimal_param_only(api_response_tester):
 
 def test_metadata_cc_endpoint(api_response_tester):
     """
-    test metadata convention collective endpoint
+    test metadata conventions collectives endpoint
     """
-    path = "metadata/convention_collective"
+    path = "metadata/conventions_collectives"
     api_response_tester.assert_api_response_code_200(path)

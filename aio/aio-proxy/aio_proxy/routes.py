@@ -63,8 +63,8 @@ async def near_point_endpoint(request):
     )
 
 
-@routes.get("/metadata/convention_collective")
-async def convention_collective_endpoint(request):
+@routes.get("/metadata/conventions_collectives")
+async def conventions_collectives_endpoint(request):
     """
     Endpoint for serving the convention collective JSON file.
     """

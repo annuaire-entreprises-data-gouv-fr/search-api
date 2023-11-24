@@ -91,6 +91,7 @@ jobs:
           ENV: ${{ secrets.ENV_DEV }}
           COLOR_URL: ${{ secrets.COLOR_URL_DEV }}
           DSN_SENTRY: ${{ secrets.DSN_SENTRY }}
+          METADATA_URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
 
   lint-files:
     name: Lint Code Base

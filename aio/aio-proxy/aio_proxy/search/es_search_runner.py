@@ -23,9 +23,9 @@ class ElasticSearchRunner:
         self.search_type = search_type
         self.search_params = search_params
         self.has_full_text_query = False
-        self.es_search_results = None
-        self.total_results = None
-        self.execution_time = None
+        self.es_search_results = []
+        self.total_results = 0
+        self.execution_time = 0
         self.es_response = None
         self.run()
 

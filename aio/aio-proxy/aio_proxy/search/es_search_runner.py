@@ -26,6 +26,7 @@ class ElasticSearchRunner:
         self.es_search_results = None
         self.total_results = None
         self.execution_time = None
+        self.es_response = None
         self.run()
 
     def sort_es_search_query(self):
@@ -49,6 +50,8 @@ class ElasticSearchRunner:
     def execute_and_format_es_search(self):
         self.es_search_client = page_through_results(self)
         es_response = self.es_search_client.execute()
+        self.es_response = es_response
+        return
         self.total_results = es_response.hits.total.value
         self.execution_time = es_response.took
 

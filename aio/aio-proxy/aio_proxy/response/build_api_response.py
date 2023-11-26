@@ -22,6 +22,6 @@ def build_api_response(
         total_pages)
     """
     search_params = SearchParamsBuilder.extract_params(request, search_type)
-    es_search_results = ElasticSearchRunner(search_params, search_type)
-    formatted_response = ResponseBuilder(search_params, es_search_results)
-    return web.json_response(text=json.dumps(formatted_response.response, default=str))
+    es_response = ElasticSearchRunner(search_params, search_type)
+    # formatted_response = ResponseBuilder(search_params, es_search_results)
+    return web.json_response(text=json.dumps(es_response, default=str))

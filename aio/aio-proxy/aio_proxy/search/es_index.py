@@ -1,4 +1,3 @@
-from aio_proxy.search.helpers.color import CURRENT_COLOR
 from elasticsearch_dsl import Document
 
 
@@ -15,4 +14,4 @@ class StructureMapping(Document):
     """
 
     class Index:
-        name = f"siren-{CURRENT_COLOR}"
+        name = f"siren-reader"

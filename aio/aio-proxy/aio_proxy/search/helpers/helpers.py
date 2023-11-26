@@ -1,5 +1,5 @@
 def extract_ul_and_etab_from_es_response(structure):
-    structure_dict = structure.to_dict(skip_empty=False, include_meta=False)
+    structure_dict = structure.to_dict(include_meta=False)
     # Add meta field to response to retrieve score
     structure_dict["meta"] = structure.meta.to_dict()
     # Add inner hits field (etablissements)

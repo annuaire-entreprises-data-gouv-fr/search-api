@@ -94,14 +94,13 @@ class ElasticSearchRunner:
 
         # To make sure the page and page size are part of the cache key
         cache_key = page_through_results(self)
-        cached_search_results = get_es_search_response()
 
-        # cached_search_results = cache_strategy(
-        #     cache_key,
-        #     get_es_search_response,
-        #     self.should_cache_search_response,
-        #     TIME_TO_LIVE,
-        # )
+        cached_search_results = cache_strategy(
+            cache_key,
+            get_es_search_response,
+            self.should_cache_search_response,
+            TIME_TO_LIVE,
+        )
 
         self.total_results = cached_search_results["total_results"]
         self.es_search_results = cached_search_results["response"]

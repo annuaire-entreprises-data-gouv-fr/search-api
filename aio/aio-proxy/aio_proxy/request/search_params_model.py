@@ -21,6 +21,7 @@ class SearchParams(BaseModel):
     """Class for modeling search parameters"""
 
     page: int = 1
+    page_etablissements: int = 1
     per_page: int = 10
     terms: str | None = None
     activite_principale_unite_legale: list | None = None
@@ -71,7 +72,9 @@ class SearchParams(BaseModel):
     include_admin: list | None = None
 
     # Field Validators (involve one field at a time)
-    @field_validator("page", "per_page", "matching_size", mode="before")
+    @field_validator(
+        "page", "page_etablissements", "per_page", "matching_size", mode="before"
+    )
     def cast_as_integer(cls, value: str, info) -> int:
         try:
             int(value)
@@ -94,7 +97,14 @@ class SearchParams(BaseModel):
         return float(value)
 
     @field_validator(
-        "page", "per_page", "matching_size", "radius", "lat", "lon", mode="after"
+        "page",
+        "page_etablissements",
+        "per_page",
+        "matching_size",
+        "radius",
+        "lat",
+        "lon",
+        mode="after",
     )
     # Apply after first validator and Pydantic internal validation
     def check_if_number_in_range(cls, value, info):
@@ -310,6 +320,7 @@ class SearchParams(BaseModel):
         """
         excluded_fields = [
             "page",
+            "page_etablissements",
             "per_page",
             "matching_size",
             "minimal",

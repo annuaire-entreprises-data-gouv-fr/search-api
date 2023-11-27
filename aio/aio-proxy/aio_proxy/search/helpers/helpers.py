@@ -1,3 +1,8 @@
+import logging
+
+from aio_proxy.search.parsers.siren import is_siren
+
+
 def extract_ul_and_etab_from_es_response(structure):
     structure_dict = structure.to_dict(skip_empty=False, include_meta=False)
     # Add meta field to response to retrieve score
@@ -42,7 +47,7 @@ def page_through_results(es_search_builder):
     return search_client[offset : (offset + size)]
 
 
-def should_aggregate_results_by_siren(es_search_builder):
+def should_get_doc_by_id(es_search_builder):
     """
     Determine whether the search results should be aggregated by `siren`.
 
@@ -57,7 +62,18 @@ def should_aggregate_results_by_siren(es_search_builder):
         bool: True if results should be aggregated by `siren`, False otherwise.
     """
     include_admin = es_search_builder.search_params.include_admin
-    aggregate_results_by_siren = (
+    should_return_all_etabs = (
         "ALL_ETABLISSEMENTS" not in include_admin if include_admin else True
     )
-    return aggregate_results_by_siren
+    page_etablissements = es_search_builder.search_params.page_etablissements
+    query_terms = es_search_builder.search_params.terms
+    if is_siren(query_terms) and page_etablissements and should_return_all_etabs:
+        return True
+    return False
+
+
+def get_doc_id_from_page(es_search_builder):
+    query_terms = es_search_builder.search_params.terms
+    page_etablissements = es_search_builder.search_params.page_etablissements
+    logging.warning(f"%%%%%%%%%%%%%{query_terms}-{page_etablissements*100}")
+    return f"{query_terms}-{page_etablissements*100}"

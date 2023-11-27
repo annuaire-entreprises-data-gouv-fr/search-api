@@ -1,5 +1,3 @@
-import logging
-
 from aio_proxy.search.parsers.siren import is_siren
 
 
@@ -48,26 +46,13 @@ def page_through_results(es_search_builder):
 
 
 def should_get_doc_by_id(es_search_builder):
-    """
-    Determine whether the search results should be aggregated by `siren`.
-
-    If the `include_admin` option is provided, and it contains "ALL_ETABLISSEMENTS",
-    results should not be grouped by `siren` to retrieve all nested `etablissements`.
-    Otherwise, results should be aggregated by `siren`.
-
-    Args:
-        es_search_builder: An Elasticsearch search builder object.
-
-    Returns:
-        bool: True if results should be aggregated by `siren`, False otherwise.
-    """
     include_admin = es_search_builder.search_params.include_admin
-    should_return_all_etabs = (
-        "ALL_ETABLISSEMENTS" not in include_admin if include_admin else True
+    should_include_all_etabs = (
+        "ALL_ETABLISSEMENTS" in include_admin if include_admin else False
     )
     page_etablissements = es_search_builder.search_params.page_etablissements
     query_terms = es_search_builder.search_params.terms
-    if is_siren(query_terms) and page_etablissements and should_return_all_etabs:
+    if is_siren(query_terms) and page_etablissements and should_include_all_etabs:
         return True
     return False
 
@@ -75,5 +60,4 @@ def should_get_doc_by_id(es_search_builder):
 def get_doc_id_from_page(es_search_builder):
     query_terms = es_search_builder.search_params.terms
     page_etablissements = es_search_builder.search_params.page_etablissements
-    logging.warning(f"%%%%%%%%%%%%%{query_terms}-{page_etablissements*100}")
     return f"{query_terms}-{page_etablissements*100}"

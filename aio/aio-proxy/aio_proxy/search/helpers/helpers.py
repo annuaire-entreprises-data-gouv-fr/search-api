@@ -40,3 +40,24 @@ def page_through_results(es_search_builder):
     offset = (es_search_builder.search_params.page - 1) * size
     search_client = es_search_builder.es_search_client
     return search_client[offset : (offset + size)]
+
+
+def should_aggregate_results_by_siren(es_search_builder):
+    """
+    Determine whether the search results should be aggregated by `siren`.
+
+    If the `include_admin` option is provided, and it contains "ALL_ETABLISSEMENTS",
+    results should not be grouped by `siren` to retrieve all nested `etablissements`.
+    Otherwise, results should be aggregated by `siren`.
+
+    Args:
+        es_search_builder: An Elasticsearch search builder object.
+
+    Returns:
+        bool: True if results should be aggregated by `siren`, False otherwise.
+    """
+    include_admin = es_search_builder.search_params.include_admin
+    aggregate_results_by_siren = (
+        "ALL_ETABLISSEMENTS" not in include_admin if include_admin else True
+    )
+    return aggregate_results_by_siren

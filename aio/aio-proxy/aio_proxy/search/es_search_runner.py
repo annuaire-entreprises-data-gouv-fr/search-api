@@ -8,6 +8,7 @@ from aio_proxy.search.helpers.helpers import (
     execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
     page_through_results,
+    should_aggregate_results_by_siren,
 )
 from aio_proxy.search.text_search import build_es_search_text_query
 from aio_proxy.utils.cache import cache_strategy
@@ -73,17 +74,7 @@ class ElasticSearchRunner:
         )
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
-        # If ALL_ETABLISSEMENTS option is given (mainly by annuaire website),
-        # do not group results by `siren` in order to retrieve all nested
-        # `etablissements`
-        if self.search_params.include_admin is not None:
-            aggregate_results_by_siren = (
-                False
-                if "ALL_ETABLISSEMENTS" in self.search_params.include_admin
-                else True
-            )
-        else:
-            aggregate_results_by_siren = True
+        aggregate_results_by_siren = should_aggregate_results_by_siren(self)
         if aggregate_results_by_siren:
             self.es_search_client = self.es_search_client.update_from_dict(
                 {"collapse": {"field": "identifiant"}}

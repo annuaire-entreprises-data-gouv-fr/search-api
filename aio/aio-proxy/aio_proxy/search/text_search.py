@@ -34,6 +34,8 @@ from elasticsearch_dsl import Q
 def build_es_search_text_query(es_search_builder):
     query_terms = es_search_builder.search_params.terms
 
+    # Filter by doc id (if siren has more than 100 etabs),
+    # and each document is needed seperatly
     if should_get_doc_by_id(es_search_builder):
         doc_id = get_doc_id_from_page(es_search_builder)
         es_search_builder.es_search_client = filter_by_id(

@@ -73,12 +73,13 @@ class ElasticSearchRunner:
         )
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
-        # If PAGE_ETABLISSEMENTS option isgven (mainly by annuaire website),
-        # do not collapse results in order
+        # If ALL_ETABLISSEMENTS option is given (mainly by annuaire website),
+        # do not group results by `siren` in order to retrieve all nested
+        # `etablissements`
         if self.search_params.include_admin is not None:
             aggregate_results_by_siren = (
                 False
-                if "PAGE_ETABLISSEMENTS" in self.search_params.include_admin
+                if "ALL_ETABLISSEMENTS" in self.search_params.include_admin
                 else True
             )
         else:

@@ -33,15 +33,15 @@ from elasticsearch_dsl import Q
 
 def build_es_search_text_query(es_search_builder):
     query_terms = es_search_builder.search_params.terms
-    # Filter by siren/siret first (if query is a `siren` or 'siret' number),
-    # and return search results directly without text search.
+
     if should_get_doc_by_id(es_search_builder):
         doc_id = get_doc_id_from_page(es_search_builder)
-        print(f"++++++{doc_id}")
         es_search_builder.es_search_client = filter_by_id(
             es_search_builder.es_search_client, doc_id
         )
 
+    # Filter by siren/siret first (if query is a `siren` or 'siret' number),
+    # and return search results directly without text search.
     elif is_siren(query_terms) or is_siret(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         if is_siren(query_terms):

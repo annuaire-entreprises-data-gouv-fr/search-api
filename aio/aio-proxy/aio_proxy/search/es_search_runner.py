@@ -73,10 +73,20 @@ class ElasticSearchRunner:
         )
         # Collapse is used to aggregate the results by siren. It is the consequence of
         # separating large documents into smaller ones
-
-        self.es_search_client = self.es_search_client.update_from_dict(
-            {"collapse": {"field": "identifiant"}}
-        )
+        # If PAGE_ETABLISSEMENTS option isgven (mainly by annuaire website),
+        # do not collapse results in order
+        if self.search_params.include_admin is not None:
+            aggregate_results_by_siren = (
+                False
+                if "PAGE_ETABLISSEMENTS" in self.search_params.include_admin
+                else True
+            )
+        else:
+            aggregate_results_by_siren = True
+        if aggregate_results_by_siren:
+            self.es_search_client = self.es_search_client.update_from_dict(
+                {"collapse": {"field": "identifiant"}}
+            )
 
         # Sort results
         self.sort_es_search_query()

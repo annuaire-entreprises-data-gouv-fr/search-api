@@ -551,7 +551,7 @@ def test_metadata_cc_endpoint(api_response_tester):
 
 def test_pagination_etablissements(api_response_tester):
     """
-    test metadata conventions collectives endpoint
+    test all_etablissements option
     """
     path = (
         "search?q=356000000&include_admin=etablissements,all_etablissements"

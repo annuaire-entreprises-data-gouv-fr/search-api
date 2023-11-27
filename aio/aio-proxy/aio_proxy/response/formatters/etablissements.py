@@ -76,9 +76,7 @@ def format_etablissements_list(etablissements=None):
         "libelle_pays_etranger",
         "libelle_voie",
         "numero_voie",
-        "tranche_effectif_salarie",
         "type_voie",
-        "annee_tranche_effectif_salarie",
         "date_mise_a_jour",
     ]
     etablissements_formatted = []

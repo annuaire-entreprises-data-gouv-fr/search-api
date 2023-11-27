@@ -53,11 +53,13 @@ class APIResponseTester:
             f"API response code is " f"{response_status_code}, expected 400."
         )
 
-    def test_field_value(self, path, field_name, expected_value):
+    def test_field_value(self, path, result_number, field_name, expected_value):
         response = self.get_api_response(path)
         if response.status_code == ok_status_code:
             # response = response.json()
-            response_value = get_field_value(response.json()["results"][0], field_name)
+            response_value = get_field_value(
+                response.json()["results"][result_number], field_name
+            )
             assert (
                 response_value == expected_value
             ), f"Field '{field_name}' has unexpected value."

@@ -555,16 +555,12 @@ def test_pagination_etablissements(api_response_tester):
     """
     path = (
         "search?q=356000000&include_admin=etablissements,all_etablissements"
-        "&minimal=true&page=1"
+        "&minimal=true&page_etablissements=1"
     )
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "siren", "356000000")
-    api_response_tester.test_field_value(path, 5, "siren", "356000000")
-    api_response_tester.test_field_value(path, 9, "siren", "356000000")
     path = (
         "search?q=356000000&include_admin=etablissements,all_etablissements"
-        "&minimal=true&page=2"
+        "&minimal=true&page_etablissements=2"
     )
     api_response_tester.test_field_value(path, 0, "siren", "356000000")
-    api_response_tester.test_field_value(path, 5, "siren", "356000000")
-    api_response_tester.test_field_value(path, 9, "siren", "356000000")

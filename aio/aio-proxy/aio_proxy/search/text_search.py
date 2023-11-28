@@ -1,6 +1,7 @@
 from aio_proxy.search.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
 )
+from aio_proxy.search.filters.id import filter_by_id
 from aio_proxy.search.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
     build_nested_etablissements_filters_query,
@@ -18,6 +19,10 @@ from aio_proxy.search.helpers.etablissements_filters_used import (
 from aio_proxy.search.helpers.exclude_etablissements import (
     exclude_etablissements_from_search,
 )
+from aio_proxy.search.helpers.helpers import (
+    get_doc_id_from_page,
+    should_get_doc_by_id,
+)
 from aio_proxy.search.parsers.siren import is_siren
 from aio_proxy.search.parsers.siret import is_siret
 from aio_proxy.search.queries.bilan import search_bilan
@@ -28,9 +33,18 @@ from elasticsearch_dsl import Q
 
 def build_es_search_text_query(es_search_builder):
     query_terms = es_search_builder.search_params.terms
+
+    # Filter by doc id (if siren has more than 100 etabs),
+    # and each document is needed seperatly
+    if should_get_doc_by_id(es_search_builder):
+        doc_id = get_doc_id_from_page(es_search_builder)
+        es_search_builder.es_search_client = filter_by_id(
+            es_search_builder.es_search_client, doc_id
+        )
+
     # Filter by siren/siret first (if query is a `siren` or 'siret' number),
     # and return search results directly without text search.
-    if is_siren(query_terms) or is_siret(query_terms):
+    elif is_siren(query_terms) or is_siret(query_terms):
         query_terms_clean = query_terms.replace(" ", "")
         if is_siren(query_terms):
             es_search_builder.es_search_client = filter_by_siren(

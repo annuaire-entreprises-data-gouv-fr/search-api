@@ -1,3 +1,6 @@
+from aio_proxy.search.parsers.siren import is_siren
+
+
 def extract_ul_and_etab_from_es_response(structure):
     structure_dict = structure.to_dict(skip_empty=False, include_meta=False)
     # Add meta field to response to retrieve score
@@ -40,3 +43,41 @@ def page_through_results(es_search_builder):
     offset = (es_search_builder.search_params.page - 1) * size
     search_client = es_search_builder.es_search_client
     return search_client[offset : (offset + size)]
+
+
+def should_get_doc_by_id(es_search_builder):
+    """
+    Determines whether to retrieve document by ID based on search parameters.
+    """
+    include_admin = es_search_builder.search_params.include_admin
+    should_include_all_etabs = (
+        "ALL_ETABLISSEMENTS" in include_admin if include_admin else False
+    )
+    page_etablissements = es_search_builder.search_params.page_etablissements
+    is_siren_query = is_siren(es_search_builder.search_params.terms)
+
+    if is_siren_query and page_etablissements and should_include_all_etabs:
+        return True
+    return False
+
+
+def get_doc_id_from_page(es_search_builder):
+    """
+    Generates a document ID based on search parameters.
+    """
+    query_terms = es_search_builder.search_params.terms
+    page_etablissements = es_search_builder.search_params.page_etablissements
+    return f"{query_terms}-{compute_doc_id(page_etablissements)}"
+
+
+def compute_doc_id(page_etablissements):
+    """
+    Calculates the page ID based on the number of etablissements.
+
+    Args:
+        page_etablissements (int): The page number.
+
+    Returns:
+        int: The calculated page ID.
+    """
+    return page_etablissements * 100

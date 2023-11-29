@@ -49,14 +49,10 @@ def should_get_doc_by_id(es_search_builder):
     """
     Determines whether to retrieve document by ID based on search parameters.
     """
-    include_admin = es_search_builder.search_params.include_admin
-    should_include_all_etabs = (
-        "ALL_ETABLISSEMENTS" in include_admin if include_admin else False
-    )
     page_etablissements = es_search_builder.search_params.page_etablissements
     is_siren_query = is_siren(es_search_builder.search_params.terms)
 
-    if is_siren_query and page_etablissements and should_include_all_etabs:
+    if is_siren_query and page_etablissements:
         return True
     return False
 

@@ -25,7 +25,7 @@ NUMERIC_FIELD_LIMITS = {
     "page_etablissements": {
         "min": 1,
         "max": 1000,
-        "default": 1,
+        "default": None,
         "alias": "page_etablissements",
     },
     "per_page": {"min": 1, "max": 25, "default": 10, "alias": "per_page"},

@@ -21,7 +21,7 @@ class SearchParams(BaseModel):
     """Class for modeling search parameters"""
 
     page: int = 1
-    page_etablissements: int = 1
+    page_etablissements: int | None = None
     per_page: int = 10
     terms: str | None = None
     activite_principale_unite_legale: list | None = None

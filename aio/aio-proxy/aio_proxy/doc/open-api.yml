@@ -1061,10 +1061,24 @@ paths:
                                 description: >-
                                   Dénomination usuelle de l'établissement (source :
                                   base SIRENE).
+                              region:
+                                type: string
+                                nullable: true
+                                example: "11"
+                                description: >-
+                                  Région de l'établissement (source :
+                                  base SIRENE).
                               siret:
                                 type: string
                                 example: "35600000000048"
                                 description: le numéro unique de l'établissement.
+                              tranche_effectif_salarie:
+                                type: string
+                                nullable: true
+                                example: "12"
+                                description: >-
+                                  Tranche d'effectif salarié de l'établissement
+                                  (source : base SIRENE).
                         dirigeants:
                           type: array
                           items:
@@ -1870,10 +1884,24 @@ paths:
                                 description: >-
                                   Dénomination usuelle de l'établissement (source :
                                   base SIRENE).
+                              region:
+                                type: string
+                                nullable: true
+                                example: "11"
+                                description: >-
+                                  Région de l'établissement (source :
+                                  base SIRENE).
                               siret:
                                 type: string
                                 example: "35600000000048"
                                 description: le numéro unique de l'établissement.
+                              tranche_effectif_salarie:
+                                type: string
+                                nullable: true
+                                example: "12"
+                                description: >-
+                                  Tranche d'effectif salarié de l'établissement
+                                  (source : base SIRENE).
                         dirigeants:
                           type: array
                           items:

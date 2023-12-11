@@ -14,6 +14,7 @@ def format_etablissement(source_etablissement):
         ),
         "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),
         "adresse": get_field("adresse"),
+        "caractere_employeur": get_field("caractere_employeur"),
         "cedex": get_field("cedex"),
         "code_pays_etranger": get_field("code_pays_etranger"),
         "code_postal": get_field("code_postal"),

@@ -646,7 +646,7 @@ paths:
                               type: string
                               example: "O"
                               description: >-
-                                Caractère employeur du siège source : base SIRENE).
+                                Caractère employeur du siège (source : base SIRENE).
                             cedex:
                               type: string
                               nullable: true
@@ -919,7 +919,7 @@ paths:
                           type: string
                           example: "O"
                           description: >-
-                            Caractère employeur de l'unité légale source : base
+                            Caractère employeur de l'unité légale (source : base
                             SIRENE).
                         annee_categorie_entreprise:
                           type: string
@@ -981,7 +981,7 @@ paths:
                                 type: string
                                 example: "O"
                                 description: >-
-                                  Caractère employeur de l'établissement source : base SIRENE).
+                                  Caractère employeur de l'établissement (source : base SIRENE).
                               commune:
                                 type: string
                                 example: "75115"
@@ -1485,7 +1485,7 @@ paths:
                               type: string
                               example: "O"
                               description: >-
-                                Caractère employeur du siège source : base SIRENE).
+                                Caractère employeur du siège (source : base SIRENE).
                             cedex:
                               type: string
                               nullable: true
@@ -1751,13 +1751,13 @@ paths:
                           type: string
                           example: "GE"
                           description: >-
-                            Catégorie d'entreprise de l'unité légale  source : base
+                            Catégorie d'entreprise de l'unité légale (source : base
                             SIRENE).
                         caractere_employeur:
                           type: string
                           example: "O"
                           description: >-
-                            Caractère employeur de l'unité légale source : base
+                            Caractère employeur de l'unité légale (source : base
                             SIRENE).
                         annee_categorie_entreprise:
                           type: string
@@ -1820,7 +1820,7 @@ paths:
                                 type: string
                                 example: "O"
                                 description: >-
-                                  Caractère employeur de l'établissement source : base SIRENE).
+                                  Caractère employeur de l'établissement (source : base SIRENE).
                               commune:
                                 type: string
                                 example: "31150"

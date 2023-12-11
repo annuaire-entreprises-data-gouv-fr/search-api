@@ -8,6 +8,7 @@ class Etablissement(BaseModel):
     activite_principale_registre_metier: str | None = None
     annee_tranche_effectif_salarie: str | None = None
     adresse: str | None = None
+    caractere_employeur: str | None = None
     cedex: str | None = None
     code_pays_etranger: str | None = None
     code_postal: str | None = None
@@ -115,6 +116,7 @@ class UniteLegaleResponse(BaseModel):
     siege: Etablissement = None
     activite_principale: str | None = None
     categorie_entreprise: str | None = None
+    caractere_employeur: str | None = None
     annee_categorie_entreprise: str | None = None
     date_creation: str | None = None
     date_mise_a_jour: str | None = None

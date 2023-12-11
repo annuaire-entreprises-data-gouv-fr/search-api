@@ -642,6 +642,11 @@ paths:
                                 commune |
                                 cedex + libelle cedex) + libelle commune étranger +
                                 libelle pays étranger*
+                            caractere_employeur:
+                              type: string
+                              example: "O"
+                              description: >-
+                                Caractère employeur du siège source : base SIRENE).
                             cedex:
                               type: string
                               nullable: true
@@ -910,6 +915,12 @@ paths:
                           description: >-
                             Catégorie d'entreprise de l'unité légale (source : base
                             SIRENE).
+                        caractere_employeur:
+                          type: string
+                          example: "O"
+                          description: >-
+                            Caractère employeur de l'unité légale source : base
+                            SIRENE).
                         annee_categorie_entreprise:
                           type: string
                           example: "2020"
@@ -966,6 +977,11 @@ paths:
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              caractere_employeur:
+                                type: string
+                                example: "O"
+                                description: >-
+                                  Caractère employeur de l'établissement source : base SIRENE).
                               commune:
                                 type: string
                                 example: "75115"
@@ -1465,6 +1481,11 @@ paths:
                                 distribution spéciale + (code postal + libelle commune |
                                 cedex + libelle cedex) + libelle commune étranger +
                                 libelle pays étranger*
+                            caractere_employeur:
+                              type: string
+                              example: "O"
+                              description: >-
+                                Caractère employeur du siège source : base SIRENE).
                             cedex:
                               type: string
                               nullable: true
@@ -1732,6 +1753,12 @@ paths:
                           description: >-
                             Catégorie d'entreprise de l'unité légale  source : base
                             SIRENE).
+                        caractere_employeur:
+                          type: string
+                          example: "O"
+                          description: >-
+                            Caractère employeur de l'unité légale source : base
+                            SIRENE).
                         annee_categorie_entreprise:
                           type: string
                           example: "2020"
@@ -1789,6 +1816,11 @@ paths:
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              caractere_employeur:
+                                type: string
+                                example: "O"
+                                description: >-
+                                  Caractère employeur de l'établissement source : base SIRENE).
                               commune:
                                 type: string
                                 example: "31150"

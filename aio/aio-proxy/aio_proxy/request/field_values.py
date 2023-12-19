@@ -14,10 +14,20 @@ VALID_FIELDS_TO_SELECT = [
     "SIEGE",
     "MATCHING_ETABLISSEMENTS",
 ]
-VALID_ADMIN_FIELDS_TO_SELECT = ["ETABLISSEMENTS", "SCORE", "SLUG"]
+VALID_ADMIN_FIELDS_TO_SELECT = [
+    "ETABLISSEMENTS",
+    "SCORE",
+    "SLUG",
+]
 
 NUMERIC_FIELD_LIMITS = {
     "page": {"min": 1, "max": 1000, "default": 1, "alias": "page"},
+    "page_etablissements": {
+        "min": 1,
+        "max": 1000,
+        "default": None,
+        "alias": "page_etablissements",
+    },
     "per_page": {"min": 1, "max": 25, "default": 10, "alias": "per_page"},
     "matching_size": {
         "min": 1,

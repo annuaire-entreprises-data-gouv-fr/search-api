@@ -43,6 +43,7 @@ def format_single_unite_legale(result, search_params):
         ),
         "activite_principale": get_field("activite_principale_unite_legale"),
         "categorie_entreprise": get_field("categorie_entreprise"),
+        "caractere_employeur": get_field("caractere_employeur"),
         "annee_categorie_entreprise": get_field("annee_categorie_entreprise"),
         "date_creation": get_field("date_creation_unite_legale"),
         "date_mise_a_jour": get_field("date_mise_a_jour_unite_legale"),

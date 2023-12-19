@@ -20,6 +20,7 @@ MAX_TOTAL_RESULTS = 10000
 class ElasticSearchRunner:
     def __init__(self, search_params, search_type):
         self.es_search_client = StructureMapping.search()
+        self.es_index = StructureMapping.Index.name
         self.search_type = search_type
         self.search_params = search_params
         self.has_full_text_query = False
@@ -71,9 +72,8 @@ class ElasticSearchRunner:
         self.es_search_client = self.es_search_client.extra(
             track_scores=True, explain=True
         )
-        # Collapse is used to aggregate the results by siren. It is the consequence of
-        # separating large documents into smaller ones
-
+        # Collapse is used to aggregate the results by siren. It is the consequence
+        # of separating large documents into smaller ones
         self.es_search_client = self.es_search_client.update_from_dict(
             {"collapse": {"field": "identifiant"}}
         )

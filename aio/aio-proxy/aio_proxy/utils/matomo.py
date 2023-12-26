@@ -16,7 +16,7 @@ TRACKING_URL = os.getenv("MATOMO_TRACKING_URL")
 TRACKING_PROBABILITY = 1 / 1000
 
 
-async def track_api_call_via_matomo(request):
+async def track_api_call_via_matomo(request, timeout=5):
     """
     Track an API call via Matomo.
 
@@ -48,7 +48,7 @@ async def track_api_call_via_matomo(request):
 
         tracking_data = urllib.parse.urlencode(tracking_params)
         tracking_url = TRACKING_URL + tracking_data
-        requests.get(tracking_url)
+        requests.get(tracking_url, timeout=timeout)
     except Exception as error:
         logging.info(f"Matomo logging failed: {error}")
 

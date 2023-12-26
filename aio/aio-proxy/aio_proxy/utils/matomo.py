@@ -3,7 +3,6 @@ import hashlib
 import logging
 import os
 import random
-import time
 import urllib
 
 import requests
@@ -18,8 +17,21 @@ TRACKING_PROBABILITY = 1 / 1000
 
 
 async def track_api_call_via_matomo(request):
+    """
+    Track an API call via Matomo.
+
+    Args:
+        request: The web request object.
+
+    Raises:
+        Exception: If Matomo logging fails, an exception is caught and logged.
+
+    Notes:
+        This function tracks the API call with Matomo using
+        the provided request information, and the data is sent asynchronously.
+
+    """
     try:
-        time.sleep(15)
         rec = 1  # Required for tracking
         url = f"https://recherche-entreprises.api.gouv.fr/{str(request.rel_url.query)}"
         action_name = "Recherche API"
@@ -48,6 +60,9 @@ def generate_unique_visitor_id(request):
 
 
 def track_event(request):
+    """
+    Track an event based on a random probability.
+    """
     random_number = random.random()
     if random_number < TRACKING_PROBABILITY:
         loop = asyncio.get_event_loop()

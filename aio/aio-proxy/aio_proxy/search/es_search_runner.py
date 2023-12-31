@@ -69,9 +69,12 @@ class ElasticSearchRunner:
             self.es_search_results.append(matching_structure_dict)
 
     def sort_and_execute_es_search_query(self):
-        self.es_search_client = self.es_search_client.extra(
-            track_scores=True, explain=True
-        )
+        self.es_search_client = self.es_search_client.extra(track_scores=True)
+
+        # explain query result in dev env
+        if is_dev_env():
+            self.es_search_client = self.es_search_client.extra(explain=True)
+
         # Collapse is used to aggregate the results by siren. It is the consequence
         # of separating large documents into smaller ones
         self.es_search_client = self.es_search_client.update_from_dict(

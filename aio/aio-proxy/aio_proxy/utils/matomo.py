@@ -12,8 +12,8 @@ load_dotenv()
 
 ID_SITE = os.getenv("MATOMO_ID_SITE")
 TRACKING_URL = os.getenv("MATOMO_TRACKING_URL")
-# Probability of tracking the event (1 in 1000)
-TRACKING_PROBABILITY = 1 / 1000
+# Probability of tracking the event (1 in 100)
+TRACKING_PROBABILITY = 1 / 100
 
 
 async def track_api_call_via_matomo(request, timeout=5):

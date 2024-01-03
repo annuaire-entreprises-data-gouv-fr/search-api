@@ -4,6 +4,7 @@ from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.request.search_params_builder import SearchParamsBuilder
 from aio_proxy.response.response_builder import ResponseBuilder
 from aio_proxy.search.es_search_runner import ElasticSearchRunner
+from aio_proxy.utils.matomo import track_event
 from aiohttp import web
 
 
@@ -21,6 +22,7 @@ def build_api_response(
         response in json format (results, total_results, page, per_page,
         total_pages)
     """
+    track_event(request)
     search_params = SearchParamsBuilder.extract_params(request, search_type)
     es_search_results = ElasticSearchRunner(search_params, search_type)
     formatted_response = ResponseBuilder(search_params, es_search_results)

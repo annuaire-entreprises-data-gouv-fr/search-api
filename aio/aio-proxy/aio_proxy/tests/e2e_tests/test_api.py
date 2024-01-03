@@ -448,7 +448,7 @@ def test_type_personne(api_response_tester):
 
 def test_selected_fields(api_response_tester):
     path = (
-        "search?q=ganymede&minimal=True&include=siege,dirigeants"
+        "search?q=ganymede&minimal=True&include=siege,dirigeants,score"
         "&include_admin=etablissements"
     )
     response = api_response_tester.get_api_response(path)
@@ -457,7 +457,7 @@ def test_selected_fields(api_response_tester):
     assert etablissements
     assert "siege" in response.json()["results"][0]
     assert "dirigeants" in response.json()["results"][0]
-    assert "score" not in response.json()["results"][0]
+    assert "score" in response.json()["results"][0]
     assert "complements" not in response.json()["results"][0]
 
 

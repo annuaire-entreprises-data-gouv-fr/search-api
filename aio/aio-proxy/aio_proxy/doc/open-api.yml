@@ -531,6 +531,7 @@ paths:
               * finances
               * matching_etablissements
               * siege
+              * score
 
 
             Par défaut tous les champs sont inclus.
@@ -1372,6 +1373,7 @@ paths:
               * finances
               * matching_etablissements
               * siege
+              * score
 
 
             Par défaut tous les champs sont inclus.

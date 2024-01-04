@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 import requests
@@ -20,4 +21,5 @@ def convert_to_year_month(date_string):
         formatted_date = date_object.strftime("%Y-%m")
         return formatted_date
     except ValueError:
-        return "Invalid date format"
+        logging.warning(f"Invalid date of birth for `élus` : {date_string}")
+        return None

@@ -16,7 +16,7 @@ def fetch_json_from_url(url):
 
 def convert_to_year_month(date_string):
     try:
-        date_object = datetime.strptime(date_string, "%m/%d/%Y")
+        date_object = datetime.strptime(date_string, "%d/%m/%Y")
         formatted_date = date_object.strftime("%Y-%m")
         return formatted_date
     except ValueError:

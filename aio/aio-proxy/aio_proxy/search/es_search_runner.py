@@ -2,6 +2,7 @@ import logging
 from datetime import timedelta
 
 from aio_proxy.request.search_type import SearchType
+from aio_proxy.response.helpers import is_dev_env
 from aio_proxy.search.es_index import StructureMapping
 from aio_proxy.search.geo_search import build_es_search_geo_query
 from aio_proxy.search.helpers.helpers import (
@@ -9,7 +10,6 @@ from aio_proxy.search.helpers.helpers import (
     extract_ul_and_etab_from_es_response,
     page_through_results,
 )
-from aio_proxy.response.helpers import is_dev_env
 from aio_proxy.search.text_search import build_es_search_text_query
 from aio_proxy.utils.cache import cache_strategy
 

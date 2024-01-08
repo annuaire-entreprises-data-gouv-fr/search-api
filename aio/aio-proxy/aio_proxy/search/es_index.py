@@ -14,4 +14,4 @@ class StructureMapping(Document):
     """
 
     class Index:
-        name = f"siren-reader"
+        name = "siren-reader"

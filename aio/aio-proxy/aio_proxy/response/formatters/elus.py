@@ -1,5 +1,6 @@
 from aio_proxy.response.helpers import get_value
 from aio_proxy.response.unite_legale_model import Elu
+from aio_proxy.utils.helpers import convert_to_year_month
 
 
 def format_elus(elus=None):
@@ -7,7 +8,7 @@ def format_elus(elus=None):
     if elus:
         for elu in elus:
             annee_de_naissance = (
-                get_value(elu, "date_naissance")[:4]
+                convert_to_year_month(get_value(elu, "date_naissance"))
                 if get_value(elu, "date_naissance")
                 else None
             )

@@ -74,7 +74,9 @@ class ElasticSearchRunner:
 
         # explain query result in dev env
         if is_dev_env():
-            self.es_search_client = self.es_search_client.extra(explain=True)
+            self.es_search_client = self.es_search_client.extra(
+                track_scores=True, explain=True
+            )
 
         # Collapse is used to aggregate the results by siren. It is the consequence
         # of separating large documents into smaller ones

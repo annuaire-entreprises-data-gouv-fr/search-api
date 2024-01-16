@@ -534,7 +534,7 @@ paths:
               * score
 
 
-            Par défaut tous les champs sont inclus.
+            Par défaut tous les champs sont inclus sauf le score.
 
 
             Ce paramètre accepte une valeur unique ou une liste de valeurs
@@ -1376,7 +1376,7 @@ paths:
               * score
 
 
-            Par défaut tous les champs sont inclus.
+            Par défaut tous les champs sont inclus sauf le score.
 
 
             Ce paramètre accepte une valeur unique ou une liste de valeurs

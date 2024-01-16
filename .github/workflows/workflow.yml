@@ -89,6 +89,7 @@ jobs:
           ELASTIC_USER: ${{ secrets.ELASTIC_USER_DEV }}
           ELASTIC_PASSWORD: ${{ secrets.ELASTIC_PASSWORD_DEV }}
           ENV: ${{ secrets.ENV_DEV }}
+          COLOR_URL: ${{ secrets.COLOR_URL_DEV }}
           DSN_SENTRY: ${{ secrets.DSN_SENTRY }}
           METADATA_URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
 

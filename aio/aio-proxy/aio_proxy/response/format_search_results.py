@@ -5,6 +5,7 @@ from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
+from aio_proxy.response.formatters.nature_juridique import format_nature_juridique
 from aio_proxy.response.formatters.nom_complet import format_nom_complet
 from aio_proxy.response.formatters.non_diffusible import (
     hide_non_diffusible_fields,
@@ -53,7 +54,9 @@ def format_single_unite_legale(result, search_params):
         "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
         "date_mise_a_jour_rne": get_field("date_mise_a_jour_rne"),
         "etat_administratif": get_field("etat_administratif_unite_legale"),
-        "nature_juridique": get_field("nature_juridique_unite_legale"),
+        "nature_juridique": format_nature_juridique(
+            get_field("nature_juridique_unite_legale")
+        ),
         "section_activite_principale": get_field("section_activite_principale"),
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie_unite_legale"),
         "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),

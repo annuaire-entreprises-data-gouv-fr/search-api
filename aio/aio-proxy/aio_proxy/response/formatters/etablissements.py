@@ -95,6 +95,6 @@ def format_etablissements_list(etablissements=None):
 
 def format_siege(siege=None):
     if not siege:
-        return None
+        return {}
     siege_formatted = format_etablissement(siege).dict()
     return Etablissement(**siege_formatted)

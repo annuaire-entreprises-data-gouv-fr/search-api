@@ -23,11 +23,13 @@ def serialize_error_text(text: str) -> str:
     return json.dumps(message)
 
 
-def get_value(dict, key, default=None):
-    """Set value to value of key if key found in dict, otherwise set value to
-    default."""
-    value = dict[key] if key in dict else default
-    return value
+def get_value(data_dict, key, default=None):
+    """
+    Get the value associated with the given key from the dictionary.
+    """
+    if not data_dict:
+        return default
+    return data_dict.get(key, default)
 
 
 def hash_string(string: str):

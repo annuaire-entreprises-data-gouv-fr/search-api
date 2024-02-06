@@ -18,6 +18,8 @@ class Etablissement(BaseModel):
     date_creation: str | None = None
     date_debut_activite: str | None = None
     date_mise_a_jour: str | None = None
+    date_mise_a_jour_insee: str | None = None
+    date_mise_a_jour_rne: str | None = None
     departement: str | None = None
     distribution_speciale: str | None = None
     est_siege: bool = False
@@ -42,7 +44,7 @@ class Etablissement(BaseModel):
     nom_commercial: str | None = None
     numero_voie: str | None = None
     region: str | None = None
-    siret: str = None
+    siret: str | None = None
     tranche_effectif_salarie: str | None = None
     type_voie: str | None = None
 
@@ -120,7 +122,9 @@ class UniteLegaleResponse(BaseModel):
     annee_categorie_entreprise: str | None = None
     date_creation: str | None = None
     date_mise_a_jour: str | None = None
-    dirigeants: (list[DirigeantsPP | DirigeantsPM] | None) = None
+    date_mise_a_jour_insee: str | None = None
+    date_mise_a_jour_rne: str | None = None
+    dirigeants: list[DirigeantsPP | DirigeantsPM] | None = None
     etat_administratif: str | None = None
     nature_juridique: str | None = None
     section_activite_principale: str | None = None

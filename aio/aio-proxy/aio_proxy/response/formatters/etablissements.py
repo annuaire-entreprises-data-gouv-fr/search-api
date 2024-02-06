@@ -25,7 +25,6 @@ def format_etablissement(source_etablissement):
         "date_debut_activite": get_field("date_debut_activite"),
         "date_mise_a_jour": None,
         "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
-        "date_mise_a_jour_rne": get_field("date_mise_a_jour_rne"),
         "departement": get_field("departement"),
         "distribution_speciale": get_field("distribution_speciale"),
         "est_siege": get_field("est_siege", False),
@@ -82,7 +81,6 @@ def format_etablissements_list(etablissements=None):
         "type_voie",
         "date_mise_a_jour",
         "date_mise_a_jour_insee",
-        "date_mise_a_jour_rne",
     ]
     etablissements_formatted = []
     if etablissements:

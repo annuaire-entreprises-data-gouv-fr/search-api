@@ -564,3 +564,29 @@ def test_pagination_etablissements(api_response_tester):
         "&minimal=true&page_etablissements=2"
     )
     api_response_tester.test_field_value(path, 0, "siren", "356000000")
+
+
+def test_siren_rne_only(api_response_tester):
+    path = "search?q=087120101"
+    response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siren", "087120101")
+    assert response.json()["total_results"] == 1
+    assert response.json()["results"][0]["date_mise_a_jour_rne"] is not None
+    assert response.json()["results"][0]["date_mise_a_jour_insee"] is None
+
+
+def test_siren_insee_only(api_response_tester):
+    path = "search?q=130025265"
+    response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
+    assert response.json()["results"][0]["date_mise_a_jour_insee"] is not None
+    assert response.json()["results"][0]["date_mise_a_jour_rne"] is None
+
+
+def test_siren_rne_and_insee(api_response_tester):
+    path = "search?q=356000000"
+    response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
+    assert response.json()["results"][0]["date_mise_a_jour_rne"] is not None
+    assert response.json()["results"][0]["date_mise_a_jour_insee"] is not None

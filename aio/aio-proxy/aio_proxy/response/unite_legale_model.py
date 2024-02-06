@@ -19,7 +19,6 @@ class Etablissement(BaseModel):
     date_debut_activite: str | None = None
     date_mise_a_jour: str | None = None
     date_mise_a_jour_insee: str | None = None
-    date_mise_a_jour_rne: str | None = None
     departement: str | None = None
     distribution_speciale: str | None = None
     est_siege: bool = False

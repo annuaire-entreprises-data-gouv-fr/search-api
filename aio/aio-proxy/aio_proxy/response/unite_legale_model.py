@@ -44,6 +44,7 @@ class Etablissement(BaseModel):
     numero_voie: str | None = None
     region: str | None = None
     siret: str | None = None
+    statut_diffusion_etablissement: str | None = None
     tranche_effectif_salarie: str | None = None
     type_voie: str | None = None
 

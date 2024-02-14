@@ -1,4 +1,7 @@
 from aio_proxy.response.formatters.enseignes import format_enseignes
+from aio_proxy.response.formatters.non_diffusible import (
+    hide_non_diffusible_etablissement_fields,
+)
 from aio_proxy.response.helpers import get_value
 from aio_proxy.response.unite_legale_model import Etablissement
 
@@ -23,10 +26,11 @@ def format_etablissement(source_etablissement):
         "coordonnees": get_field("coordonnees"),
         "date_creation": get_field("date_creation"),
         "date_debut_activite": get_field("date_debut_activite"),
-        "date_mise_a_jour": get_field("date_mise_a_jour"),
+        "date_mise_a_jour": None,
+        "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
         "departement": get_field("departement"),
         "distribution_speciale": get_field("distribution_speciale"),
-        "est_siege": get_field("est_siege"),
+        "est_siege": get_field("est_siege", False),
         "etat_administratif": get_field("etat_administratif"),
         "geo_adresse": get_field("geo_adresse"),
         "geo_id": get_field("geo_id"),
@@ -55,9 +59,20 @@ def format_etablissement(source_etablissement):
         "numero_voie": get_field("numero_voie"),
         "region": get_field("region"),
         "siret": get_field("siret"),
+        "statut_diffusion_etablissement": get_field("statut_diffusion_etablissement"),
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
         "type_voie": get_field("type_voie"),
     }
+
+    is_non_diffusible = (
+        True if get_field("statut_diffusion_etablissement") == "P" else False
+    )
+
+    if is_non_diffusible:
+        formatted_etablissement = hide_non_diffusible_etablissement_fields(
+            formatted_etablissement
+        )
+
     return Etablissement(**formatted_etablissement)
 
 
@@ -79,6 +94,7 @@ def format_etablissements_list(etablissements=None):
         "numero_voie",
         "type_voie",
         "date_mise_a_jour",
+        "date_mise_a_jour_insee",
     ]
     etablissements_formatted = []
     if etablissements:
@@ -92,5 +108,7 @@ def format_etablissements_list(etablissements=None):
 
 
 def format_siege(siege=None):
+    if not siege:
+        return {}
     siege_formatted = format_etablissement(siege).dict()
     return Etablissement(**siege_formatted)

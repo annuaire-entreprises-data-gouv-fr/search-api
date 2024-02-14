@@ -5,6 +5,7 @@ from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
+from aio_proxy.response.formatters.nature_juridique import format_nature_juridique
 from aio_proxy.response.formatters.nom_complet import format_nom_complet
 from aio_proxy.response.formatters.non_diffusible import (
     hide_non_diffusible_fields,
@@ -24,7 +25,10 @@ def format_single_unite_legale(result, search_params):
     result_unite_legale = result["unite_legale"]
 
     def get_field(field, default=None):
-        return result_unite_legale.get(field, default)
+        value = result_unite_legale.get(field, default)
+        if value is None:
+            return default
+        return value
 
     unite_legale_fields = {
         "siren": get_field("siren"),
@@ -37,7 +41,7 @@ def format_single_unite_legale(result, search_params):
         ),
         "nom_raison_sociale": get_field("nom_raison_sociale"),
         "sigle": get_field("sigle"),
-        "nombre_etablissements": int(get_field("nombre_etablissements", default=1)),
+        "nombre_etablissements": int(get_field("nombre_etablissements", default=0)),
         "nombre_etablissements_ouverts": int(
             get_field("nombre_etablissements_ouverts", default=0)
         ),
@@ -46,9 +50,13 @@ def format_single_unite_legale(result, search_params):
         "caractere_employeur": get_field("caractere_employeur"),
         "annee_categorie_entreprise": get_field("annee_categorie_entreprise"),
         "date_creation": get_field("date_creation_unite_legale"),
-        "date_mise_a_jour": get_field("date_mise_a_jour_unite_legale"),
+        "date_mise_a_jour": get_field("date_mise_a_jour"),
+        "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
+        "date_mise_a_jour_rne": get_field("date_mise_a_jour_rne"),
         "etat_administratif": get_field("etat_administratif_unite_legale"),
-        "nature_juridique": get_field("nature_juridique_unite_legale"),
+        "nature_juridique": format_nature_juridique(
+            get_field("nature_juridique_unite_legale")
+        ),
         "section_activite_principale": get_field("section_activite_principale"),
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie_unite_legale"),
         "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),
@@ -100,7 +108,7 @@ def format_single_unite_legale(result, search_params):
     # Hide most fields if unité légale is non-diffusible
     is_non_diffusible = (
         True
-        if result_unite_legale.get("statut_diffusion_unite_legale") != "O"
+        if result_unite_legale.get("statut_diffusion_unite_legale") == "P"
         else False
     )
     if is_non_diffusible:

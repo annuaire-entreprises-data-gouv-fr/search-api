@@ -42,6 +42,7 @@ def hide_non_diffusible_etablissement_fields(etablissement):
             "[NON-DIFFUSIBLE]" for enseigne in etablissement["liste_enseignes"]
         ]
     non_diffusible_fields = [
+        "adresse",
         "cedex",
         "code_postal",
         "complement_adresse",

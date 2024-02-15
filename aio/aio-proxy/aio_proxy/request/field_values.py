@@ -103,6 +103,10 @@ VALID_FIELD_VALUES = {
         "valid_values": r"^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$",
         "alias": "activite_principale",
     },
+    "epci": {
+        "valid_values": r"^\d{9}$",
+        "alias": "epci",
+    },
     "type_personne": {
         "valid_values": ["ELU", "DIRIGEANT"],
         "alias": "type_personne",

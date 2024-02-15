@@ -35,6 +35,7 @@ class SearchParams(BaseModel):
     tranche_effectif_salarie_unite_legale: list | None = None
     convention_collective_renseignee: bool | None = None
     egapro_renseignee: bool | None = None
+    epci: list | None = None
     est_bio: bool | None = None
     est_finess: bool | None = None
     est_uai: bool | None = None
@@ -136,6 +137,7 @@ class SearchParams(BaseModel):
         "activite_principale_unite_legale",
         "code_collectivite_territoriale",
         "commune",
+        "epci",
         "code_postal",
         "include",
         "include_admin",
@@ -145,7 +147,7 @@ class SearchParams(BaseModel):
         list_of_values = str_to_list(clean_str(str_of_values))
         return list_of_values
 
-    @field_validator("code_postal", "commune", mode="after")
+    @field_validator("code_postal", "commune", "epci", mode="after")
     def list_of_values_should_match_regular_expression(
         cls, list_values: list[str], info
     ) -> list[str]:

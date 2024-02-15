@@ -22,6 +22,7 @@ class Etablissement(BaseModel):
     date_mise_a_jour_insee: str | None = None
     departement: str | None = None
     distribution_speciale: str | None = None
+    epci: str | None = None
     est_siege: bool = False
     etat_administratif: str | None = None
     geo_adresse: str | None = None

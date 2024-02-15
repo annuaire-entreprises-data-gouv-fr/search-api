@@ -31,6 +31,7 @@ def format_etablissement(source_etablissement):
         "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
         "departement": get_field("departement"),
         "distribution_speciale": get_field("distribution_speciale"),
+        "epci": get_field("epci"),
         "est_siege": get_field("est_siege", False),
         "etat_administratif": get_field("etat_administratif"),
         "geo_adresse": get_field("geo_adresse"),
@@ -84,6 +85,8 @@ def format_etablissements_list(etablissements=None):
         "cedex",
         "code_pays_etranger",
         "complement_adresse",
+        "date_mise_a_jour",
+        "date_mise_a_jour_insee",
         "departement",
         "distribution_speciale",
         "geo_adresse",
@@ -94,8 +97,6 @@ def format_etablissements_list(etablissements=None):
         "libelle_voie",
         "numero_voie",
         "type_voie",
-        "date_mise_a_jour",
-        "date_mise_a_jour_insee",
     ]
     etablissements_formatted = []
     if etablissements:

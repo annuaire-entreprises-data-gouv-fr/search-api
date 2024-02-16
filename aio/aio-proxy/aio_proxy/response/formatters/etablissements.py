@@ -26,6 +26,7 @@ def format_etablissement(source_etablissement):
         "coordonnees": get_field("coordonnees"),
         "date_creation": get_field("date_creation"),
         "date_debut_activite": get_field("date_debut_activite"),
+        "date_fermeture": get_field("date_fermeture"),
         "date_mise_a_jour": None,
         "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
         "departement": get_field("departement"),

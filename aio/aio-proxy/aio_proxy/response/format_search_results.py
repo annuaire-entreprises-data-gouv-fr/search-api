@@ -50,6 +50,7 @@ def format_single_unite_legale(result, search_params):
         "caractere_employeur": get_field("caractere_employeur"),
         "annee_categorie_entreprise": get_field("annee_categorie_entreprise"),
         "date_creation": get_field("date_creation_unite_legale"),
+        "date_fermeture": get_field("date_fermeture"),
         "date_mise_a_jour": get_field("date_mise_a_jour"),
         "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
         "date_mise_a_jour_rne": get_field("date_mise_a_jour_rne"),

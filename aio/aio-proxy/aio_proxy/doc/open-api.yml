@@ -167,6 +167,17 @@ paths:
           example: "11,76"
           schema:
             type: string
+        - name: epci
+          in: query
+          description: >-
+            <a href=https://www.insee.fr/fr/information/2510634>
+            Liste des epci valides</a>. Ce paramètre filtre sur les
+            établissements et accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          required: false
+          example: "200058519,248100737"
+          schema:
+            type: string
         - name: egapro_renseignee
           in: query
           description: >-
@@ -876,6 +887,12 @@ paths:
                               description: >-
                                 Code région de l'établissement (source : base
                                 SIRENE).
+                            epci:
+                              type: string
+                              nullable: true
+                              example: "200058519"
+                              description: >-
+                                Numéro siren de l'EPCI.
                             siret:
                               type: string
                               example: "35600000000048"
@@ -1098,6 +1115,12 @@ paths:
                                 description: >-
                                   Région de l'établissement (source :
                                   base SIRENE).
+                              epci:
+                                type: string
+                                nullable: true
+                                example: "200058519"
+                                description: >-
+                                  Numéro siren de l'EPCI.
                               siret:
                                 type: string
                                 example: "35600000000048"
@@ -1728,6 +1751,12 @@ paths:
                               description: >-
                                 Code région de l'établissement (source : base
                                 SIRENE).
+                            epci:
+                              type: string
+                              nullable: true
+                              example: "200058519"
+                              description: >-
+                                Numéro siren de l'EPCI.
                             siret:
                               type: string
                               example: "35600000000048"
@@ -1951,6 +1980,12 @@ paths:
                                 description: >-
                                   Région de l'établissement (source :
                                   base SIRENE).
+                              epci:
+                                type: string
+                                nullable: true
+                                example: "200058519"
+                                description: >-
+                                  Numéro siren de l'EPCI.
                               siret:
                                 type: string
                                 example: "35600000000048"

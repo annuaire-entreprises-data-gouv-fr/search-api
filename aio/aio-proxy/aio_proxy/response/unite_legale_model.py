@@ -17,6 +17,7 @@ class Etablissement(BaseModel):
     coordonnees: str | None = None
     date_creation: str | None = None
     date_debut_activite: str | None = None
+    date_fermeture: str | None = None
     date_mise_a_jour: str | None = None
     date_mise_a_jour_insee: str | None = None
     departement: str | None = None
@@ -121,6 +122,7 @@ class UniteLegaleResponse(BaseModel):
     caractere_employeur: str | None = None
     annee_categorie_entreprise: str | None = None
     date_creation: str | None = None
+    date_fermeture: str | None = None
     date_mise_a_jour: str | None = None
     date_mise_a_jour_insee: str | None = None
     date_mise_a_jour_rne: str | None = None

@@ -696,6 +696,13 @@ paths:
                                 Date de création de l'établissement (source : base
                                 SIRENE).
                               example: "2003-01-01"
+                            date_fermeture:
+                              type: string
+                              nullable: true
+                              format: date
+                              description: >-
+                                Date de fermeture de l'établissement (source : base
+                                historique SIRENE).
                             date_debut_activite:
                               type: string
                               format: date
@@ -890,6 +897,12 @@ paths:
                           example: "1991-01-01"
                           description: >-
                             Date de création de l'unité légale (source : base SIRENE).
+                        date_fermeture:
+                          type: string
+                          format: date
+                          description: >-
+                            Date de fermeture de l'unité légale (source : base
+                            historique SIRENE).
                         tranche_effectif_salarie:
                           type: string
                           example: "53"
@@ -1536,6 +1549,13 @@ paths:
                                 Date de création de l'établissement (source : base
                                 SIRENE).
                               example: "2003-01-01"
+                            date_fermeture:
+                              type: string
+                              nullable: true
+                              format: date
+                              description: >-
+                                Date de fermeture de l'établissement (source : base
+                                historique SIRENE).
                             date_debut_activite:
                               type: string
                               format: date
@@ -1729,6 +1749,12 @@ paths:
                           example: "1991-01-01"
                           description: >-
                             Date de création de l'unité légale (source : base SIRENE).
+                        date_fermeture:
+                          type: string
+                          format: date
+                          description: >-
+                            Date de fermeture de l'unité légale (source : base
+                            historique SIRENE).
                         tranche_effectif_salarie:
                           type: string
                           example: "53"

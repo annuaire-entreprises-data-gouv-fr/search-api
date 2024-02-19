@@ -27,7 +27,7 @@ def build_etablissements_filters(search_params):
     # Id filters are used in the `should` clause
     id_filters = ["id_finess", "id_rge", "id_uai", "id_convention_collective"]
     # Text filters are used in the `must` clause
-    text_filters = ["departement", "code_postal", "commune", "region"]
+    text_filters = ["departement", "code_postal", "commune", "epci", "region"]
     # Bool filters are used in both `must` and `must_not` clauses depending on the
     # filter value
     bool_filters = [

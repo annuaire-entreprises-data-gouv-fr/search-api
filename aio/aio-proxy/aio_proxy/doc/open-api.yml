@@ -167,6 +167,17 @@ paths:
           example: "11,76"
           schema:
             type: string
+        - name: epci
+          in: query
+          description: >-
+            <a href=https://www.insee.fr/fr/information/2510634>
+            Liste des epci valides</a>. Ce paramètre filtre sur les
+            établissements et accepte une valeur unique ou une liste de valeurs
+            séparées par des virgules.
+          required: false
+          example: "200058519,248100737"
+          schema:
+            type: string
         - name: egapro_renseignee
           in: query
           description: >-
@@ -696,6 +707,13 @@ paths:
                                 Date de création de l'établissement (source : base
                                 SIRENE).
                               example: "2003-01-01"
+                            date_fermeture:
+                              type: string
+                              nullable: true
+                              format: date
+                              description: >-
+                                Date de fermeture de l'établissement (source : base
+                                historique SIRENE).
                             date_debut_activite:
                               type: string
                               format: date
@@ -869,6 +887,12 @@ paths:
                               description: >-
                                 Code région de l'établissement (source : base
                                 SIRENE).
+                            epci:
+                              type: string
+                              nullable: true
+                              example: "200058519"
+                              description: >-
+                                Numéro siren de l'EPCI.
                             siret:
                               type: string
                               example: "35600000000048"
@@ -890,6 +914,12 @@ paths:
                           example: "1991-01-01"
                           description: >-
                             Date de création de l'unité légale (source : base SIRENE).
+                        date_fermeture:
+                          type: string
+                          format: date
+                          description: >-
+                            Date de fermeture de l'unité légale (source : base
+                            historique SIRENE).
                         tranche_effectif_salarie:
                           type: string
                           example: "53"
@@ -1085,6 +1115,12 @@ paths:
                                 description: >-
                                   Région de l'établissement (source :
                                   base SIRENE).
+                              epci:
+                                type: string
+                                nullable: true
+                                example: "200058519"
+                                description: >-
+                                  Numéro siren de l'EPCI.
                               siret:
                                 type: string
                                 example: "35600000000048"
@@ -1536,6 +1572,13 @@ paths:
                                 Date de création de l'établissement (source : base
                                 SIRENE).
                               example: "2003-01-01"
+                            date_fermeture:
+                              type: string
+                              nullable: true
+                              format: date
+                              description: >-
+                                Date de fermeture de l'établissement (source : base
+                                historique SIRENE).
                             date_debut_activite:
                               type: string
                               format: date
@@ -1708,6 +1751,12 @@ paths:
                               description: >-
                                 Code région de l'établissement (source : base
                                 SIRENE).
+                            epci:
+                              type: string
+                              nullable: true
+                              example: "200058519"
+                              description: >-
+                                Numéro siren de l'EPCI.
                             siret:
                               type: string
                               example: "35600000000048"
@@ -1729,6 +1778,12 @@ paths:
                           example: "1991-01-01"
                           description: >-
                             Date de création de l'unité légale (source : base SIRENE).
+                        date_fermeture:
+                          type: string
+                          format: date
+                          description: >-
+                            Date de fermeture de l'unité légale (source : base
+                            historique SIRENE).
                         tranche_effectif_salarie:
                           type: string
                           example: "53"
@@ -1925,6 +1980,12 @@ paths:
                                 description: >-
                                   Région de l'établissement (source :
                                   base SIRENE).
+                              epci:
+                                type: string
+                                nullable: true
+                                example: "200058519"
+                                description: >-
+                                  Numéro siren de l'EPCI.
                               siret:
                                 type: string
                                 example: "35600000000048"

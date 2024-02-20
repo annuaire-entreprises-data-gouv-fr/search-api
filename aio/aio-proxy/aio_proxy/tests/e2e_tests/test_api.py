@@ -590,3 +590,13 @@ def test_siren_rne_and_insee(api_response_tester):
     api_response_tester.assert_api_response_code_200(path)
     assert response.json()["results"][0]["date_mise_a_jour_rne"] is not None
     assert response.json()["results"][0]["date_mise_a_jour_insee"] is not None
+
+
+def test_epci(api_response_tester):
+    path = "search?epci=248100737"
+    response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
+    assert (
+        response.json()["results"][0]["matching_etablissements"][0]["epci"]
+        == "248100737"
+    )

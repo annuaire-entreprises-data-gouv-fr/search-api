@@ -138,6 +138,7 @@ class UniteLegaleResponse(BaseModel):
     etablissements: list[Etablissement] | None = None
     finances: dict[str, Finances] | None = None
     complements: Complements = None
+    liste_idcc: dict | None = None
     score: float | None = None
     slug: str | None = None
     meta: dict | None = None

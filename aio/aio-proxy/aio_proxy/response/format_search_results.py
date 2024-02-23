@@ -97,6 +97,9 @@ def format_single_unite_legale(result, search_params):
         elif field == "ETABLISSEMENTS":
             etablissements = format_etablissements_list(get_field("etablissements"))
             formatted_unite_legale.etablissements = etablissements
+        elif field == "LISTE_IDCC":
+            liste_idcc = get_field("liste_idcc")
+            formatted_unite_legale.liste_idcc = liste_idcc
         elif field == "SCORE":
             score = result.get("meta")["score"]
             formatted_unite_legale.score = score

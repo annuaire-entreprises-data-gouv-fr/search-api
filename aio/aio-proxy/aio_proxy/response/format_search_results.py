@@ -13,6 +13,7 @@ from aio_proxy.response.formatters.non_diffusible import (
 from aio_proxy.response.helpers import (
     create_admin_fields_to_include,
     create_fields_to_include,
+    evaluate_field,
     get_value,
     is_dev_env,
 )
@@ -98,7 +99,7 @@ def format_single_unite_legale(result, search_params):
             etablissements = format_etablissements_list(get_field("etablissements"))
             formatted_unite_legale.etablissements = etablissements
         elif field == "LISTE_IDCC":
-            liste_idcc = get_field("liste_idcc")
+            liste_idcc = evaluate_field(get_field("liste_idcc"))
             formatted_unite_legale.liste_idcc = liste_idcc
         elif field == "SCORE":
             score = result.get("meta")["score"]

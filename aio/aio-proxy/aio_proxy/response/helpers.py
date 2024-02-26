@@ -1,3 +1,4 @@
+import ast
 import json
 import os
 from hashlib import sha256
@@ -58,3 +59,22 @@ def create_admin_fields_to_include(search_params):
         return []
     else:
         return search_params.include_admin
+
+
+def evaluate_field(field_value):
+    """
+    Attempts to evaluate a field value using literal_eval from the ast module.
+
+    Parameters:
+        field_value (str): The value of the field to be evaluated.
+
+    Returns:
+        The evaluated value if successful, otherwise None.
+    """
+    if field_value is not None:
+        try:
+            return ast.literal_eval(field_value)
+        except ValueError:
+            return None
+    else:
+        return None

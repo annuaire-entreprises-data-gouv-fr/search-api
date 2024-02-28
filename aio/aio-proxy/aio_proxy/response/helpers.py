@@ -11,8 +11,6 @@ APM_URL = os.getenv("APM_URL")
 
 CURRENT_ENV = os.getenv("ENV")
 
-COLOR_URL = os.getenv("COLOR_URL")
-
 
 def is_dev_env():
     return CURRENT_ENV == "dev"

@@ -30,12 +30,14 @@ def format_complements(result_unite_legale):
     liste_id_organisme_formation = get_field("liste_id_organisme_formation")
     est_rge = get_field("est_rge")
     est_service_public = get_field("est_service_public")
+    est_siae = get_field("est_siae")
     est_societe_mission = format_insee_bool(get_field("est_societe_mission"))
     est_uai = get_field("est_uai")
     identifiant_association = get_field("identifiant_association_unite_legale")
     statut_entrepreneur_spectacle = get_field(
         "statut_entrepreneur_spectacle",
     )
+    type_siae = get_field("type_siae")
     return Complements(
         collectivite_territoriale=collectivite_territoriale,
         convention_collective_renseignee=convention_collective_renseignee,
@@ -50,9 +52,11 @@ def format_complements(result_unite_legale):
         est_qualiopi=est_qualiopi,
         liste_id_organisme_formation=liste_id_organisme_formation,
         est_rge=est_rge,
+        est_siae=est_siae,
         est_service_public=est_service_public,
         est_societe_mission=est_societe_mission,
         est_uai=est_uai,
         identifiant_association=identifiant_association,
         statut_entrepreneur_spectacle=statut_entrepreneur_spectacle,
+        type_siae=type_siae,
     )

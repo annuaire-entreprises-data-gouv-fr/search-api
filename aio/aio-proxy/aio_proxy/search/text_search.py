@@ -81,7 +81,6 @@ def build_es_search_text_query(es_search_builder):
                 "est_uai",
                 "etat_administratif_unite_legale",
                 "est_societe_mission",
-                "est_siae",
             ],
         )
 

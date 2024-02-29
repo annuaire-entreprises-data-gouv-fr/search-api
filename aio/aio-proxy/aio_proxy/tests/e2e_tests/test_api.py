@@ -600,10 +600,3 @@ def test_epci(api_response_tester):
         response.json()["results"][0]["matching_etablissements"][0]["epci"]
         == "248100737"
     )
-
-
-def test_siae_filter(api_response_tester):
-    path = "search?est_siae=true"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_number_of_results(path, 1)
-    api_response_tester.test_field_value(path, 0, "complements.est_siae", True)

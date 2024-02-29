@@ -104,12 +104,10 @@ class Complements(BaseModel):
     liste_id_organisme_formation: list | None = None
     est_rge: bool = False
     est_service_public: bool = False
-    # est_siae: bool = False
     est_societe_mission: bool = False
     est_uai: bool = False
     identifiant_association: str | None = None
     statut_entrepreneur_spectacle: str | None = None
-    type_siae: str | None = None
 
 
 class UniteLegaleResponse(BaseModel):

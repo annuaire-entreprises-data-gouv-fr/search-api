@@ -292,16 +292,6 @@ paths:
             enum:
               - true
               - false
-        - name: est_siae
-          in: query
-          description: >-
-            Uniquement les structures d'insertion par l'activité économique (SIAE).
-          required: false
-          schema:
-            type: boolean
-            enum:
-              - true
-              - false
         - name: est_service_public
           in: query
           description: >-
@@ -1226,12 +1216,6 @@ paths:
                                 Entreprise ayant au moins un établissement RGE
                                 (source : ADEME)
                               example: false
-                            est_siae:
-                              type: boolean
-                              description: >-
-                                Structure d'insertion par l'activité économique
-                                (source : Marché de l'Inclusion)
-                              example: false
                             est_service_public:
                               type: boolean
                               description: >-
@@ -1274,11 +1258,6 @@ paths:
                                 Statut des établissements ayant fait une demande de
                                 licence d'entrepreneur du spectacle
                                 (source: Ministère de la Culture)
-                            type_siae:
-                              type: string
-                              description: >-
-                                Type de structure de l'inclusion
-                                (source: Marché de l'Inclusion)
                   total_results:
                     type: integer
                   page:

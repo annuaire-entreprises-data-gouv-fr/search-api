@@ -64,7 +64,6 @@ class SearchParams(BaseModel):
     type_personne: str | None = None
     etat_administratif_unite_legale: str | None = None
     nature_juridique_unite_legale: list | None = None
-    est_siae: bool | None = None
     matching_size: int = 10
     lat: float | None = None
     lon: float | None = None
@@ -210,7 +209,6 @@ class SearchParams(BaseModel):
         "est_service_public",
         "minimal",
         "est_societe_mission",
-        "est_siae",
         mode="before",
     )
     def convert_str_to_bool(cls, boolean: str, info) -> bool:

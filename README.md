@@ -1,20 +1,17 @@
-# Annuaire des Entreprises - [API de recherche]
+<h1 align="center">
+  <img src="https://github.com/etalab/annuaire-entreprises-site/blob/main/public/images/annnuaire-entreprises.svg" width="400px" />
+</h1>
 
-Ce site est disponible en ligne : [L’Annuaire des Entreprises](https://annuaire-entreprises.data.gouv.fr)
+<a href="https://github.com/etalab/annuaire-entreprises-search-api/blob/main/LICENSE"><img src="https://img.shields.io/github/license/etalab/annuaire-entreprises-search-api.svg?color=green" alt="License Badge"></a>
+[![Deploy cluster](https://github.com/etalab/annuaire-entreprises-search-api/actions/workflows/deploy.yml/badge.svg)](https://github.com/etalab/annuaire-entreprises-search-api/actions/workflows/deploy.yml)
+[![Test Search API](https://github.com/etalab/annuaire-entreprises-search-api/actions/workflows/workflow.yml/badge.svg)](https://github.com/etalab/annuaire-entreprises-search-api/actions/workflows/workflow.yml)
+<a href="https://recherche-entreprises.api.gouv.fr/docs/"><img src="https://img.shields.io/badge/API-documentation-yellow.svg" alt="Documentation Badge"></a>
 
-Ce repository met en place l'infrastructure de l'API de recherche sur les données d'entreprises.
+Bienvenue sur le repository de [l’API de recherche d’Entreprises](https://recherche.api.gouv.fr). Cette API permet de chercher n’importe quelle entreprise de france. Elle fait partie du projet [Annuaire des Entreprises](https://annuaire-entreprises.data.gouv.fr).
 
 ## Architecture du service 🏗
 
-Ce repository fait partie d'un ensemble de services qui constituent l'[Annuaire des Entreprises](https://annuaire-entreprises.data.gouv.fr) :
-
-| Description | Accès |
-|-|-|
-|Le site Web | [par ici 👉](https://github.com/etalab/annuaire-entreprises-site) |
-|L’API du Moteur de recherche | [par ici 👉](https://github.com/etalab/annuaire-entreprises-search-api) |
-|L‘API de redondance de Sirene | [par ici 👉](https://github.com/etalab/annuaire-entreprises-sirene-api) |
-|Le traitement permettant la génération de données à ingérer dans le moteur de recherche | [par ici 👉](https://github.com/etalab/annuaire-entreprises-search-infra) |
-|L’API de proxy du RNCS | [par ici 👉](https://github.com/etalab/rncs-api-proxy) |
+Ce repository fait partie [d'un ensemble de services qui constituent l'Annuaire des Entreprises](https://github.com/etalab/annuaire-entreprises-site?tab=readme-ov-file#dépôts-liés-).
 
 ## A propos de l'architecture
 

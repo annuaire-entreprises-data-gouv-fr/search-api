@@ -79,7 +79,7 @@ def evaluate_field(field_value):
 
 
 def string_list_to_string(string_list):
-    if string_list.strip("[]") == "nan":
+    if string_list.strip("[]") == "nan" or string_list is None:
         return None
     else:
         elements = string_list.strip("[]").split(", ")

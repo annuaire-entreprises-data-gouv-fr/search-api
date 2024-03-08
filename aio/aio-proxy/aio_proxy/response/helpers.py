@@ -76,3 +76,14 @@ def evaluate_field(field_value):
             return None
     else:
         return None
+
+
+def string_list_to_string(string_list):
+    if string_list.strip("[]") == "nan":
+        return None
+    else:
+        elements = string_list.strip("[]").split(", ")
+        # Remove surrounding quotes from each element
+        cleaned_elements = [element.strip("'") for element in elements]
+        # Join the elements into a single string
+        return ", ".join(cleaned_elements)

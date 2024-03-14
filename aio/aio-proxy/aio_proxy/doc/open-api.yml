@@ -1269,13 +1269,15 @@ paths:
                                 certification bio
                                 (source: Agence Bio)
                             statut_entrepreneur_spectacle:
-                              type: boolean
+                              type: string
+                              nullable: true
                               description: >-
                                 Statut des établissements ayant fait une demande de
                                 licence d'entrepreneur du spectacle
                                 (source: Ministère de la Culture)
                             type_siae:
                               type: string
+                              nullable: true
                               description: >-
                                 Type de structure de l'inclusion
                                 (source: Marché de l'Inclusion)
@@ -2139,11 +2141,18 @@ paths:
                                 certification bio
                                 (source: Agence Bio)
                             statut_entrepreneur_spectacle:
-                              type: boolean
+                              type: string
+                              nullable: true
                               description: >-
                                 Statut des établissements ayant fait une demande de
                                 licence d'entrepreneur du spectacle
                                 (source: Ministère de la Culture)
+                            type_siae:
+                              type: string
+                              nullable: true
+                              description: >-
+                                Type de structure de l'inclusion
+                                (source: Marché de l'Inclusion)
                   total_results:
                     type: integer
                   page:

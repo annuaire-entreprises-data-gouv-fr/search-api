@@ -3,6 +3,7 @@ import hashlib
 import logging
 import os
 import random
+import secrets
 import urllib
 
 import requests
@@ -33,9 +34,10 @@ async def track_api_call_via_matomo(request, timeout=5):
     """
     try:
         rec = 1  # Required for tracking
-        url = f"https://recherche-entreprises.api.gouv.fr/{str(request.rel_url.query)}"
+        url = f"https://recherche-entreprises.api.gouv.fr{str(request.rel_url)}"
         action_name = "Recherche API"
         _id = generate_unique_visitor_id(request)
+        rand_value = random.randint(1, 999999)
 
         tracking_params = {
             "idsite": ID_SITE,
@@ -44,6 +46,7 @@ async def track_api_call_via_matomo(request, timeout=5):
             "url": url,
             "_id": _id,
             "apiv": 1,
+            "rand": rand_value,
         }
 
         tracking_data = urllib.parse.urlencode(tracking_params)
@@ -55,8 +58,10 @@ async def track_api_call_via_matomo(request, timeout=5):
 
 def generate_unique_visitor_id(request):
     ip_address = request.headers.get("X-Forwarded-For") or request.remote
+    if ip_address is None:
+        return secrets.token_hex(8)  # Generate a random hexadecimal string of length 16
     hashed_ip = hashlib.sha256(ip_address.encode("utf-8")).hexdigest()
-    return hashed_ip
+    return hashed_ip[:16]
 
 
 def track_event(request):

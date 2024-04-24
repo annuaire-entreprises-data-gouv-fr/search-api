@@ -3,6 +3,7 @@ import hashlib
 import logging
 import os
 import random
+import secrets
 import urllib
 
 import requests
@@ -55,6 +56,8 @@ async def track_api_call_via_matomo(request, timeout=5):
 
 def generate_unique_visitor_id(request):
     ip_address = request.headers.get("X-Forwarded-For") or request.remote
+    if ip_address is None:
+        return secrets.token_hex(8)  # Generate a random hexadecimal string of length 16
     hashed_ip = hashlib.sha256(ip_address.encode("utf-8")).hexdigest()
     return hashed_ip[:16]
 

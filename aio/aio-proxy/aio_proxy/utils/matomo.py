@@ -37,7 +37,6 @@ async def track_api_call_via_matomo(request, timeout=5):
         url = f"https://recherche-entreprises.api.gouv.fr{str(request.rel_url)}"
         action_name = "Recherche API"
         _id = generate_unique_visitor_id(request)
-        rand_value = random.randint(1, 999999)
 
         tracking_params = {
             "idsite": ID_SITE,
@@ -46,7 +45,6 @@ async def track_api_call_via_matomo(request, timeout=5):
             "url": url,
             "_id": _id,
             "apiv": 1,
-            "rand": rand_value,
         }
 
         tracking_data = urllib.parse.urlencode(tracking_params)

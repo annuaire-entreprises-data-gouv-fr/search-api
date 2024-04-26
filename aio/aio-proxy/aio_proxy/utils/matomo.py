@@ -49,6 +49,7 @@ async def track_api_call_via_matomo(request, timeout=5):
 
         tracking_data = urllib.parse.urlencode(tracking_params)
         tracking_url = TRACKING_URL + tracking_data
+        logging.info(f"Matomo request: {tracking_url}")
         requests.get(tracking_url, timeout=timeout)
     except Exception as error:
         logging.info(f"Matomo logging failed: {error}")

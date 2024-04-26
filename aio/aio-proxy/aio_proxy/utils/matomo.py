@@ -42,6 +42,7 @@ async def track_api_call_via_matomo(request, timeout=5):
             "rec": rec,
             "action_name": action_name,
             "url": url,
+            "uid": _id,
             "_id": _id,
             "apiv": 1,
         }

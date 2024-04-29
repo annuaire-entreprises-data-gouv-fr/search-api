@@ -2,6 +2,7 @@ import asyncio
 import logging
 import os
 import random
+import secrets
 import urllib
 
 import requests
@@ -67,10 +68,15 @@ def generate_unique_visitor_id(request):
     user_agent = request.headers.get("User-Agent")
 
     logging.info(
-        f"X-Real-Ip: {real_ip} - X-Forwarded-For : {ip_address} - User-Agent : {user_agent}"
+        f"X-Real-Ip: {real_ip} - X-Forwarded-For : {forwarded_for} - User-Agent : {user_agent}"
     )
 
-    unique_id = f"{ip_address}|{user_agent}"
+    unique_id = (
+        f"{ip_address}|{user_agent}"
+        if ip_address is not None or user_agent is not None
+        else secrets.token_hex(8)
+    )
+
     hashed_id = hashlib.sha256(unique_id.encode("utf-8")).hexdigest()
 
     return hashed_id[:16]

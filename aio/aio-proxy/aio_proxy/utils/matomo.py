@@ -58,8 +58,8 @@ def generate_unique_visitor_id(request):
     # Generate a random hexadecimal string of length 16
     ip_address = request.headers.get("X-Forwarded-For") or request.remote
     user_agent = request.headers.get("User-Agent")
-    print(f"IP address: {ip_address}")
-    print(f"User agent: {user_agent}")
+    logging.info(f"IP address: {ip_address}")
+    logging.info(f"User agent: {user_agent}")
     return secrets.token_hex(8)
 
 

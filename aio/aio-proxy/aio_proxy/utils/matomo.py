@@ -55,7 +55,10 @@ async def track_api_call_via_matomo(request, timeout=5):
 
 
 def generate_unique_visitor_id(request):
-    # Generate a random hexadecimal string of length 16
+    """
+    This function extracts the IP address and user-agent from an HTTP request to create
+    a unique identifier for tracking visitors on Matomo.
+    """
     real_ip = request.headers.get("X-Real-Ip")
     forwarded_for = request.headers.get("X-Forwarded-For") or request.remote
 

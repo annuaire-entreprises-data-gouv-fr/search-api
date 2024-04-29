@@ -2,7 +2,6 @@ import asyncio
 import logging
 import os
 import random
-import secrets
 import urllib
 
 import requests
@@ -57,10 +56,24 @@ async def track_api_call_via_matomo(request, timeout=5):
 def generate_unique_visitor_id(request):
     # Generate a random hexadecimal string of length 16
     real_ip = request.headers.get("X-Real-Ip")
-    logging.info(f"X-Real-Ip: {real_ip}")
-    ip_address = request.headers.get("X-Forwarded-For") or request.remote
-    logging.info(f"IP address: {ip_address}")
-    return secrets.token_hex(8)
+    forwarded_for = request.headers.get("X-Forwarded-For") or request.remote
+
+    ip_address = (
+        forwarded_for.split(",")[0].strip()
+        if forwarded_for is not None and len(forwarded_for) > 0
+        else real_ip
+    )
+
+    user_agent = request.headers.get("User-Agent")
+
+    logging.info(
+        f"X-Real-Ip: {real_ip} - X-Forwarded-For : {ip_address} - User-Agent : {user_agent}"
+    )
+
+    unique_id = f"{ip_address}|{user_agent}"
+    hashed_id = hashlib.sha256(unique_id.encode("utf-8")).hexdigest()
+
+    return hashed_id[:16]
 
 
 def track_event(request):

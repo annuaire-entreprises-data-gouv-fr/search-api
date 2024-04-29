@@ -56,7 +56,8 @@ async def track_api_call_via_matomo(request, timeout=5):
 
 def generate_unique_visitor_id(request):
     # Generate a random hexadecimal string of length 16
-    logging.info(f"Header names : {request.headers.keys()}")
+    real_ip = request.headers.get("X-Real-Ip")
+    logging.info(f"X-Real-Ip: {real_ip}")
     return secrets.token_hex(8)
 
 

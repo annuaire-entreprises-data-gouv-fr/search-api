@@ -79,7 +79,7 @@ def generate_unique_visitor_id(request):
     hashed_id = hashlib.sha256(unique_id.encode("utf-8")).hexdigest()[:16]
 
     logging.info(
-        f"hashed_id: {hashed_id} - X-Real-Ip: {real_ip} - X-Forwarded-For : {forwarded_for} - User-Agent : {user_agent}"
+        f"hashed_id: {hashed_id} - unique_id : {unique_id} - X-Real-Ip: {real_ip} - X-Forwarded-For : {forwarded_for} - User-Agent : {user_agent}"
     )
 
     return hashed_id

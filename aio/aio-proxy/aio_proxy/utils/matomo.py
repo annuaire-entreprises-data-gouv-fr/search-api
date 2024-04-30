@@ -70,19 +70,19 @@ def generate_unique_visitor_id(request):
 
     user_agent = request.headers.get("User-Agent")
 
-    logging.info(
-        f"X-Real-Ip: {real_ip} - X-Forwarded-For : {forwarded_for} - User-Agent : {user_agent}"
-    )
-
     unique_id = (
         f"{ip_address}|{user_agent}"
         if ip_address is not None or user_agent is not None
         else secrets.token_hex(8)
     )
 
-    hashed_id = hashlib.sha256(unique_id.encode("utf-8")).hexdigest()
+    hashed_id = hashlib.sha256(unique_id.encode("utf-8")).hexdigest()[:16]
 
-    return hashed_id[:16]
+    logging.info(
+        f"hashed_id: {hashed_id} - X-Real-Ip: {real_ip} - X-Forwarded-For : {forwarded_for} - User-Agent : {user_agent}"
+    )
+
+    return hashed_id
 
 
 def track_event(request):

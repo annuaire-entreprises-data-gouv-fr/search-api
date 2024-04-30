@@ -33,7 +33,7 @@ jobs:
           SSH_HOST: ${{ secrets[matrix.host] }}
 
       - name: Deploy to staging
-        run: ssh -i ./deploy.key www-data@$SSH_HOST 'python3 /opt/scripts/app-deploy-release/deploy.py /opt/git/releases/annuaire-entreprises-search-api https://github.com/etalab/annuaire-entreprises-search-api.git api --version main --versions_to_keep=5 1> >(tee --append /var/log/deploy_annuaire-entreprises-search-api)'
+        run: ssh -i ./deploy.key www-data@$SSH_HOST 'python3 /opt/scripts/app-deploy-release/deploy.py /opt/git/releases/annuaire-entreprises-search-api https://github.com/annuaire-entreprises-data-gouv-fr/search-api.git api --version main --versions_to_keep=5 1> >(tee --append /var/log/deploy_annuaire-entreprises-search-api)'
         env:
           SSH_HOST: ${{ secrets[matrix.host] }}
 
@@ -75,7 +75,7 @@ jobs:
           SSH_HOST: ${{ secrets[matrix.host] }}
 
       - name: Deploy to production
-        run: ssh -i ./deploy.key www-data@$SSH_HOST 'python3 /opt/scripts/app-deploy-release/deploy.py /opt/git/releases/annuaire-entreprises-search-api https://github.com/etalab/annuaire-entreprises-search-api.git api --version main --versions_to_keep=5 1> >(tee --append /var/log/deploy_annuaire-entreprises-search-api)'
+        run: ssh -i ./deploy.key www-data@$SSH_HOST 'python3 /opt/scripts/app-deploy-release/deploy.py /opt/git/releases/annuaire-entreprises-search-api https://github.com/annuaire-entreprises-data-gouv-fr/search-api.git api --version main --versions_to_keep=5 1> >(tee --append /var/log/deploy_annuaire-entreprises-search-api)'
         env:
           SSH_HOST: ${{ secrets[matrix.host] }}
 

@@ -134,6 +134,13 @@ def test_near_point(api_response_tester):
     """
     path = "near_point?lat=48&long=2&radius=5"
     api_response_tester.assert_api_response_code_200(path)
+    path = "near_point?lat=48&long=2&radius=0"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert (
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `radius` "
+        "entre `0.001` et `50`, par défaut `5`."
+    )
 
 
 def test_categorie_entreprise_list(api_response_tester):

@@ -6,11 +6,11 @@ def build_text_query(terms: str, matching_size: int, sort_by_size: bool = False)
 
 
 def sort_by_size_text_query(terms: str, matching_size: int):
-    multiplier = "unite_legale.code_categorie_entreprise"
+    multiplier = "unite_legale.facteur_taille_entreprise"
     min_multiplier = {
         "field": multiplier,
         "factor": 1,
-        "modifier": "square",
+        "modifier": "log2p",
         "missing": 0,
     }
     mid_multiplier = {
@@ -104,7 +104,7 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                 "_name": "match all champs denomination",
                             }
                         },
-                        "field_value_factor": max_multiplier,
+                        "field_value_factor": mid_multiplier,
                     }
                 },
                 {

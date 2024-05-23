@@ -250,7 +250,7 @@ def sort_by_size_text_query(terms: str, matching_size: int):
 
 
 def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
-    multiplier = "nombre_etablissements_ouverts"
+    multiplier = "unite_legale.nombre_etablissements_ouverts"
     min_multiplier = {
         "field": multiplier,
         "factor": 1,

@@ -243,6 +243,36 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                         "min_score": 4,
                     }
                 },
+                {
+                    "function_score": {
+                        "query": {
+                            "match": {
+                                "unite_legale.liste_dirigeants": {
+                                    "query": terms,
+                                    "operator": "AND",
+                                    "boost": 10,
+                                    "_name": "partial match liste dirigeants",
+                                }
+                            }
+                        },
+                        "field_value_factor": min_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
+                            "match": {
+                                "unite_legale.liste_elus": {
+                                    "query": terms,
+                                    "operator": "AND",
+                                    "boost": 10,
+                                    "_name": "partial match liste élus",
+                                }
+                            }
+                        },
+                        "field_value_factor": min_multiplier,
+                    }
+                },
             ],
         }
     }

@@ -77,3 +77,7 @@ def compute_doc_id(page_etablissements):
         int: The calculated page ID.
     """
     return page_etablissements * 100
+
+
+def sort_search_by_company_size(es_search_builder):
+    return es_search_builder.search_params.sort_by_size is True

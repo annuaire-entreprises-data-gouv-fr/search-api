@@ -72,6 +72,7 @@ class SearchParams(BaseModel):
     minimal: bool | None = False
     include: list | None = None
     include_admin: list | None = None
+    sort_by_size: bool | None = None
 
     # Field Validators (involve one field at a time)
     @field_validator(
@@ -211,6 +212,7 @@ class SearchParams(BaseModel):
         "minimal",
         "est_societe_mission",
         "est_siae",
+        "sort_by_size",
         mode="before",
     )
     def convert_str_to_bool(cls, boolean: str, info) -> bool:
@@ -330,6 +332,7 @@ class SearchParams(BaseModel):
             "minimal",
             "include",
             "include_admin",
+            "sort_by_size",
         ]
 
         all_fields_are_null_except_excluded = check_params_are_none_except_excluded(
@@ -354,6 +357,7 @@ class SearchParams(BaseModel):
             "minimal",
             "include",
             "include_admin",
+            "sort_by_size",
         ]
 
         all_fields_are_null_except_excluded = check_params_are_none_except_excluded(

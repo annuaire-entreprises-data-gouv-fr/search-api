@@ -22,6 +22,7 @@ from aio_proxy.search.helpers.exclude_etablissements import (
 from aio_proxy.search.helpers.helpers import (
     get_doc_id_from_page,
     should_get_doc_by_id,
+    sort_search_by_company_size,
 )
 from aio_proxy.search.parsers.siren import is_siren
 from aio_proxy.search.parsers.siret import is_siret
@@ -114,6 +115,9 @@ def build_es_search_text_query(es_search_builder):
             es_search_builder.search_params
         )
 
+        # Check if results should be based on company size
+        sort_by_size = sort_search_by_company_size(es_search_builder)
+
         if etablissement_filter_used:
             # Filters applied on établissements, 1st application of filters
             # before text search to make sure the text_query (on unite légale) is
@@ -140,6 +144,7 @@ def build_es_search_text_query(es_search_builder):
                 text_query = build_text_query(
                     terms=query_terms,
                     matching_size=es_search_builder.search_params.matching_size,
+                    sort_by_size=sort_by_size,
                 )
                 text_query_with_filters = (
                     add_nested_etablissements_filters_to_text_query(
@@ -168,6 +173,7 @@ def build_es_search_text_query(es_search_builder):
             text_query = build_text_query(
                 terms=query_terms,
                 matching_size=es_search_builder.search_params.matching_size,
+                sort_by_size=sort_by_size,
             )
             es_search_builder.es_search_client = (
                 es_search_builder.es_search_client.query(Q(text_query))

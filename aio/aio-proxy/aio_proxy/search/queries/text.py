@@ -515,7 +515,7 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                             }
                         },
                         "field_value_factor": min_multiplier,
-                        "min_score": 4,
+                        "min_score": 3,
                     }
                 },
                 {

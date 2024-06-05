@@ -35,8 +35,8 @@ if ENV == "prod":
             AioHttpIntegration(transaction_style="method_and_path_pattern"),
             sentry_logging,
         ],
-        # Log 10% of transactions for performance monitoring
-        traces_sample_rate=0.1,
+        # Log 1% of transactions for performance monitoring
+        traces_sample_rate=0.01,
     )
 
 # Connect to Elasticsearch

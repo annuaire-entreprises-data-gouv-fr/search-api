@@ -89,6 +89,19 @@ class CollectiviteTerritoriale(BaseModel):
     niveau: str | None = None
 
 
+class Immatriculation(BaseModel):
+    date_debut_activite: str | None = None
+    date_immatriculation: str | None = None
+    date_radiation: str | None = None
+    duree_personne_morale: int | None = None
+    nature_entreprise: list | None = None
+    date_cloture_exercice: str | None = None
+    capital_social: float | None = None
+    capital_variable: bool | None = None
+    devise_capital: str | None = None
+    indicateur_associe_unique: bool | None = None
+
+
 class Complements(BaseModel):
     collectivite_territoriale: CollectiviteTerritoriale | None = None
     convention_collective_renseignee: bool = False
@@ -138,6 +151,7 @@ class UniteLegaleResponse(BaseModel):
     statut_diffusion: str | None = None
     matching_etablissements: list[Etablissement] | None = None
     etablissements: list[Etablissement] | None = None
+    immatriculation: Immatriculation = None
     finances: dict[str, Finances] | None = None
     complements: Complements = None
     liste_idcc: dict | None = None

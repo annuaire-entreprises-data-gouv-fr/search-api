@@ -135,7 +135,7 @@ def test_organisme_formation(api_response_tester):
     path = "search?q=788945368"
     api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", False)
     api_response_tester.test_field_value(
-        path, "complements.est_organisme_formation", True
+        path, 0, "complements.est_organisme_formation", True
     )
 
 

@@ -713,7 +713,7 @@ def test_immaticulation(api_response_tester):
     immatriculation_data = {
         "duree_personne_morale": 99,
         "date_immatriculation": "1992-03-19",
-        "date_debut_activite": None,  # "1991-01-01"
+        "date_debut_activite": "1991-01-01",
         "capital_variable": False,
         "devise_capital": "EUR",
         "indicateur_associe_unique": False,

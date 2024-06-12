@@ -71,3 +71,11 @@ class APIResponseTester:
             assert (
                 count >= expected_min_count
             ), f"Expected minimum {expected_min_count} results, but found {count}."
+
+    def test_max_number_of_results(self, path, expected_max_count):
+        response = self.get_api_response(path)
+        if response.status_code == ok_status_code:
+            count = response.json()["total_results"]
+            assert (
+                count <= expected_max_count
+            ), f"Expected maximum {expected_max_count} results, but found {count}."

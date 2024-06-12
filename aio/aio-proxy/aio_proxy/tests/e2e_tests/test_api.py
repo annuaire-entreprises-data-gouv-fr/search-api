@@ -126,21 +126,61 @@ def test_organisme_formation(api_response_tester):
     path = "search?est_organisme_formation=true&est_qualiopi=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_organisme_formation=true&est_qualiopi=false"
+    api_response_tester.test_number_of_results(path, 100)
+    path = "search?est_organisme_formation=false&est_qualiopi=true"
+    api_response_tester.test_max_number_of_results(path, 0)
+    path = "search?q=196716856"
+    api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", True)
+    path = "search?q=788945368"
+    api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", False)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_organisme_formation", True
+    )
 
 
 def test_near_point(api_response_tester):
     """
     test near point endpoint
     """
-    path = "near_point?lat=48&long=2&radius=5"
-    api_response_tester.assert_api_response_code_200(path)
-    path = "near_point?lat=48&long=2&radius=0"
-    api_response_tester.assert_api_response_code_400(path)
-    response = api_response_tester.get_api_response(path)
+    LATITUDE_LOWER_BOUND = -90
+    LATITUDE_UPPER_BOUND = 90
+    LONGITUDE_LOWER_BOUND = -180
+    LONGITUDE_UPPER_BOUND = 180
+    MIN_RADIUS = 0.001
+    MAX_RADIUS = 50
+    DEFAULT_RADIUS = 5
+
+    # Test with a valid radius
+    valid_path = f"near_point?lat=48&long=2&radius={DEFAULT_RADIUS}"
+    api_response_tester.assert_api_response_code_200(valid_path)
+    valid_response = api_response_tester.get_api_response(valid_path)
+    response_json = valid_response.json()
+
+    assert response_json["total_results"] > 1
+    matching_etablissement = response_json["results"][0]["matching_etablissements"][0]
     assert (
-        response.json()["erreur"] == "Veuillez indiquer un paramètre `radius` "
-        "entre `0.001` et `50`, par défaut `5`."
+        LATITUDE_LOWER_BOUND
+        <= float(matching_etablissement["latitude"])
+        <= LATITUDE_UPPER_BOUND
     )
+    assert (
+        LONGITUDE_LOWER_BOUND
+        <= float(matching_etablissement["longitude"])
+        <= LONGITUDE_UPPER_BOUND
+    )
+
+    # Test with an invalid radius
+    invalid_path = "near_point?lat=48&long=2&radius=0"
+    api_response_tester.assert_api_response_code_400(invalid_path)
+    invalid_response = api_response_tester.get_api_response(invalid_path)
+    error_message = invalid_response.json()["erreur"]
+
+    expected_error_message = (
+        f"Veuillez indiquer un paramètre `radius` entre `{MIN_RADIUS}` et "
+        f"`{MAX_RADIUS}`, par défaut `{DEFAULT_RADIUS}`."
+    )
+    assert error_message == expected_error_message
 
 
 def test_categorie_entreprise_list(api_response_tester):
@@ -276,6 +316,9 @@ def test_convention_collective_renseignee(api_response_tester):
     api_response_tester.test_field_value(
         path, 0, "complements.convention_collective_renseignee", True
     )
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?convention_collective_renseignee=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_departement(api_response_tester):
@@ -290,6 +333,9 @@ def test_egapro_renseignee(api_response_tester):
     path = "search?egapro_renseignee=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "complements.egapro_renseignee", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?egapro_renseignee=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_association(api_response_tester):
@@ -314,6 +360,9 @@ def test_est_bio(api_response_tester):
     path = "search?est_bio=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "complements.est_bio", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_bio=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_entrepreneur_individuel(api_response_tester):
@@ -322,6 +371,9 @@ def test_est_entrepreneur_individuel(api_response_tester):
     api_response_tester.test_field_value(
         path, 0, "complements.est_entrepreneur_individuel", True
     )
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_entrepreneur_individuel=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_entrepreneur_spectacle(api_response_tester):
@@ -330,29 +382,60 @@ def test_est_entrepreneur_spectacle(api_response_tester):
     api_response_tester.test_field_value(
         path, 0, "complements.est_entrepreneur_spectacle", True
     )
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_entrepreneur_spectacle=false"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_entrepreneur_spectacle", False
+    )
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_rge(api_response_tester):
     path = "search?est_rge=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "complements.est_rge", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_rge=false"
+    api_response_tester.test_field_value(path, 0, "complements.est_rge", False)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_finess(api_response_tester):
     path = "search?est_finess=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "complements.est_finess", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_finess=false"
+    api_response_tester.test_field_value(path, 0, "complements.est_finess", False)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_ess(api_response_tester):
     path = "search?est_ess=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "complements.est_ess", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_ess=false"
+    api_response_tester.test_field_value(path, 0, "complements.est_ess", False)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_est_organisme_formation(api_response_tester):
     path = "search?est_organisme_formation=true"
     api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_organisme_formation", True
+    )
+    path = "search?est_organisme_formation=true&est_qualiopi=true"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_organisme_formation=true&est_qualiopi=false"
+    api_response_tester.test_number_of_results(path, 100)
+    path = "search?est_organisme_formation=false&est_qualiopi=true"
+    api_response_tester.test_max_number_of_results(path, 0)
+    path = "search?q=196716856"
+    api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", True)
+    path = "search?q=788945368"
+    api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", False)
     api_response_tester.test_field_value(
         path, 0, "complements.est_organisme_formation", True
     )
@@ -368,6 +451,10 @@ def test_est_uai(api_response_tester):
     path = "search?est_uai=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "complements.est_uai", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    path = "search?est_uai=false"
+    api_response_tester.test_field_value(path, 0, "complements.est_uai", False)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
 def test_etat_administratif(api_response_tester):

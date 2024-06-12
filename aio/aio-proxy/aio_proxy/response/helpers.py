@@ -1,6 +1,7 @@
 import ast
 import json
 import os
+from datetime import datetime
 from hashlib import sha256
 
 from dotenv import load_dotenv
@@ -49,6 +50,7 @@ def create_fields_to_include(search_params):
             "COMPLEMENTS",
             "DIRIGEANTS",
             "MATCHING_ETABLISSEMENTS",
+            "IMMATRICULATION",
         ]
 
 
@@ -89,3 +91,23 @@ def string_list_to_string(string_list):
         cleaned_elements = [element.strip("'") for element in elements]
         # Join the elements into a single string
         return ", ".join(cleaned_elements)
+
+
+def convert_date_to_iso(date_str):
+    """
+    Convert a datetime string to a date string in ISO format (YYYY-MM-DD).
+
+    Parameters:
+    date_str (str): The datetime string to convert.
+
+    Returns:
+    str: The date string in ISO format or None if the input format is incorrect.
+    """
+    if date_str is None:
+        return None
+    try:
+        date_obj = datetime.fromisoformat(date_str)
+        return date_obj.date().isoformat()
+    except ValueError:
+        # Handle incorrect date format
+        return None

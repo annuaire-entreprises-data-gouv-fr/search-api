@@ -701,3 +701,27 @@ def test_siae_filter(api_response_tester):
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, 1)
     api_response_tester.test_field_value(path, 0, "complements.est_siae", True)
+
+
+def test_immaticulation(api_response_tester):
+    """
+    Test immatriculation object.
+    """
+    path = "search?q=la%20poste"
+    api_response_tester.assert_api_response_code_200(path)
+
+    immatriculation_data = {
+        "duree_personne_morale": 99,
+        "date_immatriculation": "1992-03-19",
+        "date_debut_activite": None,  # "1991-01-01"
+        "capital_variable": False,
+        "devise_capital": "EUR",
+        "indicateur_associe_unique": False,
+        "capital_social": 5620325816,
+        "nature_entreprise": ["COMMERCIALE"],
+    }
+
+    for field, expected_value in immatriculation_data.items():
+        api_response_tester.test_field_value(
+            path, 0, f"immatriculation.{field}", expected_value
+        )

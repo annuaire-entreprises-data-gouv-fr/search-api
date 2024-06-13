@@ -719,6 +719,8 @@ def test_immaticulation(api_response_tester):
         "indicateur_associe_unique": False,
         "capital_social": 5620325816,
         "nature_entreprise": ["COMMERCIALE"],
+        "date_cloture_exercice": "3112",
+        "date_radiation": None,
     }
 
     for field, expected_value in immatriculation_data.items():

@@ -730,7 +730,7 @@ def test_immatriculation(api_response_tester):
         )
 
     # Test for "gan"
-    path_gan = "search?q=ganymede&include_admin=immatriculation"
+    path_gan = "search?q=880878145&include_admin=immatriculation"
     api_response_tester.assert_api_response_code_200(path_gan)
 
     immatriculation_data_gan = {

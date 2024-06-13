@@ -718,7 +718,7 @@ def test_immatriculation(api_response_tester):
         "capital_variable": False,
         "devise_capital": "EUR",
         "indicateur_associe_unique": False,
-        "capital_social": 5620325816,
+        "capital_social": 5857785892,
         "nature_entreprise": ["COMMERCIALE"],
         "date_cloture_exercice": "3112",
         "date_radiation": None,

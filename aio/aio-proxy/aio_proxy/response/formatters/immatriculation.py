@@ -17,9 +17,7 @@ def format_immatriculation(immatriculation):
             date_immatriculation=convert_date_to_iso(get_field("date_immatriculation")),
             duree_personne_morale=get_field("duree_personne_morale"),
             nature_entreprise=json.loads(get_field("nature_entreprise")),
-            date_cloture_exercice=convert_date_to_iso(
-                get_field("date_cloture_exercice")
-            ),
+            date_cloture_exercice=(get_field("date_cloture_exercice")),
             capital_social=get_field("capital_social"),
             capital_variable=get_field("capital_variable"),
             devise_capital=get_field("devise_capital"),

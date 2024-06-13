@@ -15,6 +15,7 @@ def format_immatriculation(immatriculation):
         return Immatriculation(
             date_debut_activite=convert_date_to_iso(get_field("date_debut_activite")),
             date_immatriculation=convert_date_to_iso(get_field("date_immatriculation")),
+            date_radiation=convert_date_to_iso(get_field("date_radiation")),
             duree_personne_morale=get_field("duree_personne_morale"),
             nature_entreprise=json.loads(get_field("nature_entreprise")),
             date_cloture_exercice=(get_field("date_cloture_exercice")),

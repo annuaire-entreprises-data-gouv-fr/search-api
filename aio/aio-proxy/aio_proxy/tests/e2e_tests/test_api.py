@@ -703,14 +703,15 @@ def test_siae_filter(api_response_tester):
     api_response_tester.test_field_value(path, 0, "complements.est_siae", True)
 
 
-def test_immaticulation(api_response_tester):
+def test_immatriculation(api_response_tester):
     """
-    Test immatriculation object.
+    Test immatriculation object..
     """
-    path = "search?q=la%20poste"
-    api_response_tester.assert_api_response_code_200(path)
+    # Test for "la poste"
+    path_la_poste = "search?q=la%20poste&include_admin=immatriculation"
+    api_response_tester.assert_api_response_code_200(path_la_poste)
 
-    immatriculation_data = {
+    immatriculation_data_la_poste = {
         "duree_personne_morale": 99,
         "date_immatriculation": "1992-03-19",
         "date_debut_activite": "1991-01-01",
@@ -723,7 +724,29 @@ def test_immaticulation(api_response_tester):
         "date_radiation": None,
     }
 
-    for field, expected_value in immatriculation_data.items():
+    for field, expected_value in immatriculation_data_la_poste.items():
         api_response_tester.test_field_value(
-            path, 0, f"immatriculation.{field}", expected_value
+            path_la_poste, 0, f"immatriculation.{field}", expected_value
+        )
+
+    # Test for "gan"
+    path_gan = "search?q=ganymede&include_admin=immatriculation"
+    api_response_tester.assert_api_response_code_200(path_gan)
+
+    immatriculation_data_gan = {
+        "date_debut_activite": "2020-01-13",
+        "date_immatriculation": "2020-01-23",
+        "date_radiation": "2022-11-14",
+        "duree_personne_morale": 99,
+        "nature_entreprise": ["COMMERCIALE", "LIBERALE_NON_REGLEMENTEE"],
+        "date_cloture_exercice": "3112",
+        "capital_social": 1000.0,
+        "capital_variable": False,
+        "devise_capital": "EUR",
+        "indicateur_associe_unique": False,
+    }
+
+    for field, expected_value in immatriculation_data_gan.items():
+        api_response_tester.test_field_value(
+            path_gan, 0, f"immatriculation.{field}", expected_value
         )

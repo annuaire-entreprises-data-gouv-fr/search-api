@@ -50,7 +50,6 @@ def create_fields_to_include(search_params):
             "COMPLEMENTS",
             "DIRIGEANTS",
             "MATCHING_ETABLISSEMENTS",
-            "IMMATRICULATION",
         ]
 
 

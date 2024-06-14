@@ -5,6 +5,7 @@ from aio_proxy.response.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
+from aio_proxy.response.formatters.immatriculation import format_immatriculation
 from aio_proxy.response.formatters.nature_juridique import format_nature_juridique
 from aio_proxy.response.formatters.nom_complet import format_nom_complet
 from aio_proxy.response.formatters.non_diffusible import (
@@ -101,6 +102,9 @@ def format_single_unite_legale(result, search_params):
         elif field == "LISTE_IDCC":
             liste_idcc = evaluate_field(get_field("liste_idcc"))
             formatted_unite_legale.liste_idcc = liste_idcc
+        elif field == "IMMATRICULATION":
+            immatriculation = format_immatriculation(get_field("immatriculation"))
+            formatted_unite_legale.immatriculation = immatriculation
         elif field == "SCORE":
             score = result.get("meta")["score"]
             formatted_unite_legale.score = score

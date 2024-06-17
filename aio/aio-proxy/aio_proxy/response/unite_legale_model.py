@@ -105,6 +105,7 @@ class Immatriculation(BaseModel):
 class Complements(BaseModel):
     collectivite_territoriale: CollectiviteTerritoriale | None = None
     convention_collective_renseignee: bool = False
+    liste_idcc: list | None = None
     egapro_renseignee: bool = False
     est_association: bool = False
     est_bio: bool = False
@@ -154,7 +155,6 @@ class UniteLegaleResponse(BaseModel):
     immatriculation: Immatriculation = None
     finances: dict[str, Finances] | None = None
     complements: Complements = None
-    liste_idcc: dict | None = None
     score: float | None = None
     slug: str | None = None
     meta: dict | None = None

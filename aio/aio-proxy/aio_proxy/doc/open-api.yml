@@ -1164,6 +1164,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            liste_idcc:
+                              type: array
+                              description: >-
+                                Liste des conventions collectives de l'unité légale
+                                (source : Ministère du travail).
                             egapro_renseignee:
                               type: boolean
                               description: >-
@@ -2042,6 +2047,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a une
                                 convention collective renseignée
+                            liste_idcc:
+                              type: array
+                              description: >-
+                                Liste des conventions collectives de l'unité légale
+                                (source : Ministère du travail).
                             egapro_renseignee:
                               type: boolean
                               description: >-

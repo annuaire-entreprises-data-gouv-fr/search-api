@@ -1,4 +1,5 @@
 import json
+import logging
 
 from aio_proxy.labels.helpers import NATURES_ENTREPRISES
 from aio_proxy.response.helpers import convert_date_to_iso
@@ -30,6 +31,7 @@ def format_immatriculation(immatriculation):
 def format_nature_entreprise(nature_entreprise):
     # Load nature_entreprise from JSON string
     nature_entreprise_list = json.loads(nature_entreprise)
+    logging.info(f"*******{nature_entreprise_list}")
 
     if nature_entreprise_list is None:
         return None

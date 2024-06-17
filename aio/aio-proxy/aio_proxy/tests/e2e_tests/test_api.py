@@ -719,7 +719,7 @@ def test_immatriculation(api_response_tester):
         "devise_capital": "EUR",
         "indicateur_associe_unique": False,
         "capital_social": 5857785892,
-        "nature_entreprise": ["COMMERCIALE"],
+        "nature_entreprise": ["Commerciale"],
         "date_cloture_exercice": "3112",
         "date_radiation": None,
     }
@@ -738,7 +738,7 @@ def test_immatriculation(api_response_tester):
         "date_immatriculation": "2020-01-23",
         "date_radiation": "2022-11-14",
         "duree_personne_morale": 99,
-        "nature_entreprise": ["COMMERCIALE", "LIBERALE_NON_REGLEMENTEE"],
+        "nature_entreprise": ["Commerciale", "Libérale non réglementée"],
         "date_cloture_exercice": "3112",
         "capital_social": 1000.0,
         "capital_variable": False,

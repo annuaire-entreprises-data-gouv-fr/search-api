@@ -11,19 +11,17 @@ def format_beneficiaires(beneficiaires=None):
             nom = get_value(beneficiaire, "nom")
             prenoms = get_value(beneficiaire, "prenoms")
             date_de_naissance = get_value(beneficiaire, "date_de_naissance")
-            qualite = get_value(beneficiaire, "role")
             nationalite = get_value(beneficiaire, "nationalite")
 
             # Only append if at least one field is not None
             if any(
                 field is not None
-                for field in [nom, prenoms, date_de_naissance, qualite, nationalite]
+                for field in [nom, prenoms, date_de_naissance, nationalite]
             ):
                 beneficiaire_formatted = Beneficiaires(
                     nom=nom,
                     prenoms=prenoms,
                     date_de_naissance=date_de_naissance,
-                    qualite=qualite,
                     nationalite=nationalite,
                 )
                 beneficiaires_formatted.append(beneficiaire_formatted)

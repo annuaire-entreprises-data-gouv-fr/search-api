@@ -80,7 +80,6 @@ class Beneficiaires(BaseModel):
     nom: str | None = None
     prenoms: str | None = None
     date_de_naissance: str | None = None
-    qualite: str | None = None
     nationalite: str | None = None
 
 

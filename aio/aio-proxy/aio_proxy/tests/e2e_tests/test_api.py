@@ -738,7 +738,7 @@ def test_immatriculation(api_response_tester):
         "date_immatriculation": "2020-01-23",
         "date_radiation": "2022-11-14",
         "duree_personne_morale": 99,
-        "nature_entreprise": ["Commerciale", "Libérale non réglementée"],
+        "nature_entreprise": ["Commerciale"],
         "date_cloture_exercice": "3112",
         "capital_social": 1000.0,
         "capital_variable": False,

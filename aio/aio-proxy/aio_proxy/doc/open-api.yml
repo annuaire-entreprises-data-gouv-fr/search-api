@@ -788,8 +788,13 @@ paths:
                               type: string
                               example: "48.83002"
                               description: >-
-                                Latitude de l'établissement (source : base SIRENE
-                                géocodée par Etalab).
+                                Latitude de l'établissement (source : pour les SIRET
+                                issus des fichiers stock de l'INSEE, la source de la
+                                géolocalisation est la base SIRENE géocodée par
+                                data.gouv.
+                                Pour les SIRET mis à jour quotidiennement,
+                                la géolocalisation provient directement de la
+                                base SIRENE).
                             libelle_cedex:
                               type: string
                               nullable: true
@@ -876,8 +881,13 @@ paths:
                               type: string
                               example: "2.275688"
                               description: >-
-                                Longitude de l'établissement (source : base SIRENE
-                                géocodée par Etalab).
+                                Longitude de l'établissement (source : pour les SIRET
+                                issus des fichiers stock de l'INSEE, la source de la
+                                géolocalisation est la base SIRENE géocodée par
+                                data.gouv.
+                                Pour les SIRET mis à jour quotidiennement,
+                                la géolocalisation provient directement de la
+                                base SIRENE).
                             nom_commercial:
                               type: string
                               nullable: true
@@ -1054,8 +1064,13 @@ paths:
                                 type: string
                                 example: "48.83002"
                                 description: >-
-                                  Latitude de l'établissement (source : base SIRENE
-                                  géocodée par Etalab).
+                                  Latitude de l'établissement (source : pour les SIRET
+                                  issus des fichiers stock de l'INSEE, la source de la
+                                  géolocalisation est la base SIRENE géocodée par
+                                  data.gouv.
+                                  Pour les SIRET mis à jour quotidiennement,
+                                  la géolocalisation provient directement de la
+                                  base SIRENE).
                               libelle_commune:
                                 type: string
                                 example: "PARIS 15"
@@ -1109,8 +1124,13 @@ paths:
                                 type: string
                                 example: "2.275688"
                                 description: >-
-                                  Longitude de l'établissement (source : base SIRENE
-                                  géocodée par Etalab).
+                                  Longitude de l'établissement (source : pour les SIRET
+                                  issus des fichiers stock de l'INSEE, la source de la
+                                  géolocalisation est la base SIRENE géocodée par
+                                  data.gouv.
+                                  Pour les SIRET mis à jour quotidiennement,
+                                  la géolocalisation provient directement de la
+                                  base SIRENE).
                               nom_commercial:
                                 type: string
                                 nullable: true
@@ -1331,14 +1351,24 @@ paths:
       parameters:
         - name: lat
           in: query
-          description: Latitude de l'établissement
+          description: >-
+            Latitude de l'établissement (source : pour les SIRET
+            issus des fichiers stock de l'INSEE, la source de la
+            géolocalisation est la base SIRENE géocodée par data.gouv.
+            Pour les SIRET mis à jour quotidiennement, la géolocalisation
+            provient directement de la base SIRENE).
           required: true
           schema:
             type: number
             format: float
         - name: long
           in: query
-          description: Longitude de l'établissement
+          description: >-
+            Longitude de l'établissement (source : pour les SIRET
+            issus des fichiers stock de l'INSEE, la source de la
+            géolocalisation est la base SIRENE géocodée par data.gouv.
+            Pour les SIRET mis à jour quotidiennement, la géolocalisation provient
+            directement de la base SIRENE).
           required: true
           schema:
             type: number
@@ -1670,8 +1700,13 @@ paths:
                               type: string
                               example: "48.83002"
                               description: >-
-                                Latitude de l'établissement (source : base SIRENE
-                                géocodée par Etalab).
+                                Latitude de l'établissement (source : pour les SIRET
+                                issus des fichiers stock de l'INSEE, la source de la
+                                géolocalisation est la base SIRENE géocodée par
+                                data.gouv.
+                                Pour les SIRET mis à jour quotidiennement,
+                                la géolocalisation provient directement de la
+                                base SIRENE).
                             libelle_cedex:
                               type: string
                               nullable: true
@@ -1758,8 +1793,13 @@ paths:
                               type: string
                               example: "2.275688"
                               description: >-
-                                Longitude de l'établissement (source : base SIRENE
-                                géocodée par Etalab).
+                                Longitude de l'établissement (source : pour les SIRET
+                                issus des fichiers stock de l'INSEE, la source de la
+                                géolocalisation est la base SIRENE géocodée par
+                                data.gouv.
+                                Pour les SIRET mis à jour quotidiennement,
+                                la géolocalisation provient directement de la
+                                base SIRENE).
                             nom_commercial:
                               type: string
                               nullable: true
@@ -1937,8 +1977,13 @@ paths:
                                 type: string
                                 example: "48.83002"
                                 description: >-
-                                  Latitude de l'établissement (source : base SIRENE
-                                  géocodée par Etalab).
+                                  Latitude de l'établissement (source : pour les SIRET
+                                  issus des fichiers stock de l'INSEE, la source de la
+                                  géolocalisation est la base SIRENE géocodée par
+                                  data.gouv.
+                                  Pour les SIRET mis à jour quotidiennement,
+                                  la géolocalisation provient directement de la
+                                  base SIRENE).
                               libelle_commune:
                                 type: string
                                 example: "PARIS 15"
@@ -1992,8 +2037,13 @@ paths:
                                 type: string
                                 example: "2.275688"
                                 description: >-
-                                  Longitude de l'établissement (source : base SIRENE
-                                  géocodée par Etalab).
+                                  Longitude de l'établissement (source : pour les SIRET
+                                  issus des fichiers stock de l'INSEE, la source de la
+                                  géolocalisation est la base SIRENE géocodée par
+                                  data.gouv.
+                                  Pour les SIRET mis à jour quotidiennement,
+                                  la géolocalisation provient directement de la
+                                  base SIRENE).
                               nom_commercial:
                                 type: string
                                 nullable: true

@@ -10,6 +10,7 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 
 from aio_proxy.request.search_type import SearchType
 from aio_proxy.response.admin_endpoint.convention_collective import (
+    get_idcc_list_by_siren,
     get_metadata_cc_response,
 )
 from aio_proxy.response.build_api_response import build_api_response
@@ -71,3 +72,11 @@ async def conventions_collectives_endpoint(request):
     Endpoint for serving the convention collective JSON file.
     """
     return get_metadata_cc_response()
+
+
+@routes.get("/idcc/{siren}")
+async def search_conventions_collectives_by_siren_endpoint(request):
+    """
+    Endpoint for searching conventions collectives by SIREN number.
+    """
+    return get_idcc_list_by_siren(request)

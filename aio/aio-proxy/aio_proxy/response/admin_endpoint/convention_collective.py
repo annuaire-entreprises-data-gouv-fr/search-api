@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 
 from aio_proxy.decorators.http_exception import http_exception_handler
+from aio_proxy.exceptions.siren import InvalidSirenError
 from aio_proxy.response.formatters.convention_collective import (
     extract_list_idcc_by_siren_from_ul,
 )
@@ -53,7 +54,7 @@ def get_idcc_list_by_siren(request):
     """
     siren = request.match_info["siren"]
     if not is_siren(siren):
-        raise ValueError("Numéro Siren invalide")
+        raise InvalidSirenError()
     match_siren = search_by_siren(siren)
 
     if not match_siren:

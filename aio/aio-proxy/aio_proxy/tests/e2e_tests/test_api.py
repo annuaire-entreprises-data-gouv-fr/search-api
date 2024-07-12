@@ -635,12 +635,16 @@ def test_minimal_param_only(api_response_tester):
     )
 
 
-def test_metadata_cc_endpoint(api_response_tester):
+def test_idcc_endpoint(api_response_tester):
     """
     test metadata conventions collectives endpoint
     """
-    path = "metadata/conventions_collectives"
+    path = "idcc/metadata"
     api_response_tester.assert_api_response_code_200(path)
+    path = "idcc/356000000"
+    api_response_tester.assert_api_response_code_200(path)
+    path = "idcc/12345678a"
+    api_response_tester.assert_api_response_code_400(path)
 
 
 def test_pagination_etablissements(api_response_tester):

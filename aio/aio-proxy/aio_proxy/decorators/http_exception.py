@@ -14,7 +14,7 @@ def http_exception_handler(func):
     def inner_function(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except elasticsearch.exceptions.RequestError as error:
+        except (elasticsearch.exceptions.RequestError, ValueError) as error:
             raise web.HTTPBadRequest(
                 text=serialize_error_text(str(error)),
                 content_type="application/json",

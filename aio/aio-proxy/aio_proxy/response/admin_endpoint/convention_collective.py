@@ -37,7 +37,7 @@ def get_metadata_cc_response():
 
 
 @http_exception_handler
-def get_idcc_list_by_siren(request):
+def get_cc_list_by_siren(request):
     """
     Retrieves the list of IDCCs associated with a given SIREN number.
 

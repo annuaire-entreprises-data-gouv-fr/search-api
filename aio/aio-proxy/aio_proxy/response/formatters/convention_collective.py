@@ -20,4 +20,4 @@ def extract_list_idcc_by_siren_from_ul(ul_result):
         idcc_list_str = idcc_list_json.replace("'", '"')
         return json.loads(idcc_list_str)
 
-    return []
+    return {}

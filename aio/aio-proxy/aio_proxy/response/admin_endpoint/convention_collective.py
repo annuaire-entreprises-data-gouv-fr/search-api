@@ -6,6 +6,7 @@ from aio_proxy.exceptions.siren import InvalidSirenError
 from aio_proxy.response.formatters.convention_collective import (
     extract_list_idcc_by_siren_from_ul,
 )
+from aio_proxy.response.response_model import CcResponseModel
 from aio_proxy.search.parsers.siren import is_siren
 from aio_proxy.search.queries.search_by_siren import search_by_siren
 from aio_proxy.utils.cache import cache_strategy
@@ -55,10 +56,13 @@ def get_cc_list_by_siren(request):
     siren = request.match_info["siren"]
     if not is_siren(siren):
         raise InvalidSirenError()
+
     match_siren = search_by_siren(siren)
 
     if not match_siren:
-        return web.json_response([])
+        return web.json_response({})
 
     list_idcc = extract_list_idcc_by_siren_from_ul(match_siren)
-    return web.json_response(list_idcc)
+
+    response_data = CcResponseModel(root=list_idcc)
+    return web.json_response(response_data.dict())

@@ -4,11 +4,11 @@ from datetime import timedelta
 from aio_proxy.decorators.http_exception import http_exception_handler
 from aio_proxy.exceptions.siren import InvalidSirenError
 from aio_proxy.response.formatters.convention_collective import (
-    extract_list_idcc_by_siren_from_ul,
+    extract_idcc_siret_mapping_from_ul,
 )
 from aio_proxy.response.response_model import CcResponseModel
 from aio_proxy.search.parsers.siren import is_siren
-from aio_proxy.search.queries.search_by_siren import search_by_siren
+from aio_proxy.search.queries.search_by_siren import search_index_by_siren
 from aio_proxy.utils.cache import cache_strategy
 from aio_proxy.utils.helpers import fetch_json_from_url
 from aiohttp import web
@@ -38,9 +38,10 @@ def get_metadata_cc_response():
 
 
 @http_exception_handler
-def get_cc_list_by_siren(request):
+def fetch_idcc_siret_mapping(request):
     """
-    Retrieves the list of IDCCs associated with a given SIREN number.
+    Retrieves the detailed list of SIRET numbers associated with an IDCC for a
+    given SIREN number.
 
     Args:
         request (aiohttp.web.Request): The HTTP request object containing 'siren'
@@ -57,12 +58,12 @@ def get_cc_list_by_siren(request):
     if not is_siren(siren):
         raise InvalidSirenError()
 
-    match_siren = search_by_siren(siren)
+    match_siren = search_index_by_siren(siren)
 
     if not match_siren:
         return web.json_response({})
 
-    list_idcc = extract_list_idcc_by_siren_from_ul(match_siren)
+    idcc_mapping = extract_idcc_siret_mapping_from_ul(match_siren)
 
-    response_data = CcResponseModel(root=list_idcc)
+    response_data = CcResponseModel(root=idcc_mapping)
     return web.json_response(response_data.dict())

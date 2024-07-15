@@ -16,6 +16,7 @@ def extract_list_idcc_by_siren_from_ul(ul_result):
     idcc_list_json = ul_result["unite_legale"]["liste_idcc_by_siren"]
 
     if idcc_list_json:
+        # Replace single quotes with double quotes to form valid JSON
         idcc_list_str = idcc_list_json.replace("'", '"')
         return json.loads(idcc_list_str)
 

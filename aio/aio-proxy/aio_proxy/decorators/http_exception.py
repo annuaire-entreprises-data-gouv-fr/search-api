@@ -1,5 +1,6 @@
 import logging
 
+from aio_proxy.exceptions.siren import InvalidSirenError
 from aio_proxy.response.helpers import serialize_error_text
 from aiohttp import web
 from pydantic import ValidationError
@@ -14,11 +15,6 @@ def http_exception_handler(func):
     def inner_function(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except elasticsearch.exceptions.RequestError as error:
-            raise web.HTTPBadRequest(
-                text=serialize_error_text(str(error)),
-                content_type="application/json",
-            )
         except ValidationError as err:
             with push_scope() as scope:
                 # group value errors together based on their response
@@ -34,6 +30,11 @@ def http_exception_handler(func):
                     ),
                     content_type="application/json",
                 )
+        except (elasticsearch.exceptions.RequestError, InvalidSirenError) as error:
+            raise web.HTTPBadRequest(
+                text=serialize_error_text(str(error)),
+                content_type="application/json",
+            )
         except BaseException as error:
             # capture error in Sentry
             capture_exception(error)

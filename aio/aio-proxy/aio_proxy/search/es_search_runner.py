@@ -19,7 +19,7 @@ MAX_TOTAL_RESULTS = 10000
 
 
 class ElasticSearchRunner:
-    def __init__(self, search_params, search_type):
+    def __init__(self, search_params=None, search_type=None):
         self.es_search_client = StructureMapping.search()
         self.es_index = StructureMapping.Index.name
         self.search_type = search_type
@@ -28,7 +28,8 @@ class ElasticSearchRunner:
         self.es_search_results = None
         self.total_results = None
         self.execution_time = None
-        self.run()
+        if search_type:
+            self.run()
 
     def sort_es_search_query(self):
         # Sorting is very heavy on performance if there are no

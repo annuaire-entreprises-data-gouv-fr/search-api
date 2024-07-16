@@ -17,7 +17,7 @@ def format_complements(result_unite_legale):
         get_field("colter_niveau"),
     )
     convention_collective_renseignee = get_field("convention_collective_renseignee")
-    liste_idcc = get_field("liste_idcc")
+    liste_idcc = get_field("liste_idcc_unite_legale")
     egapro_renseignee = get_field("egapro_renseignee")
     est_association = get_field("est_association")
     est_bio = get_field("est_bio")

@@ -52,7 +52,7 @@ def format_etablissement(source_etablissement):
         ),
         "liste_finess": get_field("liste_finess"),
         "liste_id_bio": get_field("liste_id_bio"),
-        "liste_idcc": get_field("liste_idcc_unite_legale"),
+        "liste_idcc": get_field("liste_idcc"),
         "liste_id_organisme_formation": get_field("liste_id_organisme_formation"),
         "liste_rge": get_field("liste_rge"),
         "liste_uai": get_field("liste_uai"),

@@ -754,25 +754,3 @@ def test_immatriculation(api_response_tester):
         api_response_tester.test_field_value(
             path_gan, 0, f"immatriculation.{field}", expected_value
         )
-
-
-def test_beneficiaires(api_response_tester):
-    """
-    Test bénéficiaires effectifs object.
-    """
-    path_ganymede = "search?q=880878145&include_admin=beneficiaires"
-    api_response_tester.assert_api_response_code_200(path_ganymede)
-    response = api_response_tester.get_api_response(path_ganymede)
-
-    benef_data = {
-        "nom": "JOUPPE",
-        "prenoms": "XAVIER MARIE ERWAN",
-        "date_de_naissance": "1990-02",
-        "nationalite": "Française",
-    }
-
-    for field, expected_value in benef_data.items():
-        assert (
-            response.json()["results"][0]["beneficiaires_effectifs"][0][field]
-            == expected_value
-        )

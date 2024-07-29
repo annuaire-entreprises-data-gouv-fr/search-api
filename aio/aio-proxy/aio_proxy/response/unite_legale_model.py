@@ -76,13 +76,6 @@ class DirigeantsPP(BaseModel):
     type_dirigeant: Literal["personne physique"]
 
 
-class Beneficiaires(BaseModel):
-    nom: str | None = None
-    prenoms: str | None = None
-    date_de_naissance: str | None = None
-    nationalite: str | None = None
-
-
 class Finances(BaseModel):
     annee_cloture_exercice: str | None = None
     ca: int | None = None
@@ -151,7 +144,6 @@ class UniteLegaleResponse(BaseModel):
     date_mise_a_jour_insee: str | None = None
     date_mise_a_jour_rne: str | None = None
     dirigeants: list[DirigeantsPP | DirigeantsPM] | None = None
-    beneficiaires_effectifs: list[Beneficiaires] | None = None
     etat_administratif: str | None = None
     nature_juridique: str | None = None
     section_activite_principale: str | None = None

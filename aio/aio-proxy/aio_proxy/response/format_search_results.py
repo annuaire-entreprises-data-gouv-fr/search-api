@@ -1,4 +1,3 @@
-from aio_proxy.response.formatters.beneficiaires import format_beneficiaires
 from aio_proxy.response.formatters.bilan_financier import format_bilan
 from aio_proxy.response.formatters.complements import format_complements
 from aio_proxy.response.formatters.dirigeants import format_dirigeants
@@ -102,9 +101,6 @@ def format_single_unite_legale(result, search_params):
         elif field == "IMMATRICULATION":
             immatriculation = format_immatriculation(get_field("immatriculation"))
             formatted_unite_legale.immatriculation = immatriculation
-        elif field == "BENEFICIAIRES":
-            beneficiaires = format_beneficiaires(get_field("beneficiaires_effectifs"))
-            formatted_unite_legale.beneficiaires_effectifs = beneficiaires
         elif field == "SCORE":
             score = result.get("meta")["score"]
             formatted_unite_legale.score = score

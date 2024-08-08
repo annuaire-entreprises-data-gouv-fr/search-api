@@ -15,6 +15,7 @@ def format_etablissement(source_etablissement):
         "activite_principale_registre_metier": get_field(
             "activite_principale_registre_metier"
         ),
+        "ancien_siege": get_field("ancien_siege"),
         "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),
         "adresse": get_field("adresse"),
         "caractere_employeur": get_field("caractere_employeur"),
@@ -81,6 +82,7 @@ def format_etablissement(source_etablissement):
 def format_etablissements_list(etablissements=None):
     hidden_fields = [
         "activite_principale_registre_metier",
+        "ancien_siege",
         "coordonnees",
         "cedex",
         "code_pays_etranger",

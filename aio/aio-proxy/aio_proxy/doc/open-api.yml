@@ -1027,6 +1027,13 @@ paths:
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              annee_tranche_effectif_salarie:
+                                type: string
+                                nullable: true
+                                example: "2020"
+                                description: >-
+                                  Année de validité de la tranche d'effectif salarié de
+                                  l'établissement (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"
@@ -1936,6 +1943,13 @@ paths:
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              annee_tranche_effectif_salarie:
+                                type: string
+                                nullable: true
+                                example: "2020"
+                                description: >-
+                                  Année de validité de la tranche d'effectif salarié de
+                                  l'établissement (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"

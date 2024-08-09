@@ -82,7 +82,6 @@ def format_etablissement(source_etablissement):
 def format_etablissements_list(etablissements=None):
     hidden_fields = [
         "activite_principale_registre_metier",
-        "ancien_siege",
         "coordonnees",
         "cedex",
         "code_pays_etranger",
@@ -115,4 +114,5 @@ def format_siege(siege=None):
     if not siege:
         return {}
     siege_formatted = format_etablissement(siege).dict()
+    del siege_formatted["ancien_siege"]
     return Etablissement(**siege_formatted)

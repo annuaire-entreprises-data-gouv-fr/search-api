@@ -1027,6 +1027,12 @@ paths:
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              ancien_siege:
+                                type: boolean
+                                example: false
+                                description: >-
+                                  L'établissement était le siège de
+                                  l'unité légale (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"
@@ -1936,6 +1942,12 @@ paths:
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              ancien_siege:
+                                type: boolean
+                                example: false
+                                description: >-
+                                  L'établissement était le siège de
+                                  l'unité légale (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"

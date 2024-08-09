@@ -1044,6 +1044,12 @@ paths:
                                 description: >-
                                   Année de validité de la tranche d'effectif salarié de
                                   l'établissement (source : base SIRENE).
+                              ancien_siege:
+                                type: boolean
+                                example: false
+                                description: >-
+                                  L'établissement était le siège de
+                                  l'unité légale (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"
@@ -2025,6 +2031,12 @@ paths:
                                 description: >-
                                   Année de validité de la tranche d'effectif salarié de
                                   l'établissement (source : base SIRENE).
+                              ancien_siege:
+                                type: boolean
+                                example: false
+                                description: >-
+                                  L'établissement était le siège de
+                                  l'unité légale (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"

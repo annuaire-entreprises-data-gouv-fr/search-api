@@ -754,3 +754,10 @@ def test_immatriculation(api_response_tester):
         api_response_tester.test_field_value(
             path_gan, 0, f"immatriculation.{field}", expected_value
         )
+
+
+def test_ul_sans_siege(api_response_tester):
+    path = "search?q=006178073"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_number_of_results(path, 1)
+    api_response_tester.test_field_value(path, 0, "siege", {})

@@ -36,6 +36,7 @@ def format_single_unite_legale(result, search_params):
         "nom_complet": format_nom_complet(
             get_field("nom_complet"),
             get_field("sigle"),
+            get_field("siege")["nom_commercial"],
             get_field("denomination_usuelle_1_unite_legale"),
             get_field("denomination_usuelle_2_unite_legale"),
             get_field("denomination_usuelle_3_unite_legale"),

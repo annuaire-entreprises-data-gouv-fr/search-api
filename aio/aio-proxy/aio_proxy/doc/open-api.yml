@@ -539,7 +539,7 @@ paths:
           in: query
           description: >-
             ATTENTION : Ce paramètre ne peut être
-            appelé qu'avec le champs "minimal=True".
+            appelé qu'avec le champ "minimal=True".
 
 
             Permet de ne demander que certains des champs secondaires.
@@ -600,12 +600,13 @@ paths:
                         nom_complet:
                           type: string
                           description: >-
-                            Champs construit depuis les champs de dénomination :
+                            Champ construit depuis les champs de dénomination :
                             denomination de l'unité légale | Nom et prénom | Nom inconnu
-                            (dénomination usuelle : construite à partir de la
-                            dénomination usuelle de l'établissement siège ou des trois
-                            champs de dénomination usuelle de la base SIRENE) (sigle de
-                            l'unité légale).
+                            (dénomination usuelle : Construite en priorité à partir de
+                            la dénomination usuelle de l'établissement siège.
+                            Si cette dernière n'existe pas, elle est construite à
+                            partir des trois champs de dénomination usuelle de l'unité
+                            légale. source : base SIRENE) (sigle de l'unité légale)
                           example: "la poste"
                         nom_raison_sociale:
                           type: string
@@ -658,7 +659,7 @@ paths:
                                 DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
                                 PIERRE AVIA 75015 PARIS 15
                               description: >-
-                                Champs construit depuis les champs d'adresse de la
+                                Champ construit depuis les champs d'adresse de la
                                 base SIRENE : *complement adresse + numéro voie +
                                 indice repetition + type voie + libelle voie +
                                 distribution spéciale + (code postal + libelle
@@ -1032,7 +1033,7 @@ paths:
                                 example: >-
                                   19 RUE DE LA POSTE 31700 CORNEBARRIEU
                                 description: >-
-                                  Champs construit depuis les champs d'adresse de la
+                                  Champ construit depuis les champs d'adresse de la
                                   base SIRENE : *complement adresse + numéro voie +
                                   indice repetition + type voie + libelle voie +
                                   distribution spéciale + (code postal + libelle
@@ -1529,7 +1530,7 @@ paths:
           in: query
           description: >-
             ATTENTION : Ce paramètre ne peut être
-            appelé qu'avec le champs "minimal=True".
+            appelé qu'avec le champ "minimal=True".
 
 
             Permet de ne demander que certains des champs secondaires.
@@ -1589,12 +1590,13 @@ paths:
                         nom_complet:
                           type: string
                           description: >-
-                            Champs construit depuis les champs de dénomination :
+                            Champ construit depuis les champs de dénomination :
                             denomination de l'unité légale | Nom et prénom | Nom inconnu
-                            (dénomination usuelle : construite à partir de la
-                            dénomination usuelle de l'établissement siège ou des trois
-                            champs de dénomination usuelle de la base SIRENE) (sigle
-                            de l'unité légale)
+                            (dénomination usuelle : Construite en priorité à partir de
+                            la dénomination usuelle de l'établissement siège.
+                            Si cette dernière n'existe pas, elle est construite à
+                            partir des trois champs de dénomination usuelle de l'unité
+                            légale. source : base SIRENE) (sigle de l'unité légale)
                           example: "la poste"
                         nom_raison_sociale:
                           type: string
@@ -1647,7 +1649,7 @@ paths:
                                 DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
                                 PIERRE AVIA 75015 PARIS 15
                               description: >-
-                                Champs construit depuis les champs d'adresse de la
+                                Champ construit depuis les champs d'adresse de la
                                 base SIRENE : *complement adresse + numéro voie +
                                 indice repetition + type voie + libelle voie +
                                 distribution spéciale + (code postal + libelle commune |
@@ -2020,7 +2022,7 @@ paths:
                                 example: >-
                                   19 RUE DE LA POSTE 31700 CORNEBARRIEU
                                 description: >-
-                                  Champs construit depuis les champs d'adresse de la
+                                  Champ construit depuis les champs d'adresse de la
                                   base SIRENE : *complement adresse + numéro voie +
                                   indice repetition + type voie + libelle voie +
                                   distribution spéciale + (code postal + libelle

@@ -7,7 +7,10 @@ from aio_proxy.response.formatters.etablissements import (
 )
 from aio_proxy.response.formatters.immatriculation import format_immatriculation
 from aio_proxy.response.formatters.nature_juridique import format_nature_juridique
-from aio_proxy.response.formatters.nom_complet import format_nom_complet
+from aio_proxy.response.formatters.nom_complet import (
+    format_nom_complet,
+    get_nom_commercial,
+)
 from aio_proxy.response.formatters.non_diffusible import (
     hide_non_diffusible_fields,
 )
@@ -36,7 +39,7 @@ def format_single_unite_legale(result, search_params):
         "nom_complet": format_nom_complet(
             get_field("nom_complet"),
             get_field("sigle"),
-            get_field("siege")["nom_commercial"],
+            get_nom_commercial(get_field("siege")),
             get_field("denomination_usuelle_1_unite_legale"),
             get_field("denomination_usuelle_2_unite_legale"),
             get_field("denomination_usuelle_3_unite_legale"),

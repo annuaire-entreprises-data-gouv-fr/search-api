@@ -1,3 +1,7 @@
+def get_nom_commercial(siege):
+    return siege.get("nom_commercial", None) if siege else None
+
+
 def format_nom_complet(
     nom_complet,
     sigle=None,

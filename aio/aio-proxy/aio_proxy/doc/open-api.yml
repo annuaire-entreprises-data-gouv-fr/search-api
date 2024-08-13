@@ -602,7 +602,8 @@ paths:
                           description: >-
                             Champs construit depuis les champs de dénomination :
                             denomination de l'unité légale | Nom et prénom | Nom inconnu
-                            (dénomination usuelle : construite à partir des trois
+                            (dénomination usuelle : construite à partir de la
+                            dénomination usuelle de l'établissement siège ou des trois
                             champs de dénomination usuelle de la base SIRENE) (sigle de
                             l'unité légale).
                           example: "la poste"
@@ -1590,7 +1591,8 @@ paths:
                           description: >-
                             Champs construit depuis les champs de dénomination :
                             denomination de l'unité légale | Nom et prénom | Nom inconnu
-                            (dénomination usuelle : construite à partir des trois
+                            (dénomination usuelle : construite à partir de la
+                            dénomination usuelle de l'établissement siège ou des trois
                             champs de dénomination usuelle de la base SIRENE) (sigle
                             de l'unité légale)
                           example: "la poste"

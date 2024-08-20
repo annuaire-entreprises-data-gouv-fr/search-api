@@ -1,11 +1,14 @@
 import logging
 import os
 
+import sentry_sdk
 import yaml
 from dotenv import load_dotenv
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
 from fastapi import FastAPI
+from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 
 from app.response.helpers import APM_URL, CURRENT_ENV
 from app.router import router
@@ -63,6 +66,21 @@ if CURRENT_ENV != "dev":
     apm_client = make_apm_client(apm_config)
     app.add_middleware(ElasticAPM, client=apm_client)
 
+
+# Sentry Integration for Production
+if CURRENT_ENV == "prod":
+    sentry_logging = LoggingIntegration(
+        level=logging.INFO,  # Capture info and above as breadcrumbs
+        event_level=logging.WARNING,  # Send warnings as events
+    )
+    sentry_sdk.init(
+        dsn=DSN_SENTRY,
+        integrations=[
+            FastApiIntegration(),
+            sentry_logging,
+        ],
+        traces_sample_rate=0.01,  # Log 1% of transactions for performance monitoring
+    )
 
 # Include the router
 app.include_router(router)

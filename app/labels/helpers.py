@@ -1,6 +1,6 @@
 import json
 
-labels_file_path = "labels/"
+labels_file_path = "app/labels/"
 
 
 def load_file(file_name: str):

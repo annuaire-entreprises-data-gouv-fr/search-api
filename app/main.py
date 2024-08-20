@@ -1,3 +1,4 @@
+import logging
 import os
 
 import yaml
@@ -20,6 +21,8 @@ load_dotenv()
 
 ENV = os.getenv("ENV")
 open_api_path = "doc/open-api.yml"
+
+logging.basicConfig(level=logging.INFO)
 
 # Connect to Elasticsearch
 connections.create_connection(

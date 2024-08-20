@@ -13,6 +13,6 @@ clean:
 	rm -rf build
 
 run:
-	uvicorn app.main:app --reload
+	uvicorn app.main:app --reload --log-level debug
 
 .PHONY: flake clean run

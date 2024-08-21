@@ -10,7 +10,7 @@ min_total_results_filters = 1000
 
 @pytest.fixture
 def api_response_tester():
-    api_url = "http://localhost:4500/"
+    api_url = "http://localhost:8000/"
     return APIResponseTester(api_url)
 
 

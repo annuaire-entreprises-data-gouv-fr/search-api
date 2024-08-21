@@ -1,18 +1,37 @@
+import importlib.resources as pkg_resources
 import json
 
-labels_file_path = "app/labels/"
+import app.labels as labels_package
+
+# List of module names to import
+file_modules = [
+    "codes-NAF",
+    "departements",
+    "natures-juridiques",
+    "tranches-effectifs",
+    "regions",
+    "sections-codes-NAF",
+    "natures-entreprises",
+]
 
 
-def load_file(file_name: str):
-    with open(f"{labels_file_path}{file_name}") as json_file:
-        file_decoded = json.load(json_file)
-    return file_decoded
+# Function to load JSON content from a module
+def load_json_from_module(module_name: str):
+    json_content = pkg_resources.read_text(labels_package, f"{module_name}.json")
+    return json.loads(json_content)
 
 
-CODES_NAF = load_file("codes-NAF.json")
-DEPARTEMENTS = load_file("departements.json")
-NATURES_JURIDIQUES = load_file("natures-juridiques.json")
-TRANCHES_EFFECTIFS = load_file("tranches-effectifs.json")
-REGIONS = load_file("regions.json")
-SECTIONS_CODES_NAF = load_file("sections-codes-NAF.json")
-NATURES_ENTREPRISES = load_file("natures-entreprises.json")
+# Load all JSON files into a dictionary
+loaded_files = {
+    module_name.upper(): load_json_from_module(module_name)
+    for module_name in file_modules
+}
+
+# Accessing the data
+CODES_NAF = loaded_files["CODES-NAF"]
+DEPARTEMENTS = loaded_files["DEPARTEMENTS"]
+NATURES_JURIDIQUES = loaded_files["NATURES-JURIDIQUES"]
+TRANCHES_EFFECTIFS = loaded_files["TRANCHES-EFFECTIFS"]
+REGIONS = loaded_files["REGIONS"]
+SECTIONS_CODES_NAF = loaded_files["SECTIONS-CODES-NAF"]
+NATURES_ENTREPRISES = loaded_files["NATURES-ENTREPRISES"]

@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r aio/aio-proxy/requirements.pip
+          pip install -r app/requirements.pip
 
   unit-tests:
     name: Run Unit Tests
@@ -50,8 +50,8 @@ jobs:
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('requirements.pip') }}
       - name: unit tests
         run: |
-          cd aio/aio-proxy/
-          pytest aio_proxy/tests/unit_tests -v
+          cd app
+          pytest tests/unit_tests -v
 
   e2e-tests:
     name: E2E Tests
@@ -76,14 +76,13 @@ jobs:
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('requirements.pip') }}
       - name: Run app
         run: |
-          pip install aiohttp-swagger3==0.5.3
           pip install elastic-apm==6.14.0
           pip install redis==4.1.1
-          cd aio/aio-proxy/
-          python -m aio_proxy &
+          cd app
+          fastapi dev &
           echo "********** Application is up **********"
           sleep 10
-          pytest aio_proxy/tests/e2e_tests -v
+          pytest tests/e2e_tests -v
         env:
           ELASTIC_URL: ${{secrets.ELASTIC_URL_DEV}}
           ELASTIC_USER: ${{ secrets.ELASTIC_USER_DEV }}

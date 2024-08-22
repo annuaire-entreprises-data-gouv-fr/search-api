@@ -45,11 +45,11 @@ def fetch_idcc_siret_mapping(siren):
     given SIREN number.
 
     Args:
-        request (aiohttp.web.Request): The HTTP request object containing 'siren'
+        request : The HTTP request object containing 'siren'
         in match_info.
 
     Returns:
-        aiohttp.web.Response: JSON response containing the list of IDCCs or an empty
+        Response: response containing the list of IDCCs or an empty
         list if no match found.
 
     Raises:

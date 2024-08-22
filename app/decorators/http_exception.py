@@ -1,10 +1,10 @@
 import logging
 
+import elasticsearch
 from fastapi.responses import ORJSONResponse
 from pydantic import ValidationError
 from sentry_sdk import capture_exception, push_scope
 
-import elasticsearch
 from app.exceptions.siren import InvalidSirenError
 from app.response.helpers import serialize_error_text
 

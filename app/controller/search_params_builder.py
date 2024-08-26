@@ -1,4 +1,4 @@
-from app.request.search_params_model import SearchParams
+from app.controller.search_params_model import SearchParams
 from app.request.search_type import SearchType
 
 

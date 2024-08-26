@@ -1,7 +1,7 @@
 from fastapi.responses import ORJSONResponse
 
+from app.controller.search_params_builder import SearchParamsBuilder
 from app.decorators.http_exception import http_exception_handler
-from app.request.search_params_builder import SearchParamsBuilder
 from app.response.response_builder import ResponseBuilder
 from app.search.es_search_runner import ElasticSearchRunner
 from app.utils.matomo import track_event

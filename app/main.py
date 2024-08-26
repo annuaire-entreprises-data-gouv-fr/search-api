@@ -5,7 +5,7 @@ from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
 from fastapi import FastAPI
 
-from .config import (
+from app.config import (
     APM_CONFIG,
     CURRENT_ENV,
     ELASTIC_PASSWORD,
@@ -13,8 +13,8 @@ from .config import (
     ELASTIC_USER,
     OPEN_API_PATH,
 )
-from .logging import setup_logging, setup_sentry
-from .routers import admin, public
+from app.logging import setup_logging, setup_sentry
+from app.routers import admin, public
 
 # Setup logging
 setup_logging()

@@ -5,7 +5,7 @@ from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
 from fastapi import FastAPI
 
-from app.config import (
+from .config import (
     APM_CONFIG,
     CURRENT_ENV,
     ELASTIC_PASSWORD,
@@ -13,8 +13,8 @@ from app.config import (
     ELASTIC_USER,
     OPEN_API_PATH,
 )
-from app.logging import setup_logging, setup_sentry
-from app.router import router
+from .logging import setup_logging, setup_sentry
+from .routers import admin, public
 
 # Setup logging
 setup_logging()
@@ -53,5 +53,6 @@ if CURRENT_ENV == "prod":
     app.add_middleware(ElasticAPM, client=apm_client)
     setup_sentry()
 
-# Include the router
-app.include_router(router)
+# Include routers
+app.include_router(public.router)
+app.include_router(admin.router)

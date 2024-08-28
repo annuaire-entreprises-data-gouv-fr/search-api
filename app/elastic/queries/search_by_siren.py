@@ -1,5 +1,5 @@
-from app.search.es_search_runner import ElasticSearchRunner
-from app.search.filters.siren import filter_by_siren
+from app.elastic.es_search_runner import ElasticSearchRunner
+from app.elastic.filters.siren import filter_by_siren
 
 
 def search_index_by_siren(siren: str):

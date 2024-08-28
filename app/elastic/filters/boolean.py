@@ -1,6 +1,6 @@
 from elasticsearch_dsl import Q
 
-from app.search.helpers.elastic_fields import get_elasticsearch_field_name
+from app.elastic.helpers.elastic_fields import get_elasticsearch_field_name
 
 
 def filter_search_by_bool_fields_unite_legale(

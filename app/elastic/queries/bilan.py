@@ -1,6 +1,6 @@
 from elasticsearch_dsl import query
 
-from app.search.helpers.elastic_fields import get_elasticsearch_field_name
+from app.elastic.helpers.elastic_fields import get_elasticsearch_field_name
 
 
 def search_bilan(

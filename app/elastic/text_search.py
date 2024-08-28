@@ -1,36 +1,36 @@
 from elasticsearch_dsl import Q
 
-from app.search.filters.boolean import (
+from app.elastic.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
 )
-from app.search.filters.id import filter_by_id
-from app.search.filters.nested_etablissements_filters import (
+from app.elastic.filters.id import filter_by_id
+from app.elastic.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
     build_nested_etablissements_filters_query,
 )
-from app.search.filters.siren import filter_by_siren
-from app.search.filters.siret import filter_by_siret
-from app.search.filters.term_filters import (
+from app.elastic.filters.siren import filter_by_siren
+from app.elastic.filters.siret import filter_by_siret
+from app.elastic.filters.term_filters import (
     filter_term_list_search_unite_legale,
     filter_term_search_unite_legale,
 )
-from app.search.helpers.bilan_filters_used import is_any_bilan_filter_used
-from app.search.helpers.etablissements_filters_used import (
+from app.elastic.helpers.bilan_filters_used import is_any_bilan_filter_used
+from app.elastic.helpers.etablissements_filters_used import (
     is_any_etablissement_filter_used,
 )
-from app.search.helpers.exclude_etablissements import (
+from app.elastic.helpers.exclude_etablissements import (
     exclude_etablissements_from_search,
 )
-from app.search.helpers.helpers import (
+from app.elastic.helpers.helpers import (
     get_doc_id_from_page,
     should_get_doc_by_id,
     sort_search_by_company_size,
 )
-from app.search.parsers.siren import is_siren
-from app.search.parsers.siret import is_siret
-from app.search.queries.bilan import search_bilan
-from app.search.queries.person import search_person
-from app.search.queries.text import build_text_query
+from app.elastic.parsers.siren import is_siren
+from app.elastic.parsers.siret import is_siret
+from app.elastic.queries.bilan import search_bilan
+from app.elastic.queries.person import search_person
+from app.elastic.queries.text import build_text_query
 
 
 def build_es_search_text_query(es_search_builder):

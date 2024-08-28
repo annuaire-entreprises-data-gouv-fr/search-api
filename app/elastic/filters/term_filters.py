@@ -1,4 +1,4 @@
-from app.search.helpers.elastic_fields import get_elasticsearch_field_name
+from app.elastic.helpers.elastic_fields import get_elasticsearch_field_name
 
 
 def filter_term_search_unite_legale(

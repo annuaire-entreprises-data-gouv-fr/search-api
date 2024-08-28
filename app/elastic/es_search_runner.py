@@ -1,16 +1,16 @@
 import logging
 from datetime import timedelta
 
-from app.request.search_type import SearchType
-from app.response.helpers import is_dev_env
-from app.search.es_index import StructureMapping
-from app.search.geo_search import build_es_search_geo_query
-from app.search.helpers.helpers import (
+from app.elastic.es_index import StructureMapping
+from app.elastic.geo_search import build_es_search_geo_query
+from app.elastic.helpers.helpers import (
     execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
     page_through_results,
 )
-from app.search.text_search import build_es_search_text_query
+from app.elastic.text_search import build_es_search_text_query
+from app.request.search_type import SearchType
+from app.response.helpers import is_dev_env
 from app.utils.cache import cache_strategy
 
 TIME_TO_LIVE = timedelta(days=31)

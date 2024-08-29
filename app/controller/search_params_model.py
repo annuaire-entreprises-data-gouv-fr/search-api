@@ -3,7 +3,7 @@ from datetime import date
 
 from pydantic import BaseModel, field_validator, model_validator
 
-from app.controller.field_values import (
+from app.controller.field_validation import (
     FIELD_LENGTHS,
     NUMERIC_FIELD_LIMITS,
     VALID_ADMIN_FIELDS_TO_SELECT,

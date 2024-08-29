@@ -2,7 +2,7 @@ from app.models.unite_legale import (
     DirigeantsPM,
     DirigeantsPP,
 )
-from app.response.helpers import get_value
+from app.utils.helpers import get_value
 
 
 def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):

@@ -1,5 +1,5 @@
 from app.models.unite_legale import CollectiviteTerritoriale
-from app.response.formatters.elus import format_elus
+from app.service.formatters.elus import format_elus
 
 
 def format_collectivite_territoriale(

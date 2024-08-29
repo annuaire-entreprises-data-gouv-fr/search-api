@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.response.admin_endpoint.convention_collective import (
+from app.service.convention_collective import (
     fetch_idcc_siret_mapping,
     get_metadata_cc_response,
 )

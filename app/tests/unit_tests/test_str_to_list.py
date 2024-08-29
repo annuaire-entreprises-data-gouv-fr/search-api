@@ -1,6 +1,6 @@
 import pytest
 
-from app.request.helpers import str_to_list
+from app.utils.helpers import str_to_list
 
 
 @pytest.mark.parametrize(

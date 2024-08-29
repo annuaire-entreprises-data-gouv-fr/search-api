@@ -3,20 +3,20 @@ import json
 from app.models.unite_legale import (
     UniteLegaleResponse,
 )
-from app.response.formatters.bilan_financier import format_bilan
-from app.response.formatters.complements import format_complements
-from app.response.formatters.dirigeants import format_dirigeants
-from app.response.formatters.etablissements import (
+from app.service.formatters.bilan_financier import format_bilan
+from app.service.formatters.complements import format_complements
+from app.service.formatters.dirigeants import format_dirigeants
+from app.service.formatters.etablissements import (
     format_etablissements_list,
     format_siege,
 )
-from app.response.formatters.immatriculation import format_immatriculation
-from app.response.formatters.nature_juridique import format_nature_juridique
-from app.response.formatters.nom_complet import format_nom_complet
-from app.response.formatters.non_diffusible import (
+from app.service.formatters.immatriculation import format_immatriculation
+from app.service.formatters.nature_juridique import format_nature_juridique
+from app.service.formatters.nom_complet import format_nom_complet
+from app.service.formatters.non_diffusible import (
     hide_non_diffusible_fields,
 )
-from app.response.helpers import (
+from app.utils.helpers import (
     create_admin_fields_to_include,
     create_fields_to_include,
     get_value,

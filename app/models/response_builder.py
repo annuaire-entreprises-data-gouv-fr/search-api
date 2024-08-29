@@ -1,6 +1,6 @@
 from app.models.response import ResponseModel
-from app.response.format_search_results import format_search_results
-from app.response.helpers import is_dev_env
+from app.service.format_search_results import format_search_results
+from app.utils.helpers import is_dev_env
 
 
 class ResponseBuilder:

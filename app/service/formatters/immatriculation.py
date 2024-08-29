@@ -2,7 +2,7 @@ import json
 
 from app.labels.helpers import NATURES_ENTREPRISES
 from app.models.unite_legale import Immatriculation
-from app.response.helpers import convert_date_to_iso
+from app.utils.helpers import convert_date_to_iso
 
 
 def format_immatriculation(immatriculation):

@@ -1,5 +1,5 @@
 from app.controller.search_params_model import SearchParams
-from app.request.search_type import SearchType
+from app.service.search_type import SearchType
 
 
 class SearchParamsBuilder:

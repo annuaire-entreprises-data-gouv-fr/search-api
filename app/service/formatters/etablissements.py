@@ -1,9 +1,9 @@
 from app.models.unite_legale import Etablissement
-from app.response.formatters.enseignes import format_enseignes
-from app.response.formatters.non_diffusible import (
+from app.service.formatters.enseignes import format_enseignes
+from app.service.formatters.non_diffusible import (
     hide_non_diffusible_etablissement_fields,
 )
-from app.response.helpers import get_value
+from app.utils.helpers import get_value
 
 
 def format_etablissement(source_etablissement):

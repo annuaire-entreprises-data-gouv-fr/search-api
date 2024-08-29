@@ -1,6 +1,6 @@
 import pytest
 
-from app.request.helpers import match_bool_to_insee_value
+from app.utils.helpers import match_bool_to_insee_value
 
 
 @pytest.mark.parametrize(

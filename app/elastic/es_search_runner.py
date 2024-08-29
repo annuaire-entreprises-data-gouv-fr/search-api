@@ -9,9 +9,9 @@ from app.elastic.helpers.helpers import (
     page_through_results,
 )
 from app.elastic.text_search import build_es_search_text_query
-from app.request.search_type import SearchType
-from app.response.helpers import is_dev_env
+from app.service.search_type import SearchType
 from app.utils.cache import cache_strategy
+from app.utils.helpers import is_dev_env
 
 TIME_TO_LIVE = timedelta(days=31)
 MIN_EXECUTION_TIME = 400

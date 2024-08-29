@@ -1,9 +1,9 @@
 from app.models.unite_legale import Complements
-from app.response.formatters.collectivite_territoriale import (
+from app.service.formatters.collectivite_territoriale import (
     format_collectivite_territoriale,
 )
-from app.response.formatters.insee_bool import format_insee_bool
-from app.response.helpers import string_list_to_string
+from app.service.formatters.insee_bool import format_insee_bool
+from app.utils.helpers import string_list_to_string
 
 
 def format_complements(result_unite_legale):

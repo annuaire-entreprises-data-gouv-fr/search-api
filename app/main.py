@@ -1,9 +1,11 @@
 import logging
+from typing import Callable
 
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
+from fastapi.responses import ORJSONResponse
 
 from app.config import (
     APM_CONFIG,
@@ -12,6 +14,10 @@ from app.config import (
     ELASTIC_URL,
     ELASTIC_USER,
     OPEN_API_PATH,
+)
+from app.exceptions.exceptions import (
+    InvalidSirenError,
+    SearchApiError,
 )
 from app.logging import setup_logging, setup_sentry
 from app.routers import admin, public
@@ -56,3 +62,35 @@ if CURRENT_ENV == "prod":
 # Include routers
 app.include_router(public.router)
 app.include_router(admin.router)
+
+
+def create_exception_handler(
+    status_code: int, initial_detail: str
+) -> Callable[[Request, SearchApiError], ORJSONResponse]:
+    detail = {"status_code": status_code, "message": initial_detail}
+    # Using a dictionary to hold the detail
+    logging.info(f"*********{detail}")
+
+    async def exception_handler(_: Request, exc: SearchApiError) -> ORJSONResponse:
+        if exc.message:
+            detail["message"] = exc.message
+            logging.info(f"/////////{detail['message']}")
+
+        if exc.status_code:
+            detail["status_code"] = exc.status_code
+            logging.info(f"/////////{detail['status_code']}")
+
+        return ORJSONResponse(
+            status_code=detail["status_code"],
+            content={"status_code": detail["status_code"], "detail": detail["message"]},
+        )
+
+    return exception_handler
+
+
+app.add_exception_handler(
+    exc_class_or_status_code=InvalidSirenError,
+    handler=create_exception_handler(
+        status.HTTP_400_BAD_REQUEST, "Numéro Siren invalide."
+    ),
+)

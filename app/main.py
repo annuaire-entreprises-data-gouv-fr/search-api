@@ -1,12 +1,7 @@
-import logging
-from typing import Callable
-
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
-from fastapi import FastAPI, Request
-from fastapi.responses import ORJSONResponse
-from sentry_sdk import capture_exception, push_scope
+from fastapi import FastAPI
 
 from app.config import (
     APM_CONFIG,
@@ -16,12 +11,7 @@ from app.config import (
     ELASTIC_USER,
     OPEN_API_PATH,
 )
-from app.exceptions.exceptions import (
-    InternalError,
-    InvalidParamError,
-    InvalidSirenError,
-    SearchApiError,
-)
+from app.exceptions.exception_handlers import add_exception_handlers
 from app.logging import setup_logging, setup_sentry
 from app.routers import admin, public
 
@@ -66,70 +56,5 @@ if CURRENT_ENV == "prod":
 app.include_router(public.router)
 app.include_router(admin.router)
 
-
-def create_exception_handler(
-    status_code: int = 500, initial_detail: str = "Service is unavailable"
-) -> Callable[[Request, SearchApiError], ORJSONResponse]:
-    # Using a dictionary to hold the detail
-    detail = {"status_code": status_code, "message": initial_detail}
-
-    async def exception_handler(
-        request: Request, exc: SearchApiError
-    ) -> ORJSONResponse:
-        if exc.message:
-            detail["message"] = exc.message
-
-        if exc.status_code:
-            detail["status_code"] = exc.status_code
-        if isinstance(exc, InvalidParamError):
-            with push_scope() as scope:
-                scope.fingerprint = ["TESTING"]
-                logging.warning(f"InvalidParamError: {exc.message}")
-        return ORJSONResponse(
-            status_code=detail["status_code"],
-            content={"status_code": detail["status_code"], "detail": detail["message"]},
-        )
-
-    return exception_handler
-
-
-app.add_exception_handler(
-    exc_class_or_status_code=InvalidSirenError,
-    handler=create_exception_handler(),
-)
-
-app.add_exception_handler(
-    exc_class_or_status_code=InvalidParamError,
-    handler=create_exception_handler(),
-)
-
-
-# Add a catch-all exception handler for any unhandled exceptions
-@app.exception_handler(Exception)
-async def unhandled_exception_handler(
-    request: Request, exc: Exception
-) -> ORJSONResponse:
-    # Log the full exception details
-    logging.error(f"Unhandled exception occurred: {exc}", exc_info=True)
-
-    # Use Sentry to capture the exception
-    with push_scope() as scope:
-        scope.set_context(
-            "request",
-            {
-                "url": str(request.url),
-                "method": request.method,
-                "headers": dict(request.headers),
-                "query_params": dict(request.query_params),
-            },
-        )
-        capture_exception(exc)
-
-    # Create an InternalError with a generic message
-    internal_error = InternalError(
-        "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
-    )
-
-    # Use the create_exception_handler to handle the InternalError
-    handler = create_exception_handler()
-    return await handler(request, internal_error)
+# Add exception handlers
+add_exception_handlers(app)

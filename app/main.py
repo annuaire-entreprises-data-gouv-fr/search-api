@@ -4,7 +4,7 @@ from typing import Callable
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
 
 from app.config import (
@@ -16,6 +16,7 @@ from app.config import (
     OPEN_API_PATH,
 )
 from app.exceptions.exceptions import (
+    InvalidParamError,
     InvalidSirenError,
     SearchApiError,
 )
@@ -65,7 +66,7 @@ app.include_router(admin.router)
 
 
 def create_exception_handler(
-    status_code: int, initial_detail: str
+    status_code: int = 500, initial_detail: str = "Service is unavailable"
 ) -> Callable[[Request, SearchApiError], ORJSONResponse]:
     detail = {"status_code": status_code, "message": initial_detail}
     # Using a dictionary to hold the detail
@@ -90,7 +91,10 @@ def create_exception_handler(
 
 app.add_exception_handler(
     exc_class_or_status_code=InvalidSirenError,
-    handler=create_exception_handler(
-        status.HTTP_400_BAD_REQUEST, "Numéro Siren invalide."
-    ),
+    handler=create_exception_handler(),
+)
+
+app.add_exception_handler(
+    exc_class_or_status_code=InvalidParamError,
+    handler=create_exception_handler(),
 )

@@ -10,6 +10,9 @@ from app.controller.field_validation import (
     VALID_FIELD_VALUES,
     VALID_FIELDS_TO_SELECT,
 )
+from app.exceptions.exceptions import (
+    InvalidParamError,
+)
 from app.utils.helpers import (
     check_params_are_none_except_excluded,
     clean_str,
@@ -83,7 +86,7 @@ class SearchParams(BaseModel):
         try:
             int(value)
         except ValueError:
-            raise ValueError(
+            raise InvalidParamError(
                 f"Veuillez indiquer un paramètre `{info.field_name}` entier."
             )
         return int(value)
@@ -95,7 +98,7 @@ class SearchParams(BaseModel):
                 raise ValueError
             float(value)
         except ValueError:
-            raise ValueError(
+            raise InvalidParamError(
                 f"Veuillez indiquer un paramètre `{info.field_name}` flottant."
             )
         return float(value)
@@ -114,7 +117,7 @@ class SearchParams(BaseModel):
     def check_if_number_in_range(cls, value, info):
         limits = NUMERIC_FIELD_LIMITS.get(info.field_name)
         if value < limits.get("min") or value > limits.get("max"):
-            raise ValueError(
+            raise InvalidParamError(
                 f"Veuillez indiquer un paramètre `{info.field_name}` entre "
                 f"`{limits.get('min')}` et `{limits.get('max')}`, "
                 f"par défaut `{limits['default']}`."
@@ -157,7 +160,7 @@ class SearchParams(BaseModel):
         for value in list_values:
             valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
             if not re.search(valid_values, value):
-                raise ValueError(
+                raise InvalidParamError(
                     f"Au moins une valeur du paramètre {info.field_name} "
                     "est non valide."
                 )
@@ -177,7 +180,7 @@ class SearchParams(BaseModel):
         valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
         for value in list_of_values:
             if value not in valid_values:
-                raise ValueError(
+                raise InvalidParamError(
                     f"Au moins un paramètre "
                     f"`{VALID_FIELD_VALUES.get(info.field_name)['alias']}` "
                     f"est non valide. "
@@ -189,7 +192,7 @@ class SearchParams(BaseModel):
     def field_must_be_in_valid_list(cls, value: str, info) -> str:
         valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
         if value not in valid_values:
-            raise ValueError(
+            raise InvalidParamError(
                 f"Le paramètre `{VALID_FIELD_VALUES.get(info.field_name)['alias']}` "
                 f"doit prendre une des valeurs suivantes {valid_values}."
             )
@@ -219,7 +222,9 @@ class SearchParams(BaseModel):
     def convert_str_to_bool(cls, boolean: str, info) -> bool:
         param_name = info.field_name
         if boolean.upper() not in ["TRUE", "FALSE"]:
-            raise ValueError(f"{param_name} doit prendre la valeur 'true' ou 'false' !")
+            raise InvalidParamError(
+                f"{param_name} doit prendre la valeur 'true' ou 'false' !"
+            )
         return boolean.upper() == "TRUE"
 
     @field_validator("est_societe_mission", mode="after")
@@ -230,7 +235,7 @@ class SearchParams(BaseModel):
     def check_str_length(cls, field_value: str, info) -> str:
         field_length = FIELD_LENGTHS.get(info.field_name)
         if len(field_value) != field_length:
-            raise ValueError(
+            raise InvalidParamError(
                 f"Le paramètre `{info.field_name}` "
                 f"doit contenir {field_length} caractères."
             )
@@ -241,7 +246,7 @@ class SearchParams(BaseModel):
         min_value_len = FIELD_LENGTHS.get(info.field_name)
         for value in list_values:
             if len(value) < min_value_len:
-                raise ValueError(
+                raise InvalidParamError(
                     """Chaque identifiant code insee d'une collectivité
                     territoriale doit contenir au moins 2 caractères."""
                 )
@@ -258,7 +263,7 @@ class SearchParams(BaseModel):
         try:
             return date.fromisoformat(date_string)
         except Exception:
-            raise ValueError(
+            raise InvalidParamError(
                 "Veuillez indiquer une date sous "
                 "le format : aaaa-mm-jj. Exemple : '1990-01-02'"
             )
@@ -274,7 +279,7 @@ class SearchParams(BaseModel):
                 valid_fields_lowercase = [
                     field.lower() for field in valid_fields_to_check
                 ]
-                raise ValueError(
+                raise InvalidParamError(
                     "Au moins un champ à inclure est non valide. "
                     f"Les champs valides : {valid_fields_lowercase}."
                 )
@@ -286,7 +291,7 @@ class SearchParams(BaseModel):
         page = self.page
         per_page = self.per_page
         if page * per_page > NUMERIC_FIELD_LIMITS["total_results"]["max"]:
-            raise ValueError(
+            raise InvalidParamError(
                 "Le nombre total de résultats est restreint à 10 000. "
                 "Pour garantir cela, le produit du numéro de page "
                 "(par défaut, page = 1) et du nombre de résultats par page "
@@ -301,7 +306,7 @@ class SearchParams(BaseModel):
         max_date_naiss = self.max_date_naiss_personne
         if min_date_naiss and max_date_naiss:
             if max_date_naiss < min_date_naiss:
-                raise ValueError(
+                raise InvalidParamError(
                     "Veuillez indiquer une date minimale inférieure à la date maximale."
                 )
         return self
@@ -311,7 +316,7 @@ class SearchParams(BaseModel):
         include = self.include
         minimal = self.minimal
         if include and (minimal is None or minimal is False):
-            raise ValueError(
+            raise InvalidParamError(
                 "Veuillez indiquer si vous souhaitez une réponse minimale "
                 "avec le filtre `minimal=True`` avant de préciser les "
                 "champs à inclure."
@@ -323,7 +328,8 @@ class SearchParams(BaseModel):
         """
         If all parameters are empty (except matching size and pagination
         because they always have a default value) raise value error
-        Check if all non-default parameters are empty, raise a ValueError if they are
+        Check if all non-default parameters are empty, raise a InvalidParamError
+        if they are
         """
         excluded_fields = [
             "page",
@@ -340,7 +346,9 @@ class SearchParams(BaseModel):
             self.dict(exclude_unset=True), excluded_fields
         )
         if all_fields_are_null_except_excluded:
-            raise ValueError("Veuillez indiquer au moins un paramètre de recherche.")
+            raise InvalidParamError(
+                "Veuillez indiquer au moins un paramètre de recherche."
+            )
         return self
 
     @model_validator(mode="after")
@@ -369,7 +377,7 @@ class SearchParams(BaseModel):
             and len(self.terms) < FIELD_LENGTHS["terms"]
             and all_fields_are_null_except_excluded
         ):
-            raise ValueError(
+            raise InvalidParamError(
                 "3 caractères minimum pour les termes de la requête "
                 + "(ou utilisez au moins un filtre)"
             )
@@ -378,7 +386,9 @@ class SearchParams(BaseModel):
     @model_validator(mode="after")
     def check_if_both_lon_and_lat_are_given(self):
         if (self.lat is None) and (self.lon is not None):
-            raise ValueError("Veuillez indiquer une latitude entre -90° et 90°.")
+            raise InvalidParamError("Veuillez indiquer une latitude entre -90° et 90°.")
         if (self.lon is None) and (self.lat is not None):
-            raise ValueError("Veuillez indiquer une longitude entre -180° et 180°.")
+            raise InvalidParamError(
+                "Veuillez indiquer une longitude entre -180° et 180°."
+            )
         return self

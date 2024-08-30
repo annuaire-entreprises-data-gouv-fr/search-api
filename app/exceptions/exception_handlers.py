@@ -9,6 +9,7 @@ from app.exceptions.exceptions import (
     InternalError,
     InvalidParamError,
     InvalidSirenError,
+    NotFoundError,
     SearchApiError,
 )
 
@@ -65,4 +66,5 @@ async def unhandled_exception_handler(
 def add_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(InvalidSirenError, create_exception_handler())
     app.add_exception_handler(InvalidParamError, create_exception_handler())
+    app.add_exception_handler(NotFoundError, create_exception_handler())
     app.add_exception_handler(Exception, unhandled_exception_handler)

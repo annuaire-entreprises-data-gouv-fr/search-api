@@ -6,7 +6,7 @@ class SearchApiError(Exception):
 
     def __init__(
         self,
-        message: str = "Service is unavailable",
+        message: str = "Service is unavailable.",
         name: str = "API Recherche des entreprises",
         status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR,
     ):
@@ -46,4 +46,15 @@ class InternalError(SearchApiError):
             message=message,
             name="",
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
+class NotFoundError(SearchApiError):
+    """Resource not found error"""
+
+    def __init__(self, message="Ressource non trouvée."):
+        super().__init__(
+            message=message,
+            name="",
+            status_code=status.HTTP_404_NOT_FOUND,
         )

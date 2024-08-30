@@ -6,6 +6,7 @@ from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
 from fastapi import FastAPI, Request
 from fastapi.responses import ORJSONResponse
+from sentry_sdk import capture_exception, push_scope
 
 from app.config import (
     APM_CONFIG,
@@ -16,6 +17,7 @@ from app.config import (
     OPEN_API_PATH,
 )
 from app.exceptions.exceptions import (
+    InternalError,
     InvalidParamError,
     InvalidSirenError,
     SearchApiError,
@@ -68,19 +70,21 @@ app.include_router(admin.router)
 def create_exception_handler(
     status_code: int = 500, initial_detail: str = "Service is unavailable"
 ) -> Callable[[Request, SearchApiError], ORJSONResponse]:
-    detail = {"status_code": status_code, "message": initial_detail}
     # Using a dictionary to hold the detail
-    logging.info(f"*********{detail}")
+    detail = {"status_code": status_code, "message": initial_detail}
 
-    async def exception_handler(_: Request, exc: SearchApiError) -> ORJSONResponse:
+    async def exception_handler(
+        request: Request, exc: SearchApiError
+    ) -> ORJSONResponse:
         if exc.message:
             detail["message"] = exc.message
-            logging.info(f"/////////{detail['message']}")
 
         if exc.status_code:
             detail["status_code"] = exc.status_code
-            logging.info(f"/////////{detail['status_code']}")
-
+        if isinstance(exc, InvalidParamError):
+            with push_scope() as scope:
+                scope.fingerprint = ["TESTING"]
+                logging.warning(f"InvalidParamError: {exc.message}")
         return ORJSONResponse(
             status_code=detail["status_code"],
             content={"status_code": detail["status_code"], "detail": detail["message"]},
@@ -98,3 +102,34 @@ app.add_exception_handler(
     exc_class_or_status_code=InvalidParamError,
     handler=create_exception_handler(),
 )
+
+
+# Add a catch-all exception handler for any unhandled exceptions
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(
+    request: Request, exc: Exception
+) -> ORJSONResponse:
+    # Log the full exception details
+    logging.error(f"Unhandled exception occurred: {exc}", exc_info=True)
+
+    # Use Sentry to capture the exception
+    with push_scope() as scope:
+        scope.set_context(
+            "request",
+            {
+                "url": str(request.url),
+                "method": request.method,
+                "headers": dict(request.headers),
+                "query_params": dict(request.query_params),
+            },
+        )
+        capture_exception(exc)
+
+    # Create an InternalError with a generic message
+    internal_error = InternalError(
+        "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
+    )
+
+    # Use the create_exception_handler to handle the InternalError
+    handler = create_exception_handler()
+    return await handler(request, internal_error)

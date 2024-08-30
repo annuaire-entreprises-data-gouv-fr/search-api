@@ -3,7 +3,6 @@ from datetime import timedelta
 
 from fastapi.responses import JSONResponse
 
-from app.decorators.http_exception import http_exception_handler
 from app.elastic.parsers.siren import is_siren
 from app.elastic.queries.search_by_siren import search_index_by_siren
 from app.exceptions.exceptions import InvalidSirenError
@@ -26,7 +25,6 @@ def get_metadata_json():
     return fetch_json_from_url(URL_CC_JSON)
 
 
-@http_exception_handler
 def get_metadata_cc_response():
     cache_key = "cc_kali_json"
     json_content = cache_strategy(

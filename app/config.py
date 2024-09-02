@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 from dotenv import load_dotenv
 
@@ -13,7 +14,9 @@ DSN_SENTRY = os.getenv("DSN_SENTRY")
 # Other configuration constants
 CURRENT_ENV = os.getenv("CURRENT_ENV", "dev")
 APM_URL = os.getenv("APM_URL")
-OPEN_API_PATH = "doc/open-api.yml"
+BASE_DIR = pathlib.Path(__file__).parent
+OPEN_API_PATH = BASE_DIR / "doc" / "open-api.yml"
+
 
 # Elastic APM configuration
 APM_CONFIG = {

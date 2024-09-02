@@ -539,7 +539,7 @@ paths:
           in: query
           description: >-
             ATTENTION : Ce paramètre ne peut être
-            appelé qu'avec le champs "minimal=True".
+            appelé qu'avec le champ "minimal=True".
 
 
             Permet de ne demander que certains des champs secondaires.
@@ -600,11 +600,13 @@ paths:
                         nom_complet:
                           type: string
                           description: >-
-                            Champs construit depuis les champs de dénomination :
-                            denomination de l'unité légale | Nom et prénom | Nom inconnu
-                            (dénomination usuelle : construite à partir des trois
-                            champs de dénomination usuelle de la base SIRENE) (sigle de
-                            l'unité légale).
+                            Champ construit depuis les champs de dénomination :
+                            dénomination de l'unité légale | Nom et prénom | Nom inconnu
+                            (dénomination usuelle : Construite en priorité à partir de
+                            la dénomination usuelle de l'établissement siège.
+                            Si cette dernière n'existe pas, elle est construite à
+                            partir des trois champs de dénomination usuelle de l'unité
+                            légale. source : base SIRENE) (sigle de l'unité légale)
                           example: "la poste"
                         nom_raison_sociale:
                           type: string
@@ -657,7 +659,7 @@ paths:
                                 DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
                                 PIERRE AVIA 75015 PARIS 15
                               description: >-
-                                Champs construit depuis les champs d'adresse de la
+                                Champ construit depuis les champs d'adresse de la
                                 base SIRENE : *complement adresse + numéro voie +
                                 indice repetition + type voie + libelle voie +
                                 distribution spéciale + (code postal + libelle
@@ -916,6 +918,16 @@ paths:
                               type: string
                               example: "35600000000048"
                               description: le numéro unique de l'établissement siège.
+                            statut_diffusion_etablissement:
+                              type: string
+                              example: "O"
+                              description: >-
+                                Statut de diffusion de l'établissement.
+                                Toutes les établissements diffusibles ont le statut de
+                                diffusion à "O". Les établissements ayant fait
+                                l'objet d'une demande d'opposition ont le statut de
+                                diffusion à "P" pour diffusion partielle
+                                (source : base SIRENE).
                             tranche_effectif_salarie:
                               type: string
                               example: "41"
@@ -1021,12 +1033,19 @@ paths:
                                 example: >-
                                   19 RUE DE LA POSTE 31700 CORNEBARRIEU
                                 description: >-
-                                  Champs construit depuis les champs d'adresse de la
+                                  Champ construit depuis les champs d'adresse de la
                                   base SIRENE : *complement adresse + numéro voie +
                                   indice repetition + type voie + libelle voie +
                                   distribution spéciale + (code postal + libelle
                                   commune | cedex + libelle cedex) + libelle commune
                                   étranger + libelle pays étranger*
+                              annee_tranche_effectif_salarie:
+                                type: string
+                                nullable: true
+                                example: "2020"
+                                description: >-
+                                  Année de validité de la tranche d'effectif salarié de
+                                  l'établissement (source : base SIRENE).
                               ancien_siege:
                                 type: boolean
                                 example: false
@@ -1038,6 +1057,15 @@ paths:
                                 example: "O"
                                 description: >-
                                   Caractère employeur de l'établissement (source : base SIRENE).
+                              code_postal:
+                                type: string
+                                nullable: true
+                                pattern: >-
+                                  ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                                example: "75015"
+                                description: >-
+                                  Le code postal de l'adresse de l'établissement
+                                  (source : base SIRENE).
                               commune:
                                 type: string
                                 example: "75115"
@@ -1045,6 +1073,34 @@ paths:
                                   Le code géographique de la commune de localisation de
                                   l'établissement, hors adresse à l'étranger (source :
                                   base SIRENE).
+                              date_creation:
+                                type: string
+                                nullable: true
+                                format: date
+                                description: >-
+                                  Date de création de l'établissement (source : base
+                                  SIRENE).
+                              date_debut_activite:
+                                type: string
+                                format: date
+                                nullable: true
+                                example: "2014-04-29"
+                                description: >-
+                                  Date de début d'une période de l'historique d'un
+                                  établissement (source : base SIRENE).
+                              date_fermeture:
+                                type: string
+                                nullable: true
+                                format: date
+                                description: >-
+                                  Date de fermeture de l'établissement (source : base
+                                  historique SIRENE).
+                              epci:
+                                type: string
+                                nullable: true
+                                example: "200058519"
+                                description: >-
+                                  Numéro siren de l'EPCI.
                               est_siege:
                                 type: boolean
                                 example: false
@@ -1108,6 +1164,20 @@ paths:
                                 items:
                                   type: string
                                 example: [ "0923" ]
+                              liste_id_organisme_formation:
+                                type: array
+                                description: >-
+                                  Liste des numéro de déclaration d'activité des
+                                  établissement organismes de formation
+                                  (source : Ministère du Travail).
+                              liste_id_bio:
+                                type: array
+                                description: >-
+                                  Liste des identifiants bio de l'établissement
+                                  (source : Agence Bio).
+                                items:
+                                  type: string
+                                example: ["0923"]
                               liste_rge:
                                 type: array
                                 items:
@@ -1149,16 +1219,20 @@ paths:
                                 description: >-
                                   Région de l'établissement (source :
                                   base SIRENE).
-                              epci:
-                                type: string
-                                nullable: true
-                                example: "200058519"
-                                description: >-
-                                  Numéro siren de l'EPCI.
                               siret:
                                 type: string
                                 example: "35600000000048"
                                 description: le numéro unique de l'établissement.
+                              statut_diffusion_etablissement:
+                                type: string
+                                example: "O"
+                                description: >-
+                                  Statut de diffusion de l'établissement.
+                                  Toutes les établissements diffusibles ont le statut de
+                                  diffusion à "O". Les établissements ayant fait
+                                  l'objet d'une demande d'opposition ont le statut de
+                                  diffusion à "P" pour diffusion partielle
+                                  (source : base SIRENE).
                               tranche_effectif_salarie:
                                 type: string
                                 nullable: true
@@ -1456,7 +1530,7 @@ paths:
           in: query
           description: >-
             ATTENTION : Ce paramètre ne peut être
-            appelé qu'avec le champs "minimal=True".
+            appelé qu'avec le champ "minimal=True".
 
 
             Permet de ne demander que certains des champs secondaires.
@@ -1516,11 +1590,13 @@ paths:
                         nom_complet:
                           type: string
                           description: >-
-                            Champs construit depuis les champs de dénomination :
-                            denomination de l'unité légale | Nom et prénom | Nom inconnu
-                            (dénomination usuelle : construite à partir des trois
-                            champs de dénomination usuelle de la base SIRENE) (sigle
-                            de l'unité légale)
+                            Champ construit depuis les champs de dénomination :
+                            dénomination de l'unité légale | Nom et prénom | Nom inconnu
+                            (dénomination usuelle : Construite en priorité à partir de
+                            la dénomination usuelle de l'établissement siège.
+                            Si cette dernière n'existe pas, elle est construite à
+                            partir des trois champs de dénomination usuelle de l'unité
+                            légale. source : base SIRENE) (sigle de l'unité légale)
                           example: "la poste"
                         nom_raison_sociale:
                           type: string
@@ -1573,7 +1649,7 @@ paths:
                                 DIRECTION GENERALE DE LA POSTE 9 RUE DU COLONEL
                                 PIERRE AVIA 75015 PARIS 15
                               description: >-
-                                Champs construit depuis les champs d'adresse de la
+                                Champ construit depuis les champs d'adresse de la
                                 base SIRENE : *complement adresse + numéro voie +
                                 indice repetition + type voie + libelle voie +
                                 distribution spéciale + (code postal + libelle commune |
@@ -1830,6 +1906,16 @@ paths:
                               type: string
                               example: "35600000000048"
                               description: le numéro unique de l'établissement siège.
+                            statut_diffusion_etablissement:
+                              type: string
+                              example: "O"
+                              description: >-
+                                Statut de diffusion de l'établissement.
+                                Toutes les établissements diffusibles ont le statut de
+                                diffusion à "O". Les établissements ayant fait
+                                l'objet d'une demande d'opposition ont le statut de
+                                diffusion à "P" pour diffusion partielle
+                                (source : base SIRENE).
                             tranche_effectif_salarie:
                               type: string
                               example: "41"
@@ -1936,7 +2022,7 @@ paths:
                                 example: >-
                                   19 RUE DE LA POSTE 31700 CORNEBARRIEU
                                 description: >-
-                                  Champs construit depuis les champs d'adresse de la
+                                  Champ construit depuis les champs d'adresse de la
                                   base SIRENE : *complement adresse + numéro voie +
                                   indice repetition + type voie + libelle voie +
                                   distribution spéciale + (code postal + libelle
@@ -1948,11 +2034,27 @@ paths:
                                 description: >-
                                   L'établissement était le siège de
                                   l'unité légale (source : base SIRENE).
+                              annee_tranche_effectif_salarie:
+                                type: string
+                                nullable: true
+                                example: "2020"
+                                description: >-
+                                  Année de validité de la tranche d'effectif salarié de
+                                  l'établissement (source : base SIRENE).
                               caractere_employeur:
                                 type: string
                                 example: "O"
                                 description: >-
                                   Caractère employeur de l'établissement (source : base SIRENE).
+                              code_postal:
+                                type: string
+                                nullable: true
+                                pattern: >-
+                                  ^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$
+                                example: "75015"
+                                description: >-
+                                  Le code postal de l'adresse de l'établissement
+                                  (source : base SIRENE).
                               commune:
                                 type: string
                                 example: "31150"
@@ -1960,6 +2062,34 @@ paths:
                                   Le code géographique de la commune de localisation de
                                   l'établissement, hors adresse à l'étranger (source :
                                   base SIRENE).
+                              date_creation:
+                                type: string
+                                nullable: true
+                                format: date
+                                description: >-
+                                  Date de création de l'établissement (source : base
+                                  SIRENE).
+                              date_debut_activite:
+                                type: string
+                                format: date
+                                nullable: true
+                                example: "2014-04-29"
+                                description: >-
+                                  Date de début d'une période de l'historique d'un
+                                  établissement (source : base SIRENE).
+                              date_fermeture:
+                                type: string
+                                nullable: true
+                                format: date
+                                description: >-
+                                  Date de fermeture de l'établissement (source : base
+                                  historique SIRENE).
+                              epci:
+                                type: string
+                                nullable: true
+                                example: "200058519"
+                                description: >-
+                                  Numéro siren de l'EPCI.
                               est_siege:
                                 type: boolean
                                 example: false
@@ -2015,6 +2145,14 @@ paths:
                                   type: string
                                   nullable: true
                                 example: [ "950000364" ]
+                              liste_id_bio:
+                                type: array
+                                description: >-
+                                  Liste des identifiants bio de l'établissement
+                                  (source : Agence Bio).
+                                items:
+                                  type: string
+                                example: ["0923"]
                               liste_idcc:
                                 type: array
                                 description: >-
@@ -2022,6 +2160,12 @@ paths:
                                   (source : Ministère du travail).
                                 items:
                                   type: string
+                              liste_id_organisme_formation:
+                                type: array
+                                description: >-
+                                  Liste des numéro de déclaration d'activité des
+                                  établissement organismes de formation
+                                  (source : Ministère du Travail).
                                 example: [ "0923" ]
                               liste_rge:
                                 type: array
@@ -2064,16 +2208,20 @@ paths:
                                 description: >-
                                   Région de l'établissement (source :
                                   base SIRENE).
-                              epci:
-                                type: string
-                                nullable: true
-                                example: "200058519"
-                                description: >-
-                                  Numéro siren de l'EPCI.
                               siret:
                                 type: string
                                 example: "35600000000048"
                                 description: le numéro unique de l'établissement.
+                              statut_diffusion_etablissement:
+                                type: string
+                                example: "O"
+                                description: >-
+                                  Statut de diffusion de l'établissement.
+                                  Toutes les établissements diffusibles ont le statut de
+                                  diffusion à "O". Les établissements ayant fait
+                                  l'objet d'une demande d'opposition ont le statut de
+                                  diffusion à "P" pour diffusion partielle
+                                  (source : base SIRENE).
                               tranche_effectif_salarie:
                                 type: string
                                 nullable: true

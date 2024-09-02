@@ -2,6 +2,7 @@ import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
 from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
 
 from app.config import (
     APM_CONFIG,
@@ -60,6 +61,12 @@ app.include_router(admin.router)
 
 # Add exception handlers
 add_exception_handlers(app)
+
+
+# Redirect /docs to /docs/
+@app.get("/docs", include_in_schema=False)
+async def docs_redirect():
+    return RedirectResponse(url="/docs/")
 
 
 # Catch-all route for 404 errors

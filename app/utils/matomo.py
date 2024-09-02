@@ -8,6 +8,7 @@ import urllib
 
 import requests
 from dotenv import load_dotenv
+from fastapi import Request
 
 load_dotenv()
 
@@ -34,7 +35,8 @@ async def track_api_call_via_matomo(request, timeout=5):
     """
     try:
         rec = 1  # Required for tracking
-        url = f"https://recherche-entreprises.api.gouv.fr{str(request.rel_url)}"
+        relative_url = request.url.path + "?" + request.url.query
+        url = f"https://recherche-entreprises.api.gouv.fr{str(relative_url)}"
         action_name = "Recherche API"
         _id = generate_unique_visitor_id(request)
 
@@ -50,18 +52,18 @@ async def track_api_call_via_matomo(request, timeout=5):
 
         tracking_data = urllib.parse.urlencode(tracking_params)
         tracking_url = TRACKING_URL + tracking_data
-        requests.get(tracking_url, timeout=timeout)
+        await requests.get(tracking_url, timeout=timeout)
     except Exception as error:
         logging.info(f"Matomo logging failed: {error}")
 
 
-def generate_unique_visitor_id(request):
+def generate_unique_visitor_id(request: Request):
     """
     This function extracts the IP address and user-agent from an HTTP request to create
     a unique identifier for tracking visitors on Matomo.
     """
     real_ip = request.headers.get("X-Real-Ip")
-    forwarded_for = request.headers.get("X-Forwarded-For") or request.remote
+    forwarded_for = request.headers.get("X-Forwarded-For") or request.client.host
 
     ip_address = (
         forwarded_for.split(",")[0].strip()
@@ -87,7 +89,7 @@ def generate_unique_visitor_id(request):
     return hashed_id
 
 
-def track_event(request):
+def track_event(request: Request):
     """
     Track an event based on a random probability.
     """

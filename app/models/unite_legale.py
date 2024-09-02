@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class Etablissement(BaseModel):
     activite_principale: str | None = None
     activite_principale_registre_metier: str | None = None
+    ancien_siege: bool | None = None
     annee_tranche_effectif_salarie: str | None = None
     adresse: str | None = None
     caractere_employeur: str | None = None

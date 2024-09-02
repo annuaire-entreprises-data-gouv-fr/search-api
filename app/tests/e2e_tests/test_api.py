@@ -46,7 +46,7 @@ def test_error_query(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "Veuillez indiquer au moins un paramètre de recherche."
     )
 
@@ -67,7 +67,7 @@ def test_format_date_naissance(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "Veuillez indiquer une date sous le format : aaaa-mm-jj. "
         "Exemple : '1990-01-02'"
     )
@@ -81,7 +81,7 @@ def test_query_too_short(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "3 caractères minimum pour les termes de la requête "
         "(ou utilisez au moins un filtre)"
     )
@@ -103,7 +103,7 @@ def test_terms_empty_only(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "3 caractères minimum pour les termes de la requête "
         "(ou utilisez au moins un filtre)"
     )
@@ -175,7 +175,7 @@ def test_near_point(api_response_tester):
     invalid_path = "near_point?lat=48&long=2&radius=0"
     api_response_tester.assert_api_response_code_400(invalid_path)
     invalid_response = api_response_tester.get_api_response(invalid_path)
-    error_message = invalid_response.json()["detail"]
+    error_message = invalid_response.json()["erreur"]
 
     expected_error_message = (
         f"Veuillez indiquer un paramètre `radius` entre `{MIN_RADIUS}` et "
@@ -200,7 +200,7 @@ def test_banned_param(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "Veuillez indiquer au moins un paramètre de recherche."
     )
 
@@ -237,7 +237,7 @@ def test_page_number(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"] == "Veuillez indiquer un paramètre `page` entre `1` "
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `page` entre `1` "
         "et `1000`, par défaut `1`."
     )
 
@@ -250,7 +250,7 @@ def test_min_per_page(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"] == "Veuillez indiquer un paramètre `per_page` "
+        response.json()["erreur"] == "Veuillez indiquer un paramètre `per_page` "
         "entre `1` et `25`, par défaut `10`."
     )
 
@@ -526,7 +526,7 @@ def test_date_naiss_interval(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "Veuillez indiquer une date minimale inférieure à la date maximale."
     )
 
@@ -572,7 +572,7 @@ def test_minimal_fail(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "Veuillez indiquer si vous souhaitez une réponse minimale avec le filtre "
         "`minimal=True`` avant de préciser les champs à inclure."
     )
@@ -608,7 +608,7 @@ def test_near_point_nan_values(api_response_tester):
     path = "near_point?lat=nan&long=nan"
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
-    assert response.json()["detail"] == "Veuillez indiquer un paramètre `lat` flottant."
+    assert response.json()["erreur"] == "Veuillez indiquer un paramètre `lat` flottant."
 
 
 def test_near_point_without_lat(api_response_tester):
@@ -619,7 +619,7 @@ def test_near_point_without_lat(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"] == "Veuillez indiquer une latitude entre -90° et 90°."
+        response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
     )
 
 
@@ -631,7 +631,7 @@ def test_minimal_param_only(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert (
-        response.json()["detail"]
+        response.json()["erreur"]
         == "Veuillez indiquer au moins un paramètre de recherche."
     )
 

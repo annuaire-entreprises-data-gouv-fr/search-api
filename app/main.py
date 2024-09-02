@@ -40,7 +40,6 @@ app = FastAPI(
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
-    logging.info(f"+++++++++++{OPEN_API_PATH}")
     with open(OPEN_API_PATH) as file:
         openapi_schema = yaml.safe_load(file)
     app.openapi_schema = openapi_schema

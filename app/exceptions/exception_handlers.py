@@ -32,7 +32,7 @@ def create_exception_handler(
 
         return ORJSONResponse(
             status_code=detail["status_code"],
-            content={"status_code": detail["status_code"], "detail": detail["message"]},
+            content={"erreur": detail["message"]},
         )
 
     return exception_handler

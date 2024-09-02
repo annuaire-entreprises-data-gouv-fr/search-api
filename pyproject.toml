@@ -1,13 +1,13 @@
 [tool.ruff]
 # Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F", "I", "UP", "PL"]
-ignore = []
+lint.select = ["E", "F", "I", "UP", "PL"]
+lint.ignore = []
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
-fixable = ["A", "B", "C", "D", "E", "F", "I"]
-unfixable = []
+lint.fixable = ["A", "B", "C", "D", "E", "F", "I"]
+lint.unfixable = []
 
-[tool.ruff.pylint]
+[tool.ruff.lint.pylint]
 max-args = 20
 max-branches = 20
 max-statements = 60

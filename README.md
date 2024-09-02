@@ -16,7 +16,7 @@ Ce repository fait partie [d'un ensemble de services qui constituent l'Annuaire 
 ## A propos de l'architecture
 
 * `Elasticsearh` est le moteur de recherche utilisé pour indexer et requêter sur les données
-* `aiohttp` est le HTTP client/server framework utilisé
+* `FastAPI` est le HTTP framework utilisé pour construire l'API
 * `Sentry` est utilisé pour le monitoring et le tracking des erreurs
 
 ## Sources de données

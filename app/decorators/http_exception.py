@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from sentry_sdk import capture_exception, push_scope
 
 from app.exceptions.siren import InvalidSirenError
-from app.response.helpers import serialize_error_text
+from app.utils.helpers import serialize_error_text
 
 
 def http_exception_handler(func):

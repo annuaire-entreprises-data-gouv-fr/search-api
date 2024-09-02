@@ -14,7 +14,7 @@ from app.config import (
     OPEN_API_PATH,
 )
 from app.logging import setup_logging, setup_sentry
-from app.router import router
+from app.routers import admin, public
 
 # Setup logging
 setup_logging()
@@ -53,5 +53,6 @@ if CURRENT_ENV == "prod":
     app.add_middleware(ElasticAPM, client=apm_client)
     setup_sentry()
 
-# Include the router
-app.include_router(router)
+# Include routers
+app.include_router(public.router)
+app.include_router(admin.router)

@@ -2,7 +2,7 @@ import json
 import logging
 from collections.abc import Callable
 
-from app.response.helpers import hash_string
+from app.utils.helpers import hash_string
 from app.utils.redis import RedisClient
 
 

@@ -3,10 +3,9 @@ from datetime import timedelta
 
 from fastapi.responses import JSONResponse
 
-from app.decorators.http_exception import http_exception_handler
 from app.elastic.parsers.siren import is_siren
 from app.elastic.queries.search_by_siren import search_index_by_siren
-from app.exceptions.siren import InvalidSirenError
+from app.exceptions.exceptions import InvalidSirenError
 from app.models.response import CcResponseModel
 from app.service.formatters.convention_collective import (
     extract_idcc_siret_mapping_from_ul,
@@ -26,7 +25,6 @@ def get_metadata_json():
     return fetch_json_from_url(URL_CC_JSON)
 
 
-@http_exception_handler
 def get_metadata_cc_response():
     cache_key = "cc_kali_json"
     json_content = cache_strategy(
@@ -38,7 +36,6 @@ def get_metadata_cc_response():
     return JSONResponse(json_content)
 
 
-@http_exception_handler
 def fetch_idcc_siret_mapping(siren):
     """
     Retrieves the detailed list of SIRET numbers associated with an IDCC for a

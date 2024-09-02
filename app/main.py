@@ -1,9 +1,7 @@
-import logging
-
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 from app.config import (
     APM_CONFIG,
@@ -12,6 +10,10 @@ from app.config import (
     ELASTIC_URL,
     ELASTIC_USER,
     OPEN_API_PATH,
+)
+from app.exceptions.exception_handlers import add_exception_handlers
+from app.exceptions.exceptions import (
+    NotFoundError,
 )
 from app.logging import setup_logging, setup_sentry
 from app.routers import admin, public
@@ -38,7 +40,6 @@ app = FastAPI(
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
-    logging.info(f"+++++++++++{OPEN_API_PATH}")
     with open(OPEN_API_PATH) as file:
         openapi_schema = yaml.safe_load(file)
     app.openapi_schema = openapi_schema
@@ -56,3 +57,12 @@ if CURRENT_ENV == "prod":
 # Include routers
 app.include_router(public.router)
 app.include_router(admin.router)
+
+# Add exception handlers
+add_exception_handlers(app)
+
+
+# Catch-all route for 404 errors
+@app.api_route("/{path_name:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def catch_all(request: Request, path_name: str):
+    raise NotFoundError()

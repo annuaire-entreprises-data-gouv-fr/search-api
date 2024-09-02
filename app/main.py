@@ -32,7 +32,7 @@ app = FastAPI(
     title="API Recherche d'entreprises",
     version="1.0.0",
     docs_url=None,
-    redoc_url="/docs/",
+    redoc_url="/docs",
 )
 
 

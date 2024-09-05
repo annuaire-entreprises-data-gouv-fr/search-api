@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict
 
-from pydantic import AnyHttpUrl, Field, SecretStr
+from pydantic import AnyHttpUrl, Field, SecretStr, validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,9 +21,15 @@ class APMConfig(BaseSettings):
 
 
 class DocsConfig(BaseSettings):
-    path: Path = Field(
+    doc_path: Path = Field(
         default_factory=lambda: Path(__file__).parent / "doc" / "open-api.yml"
     )
+
+    @validator("doc_path")
+    def validate_path(cls, v):
+        if not v.exists():
+            raise ValueError(f"The specified path does not exist: {v}")
+        return v
 
 
 class Settings(BaseSettings):

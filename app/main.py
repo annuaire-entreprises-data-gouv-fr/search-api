@@ -35,7 +35,7 @@ app = FastAPI(
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
-    with open(settings.openapi.path) as file:
+    with open(settings.openapi.doc_path) as file:
         openapi_schema = yaml.safe_load(file)
     app.openapi_schema = openapi_schema
     return app.openapi_schema

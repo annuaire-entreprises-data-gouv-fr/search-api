@@ -19,7 +19,7 @@ class RedisClient(metaclass=Singleton):
     def __init__(self):
         host = settings.redis.host
         port = settings.redis.port
-        db = settings.redis.databse
+        db = settings.redis.database
         password = settings.redis.password.get_secret_value()
 
         # Connecting to redis client

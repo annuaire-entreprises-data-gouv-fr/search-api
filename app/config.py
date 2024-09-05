@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from pydantic import AnyHttpUrl, Field, SecretStr, validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -73,7 +73,7 @@ class Settings(BaseSettings):
     sentry: SentryConfig = Field(...)
 
     @property
-    def apm_config(self) -> Dict[str, Any]:
+    def apm_config(self) -> dict[str, Any]:
         return {
             "ENVIRONMENT": self.env,
             "SERVER_URL": str(self.apm.url),

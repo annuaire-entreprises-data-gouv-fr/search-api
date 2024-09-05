@@ -40,6 +40,10 @@ class MatomoConfig(BaseSettings):
     tracking_url: AnyHttpUrl = Field(...)
 
 
+class MetadataConfig(BaseSettings):
+    url_cc_json: AnyHttpUrl = Field(...)
+
+
 class SentryConfig(BaseSettings):
     dsn: AnyHttpUrl = Field(...)
 
@@ -63,6 +67,7 @@ class Settings(BaseSettings):
     elastic: ElasticConfig = Field(...)
     env: str = Field(...)
     matomo: MatomoConfig = Field(...)
+    metadata: MetadataConfig = Field(...)
     openapi: DocsConfig = Field(default_factory=DocsConfig)
     redis: RedisConfig = Field(...)
     sentry: SentryConfig = Field(...)

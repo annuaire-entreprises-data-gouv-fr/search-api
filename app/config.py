@@ -57,7 +57,7 @@ class Settings(BaseSettings):
     def apm_config(self) -> Dict[str, Any]:
         return {
             "SERVICE_NAME": self.apm.service_name,
-            "SERVER_URL": self.apm.url,
+            "SERVER_URL": str(self.apm.url),
             "ENVIRONMENT": self.env,
         }
 

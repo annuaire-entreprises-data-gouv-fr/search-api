@@ -5,22 +5,6 @@ from pydantic import AnyHttpUrl, Field, SecretStr, validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class ElasticConfig(BaseSettings):
-    password: SecretStr = Field(...)
-    user: str = Field(...)
-    url: AnyHttpUrl = Field(...)
-
-
-class SentryConfig(BaseSettings):
-    dsn: AnyHttpUrl = Field(...)
-
-    @validator("dsn")
-    def enforce_https(cls, v):
-        if v.scheme != "https":
-            raise ValueError("Sentry DSN must use HTTPS")
-        return v
-
-
 class APMConfig(BaseSettings):
     url: AnyHttpUrl = Field(...)
     service_name: str = Field("SEARCH APM")
@@ -38,11 +22,32 @@ class DocsConfig(BaseSettings):
         return v
 
 
+class ElasticConfig(BaseSettings):
+    password: SecretStr = Field(...)
+    user: str = Field(...)
+    url: AnyHttpUrl = Field(...)
+
+
 class RedisConfig(BaseSettings):
     host: str = Field(default="redis")
     port: str = Field(default="6379")
     database: str = Field(default="0")
     password: SecretStr = Field(...)
+
+
+class MatomoConfig(BaseSettings):
+    id_site: str = Field(...)
+    tracking_url: AnyHttpUrl = Field(...)
+
+
+class SentryConfig(BaseSettings):
+    dsn: AnyHttpUrl = Field(...)
+
+    @validator("dsn")
+    def enforce_https(cls, v):
+        if v.scheme != "https":
+            raise ValueError("Sentry DSN must use HTTPS")
+        return v
 
 
 class Settings(BaseSettings):
@@ -51,22 +56,23 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
-        env_nested_delimiter="_",
+        env_nested_delimiter="__",
     )
 
-    elastic: ElasticConfig = Field(...)
-    sentry: SentryConfig = Field(...)
     apm: APMConfig = Field(...)
-    redis: RedisConfig = Field(...)
-    openapi: DocsConfig = Field(default_factory=DocsConfig)
+    elastic: ElasticConfig = Field(...)
     env: str = Field(...)
+    matomo: MatomoConfig = Field(...)
+    openapi: DocsConfig = Field(default_factory=DocsConfig)
+    redis: RedisConfig = Field(...)
+    sentry: SentryConfig = Field(...)
 
     @property
     def apm_config(self) -> Dict[str, Any]:
         return {
-            "SERVICE_NAME": self.apm.service_name,
-            "SERVER_URL": str(self.apm.url),
             "ENVIRONMENT": self.env,
+            "SERVER_URL": str(self.apm.url),
+            "SERVICE_NAME": self.apm.service_name,
         }
 
 

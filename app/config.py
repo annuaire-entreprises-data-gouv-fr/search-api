@@ -12,7 +12,7 @@ class ElasticConfig(BaseSettings):
 
 
 class SentryConfig(BaseSettings):
-    dsn: str = Field(...)
+    dsn: AnyHttpUrl = Field(...)
 
 
 class APMConfig(BaseSettings):

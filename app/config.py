@@ -1,3 +1,4 @@
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -81,4 +82,9 @@ class Settings(BaseSettings):
         }
 
 
-settings = Settings()
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+settings = get_settings()

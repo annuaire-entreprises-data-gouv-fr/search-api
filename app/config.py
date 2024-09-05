@@ -14,6 +14,12 @@ class ElasticConfig(BaseSettings):
 class SentryConfig(BaseSettings):
     dsn: AnyHttpUrl = Field(...)
 
+    @validator("dsn")
+    def enforce_https(cls, v):
+        if v.scheme != "https":
+            raise ValueError("Sentry DSN must use HTTPS")
+        return v
+
 
 class APMConfig(BaseSettings):
     url: AnyHttpUrl = Field(...)

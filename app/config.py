@@ -38,6 +38,13 @@ class DocsConfig(BaseSettings):
         return v
 
 
+class RedisConfig(BaseSettings):
+    host: str = Field(default="redis")
+    port: str = Field(default="6379")
+    database: str = Field(default="0")
+    password: SecretStr = Field(...)
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -50,6 +57,7 @@ class Settings(BaseSettings):
     elastic: ElasticConfig = Field(...)
     sentry: SentryConfig = Field(...)
     apm: APMConfig = Field(...)
+    redis: RedisConfig = Field(...)
     openapi: DocsConfig = Field(default_factory=DocsConfig)
     env: str = Field(...)
 

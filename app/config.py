@@ -41,10 +41,10 @@ class Settings(BaseSettings):
         env_nested_delimiter="_",
     )
 
-    elastic: ElasticConfig
-    sentry: SentryConfig
-    apm: APMConfig
-    openapi: DocsConfig = DocsConfig()
+    elastic: ElasticConfig = Field(...)
+    sentry: SentryConfig = Field(...)
+    apm: APMConfig = Field(...)
+    openapi: DocsConfig = Field(default_factory=DocsConfig)
     env: str = Field(...)
 
     @property

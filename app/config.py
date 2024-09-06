@@ -33,7 +33,6 @@ class RedisConfig(BaseSettings):
     host: str = Field(default="redis")
     port: str = Field(default="6379")
     database: str = Field(default="0")
-    password: SecretStr = Field(...)
 
 
 class MatomoConfig(BaseSettings):

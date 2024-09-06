@@ -20,7 +20,6 @@ class RedisClient(metaclass=Singleton):
         host = settings.redis.host
         port = settings.redis.port
         db = settings.redis.database
-        password = settings.redis.password.get_secret_value()
 
         # Connecting to redis client
         try:
@@ -28,7 +27,6 @@ class RedisClient(metaclass=Singleton):
                 host=host,
                 port=port,
                 db=db,
-                password=password,
                 decode_responses=True,
                 health_check_interval=30,
             )

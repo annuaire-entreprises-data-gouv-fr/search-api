@@ -4,11 +4,8 @@ from datetime import datetime
 from hashlib import sha256
 
 import requests
-from dotenv import load_dotenv
 
 from app.config import settings
-
-load_dotenv()
 
 
 def fetch_json_from_url(url):

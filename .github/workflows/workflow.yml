@@ -52,7 +52,19 @@ jobs:
         run: |
           cd app
           pytest tests/unit_tests -v
-
+        env:
+          ELASTIC__URL: ${{secrets.ELASTIC_URL_DEV}}
+          ELASTIC__USER: ${{ secrets.ELASTIC_USER_DEV }}
+          ELASTIC__PASSWORD: ${{ secrets.ELASTIC_PASSWORD_DEV }}
+          ENV: ${{ secrets.ENV_DEV }}
+          SENTRY__DSN: ${{ secrets.DSN_SENTRY }}
+          METADATA__URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
+          APM__URL: ${{ secrets.APM__URL }}
+          MATOMO__ID_SITE: ${{ secrets.MATOMO__ID_SITE }}
+          MATOMO__TRACKING_URL: ${{ secrets.MATOMO__TRACKING_URL }}
+          REDIS__HOST: ${{ secrets.REDIS__HOST }}
+          REDIS__PORT: ${{ secrets.REDIS__PORT }}
+          REDIS__DATABASE: ${{ secrets.REDIS__DATABASE }}
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest

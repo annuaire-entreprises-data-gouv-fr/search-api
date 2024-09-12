@@ -1,11 +1,9 @@
 # from redis import asyncio as redis
 import logging
-import os
 
 import redis
-from dotenv import load_dotenv
 
-load_dotenv()
+from app.config import settings
 
 
 class Singleton(type):
@@ -19,10 +17,9 @@ class Singleton(type):
 
 class RedisClient(metaclass=Singleton):
     def __init__(self):
-        host = os.getenv("REDIS_SERVICE_HOST", "redis")
-        port = os.getenv("REDIS_SERVICE_PORT", 6379)
-        db = os.getenv("REDIS_SERVICE_DATABASE", 0)
-        password = os.getenv("REDIS_SERVICE_PASSWORD")
+        host = settings.redis.host
+        port = settings.redis.port
+        db = settings.redis.database
 
         # Connecting to redis client
         try:
@@ -30,7 +27,6 @@ class RedisClient(metaclass=Singleton):
                 host=host,
                 port=port,
                 db=db,
-                password=password,
                 decode_responses=True,
                 health_check_interval=30,
             )

@@ -4,7 +4,7 @@ import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
-from app.config import CURRENT_ENV, DSN_SENTRY
+from app.config import settings
 
 
 def setup_logging():
@@ -12,13 +12,13 @@ def setup_logging():
 
 
 def setup_sentry():
-    if CURRENT_ENV == "prod":
+    if settings.env == "prod":
         sentry_logging = LoggingIntegration(
             level=logging.INFO,
             event_level=logging.WARNING,
         )
         sentry_sdk.init(
-            dsn=DSN_SENTRY,
+            dsn=settings.sentry.dsn,
             integrations=[
                 FastApiIntegration(),
                 sentry_logging,

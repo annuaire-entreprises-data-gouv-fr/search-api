@@ -1,17 +1,11 @@
 import ast
 import logging
-import os
 from datetime import datetime
 from hashlib import sha256
 
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
-
-APM_URL = os.getenv("APM_URL")
-
-CURRENT_ENV = os.getenv("ENV")
+from app.config import settings
 
 
 def fetch_json_from_url(url):
@@ -68,7 +62,7 @@ def check_params_are_none_except_excluded(fields_dict, excluded_fields):
 
 
 def is_dev_env():
-    return CURRENT_ENV == "dev"
+    return settings.env == "dev"
 
 
 def serialize_error_text(text: str):

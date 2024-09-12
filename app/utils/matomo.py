@@ -1,19 +1,15 @@
 import asyncio
 import hashlib
 import logging
-import os
 import random
 import secrets
 import urllib
 
 import requests
-from dotenv import load_dotenv
 from fastapi import Request
 
-load_dotenv()
+from app.config import settings
 
-ID_SITE = os.getenv("MATOMO_ID_SITE")
-TRACKING_URL = os.getenv("MATOMO_TRACKING_URL")
 # Probability of tracking the event (1 in 100)
 TRACKING_PROBABILITY = 1 / 100
 
@@ -41,7 +37,7 @@ async def track_api_call_via_matomo(request, timeout=5):
         _id = generate_unique_visitor_id(request)
 
         tracking_params = {
-            "idsite": ID_SITE,
+            "idsite": settings.matomo.id_site,
             "rec": rec,
             "action_name": action_name,
             "url": url,
@@ -51,7 +47,7 @@ async def track_api_call_via_matomo(request, timeout=5):
         }
 
         tracking_data = urllib.parse.urlencode(tracking_params)
-        tracking_url = TRACKING_URL + tracking_data
+        tracking_url = str(settings.matomo.tracking_url) + tracking_data
         await requests.get(tracking_url, timeout=timeout)
     except Exception as error:
         logging.info(f"Matomo logging failed: {error}")

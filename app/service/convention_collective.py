@@ -1,8 +1,8 @@
-import os
 from datetime import timedelta
 
 from fastapi.responses import JSONResponse
 
+from app.config import settings
 from app.elastic.parsers.siren import is_siren
 from app.elastic.queries.search_by_siren import search_index_by_siren
 from app.exceptions.exceptions import InvalidSirenError
@@ -14,7 +14,6 @@ from app.utils.cache import cache_strategy
 from app.utils.helpers import fetch_json_from_url
 
 TIME_TO_LIVE = timedelta(days=1)
-URL_CC_JSON = os.getenv("METADATA_URL_CC_JSON")
 
 
 def should_cache_search_response():
@@ -22,7 +21,7 @@ def should_cache_search_response():
 
 
 def get_metadata_json():
-    return fetch_json_from_url(URL_CC_JSON)
+    return fetch_json_from_url(str(settings.metadata.url_cc_json))
 
 
 def get_metadata_cc_response():

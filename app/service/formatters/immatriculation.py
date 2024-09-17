@@ -10,7 +10,7 @@ def format_immatriculation(immatriculation):
         return immatriculation.get(field, default)
 
     if not immatriculation:
-        return {}
+        return None
 
     else:
         return Immatriculation(

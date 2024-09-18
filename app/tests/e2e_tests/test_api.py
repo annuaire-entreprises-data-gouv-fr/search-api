@@ -712,7 +712,8 @@ def test_immatriculation(api_response_tester):
     """
     Test immatriculation object.
     """
-    # Test for "la poste"
+    # Test for "la poste" : deactivated awaiting inpi response
+    """
     path_la_poste = "search?q=la%20poste&include_admin=immatriculation"
     api_response_tester.assert_api_response_code_200(path_la_poste)
 
@@ -733,6 +734,7 @@ def test_immatriculation(api_response_tester):
         api_response_tester.test_field_value(
             path_la_poste, 0, f"immatriculation.{field}", expected_value
         )
+    """
 
     # Test for "ganymede"
     path_gan = "search?q=880878145&include_admin=immatriculation"

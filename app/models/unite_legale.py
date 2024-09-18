@@ -153,7 +153,7 @@ class UniteLegaleResponse(BaseModel):
     statut_diffusion: str | None = None
     matching_etablissements: list[Etablissement] | None = None
     etablissements: list[Etablissement] | None = None
-    immatriculation: Immatriculation = None
+    immatriculation: Immatriculation | None = None
     finances: dict[str, Finances] | None = None
     complements: Complements = None
     score: float | None = None

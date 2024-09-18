@@ -684,7 +684,7 @@ def test_siren_insee_only(api_response_tester):
 
 
 def test_siren_rne_and_insee(api_response_tester):
-    path = "search?q=356000000"
+    path = "search?q=552081317"
     response = api_response_tester.get_api_response(path)
     api_response_tester.assert_api_response_code_200(path)
     assert response.json()["results"][0]["date_mise_a_jour_rne"] is not None

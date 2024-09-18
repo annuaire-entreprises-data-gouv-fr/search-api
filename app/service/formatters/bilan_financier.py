@@ -10,4 +10,4 @@ def format_bilan(source_bilan):
             )
         }
         return formatted_bilan
-    return {}
+    return None

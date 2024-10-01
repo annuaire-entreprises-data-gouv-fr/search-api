@@ -20,7 +20,7 @@ def format_nom_complet(
     else:
         denomination = " ".join(
             filter(
-                None,
+                lambda x: x and x.upper() != "SUPPRESSION DU NOM COMMERCIAL",
                 [
                     denomination_usuelle_1,
                     denomination_usuelle_2,

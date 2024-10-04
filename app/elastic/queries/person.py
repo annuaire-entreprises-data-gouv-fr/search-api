@@ -81,7 +81,7 @@ def search_person(
         # Prénoms
         prenoms_person = search_params.dict().get(param_prenom, None)
         if prenoms_person:
-            # Remove stop words from the name
+            # Remove stop words
             prenoms_person_filtered = remove_stop_words(prenoms_person)
             # Same logic as "nom" is used for "prenoms"
             for prenom in prenoms_person_filtered.split(" "):

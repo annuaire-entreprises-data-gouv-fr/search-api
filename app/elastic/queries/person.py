@@ -1,5 +1,28 @@
 from elasticsearch_dsl import query
 
+# List of French stop words (from Elasticsearch's _french_ list)
+STOP_WORDS = {
+    "de",
+    "la",
+    "le",
+    "du",
+    "des",
+    "et",
+    "à",
+    "au",
+    "aux",
+    "les",
+    "un",
+    "une",
+    "dans",
+    "par",
+}
+
+
+def remove_stop_words(text):
+    # Split the text and filter out any stop words
+    return " ".join([word for word in text.split() if word.lower() not in STOP_WORDS])
+
 
 def search_person(
     search,
@@ -17,16 +40,21 @@ def search_person(
         # Nom
         nom_person = search_params.dict().get(param_nom, "None")
         if nom_person:
+            # Remove stop words from the name
+            nom_person_filtered = remove_stop_words(nom_person)
+
             # match queries returns any document containing the search item,
             # even if it contains another item
-            for nom in nom_person.split(" "):
+            for nom in nom_person_filtered.split(" "):
                 person_filters.append(
                     {
                         "match": {
                             "unite_legale."
                             + person["type_person"]
                             + "."
-                            + person["match_nom"]: nom
+                            + person["match_nom"]: {
+                                "query": nom,
+                            }
                         }
                     }
                 )
@@ -53,8 +81,10 @@ def search_person(
         # Prénoms
         prenoms_person = search_params.dict().get(param_prenom, None)
         if prenoms_person:
+            # Remove stop words from the name
+            prenoms_person_filtered = remove_stop_words(prenoms_person)
             # Same logic as "nom" is used for "prenoms"
-            for prenom in prenoms_person.split(" "):
+            for prenom in prenoms_person_filtered.split(" "):
                 person_filters.append(
                     {
                         "match": {
@@ -128,6 +158,5 @@ def search_person(
                     query=query.Bool(must=person_filters, should=boost_queries),
                 )
             )
-
     search = search.query("bool", should=search_options)
     return search

@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from pydantic import AnyHttpUrl, Field, SecretStr, validator
+from pydantic import AnyHttpUrl, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,7 +16,7 @@ class DocsConfig(BaseSettings):
         default_factory=lambda: Path(__file__).parent / "doc" / "open-api.yml"
     )
 
-    @validator("doc_path")
+    @field_validator("doc_path")
     def validate_path(cls, v):
         if not v.exists():
             raise ValueError(f"The specified path does not exist: {v}")
@@ -48,7 +48,7 @@ class MetadataConfig(BaseSettings):
 class SentryConfig(BaseSettings):
     dsn: AnyHttpUrl = Field(...)
 
-    @validator("dsn")
+    @field_validator("dsn")
     def enforce_https(cls, v):
         if v.scheme != "https":
             raise ValueError("Sentry DSN must use HTTPS")

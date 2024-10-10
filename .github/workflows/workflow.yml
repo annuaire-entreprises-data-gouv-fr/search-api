@@ -59,6 +59,7 @@ jobs:
           ENV: ${{ secrets.ENV_DEV }}
           SENTRY__DSN: ${{ secrets.DSN_SENTRY }}
           METADATA__URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
+          METADATA__URL_UPDATES_JSON: ${{ secrets.METADATA_URL_UPDATES_JSON }}
           APM__URL: ${{ secrets.APM__URL }}
           MATOMO__ID_SITE: ${{ secrets.MATOMO__ID_SITE }}
           MATOMO__TRACKING_URL: ${{ secrets.MATOMO__TRACKING_URL }}
@@ -100,6 +101,7 @@ jobs:
           ENV: ${{ secrets.ENV_DEV }}
           SENTRY__DSN: ${{ secrets.DSN_SENTRY }}
           METADATA__URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
+          METADATA__URL_UPDATES_JSON: ${{ secrets.METADATA_URL_UPDATES_JSON }}
           APM__URL: ${{ secrets.APM__URL }}
           MATOMO__ID_SITE: ${{ secrets.MATOMO__ID_SITE }}
           MATOMO__TRACKING_URL: ${{ secrets.MATOMO__TRACKING_URL }}

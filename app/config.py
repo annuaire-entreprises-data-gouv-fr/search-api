@@ -42,6 +42,7 @@ class MatomoConfig(BaseSettings):
 
 class MetadataConfig(BaseSettings):
     url_cc_json: AnyHttpUrl = Field(...)
+    url_updates_json: AnyHttpUrl = Field(...)
 
 
 class SentryConfig(BaseSettings):

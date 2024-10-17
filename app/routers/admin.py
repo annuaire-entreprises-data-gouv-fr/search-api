@@ -4,7 +4,7 @@ from app.service.convention_collective import (
     fetch_idcc_siret_mapping,
     get_metadata_cc_response,
 )
-from app.service.data_updates import get_last_modified_response
+from app.service.last_modified import get_last_modified_response
 
 router = APIRouter()
 
@@ -25,8 +25,8 @@ async def search_conventions_collectives_by_siren_endpoint(siren: str):
     return fetch_idcc_siret_mapping(siren)
 
 
-@router.get("/metadata/updates")
-async def data_updates_endpoint():
+@router.get("/sources/last_modified")
+async def last_modified_endpoint():
     """
     Endpoint for serving data sources' last modified dates JSON file.
     """

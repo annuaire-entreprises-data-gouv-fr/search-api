@@ -94,7 +94,7 @@ class SearchParams(BaseModel):
     @field_validator("radius", "lat", "lon", mode="before")
     def cast_as_float(cls, value: str, info) -> float:
         try:
-            if value == "nan":
+            if value.lower() == "nan":
                 raise ValueError
             float(value)
         except ValueError:

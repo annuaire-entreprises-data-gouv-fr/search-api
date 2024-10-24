@@ -117,7 +117,7 @@ class ElasticSearchRunner:
 
     def should_cache_search_response(self):
         """Cache search response if execution time is higher than 400 ms
-        or if the query terms are a siren or siret."""
+        or if the query terms are a siren or a siret."""
         try:
             query_terms = self.search_params.terms
             if (

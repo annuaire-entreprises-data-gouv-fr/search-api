@@ -8,6 +8,8 @@ from app.elastic.helpers.helpers import (
     extract_ul_and_etab_from_es_response,
     page_through_results,
 )
+from app.elastic.parsers.siren import is_siren
+from app.elastic.parsers.siret import is_siret
 from app.elastic.text_search import build_es_search_text_query
 from app.service.search_type import SearchType
 from app.utils.cache import cache_strategy
@@ -114,9 +116,15 @@ class ElasticSearchRunner:
         self.execution_time = cached_search_results["execution_time"]
 
     def should_cache_search_response(self):
-        """Cache search response if execution time is higher than 400 ms"""
+        """Cache search response if execution time is higher than 400 ms
+        or if the query terms are a siren or siret."""
         try:
-            if self.execution_time > MIN_EXECUTION_TIME:
+            query_terms = self.search_params.terms
+            if (
+                self.execution_time > MIN_EXECUTION_TIME
+                or is_siren(query_terms)
+                or is_siret(query_terms)
+            ):
                 return True
             return False
         except KeyError as error:

@@ -99,7 +99,7 @@ def get_cache_time_to_live(search_params):
     try:
         query_terms = search_params.terms
 
-        # Cache SIREN/SIRET lookups for a shorter
+        # Cache SIREN/SIRET lookups for a shorter period
         if is_siren(query_terms) or is_siret(query_terms):
             return timedelta(minutes=30)
 

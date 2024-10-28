@@ -99,12 +99,11 @@ def get_cache_time_to_live(search_params):
     try:
         query_terms = search_params.terms
 
-        # Cache SIREN/SIRET lookups longer since they're exact matches
-        # and this data changes less frequently
+        # Cache SIREN/SIRET lookups for a shorter
         if is_siren(query_terms) or is_siret(query_terms):
             return timedelta(minutes=30)
 
-        # For regular text searches, cache for a shorter period
+        # For regular text searches, cache for a longer period
         return timedelta(hours=24)
 
     except (AttributeError, KeyError):

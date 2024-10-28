@@ -1,11 +1,11 @@
 import logging
-from datetime import timedelta
 
 from app.elastic.es_index import StructureMapping
 from app.elastic.geo_search import build_es_search_geo_query
 from app.elastic.helpers.helpers import (
     execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
+    get_cache_time_to_live,
     page_through_results,
 )
 from app.elastic.parsers.siren import is_siren
@@ -15,7 +15,6 @@ from app.service.search_type import SearchType
 from app.utils.cache import cache_strategy
 from app.utils.helpers import is_dev_env
 
-TIME_TO_LIVE = timedelta(days=31)
 MIN_EXECUTION_TIME = 400
 MAX_TOTAL_RESULTS = 10000
 
@@ -108,7 +107,7 @@ class ElasticSearchRunner:
             cache_key,
             get_es_search_response,
             self.should_cache_search_response,
-            TIME_TO_LIVE,
+            get_cache_time_to_live(self.search_params),
         )
 
         self.total_results = cached_search_results["total_results"]

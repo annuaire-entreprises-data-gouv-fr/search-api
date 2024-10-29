@@ -114,8 +114,10 @@ class ElasticSearchRunner:
         self.execution_time = cached_search_results["execution_time"]
 
     def should_cache_for_how_long(self):
-        """Cache search response if execution time is higher than 400 ms
-        or if the query terms are a siren or a siret."""
+        """Determines how long to cache search results based on conditions:
+        - 24 hours if execution time > MIN_EXECUTION_TIME
+        - 30 minutes if searching by SIREN/SIRET
+        - No caching otherwise or on error"""
         try:
             query_terms = self.search_params.terms
             if self.execution_time > MIN_EXECUTION_TIME:

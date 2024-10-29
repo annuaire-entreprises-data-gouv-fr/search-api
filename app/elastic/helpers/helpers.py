@@ -85,26 +85,3 @@ def compute_doc_id(page_etablissements):
 def sort_search_by_company_size(es_search_builder):
     return es_search_builder.search_params.sort_by_size is True
 
-
-def get_cache_time_to_live(search_params):
-    """
-    Determine how long to cache search results based on search parameters.
-
-    Args:
-        search_params: Search parameters object containing query terms
-
-    Returns:
-        timedelta: How long to cache the results
-    """
-    try:
-        query_terms = search_params.terms
-
-        # Cache SIREN/SIRET lookups for a shorter period
-        if is_siren(query_terms) or is_siret(query_terms):
-            return timedelta(minutes=30)
-
-        # For regular text searches, cache for a longer period
-        return timedelta(hours=24)
-
-    except (AttributeError, KeyError):
-        return timedelta(minutes=15)

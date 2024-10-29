@@ -117,13 +117,14 @@ class ElasticSearchRunner:
         """Determines how long to cache search results based on conditions:
         - 24 hours if execution time > MIN_EXECUTION_TIME
         - 30 minutes if searching by SIREN/SIRET
-        - No caching otherwise or on error"""
+        - No caching (0 minutes) otherwise or on error"""
         try:
             query_terms = self.search_params.terms
             if self.execution_time > MIN_EXECUTION_TIME:
                 return timedelta(hours=24)
             if is_siren(query_terms) or is_siret(query_terms):
                 return timedelta(minutes=30)
+            return timedelta(minutes=0)  # Default case when no conditions are met
         except KeyError as error:
             logging.info(f"Error getting search execution time: {error}")
             return timedelta(minutes=0)

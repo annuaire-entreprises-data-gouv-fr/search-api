@@ -1,11 +1,11 @@
 import logging
+from datetime import timedelta
 
 from app.elastic.es_index import StructureMapping
 from app.elastic.geo_search import build_es_search_geo_query
 from app.elastic.helpers.helpers import (
     execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
-    get_cache_time_to_live,
     page_through_results,
 )
 from app.elastic.parsers.siren import is_siren
@@ -106,29 +106,28 @@ class ElasticSearchRunner:
         cached_search_results = cache_strategy(
             cache_key,
             get_es_search_response,
-            self.should_cache_search_response,
-            get_cache_time_to_live(self.search_params),
+            self.should_cache_for_how_long,
         )
 
         self.total_results = cached_search_results["total_results"]
         self.es_search_results = cached_search_results["response"]
         self.execution_time = cached_search_results["execution_time"]
 
-    def should_cache_search_response(self):
-        """Cache search response if execution time is higher than 400 ms
-        or if the query terms are a siren or a siret."""
+    def should_cache_for_how_long(self):
+        """Determines how long to cache search results based on conditions:
+        - 24 hours if execution time > MIN_EXECUTION_TIME
+        - 30 minutes if searching by SIREN/SIRET
+        - No caching (0 minutes) otherwise or on error"""
         try:
             query_terms = self.search_params.terms
-            if (
-                self.execution_time > MIN_EXECUTION_TIME
-                or is_siren(query_terms)
-                or is_siret(query_terms)
-            ):
-                return True
-            return False
+            if self.execution_time > MIN_EXECUTION_TIME:
+                return timedelta(hours=24)
+            if is_siren(query_terms) or is_siret(query_terms):
+                return timedelta(minutes=30)
+            return timedelta(minutes=0)  # Default case when no conditions are met
         except KeyError as error:
             logging.info(f"Error getting search execution time: {error}")
-            return False
+            return timedelta(minutes=0)
 
     def run(self):
         if self.search_type == SearchType.TEXT:

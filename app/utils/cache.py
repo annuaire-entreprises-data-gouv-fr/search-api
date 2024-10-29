@@ -1,6 +1,7 @@
 import json
 import logging
 from collections.abc import Callable
+from datetime import timedelta
 
 from app.utils.helpers import hash_string
 from app.utils.redis import RedisClient
@@ -40,7 +41,7 @@ def cache_strategy(
             return json.loads(cached_value)
         value_to_cache = get_value()
         time_to_live = should_cache_for_how_long()
-        if time_to_live > 0:
+        if time_to_live > timedelta(minutes=0):
             set_cache_value(
                 redis_client_cache,
                 request_cache_key,

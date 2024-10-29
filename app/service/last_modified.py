@@ -1,11 +1,14 @@
+from datetime import timedelta
+
 from fastapi.responses import JSONResponse
 
 from app.config import settings
 from app.utils.cache import cache_strategy
 from app.utils.helpers import fetch_json_from_url
 
+
 def should_cache_for_how_long():
-    return 24*60
+    return timedelta(hours=24)
 
 
 def get_updates_json():

@@ -1,5 +1,4 @@
 import logging
-
 from datetime import timedelta
 
 from app.elastic.es_index import StructureMapping
@@ -119,17 +118,13 @@ class ElasticSearchRunner:
         or if the query terms are a siren or a siret."""
         try:
             query_terms = self.search_params.terms
-            if (
-                self.execution_time > MIN_EXECUTION_TIME):
-                return 24*60
-            if(
-                is_siren(query_terms)
-                or is_siret(query_terms)
-            ):
-                return 30
+            if self.execution_time > MIN_EXECUTION_TIME:
+                return timedelta(hours=24)
+            if is_siren(query_terms) or is_siret(query_terms):
+                return timedelta(minutes=30)
         except KeyError as error:
             logging.info(f"Error getting search execution time: {error}")
-            return 0
+            return timedelta(minutes=0)
 
     def run(self):
         if self.search_type == SearchType.TEXT:

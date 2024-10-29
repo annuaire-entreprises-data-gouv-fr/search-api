@@ -1,7 +1,4 @@
-from datetime import timedelta
-
 from app.elastic.parsers.siren import is_siren
-from app.elastic.parsers.siret import is_siret
 
 
 def extract_ul_and_etab_from_es_response(structure):
@@ -84,4 +81,3 @@ def compute_doc_id(page_etablissements):
 
 def sort_search_by_company_size(es_search_builder):
     return es_search_builder.search_params.sort_by_size is True
-

@@ -28,8 +28,7 @@ def set_cache_value(cache_client, key, value, time_to_live):
 def cache_strategy(
     key,
     get_value: Callable,
-    should_cache_value: Callable,
-    time_to_live,
+    should_cache_for_how_long: Callable,
 ):
     try:
         redis_client_cache = RedisClient()
@@ -40,13 +39,13 @@ def cache_strategy(
         if cached_value:
             return json.loads(cached_value)
         value_to_cache = get_value()
-        should_cache = should_cache_value()
-        if should_cache:
+        ttl = should_cache_for_how_long()
+        if ttl > 0:
             set_cache_value(
                 redis_client_cache,
                 request_cache_key,
                 value_to_cache,
-                time_to_live,
+                ttl,
             )
         return value_to_cache
     except Exception as error:

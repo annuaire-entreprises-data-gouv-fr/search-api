@@ -39,13 +39,13 @@ def cache_strategy(
         if cached_value:
             return json.loads(cached_value)
         value_to_cache = get_value()
-        ttl = should_cache_for_how_long()
-        if ttl > 0:
+        time_to_live = should_cache_for_how_long()
+        if time_to_live > 0:
             set_cache_value(
                 redis_client_cache,
                 request_cache_key,
                 value_to_cache,
-                ttl,
+                time_to_live,
             )
         return value_to_cache
     except Exception as error:

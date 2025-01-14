@@ -1,6 +1,9 @@
 info:
   title: API Recherche d’entreprises
   version: 1.0.0
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
 
   description: >
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
@@ -96,7 +99,7 @@ paths:
             Catégorie d'entreprise de l'unité légale. Ce paramètre accepte une valeur
             unique ou une liste de valeurs séparées par des virgules.
           required: false
-          example: "PME,ETI"
+          example: "PME"
           schema:
             type: string
             enum:
@@ -489,7 +492,7 @@ paths:
           in: query
           description: >-
             Valeur minimale du chiffre d'affaire de l'entreprise
-          example: "100000"
+          example: 100000
           required: false
           schema:
             type: integer
@@ -497,7 +500,7 @@ paths:
           in: query
           description: >-
             Valeur maximale du chiffre d'affaire de l'entreprise
-          example: "100000"
+          example: 100000
           required: false
           schema:
             type: integer
@@ -505,7 +508,7 @@ paths:
           in: query
           description: >-
             Valeur minimale du résultat net de l'entreprise
-          example: "100000"
+          example: 100000
           required: false
           schema:
             type: integer
@@ -513,7 +516,7 @@ paths:
           in: query
           description: >-
             Valeur maximale du résultat net de l'entreprise
-          example: "100000"
+          example: 100000
           required: false
           schema:
             type: integer
@@ -738,7 +741,7 @@ paths:
                                 établissement (source : base SIRENE).
                             date_mise_a_jour:
                               type: string
-                              format: date
+                              format: date-time
                               nullable: true
                               example: "2023-09-21T03:34:50"
                               description: >-
@@ -782,7 +785,7 @@ paths:
                                 géolocalisation est issue de data.gouv).
                             indice_repetition:
                               nullable: true
-                              format: string
+                              type: string
                               example: null
                               description: >-
                                 Indice de répétition du numéro dans la voie (B pour
@@ -1168,6 +1171,8 @@ paths:
                                 example: [ "0923" ]
                               liste_id_organisme_formation:
                                 type: array
+                                items:
+                                  type: string
                                 description: >-
                                   Liste des numéro de déclaration d'activité des
                                   établissement organismes de formation
@@ -1266,6 +1271,8 @@ paths:
                                 convention collective renseignée
                             liste_idcc:
                               type: array
+                              items:
+                                  type: string
                               description: >-
                                 Liste des conventions collectives de l'unité légale
                                 (source : Ministère du travail).
@@ -1727,7 +1734,7 @@ paths:
                                 établissement (source : base SIRENE).
                             date_mise_a_jour:
                               type: string
-                              format: date
+                              format: date-time
                               nullable: true
                               example: "2023-09-21T03:34:50"
                               description: >-
@@ -2164,6 +2171,8 @@ paths:
                                   type: string
                               liste_id_organisme_formation:
                                 type: array
+                                items:
+                                  type: string
                                 description: >-
                                   Liste des numéro de déclaration d'activité des
                                   établissement organismes de formation
@@ -2258,6 +2267,8 @@ paths:
                               description: >-
                                 Liste des conventions collectives de l'unité légale
                                 (source : Ministère du travail).
+                              items:
+                                  type: string
                             egapro_renseignee:
                               type: boolean
                               description: >-

@@ -1,10 +1,7 @@
 info:
   title: API Recherche d’entreprises
   version: 1.0.0
-  contact:
-    email: recherche-entreprises@api.gouv.fr
-    name: Contact API Recherche d’entreprises
-    url: https://recherche-entreprises.api.gouv.fr/
+
   description: >
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
 
@@ -56,6 +53,11 @@ info:
 
     Vous pouvez vous abonner [ici](https://2f62ff46.sibforms.com/serve/MUIFAO95z3V-BJo1feDe7qoHnkmSCfysBZZFjIFSjvvnqZ1C8aAGCT1-vESBVRjnjM8fKD_Mt7Q0ENMgGon61yySA7u3dn8MS3rdd5Ax_aQ7ORuB5tglGXJ00VEnG5Tp5ggraqa5x6oPoyaleNDDkDmijlzwmSxWRs5zfSubvr3dGQMlxymwf2uU4xY1N51BjN5F5vvNMDu-s9IT) à
     l'infolettre pour être informé des mises à jour de la part de l’équipe.
+
+    ## Contact
+
+    Pour toute question, vous pouvez contacter l'équipe en remplissant ce [formulaire](https://annuaire-entreprises.data.gouv.fr/faq/parcours?question=contact) !
+
 
 openapi: 3.0.0
 paths:

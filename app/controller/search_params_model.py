@@ -13,6 +13,7 @@ from app.controller.field_validation import (
 from app.exceptions.exceptions import (
     InvalidParamError,
 )
+from app.service.search_type import SearchType
 from app.utils.helpers import (
     check_params_are_none_except_excluded,
     clean_str,
@@ -24,6 +25,7 @@ from app.utils.helpers import (
 class SearchParams(BaseModel):
     """Class for modeling search parameters"""
 
+    search_type: SearchType
     page: int = 1
     page_etablissements: int | None = None
     per_page: int = 10
@@ -332,6 +334,7 @@ class SearchParams(BaseModel):
         if they are
         """
         excluded_fields = [
+            "search_type",
             "page",
             "page_etablissements",
             "per_page",
@@ -384,11 +387,28 @@ class SearchParams(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def check_if_both_lon_and_lat_are_given(self):
-        if (self.lat is None) and (self.lon is not None):
-            raise InvalidParamError("Veuillez indiquer une latitude entre -90° et 90°.")
-        if (self.lon is None) and (self.lat is not None):
-            raise InvalidParamError(
-                "Veuillez indiquer une longitude entre -180° et 180°."
-            )
+    def validate_search_type_params(self):
+        """Validate parameters based on search type"""
+        if self.search_type == SearchType.GEO:
+            # For geo search, require lat/lon and don't allow terms
+            if self.terms is not None:
+                raise InvalidParamError(
+                    "Le paramètre 'terms' n'est pas autorisé pour une recherche "
+                    "géographique."
+                )
+            if self.lat is None or self.lon is None:
+                raise InvalidParamError(
+                    "Les paramètres 'lat' et 'long' sont obligatoires pour une "
+                    "recherche géographique."
+                )
+
+        elif self.search_type == SearchType.TEXT:
+            # For text search, don't allow lat/lon/radius
+            if any(
+                [self.lat is not None, self.lon is not None, self.radius is not None]
+            ):
+                raise InvalidParamError(
+                    "Les paramètres 'lat', 'long' et 'radius' ne sont autorisés "
+                    "que pour une recherche géographique."
+                )
         return self

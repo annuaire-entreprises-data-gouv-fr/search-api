@@ -22,7 +22,7 @@ class SearchParamsBuilder:
 
     @staticmethod
     def map_request_parameters(request):
-        # Extract all query parameters from the request
+        """Extract and map request parameters to their internal field names."""
         request_params = request.query_params
         mapped_params = {}
         for param, param_value in request_params.items():
@@ -37,15 +37,16 @@ class SearchParamsBuilder:
         return mapped_params
 
     @staticmethod
-    def get_search_params(request):
+    def get_search_params(request, search_type):
         """Map the request parameters to match the Pydantic model's field name."""
         mapped_params = SearchParamsBuilder.map_request_parameters(request)
+        mapped_params["search_type"] = search_type
         params = SearchParams(**mapped_params)
         return params
 
     @staticmethod
     def extract_params(request, search_type):
         if search_type in (SearchType.TEXT, SearchType.GEO):
-            return SearchParamsBuilder.get_search_params(request)
+            return SearchParamsBuilder.get_search_params(request, search_type)
         else:
             raise ValueError("Unknown search type!!!")

@@ -335,7 +335,6 @@ class SearchParams(BaseModel):
         """
         excluded_fields = [
             "search_type",
-            "radius",
             "page",
             "page_etablissements",
             "per_page",
@@ -407,7 +406,9 @@ class SearchParams(BaseModel):
 
         elif self.search_type == SearchType.TEXT:
             # For text search, don't allow lat/lon/radius
-            if any([self.lat is not None, self.lon is not None]):
+            if any(
+                [self.lat is not None, self.lon is not None, self.radius is not None]
+            ):
                 raise InvalidParamError(
                     "Les paramètres 'lat', 'long' et 'radius' ne sont autorisés "
                     "que pour une recherche géographique."

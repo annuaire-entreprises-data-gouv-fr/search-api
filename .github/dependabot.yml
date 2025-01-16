@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "pip" # Specifies the Python package ecosystem
-    directory: "/app" # Location of the requirements.pip file
+    directory: "/"
     schedule:
       interval: "weekly" # The update schedule (e.g., daily, weekly, monthly)

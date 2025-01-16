@@ -362,6 +362,7 @@ class SearchParams(BaseModel):
         """
         # List of parameters to exclude from the check
         excluded_fields = [
+            "search_type",
             "page",
             "per_page",
             "matching_size",

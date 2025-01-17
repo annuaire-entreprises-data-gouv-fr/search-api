@@ -618,8 +618,9 @@ def test_near_point_without_lat(api_response_tester):
     path = "near_point?long=67"
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
-    assert (
-        response.json()["erreur"] == "Veuillez indiquer une latitude entre -90° et 90°."
+    assert response.json()["erreur"] == (
+        "Les paramètres 'lat' et 'long' sont obligatoires pour une "
+        "recherche géographique."
     )
 
 
@@ -764,3 +765,32 @@ def test_ul_sans_siege(api_response_tester):
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, 1)
     api_response_tester.test_field_value(path, 0, "siege", {})
+
+
+def test_search_type_validation(api_response_tester):
+    """Test validation rules for different search types"""
+    # Test GEO search requires lat/lon
+    path = "near_point?radius=5"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == (
+        "Les paramètres 'lat' et 'long' sont obligatoires pour une "
+        "recherche géographique."
+    )
+
+    # Test GEO search doesn't allow terms
+    path = "near_point?lat=48.86&long=2.35&q=test"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == (
+        "Le paramètre 'terms' n'est pas autorisé pour une recherche géographique."
+    )
+
+    # Test TEXT search doesn't allow geo params
+    path = "search?q=test&lat=48.86&long=2.35"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == (
+        "Les paramètres 'lat', 'long' ne sont autorisés "
+        "que pour une recherche géographique."
+    )

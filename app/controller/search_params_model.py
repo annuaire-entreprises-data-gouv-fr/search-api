@@ -82,7 +82,15 @@ class SearchParams(BaseModel):
 
     # Field Validators (involve one field at a time)
     @field_validator(
-        "page", "page_etablissements", "per_page", "matching_size", mode="before"
+        "page",
+        "page_etablissements",
+        "per_page",
+        "matching_size",
+        "ca_min",
+        "ca_max",
+        "resultat_net_min",
+        "resultat_net_max",
+        mode="before",
     )
     def cast_as_integer(cls, value: str, info) -> int:
         try:

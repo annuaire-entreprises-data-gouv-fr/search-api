@@ -791,6 +791,6 @@ def test_search_type_validation(api_response_tester):
     api_response_tester.assert_api_response_code_400(path)
     response = api_response_tester.get_api_response(path)
     assert response.json()["erreur"] == (
-        "Les paramètres 'lat', 'long' et 'radius' ne sont autorisés "
+        "Les paramètres 'lat', 'long' ne sont autorisés "
         "que pour une recherche géographique."
     )

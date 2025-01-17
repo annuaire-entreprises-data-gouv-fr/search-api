@@ -794,3 +794,13 @@ def test_search_type_validation(api_response_tester):
         "Les paramètres 'lat', 'long' ne sont autorisés "
         "que pour une recherche géographique."
     )
+
+
+def test_invalid_ca_min_returns_400(api_response_tester):
+    """Test that providing a non-integer ca_min returns a 400 error"""
+    path = "search?ca_min=1234 GH"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == (
+        "Veuillez indiquer un paramètre `ca_min` entier."
+    )

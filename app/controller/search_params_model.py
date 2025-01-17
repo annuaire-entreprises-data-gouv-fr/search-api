@@ -246,10 +246,10 @@ class SearchParams(BaseModel):
                 )
 
         elif self.search_type == SearchType.TEXT:
-            # For text search, don't allow lat/lon/radius
+            # For text search, don't allow lat/lon
             if any([self.lat is not None, self.lon is not None]):
                 raise InvalidParamError(
-                    "Les paramètres 'lat', 'long' et 'radius' ne sont autorisés "
+                    "Les paramètres 'lat', 'long' ne sont autorisés "
                     "que pour une recherche géographique."
                 )
         return self

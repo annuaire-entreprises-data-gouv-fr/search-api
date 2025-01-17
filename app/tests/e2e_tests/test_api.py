@@ -804,3 +804,11 @@ def test_invalid_ca_min_returns_400(api_response_tester):
     assert response.json()["erreur"] == (
         "Veuillez indiquer un paramètre `ca_min` entier."
     )
+
+
+def test_favicon(api_response_tester):
+    """
+    Test that favicon.ico endpoint returns 204 No Content
+    """
+    path = "favicon.ico"
+    api_response_tester.assert_api_response_code_204(path)

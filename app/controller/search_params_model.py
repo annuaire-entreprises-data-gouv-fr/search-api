@@ -229,6 +229,31 @@ class SearchParams(BaseModel):
             )
         return boolean.upper() == "TRUE"
 
+    @model_validator(mode="after")
+    def validate_search_type_params(self):
+        """Validate parameters based on search type"""
+        if self.search_type == SearchType.GEO:
+            # For geo search, require lat/lon and don't allow terms
+            if self.terms is not None:
+                raise InvalidParamError(
+                    "Le paramètre 'terms' n'est pas autorisé pour une recherche "
+                    "géographique."
+                )
+            if self.lat is None or self.lon is None:
+                raise InvalidParamError(
+                    "Les paramètres 'lat' et 'long' sont obligatoires pour une "
+                    "recherche géographique."
+                )
+
+        elif self.search_type == SearchType.TEXT:
+            # For text search, don't allow lat/lon/radius
+            if any([self.lat is not None, self.lon is not None]):
+                raise InvalidParamError(
+                    "Les paramètres 'lat', 'long' et 'radius' ne sont autorisés "
+                    "que pour une recherche géographique."
+                )
+        return self
+
     @field_validator("est_societe_mission", mode="after")
     def convert_bool_to_insee_value(cls, boolean: bool) -> str:
         return match_bool_to_insee_value(boolean)
@@ -335,6 +360,7 @@ class SearchParams(BaseModel):
         """
         excluded_fields = [
             "search_type",
+            "radius",
             "page",
             "page_etablissements",
             "per_page",
@@ -386,31 +412,4 @@ class SearchParams(BaseModel):
                 "3 caractères minimum pour les termes de la requête "
                 + "(ou utilisez au moins un filtre)"
             )
-        return self
-
-    @model_validator(mode="after")
-    def validate_search_type_params(self):
-        """Validate parameters based on search type"""
-        if self.search_type == SearchType.GEO:
-            # For geo search, require lat/lon and don't allow terms
-            if self.terms is not None:
-                raise InvalidParamError(
-                    "Le paramètre 'terms' n'est pas autorisé pour une recherche "
-                    "géographique."
-                )
-            if self.lat is None or self.lon is None:
-                raise InvalidParamError(
-                    "Les paramètres 'lat' et 'long' sont obligatoires pour une "
-                    "recherche géographique."
-                )
-
-        elif self.search_type == SearchType.TEXT:
-            # For text search, don't allow lat/lon/radius
-            if any(
-                [self.lat is not None, self.lon is not None, self.radius is not None]
-            ):
-                raise InvalidParamError(
-                    "Les paramètres 'lat', 'long' et 'radius' ne sont autorisés "
-                    "que pour une recherche géographique."
-                )
         return self

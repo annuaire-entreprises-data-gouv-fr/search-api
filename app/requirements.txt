@@ -1,7 +1,7 @@
 PyYAML==5.3.1
 elasticsearch==7.17.0
 elasticsearch_dsl==7.4.0
-requests==2.31.0
+requests==2.32.3
 sentry-sdk==2.13.0
 python-dotenv==1.0.1
 pytest==7.2.1

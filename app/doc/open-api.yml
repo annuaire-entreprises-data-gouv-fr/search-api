@@ -434,7 +434,7 @@ paths:
         - name: tranche_effectif_salarie
           in: query
           description: >-
-            <a href=https://www.sirene.fr/sirene/public/variable/trancheEffectifsUniteLegale>Tranche
+            <a href=https://sirene.fr/static-resources/htm/v_sommaire_311.htm#27>Tranche
             d'effectif salarié de l'entreprise</a>. Ce paramètre accepte une
             valeur unique ou une liste de valeurs séparées par des virgules.
           required: false

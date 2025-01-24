@@ -85,7 +85,7 @@ paths:
         - name: activite_principale
           in: query
           description: >-
-            <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le
+            <a href=https://www.sirene.fr/static-resources/documentation/v_sommaire_311.htm#2>Le
             code NAF ou code APE, un code d'activité suivant la nomenclature de
             l'INSEE</a>. Ce paramètre accepte une valeur unique ou une liste de
             valeurs séparées par des virgules.
@@ -130,7 +130,7 @@ paths:
         - name: code_postal
           in: query
           description: >-
-            <a href=https://www.sirene.fr/sirene/public/variable/codpos>Code
+            <a href=https://www.sirene.fr/static-resources/documentation/v_sommaire_311.htm#43>Code
             postal en 5 chiffres</a>. Ce paramètre filtre sur les établissements
             et accepte une valeur unique ou une liste de valeurs séparées par
             des virgules.
@@ -141,7 +141,7 @@ paths:
         - name: code_commune
           in: query
           description: >-
-            <a href=https://www.insee.fr/fr/information/2114819>Code commune
+            <a href=https://www.sirene.fr/static-resources/documentation/v_sommaire_311.htm#39>Code commune
             (INSEE) en 5 caractères</a>. Ce paramètre filtre sur les
             établissements et accepte une valeur unique ou une liste de valeurs
             séparées par des virgules.

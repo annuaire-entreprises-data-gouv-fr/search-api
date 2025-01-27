@@ -8,8 +8,7 @@ updates:
   - package-ecosystem: "pip" # Specifies the Python package ecosystem
     directory: "/app" # Location of the requirements.pip file
     schedule:
-      interval: "weekly" # The update schedule (e.g., daily, weekly, monthly)
+      interval: "weekly"
     ignore:
-      - dependency-name: "*"
-        update-types:
-          - "patch" 
+      - dependency-type: "all" # ignore patch version
+        update-types: ["version-update:semver-patch"]

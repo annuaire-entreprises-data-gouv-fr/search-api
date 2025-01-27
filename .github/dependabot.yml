@@ -9,3 +9,7 @@ updates:
     directory: "/app" # Location of the requirements.pip file
     schedule:
       interval: "weekly" # The update schedule (e.g., daily, weekly, monthly)
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "patch" 

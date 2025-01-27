@@ -5,10 +5,10 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip" # Specifies the Python package ecosystem
-    directory: "/app" # Location of the requirements.pip file
+  - package-ecosystem: "pip"
+    directory: "/app"
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-type: "all" # ignore patch version
+      - dependency-name: "*"
         update-types: ["version-update:semver-patch"]

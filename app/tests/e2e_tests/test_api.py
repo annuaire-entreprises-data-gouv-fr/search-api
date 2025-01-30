@@ -120,26 +120,6 @@ def test_bool_filters(api_response_tester):
     api_response_tester.test_field_value(path, 0, "complements.est_rge", True)
 
 
-def test_organisme_formation(api_response_tester):
-    """
-    test est_organisme_formation et est_qualiopi
-    """
-    path = "search?est_organisme_formation=true&est_qualiopi=true"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_number_of_results(path, min_total_results_filters)
-    path = "search?est_organisme_formation=true&est_qualiopi=false"
-    api_response_tester.test_number_of_results(path, 100)
-    path = "search?est_organisme_formation=false&est_qualiopi=true"
-    api_response_tester.test_max_number_of_results(path, 0)
-    path = "search?q=196716856"
-    api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", True)
-    path = "search?q=552120222"
-    api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", False)
-    api_response_tester.test_field_value(
-        path, 0, "complements.est_organisme_formation", True
-    )
-
-
 def test_near_point(api_response_tester):
     """
     test near point endpoint
@@ -435,7 +415,7 @@ def test_est_organisme_formation(api_response_tester):
     api_response_tester.test_max_number_of_results(path, 0)
     path = "search?q=196716856"
     api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", True)
-    path = "search?q=552120222"
+    path = "search?q=775701477"
     api_response_tester.test_field_value(path, 0, "complements.est_qualiopi", False)
     api_response_tester.test_field_value(
         path, 0, "complements.est_organisme_formation", True

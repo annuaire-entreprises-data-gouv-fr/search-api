@@ -23,10 +23,10 @@ def extract_ul_and_etab_from_es_response(structure):
 def execute_and_agg_total_results_by_identifiant(es_search_builder):
     es_search_client = es_search_builder.es_search_client
     es_search_client.aggs.metric("by_cluster", "cardinality", field="identifiant")
-    es_search_client = page_through_results(es_search_builder)
+    es_search_client = es_search_client.extra(size=0, track_scores=False)
     es_search_client = es_search_client.execute()
     es_search_builder.total_results = es_search_client.aggregations.by_cluster.value
-    es_search_builder.execution_time = es_search_client.took
+    es_search_builder.execution_time += es_search_client.took
 
 
 def page_through_results(es_search_builder):

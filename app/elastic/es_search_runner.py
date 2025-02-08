@@ -61,7 +61,16 @@ class ElasticSearchRunner:
         # 10 000 results. If total_results is higher than 10 000 results,
         # the aggregation causes timeouts on API. We return by default 10 000 results.
         max_results_exceeded = self.total_results >= MAX_TOTAL_RESULTS
-        if not max_results_exceeded:
+        total_value_is_accurate = (
+            es_response.hits.total.relation == "eq"
+            and es_response.hits.total.value == 0
+        ) or is_siret(self.search_params.terms)
+
+        if is_siren(self.search_params.terms):
+            total_value_is_accurate = True
+            self.total_results = 1 if self.total_results > 0 else 0
+
+        if not max_results_exceeded and not total_value_is_accurate:
             execute_and_agg_total_results_by_identifiant(self)
 
         self.es_search_results = []

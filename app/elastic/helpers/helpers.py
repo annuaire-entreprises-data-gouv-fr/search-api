@@ -1,5 +1,6 @@
-from app.elastic.parsers.siren import is_siren
 from elasticsearch_dsl import A
+
+from app.elastic.parsers.siren import is_siren
 
 
 def extract_ul_and_etab_from_es_response(structure):

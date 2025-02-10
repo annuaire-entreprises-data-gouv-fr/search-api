@@ -4,10 +4,10 @@ from datetime import timedelta
 from app.elastic.es_index import StructureMapping
 from app.elastic.geo_search import build_es_search_geo_query
 from app.elastic.helpers.helpers import (
+    agg_identifiant_cardinality,
     execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
     page_through_results,
-    agg_identifiant_cardinality,
 )
 from app.elastic.parsers.siren import is_siren
 from app.elastic.parsers.siret import is_siret

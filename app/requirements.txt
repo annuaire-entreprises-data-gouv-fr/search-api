@@ -1,5 +1,5 @@
 PyYAML==6.0.2
-elasticsearch==8.13.1
+elasticsearch==8.17.2
 elasticsearch_dsl==8.13.1
 elastic-apm==6.23.0
 requests==2.32.2

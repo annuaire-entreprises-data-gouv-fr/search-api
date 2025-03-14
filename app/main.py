@@ -1,5 +1,4 @@
 import yaml
-from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch_dsl import connections
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
@@ -45,8 +44,8 @@ app.openapi = custom_openapi
 
 # Sentry Integration and Elastic APM Integration for Production
 if settings.env == "prod":
-    apm_client = make_apm_client(settings.apm_config)
-    app.add_middleware(ElasticAPM, client=apm_client)
+    # apm_client = make_apm_client(settings.apm_config)
+    # app.add_middleware(ElasticAPM, client=apm_client)
     setup_sentry()
 
 # Include routers

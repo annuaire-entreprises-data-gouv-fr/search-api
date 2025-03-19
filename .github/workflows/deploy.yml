@@ -41,9 +41,8 @@ jobs:
         if: failure()
         uses: ./.github/actions/notify
         with:
-          message: '🚨 ${{ github.event.repository.name }} [${{ matrix.environment }}] : deploy to staging cluster failed'
-          hook: ${{ secrets.TCHAP_HOOK }}
-          id: ${{ secrets.TCHAP_ROOM_ID }}
+          message: "🚨 ${{ github.event.repository.name }} [${{ matrix.environment }}] : deploy to staging cluster failed"
+          hook: ${{ secrets.DEV_EVENT_HOOK }}
 
   deploy-production:
     name: Deploy on production
@@ -85,9 +84,8 @@ jobs:
         if: failure()
         uses: ./.github/actions/notify
         with:
-          message: '🚨 ${{ github.event.repository.name }} [${{ matrix.environment }}] : deploy to production cluster failed'
-          hook: ${{ secrets.TCHAP_HOOK }}
-          id: ${{ secrets.TCHAP_ROOM_ID }}
+          message: "🚨 ${{ github.event.repository.name }} [${{ matrix.environment }}] : deploy to production cluster failed"
+          hook: ${{ secrets.DEV_EVENT_HOOK }}
 
   notify-deploy-staging-success:
     name: Notify successful deployment
@@ -99,9 +97,8 @@ jobs:
       - name: Notify deploy success
         uses: ./.github/actions/notify
         with:
-          message: '✅ ${{ github.event.repository.name }} : successfully deploy staging cluster'
-          hook: ${{ secrets.TCHAP_HOOK }}
-          id: ${{ secrets.TCHAP_ROOM_ID }}
+          message: "✅ ${{ github.event.repository.name }} : successfully deploy staging cluster"
+          hook: ${{ secrets.DEV_EVENT_HOOK }}
 
   notify-deploy-success:
     name: Notify successful deployment
@@ -113,6 +110,5 @@ jobs:
       - name: Notify deploy success
         uses: ./.github/actions/notify
         with:
-          message: '✅ ${{ github.event.repository.name }} : successfully deploy production cluster'
-          hook: ${{ secrets.TCHAP_HOOK }}
-          id: ${{ secrets.TCHAP_ROOM_ID }}
+          message: "✅ ${{ github.event.repository.name }} : successfully deploy production cluster"
+          hook: ${{ secrets.DEV_EVENT_HOOK }}

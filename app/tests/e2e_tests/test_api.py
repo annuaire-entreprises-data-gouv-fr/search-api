@@ -251,6 +251,32 @@ def test_est_service_public(api_response_tester):
     )
 
 
+def test_est_l100_3(api_response_tester):
+    """
+    test if `est_l100_3` filter returns results with and without text search.
+    """
+    path = "search?est_l100_3=true"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_service_public", True
+    )
+    api_response_tester.test_field_value(path, 0, "complements.est_l100_3", True)
+    path = "search?est_l100_3=true&q=ministere"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_service_public", True
+    )
+    path = "search?q=180089476"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_service_public", True
+    )
+    api_response_tester.test_field_value(path, 0, "complements.est_l100_3", False)
+    path = "search?est_service_public=false&est_l100_3=true"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_max_number_of_results(path, 0)
+
+
 # def test_est_societe_a_mission(api_response_tester):
 #    """
 #    test est_societe_mission

@@ -316,10 +316,25 @@ paths:
         - name: est_service_public
           in: query
           description: >-
-            Uniquement les structures reconnues comme service public.
+            Uniquement les structures reconnues comme administration.
 
-            Attention : Ce filtre se base sur des règles de gestion documentées
-            <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/97b81953f060015b881f44482897a066f2cd34cf/data_enrichment.py#L103>ici</a>.
+            Attention : Ce filtre se base sur cette liste
+            <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/>ici</a>.
+
+            Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: est_l100_3
+          in: query
+          description: >-
+            Uniquement les administrations au sens de l'article L. 100-3 du code des relations entre le public et l'administration (CRPA)
+
+            Attention : Ce filtre se base sur cette liste
+            <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/>ici</a>.
 
             Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
           required: false
@@ -1353,12 +1368,22 @@ paths:
                             est_service_public:
                               type: boolean
                               description: >-
-                                Uniquement les structures reconnues comme service public.
+                                Uniquement les structures reconnues comme administration.
 
-                                Attention : Ce filtre se base sur des règles de gestion documentées
-                                <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/c4820119dfbf480979166540ee64278d33abb772/data_enrichment.py#L70>ici</a>.
+                                Attention : Ce champ se base sur cette liste
+                                <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/ici</a>.
 
-                                Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
+                                Ce champ n'est pas exhaustif et peut retourner des faux positifs.
+                              example: false
+                            est_l100_3:
+                              type: boolean
+                              description: >-
+                                Uniquement les structures reconnues comme administration au sens de l'artcile L.100-3.
+
+                                Attention : Ce champ se base sur cette liste
+                                <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/ici</a>.
+
+                                Ce champ n'est pas exhaustif et peut retourner des faux positifs.
                               example: false
                             est_societe_mission:
                               type: boolean
@@ -2340,13 +2365,22 @@ paths:
                             est_service_public:
                               type: boolean
                               description: >-
-                                Uniquement les structures reconnues comme service public.
+                                Uniquement les structures reconnues comme administration.
 
-                                Attention : Ce filtre se base sur des règles de gestion documentées
-                                <a href=https://github.com/etalab/annuaire-entreprises-search-infra/blob/c4820119dfbf480979166540ee64278d33abb772/data_enrichment.py#L70>ici</a>.
+                                Attention : Ce champ se base sur cette liste
+                                <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/ici</a>.
 
-                                Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
+                                Ce champ n'est pas exhaustif et peut retourner des faux positifs.
                               example: false
+                            est_l100_3:
+                              type: boolean
+                              description: >-
+                                Uniquement les structures reconnues comme administration au sens de l'artcile L.100-3.
+
+                                Attention : Ce champ se base sur cette liste
+                                <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/ici</a>.
+
+                                Ce champ n'est pas exhaustif et peut retourner des faux positifs.
                             est_societe_mission:
                               type: boolean
                               example: false

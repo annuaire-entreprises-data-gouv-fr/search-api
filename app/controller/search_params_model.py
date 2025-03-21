@@ -53,6 +53,7 @@ class SearchParams(BaseModel):
     est_qualiopi: bool | None = None
     est_rge: bool | None = None
     est_service_public: bool | None = None
+    est_l100_3: bool | None = None
     est_societe_mission: bool | None = None
     id_convention_collective: str | None = None
     id_finess: str | None = None
@@ -223,6 +224,7 @@ class SearchParams(BaseModel):
         "est_qualiopi",
         "est_rge",
         "est_service_public",
+        "est_l100_3",
         "minimal",
         "est_societe_mission",
         "est_siae",

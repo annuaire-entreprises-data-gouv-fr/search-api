@@ -80,6 +80,7 @@ def build_es_search_text_query(es_search_builder):
                 "est_qualiopi",
                 "est_rge",
                 "est_service_public",
+                "est_l100_3",
                 "est_uai",
                 "etat_administratif_unite_legale",
                 "est_societe_mission",

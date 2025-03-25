@@ -253,7 +253,7 @@ def test_est_service_public(api_response_tester):
 
 def test_est_l100_3(api_response_tester):
     """
-    test if `est_l100_3` filter returns results with and without text search.
+    test `est_l100_3` filter.
     """
     path = "search?est_l100_3=true"
     api_response_tester.assert_api_response_code_200(path)

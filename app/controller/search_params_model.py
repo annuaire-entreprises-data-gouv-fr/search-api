@@ -41,6 +41,7 @@ class SearchParams(BaseModel):
     tranche_effectif_salarie_unite_legale: list | None = None
     convention_collective_renseignee: bool | None = None
     egapro_renseignee: bool | None = None
+    est_achats_responsables: bool | None = None
     epci: list | None = None
     est_bio: bool | None = None
     est_finess: bool | None = None
@@ -213,6 +214,7 @@ class SearchParams(BaseModel):
         "est_entrepreneur_individuel",
         "convention_collective_renseignee",
         "egapro_renseignee",
+        "est_achats_responsables",
         "est_bio",
         "est_finess",
         "est_uai",

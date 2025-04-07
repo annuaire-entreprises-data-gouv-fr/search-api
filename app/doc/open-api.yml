@@ -95,6 +95,7 @@ paths:
             code NAF ou code APE, un code d'activité suivant la nomenclature de
             l'INSEE</a>. Ce paramètre accepte une valeur unique ou une liste de
             valeurs séparées par des virgules.
+            Il ne s'applique qu'à l'unité légale, et non à ses établissements.
           example: "01.12Z,28.15Z"
           required: false
           schema:

@@ -3,7 +3,7 @@ elasticsearch==8.13.1
 elasticsearch_dsl==8.13.1
 elastic-apm==6.23.0
 requests==2.32.2
-sentry-sdk==2.13.0
+sentry-sdk==2.25.1
 python-dotenv==1.0.1
 pytest==8.3.4
 redis==5.2.1

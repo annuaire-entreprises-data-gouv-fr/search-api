@@ -19,7 +19,7 @@ jobs:
           - environment: staging-01
             host: SSH_HOST_STAGING_01
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up SSH
         run: |
@@ -62,7 +62,7 @@ jobs:
           - environment: production-03
             host: SSH_HOST_PRODUCTION_03
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up SSH
         run: |
@@ -93,7 +93,7 @@ jobs:
     needs: [deploy-staging]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Notify deploy success
         uses: ./.github/actions/notify
         with:
@@ -106,7 +106,7 @@ jobs:
     needs: [deploy-production]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Notify deploy success
         uses: ./.github/actions/notify
         with:

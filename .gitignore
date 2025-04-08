@@ -1,11 +1,30 @@
+# Filesystem
+.DS_Store
+
+# Editors
+.idea/
+.vscode/
+
+# Environement variables
+.env
+.envrc
+.enrc
+mise.local.toml
+
+# Python
+.pytest_cache/
+__pycache__/
+
+# Virtual Environments
+venv/
+.venv/
+
+# App
+redis-data/
 es-data/
 metricbeat/
-metricbeat-data/
 pg-airflow/
-.DS_Store
-.idea/
-.env
-pytest_cache/
-venv/
-redis-data/
-.vscode/
+metricbeat-data/
+
+# To remove if uv used in production
+uv.lock

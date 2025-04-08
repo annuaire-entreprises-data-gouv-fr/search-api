@@ -61,8 +61,7 @@ def build_etablissements_filters(search_params):
             must_filters.append(
                 {
                     "match": {
-                        "unite_legale.etablissements."
-                        + field: {
+                        "unite_legale.etablissements." + field: {
                             "query": param_value,
                             "_name": "Filter id:" + field,
                         }

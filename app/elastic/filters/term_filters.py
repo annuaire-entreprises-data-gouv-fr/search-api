@@ -17,7 +17,7 @@ def filter_term_search_unite_legale(
                     get_elasticsearch_field_name(
                         param_name, search_unite_legale=True
                     ): param_value
-                }
+                },
             )
     return search
 
@@ -36,6 +36,6 @@ def filter_term_list_search_unite_legale(
                     get_elasticsearch_field_name(
                         param_name, search_unite_legale=True
                     ): param_value
-                }
+                },
             )
     return search

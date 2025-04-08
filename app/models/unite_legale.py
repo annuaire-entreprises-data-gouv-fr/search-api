@@ -135,7 +135,7 @@ class UniteLegaleResponse(BaseModel):
     sigle: str | None = None
     nombre_etablissements: int | None = None
     nombre_etablissements_ouverts: int | None = None
-    siege: Etablissement = None
+    siege: Etablissement | None = None
     activite_principale: str | None = None
     categorie_entreprise: str | None = None
     caractere_employeur: str | None = None
@@ -156,7 +156,7 @@ class UniteLegaleResponse(BaseModel):
     etablissements: list[Etablissement] | None = None
     immatriculation: Immatriculation | None = None
     finances: dict[str, Finances] | None = None
-    complements: Complements = None
+    complements: Complements | None = None
     score: float | None = None
     slug: str | None = None
     meta: dict | None = None

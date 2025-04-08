@@ -1,3 +1,34 @@
+[project]
+name = "search-api"
+version = "1.0.0"
+requires-python = "==3.12.8"
+description = "Codebase of the L'Annuaire des Entreprises API to search for any French company and retrieve its details."
+authors = [
+    { name = "L'Annuaire des Entreprises", email = "annuaire-entreprises@data.gouv.fr" },
+]
+readme = "README.md"
+license-files = ["LICENSE"]
+dependencies = [
+    "elasticsearch==8.13.1",
+    "elasticsearch_dsl==8.13.1",
+    "requests==2.32.2",
+    "elastic-apm==6.23.0",
+    "redis==5.2.1",
+    "pydantic==2.10.5",
+    "fastapi[standard]==0.115.6",
+    "orjson==3.10.7",
+    "pydantic-settings==2.7.1",
+    "sentry-sdk==2.13.0",
+]
+
+[project.optional-dependencies]
+dev = ["PyYAML==6.0.2", "pytest==8.3.4"]
+
+[project.urls]
+API = "https://recherche-entreprises.api.gouv.fr/"
+Repository = "https://github.com/annuaire-entreprises-data-gouv-fr/search-api"
+Website = "https://annuaire-entreprises.data.gouv.fr/"
+
 [tool.ruff]
 lint.extend-select = ["I"]
 

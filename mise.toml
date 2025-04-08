@@ -1,0 +1,4 @@
+[tools]
+pre-commit = "4.1.0"
+python = "3.12.8"
+uv = "0.6.8"

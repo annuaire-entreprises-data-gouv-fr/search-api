@@ -14,11 +14,11 @@ dependencies = [
     "requests==2.32.2",
     "elastic-apm==6.23.0",
     "redis==5.2.1",
-    "pydantic==2.10.5",
+    "pydantic==2.11.3",
     "fastapi[standard]==0.115.6",
     "orjson==3.10.7",
     "pydantic-settings==2.7.1",
-    "sentry-sdk==2.13.0",
+    "sentry-sdk==2.25.1",
 ]
 
 [project.optional-dependencies]

@@ -169,7 +169,7 @@ class SearchParams(BaseModel):
         cls, list_values: list[str], info
     ) -> list[str]:
         for value in list_values:
-            valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
+            valid_values = VALID_FIELD_VALUES[info.field_name]["valid_values"]
             if not re.search(valid_values, value):
                 raise InvalidParamError(
                     f"Au moins une valeur du paramètre {info.field_name} "
@@ -188,12 +188,12 @@ class SearchParams(BaseModel):
         mode="after",
     )
     def list_of_values_must_be_valid(cls, list_of_values: list[str], info) -> list[str]:
-        valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
+        valid_values = VALID_FIELD_VALUES[info.field_name]["valid_values"]
         for value in list_of_values:
             if value not in valid_values:
                 raise InvalidParamError(
                     f"Au moins un paramètre "
-                    f"`{VALID_FIELD_VALUES.get(info.field_name)['alias']}` "
+                    f"`{VALID_FIELD_VALUES[info.field_name]['alias']}` "
                     f"est non valide. "
                     f"Les valeurs valides : {[value for value in valid_values]}."
                 )
@@ -201,10 +201,10 @@ class SearchParams(BaseModel):
 
     @field_validator("type_personne", "etat_administratif_unite_legale", mode="after")
     def field_must_be_in_valid_list(cls, value: str, info) -> str:
-        valid_values = VALID_FIELD_VALUES.get(info.field_name)["valid_values"]
+        valid_values = VALID_FIELD_VALUES[info.field_name]["valid_values"]
         if value not in valid_values:
             raise InvalidParamError(
-                f"Le paramètre `{VALID_FIELD_VALUES.get(info.field_name)['alias']}` "
+                f"Le paramètre `{VALID_FIELD_VALUES[info.field_name]['alias']}` "
                 f"doit prendre une des valeurs suivantes {valid_values}."
             )
         return value
@@ -280,7 +280,7 @@ class SearchParams(BaseModel):
 
     @field_validator("code_collectivite_territoriale", mode="after")
     def check_min_str_length_in_list(cls, list_values: list[str], info) -> list[str]:
-        min_value_len = FIELD_LENGTHS.get(info.field_name)
+        min_value_len = FIELD_LENGTHS[info.field_name]
         for value in list_values:
             if len(value) < min_value_len:
                 raise InvalidParamError(

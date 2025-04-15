@@ -44,21 +44,21 @@ class APIResponseTester:
 
     def assert_api_response_code_200(self, path):
         response_status_code = self.get_api_response_code(path)
-        assert (
-            response_status_code == ok_status_code
-        ), f"API response code is {response_status_code}, expected 200."
+        assert response_status_code == ok_status_code, (
+            f"API response code is {response_status_code}, expected 200."
+        )
 
     def assert_api_response_code_400(self, path):
         response_status_code = self.get_api_response_code(path)
         assert response_status_code == client_error_status_code, (
-            f"API response code is " f"{response_status_code}, expected 400."
+            f"API response code is {response_status_code}, expected 400."
         )
 
     def assert_api_response_code_204(self, path):
         response_status_code = self.get_api_response_code(path)
-        assert (
-            response_status_code == no_content_status_code
-        ), f"API response code is {response_status_code}, expected 204."
+        assert response_status_code == no_content_status_code, (
+            f"API response code is {response_status_code}, expected 204."
+        )
 
     def test_field_value(self, path, result_number, field_name, expected_value):
         response = self.get_api_response(path)
@@ -67,22 +67,22 @@ class APIResponseTester:
             response_value = get_field_value(
                 response.json()["results"][result_number], field_name
             )
-            assert (
-                response_value == expected_value
-            ), f"Field '{field_name}' has unexpected value."
+            assert response_value == expected_value, (
+                f"Field '{field_name}' has unexpected value."
+            )
 
     def test_number_of_results(self, path, expected_min_count):
         response = self.get_api_response(path)
         if response.status_code == ok_status_code:
             count = response.json()["total_results"]
-            assert (
-                count >= expected_min_count
-            ), f"Expected minimum {expected_min_count} results, but found {count}."
+            assert count >= expected_min_count, (
+                f"Expected minimum {expected_min_count} results, but found {count}."
+            )
 
     def test_max_number_of_results(self, path, expected_max_count):
         response = self.get_api_response(path)
         if response.status_code == ok_status_code:
             count = response.json()["total_results"]
-            assert (
-                count <= expected_max_count
-            ), f"Expected maximum {expected_max_count} results, but found {count}."
+            assert count <= expected_max_count, (
+                f"Expected maximum {expected_max_count} results, but found {count}."
+            )

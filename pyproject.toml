@@ -1,13 +1,40 @@
+[project]
+name = "search-api"
+version = "1.0.0"
+requires-python = "==3.12.8"
+description = "Codebase of the L'Annuaire des Entreprises API to search for any French company and retrieve its details."
+authors = [
+    { name = "L'Annuaire des Entreprises", email = "annuaire-entreprises@data.gouv.fr" },
+]
+readme = "README.md"
+license-files = ["LICENSE"]
+dependencies = [
+    "elasticsearch==8.13.1",
+    "elasticsearch_dsl==8.13.1",
+    "requests==2.32.2",
+    "elastic-apm==6.23.0",
+    "redis==5.2.1",
+    "pydantic==2.11.3",
+    "fastapi[standard]==0.115.6",
+    "orjson==3.10.7",
+    "pydantic-settings==2.7.1",
+    "sentry-sdk==2.25.1",
+]
+
+[project.optional-dependencies]
+dev = ["PyYAML==6.0.2", "pytest==8.3.4"]
+
+[project.urls]
+API = "https://recherche-entreprises.api.gouv.fr/"
+Repository = "https://github.com/annuaire-entreprises-data-gouv-fr/search-api"
+Website = "https://annuaire-entreprises.data.gouv.fr/"
+
 [tool.ruff]
-# Enable Pyflakes `E` and `F` codes by default.
-lint.select = ["E", "F", "I", "UP", "PL"]
-lint.ignore = []
+lint.extend-select = ["I"]
 
-# Allow autofix for all enabled rules (when `--fix`) is provided.
-lint.fixable = ["A", "B", "C", "D", "E", "F", "I"]
-lint.unfixable = []
+[tool.pytest.ini_options]
+pythonpath = ["."]
 
-[tool.ruff.lint.pylint]
-max-args = 20
-max-branches = 20
-max-statements = 60
+[tool.mypy]
+install_types = true
+non_interactive = true

@@ -200,6 +200,17 @@ paths:
             enum:
               - true
               - false
+        - name: est_achats_responsables
+          in: query
+          description: >-
+            Uniquemement les entreprises ayant le label Relations Fournisseurs
+            et Achats Responsables (RFAR).
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_association
           in: query
           description: >-
@@ -1297,12 +1308,17 @@ paths:
                                   type: string
                               description: >-
                                 Liste des conventions collectives de l'unité légale
-                                (source : Ministère du travail).
+                                (source : Ministère du travail)
                             egapro_renseignee:
                               type: boolean
                               description: >-
                                 Indique si au moins un établissement a un
                                 indice égalité professionnel H/F renseigné
+                            est_achats_responsables:
+                              type: boolean
+                              description: >-
+                                Indique si l'entreprise est labelisée
+                                Relations fournisseurs et achats responsables (RFAR)
                             est_association:
                               type: boolean
                               example: false
@@ -2306,6 +2322,11 @@ paths:
                               description: >-
                                 Indique si au moins un établissement a un
                                 indice égalité professionnel H/F renseigné
+                            est_achats_responsables:
+                              type: boolean
+                              description: >-
+                                Indique si l'entreprise est labelisée
+                                Relations fournisseurs et achats responsables (RFAR)
                             est_association:
                               type: boolean
                               example: false

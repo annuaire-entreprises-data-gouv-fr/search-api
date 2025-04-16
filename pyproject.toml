@@ -34,6 +34,7 @@ lint.extend-select = ["I"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+addopts = "-vv"
 
 [tool.mypy]
 install_types = true

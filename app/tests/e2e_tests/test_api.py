@@ -345,6 +345,22 @@ def test_egapro_renseignee(api_response_tester):
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
+def test_achats_responsables(api_response_tester):
+    path = "/search?est_achats_responsables=true"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_achats_responsables", True
+    )
+    api_response_tester.test_number_of_results(path, 100)
+
+    path = "/search?est_achats_responsables=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+
+    path = "/search?q=356000000"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_achats_responsables", True
+    )
+
+
 def test_est_association(api_response_tester):
     path = "search?est_association=True"
     api_response_tester.assert_api_response_code_200(path)

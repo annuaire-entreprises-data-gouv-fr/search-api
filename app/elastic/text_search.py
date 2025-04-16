@@ -70,6 +70,7 @@ def build_es_search_text_query(es_search_builder):
             filters_to_include=[
                 "convention_collective_renseignee",
                 "egapro_renseignee",
+                "est_achats_responsables",
                 "est_association",
                 "est_bio",
                 "est_entrepreneur_individuel",

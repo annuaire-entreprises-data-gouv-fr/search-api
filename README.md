@@ -44,5 +44,6 @@ uv run fastapi dev main.py
 ### Execute tests
 
 ```
-pytest ?
+cd app
+pytest tests/e2e_tests -v
 ```

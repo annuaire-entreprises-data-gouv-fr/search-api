@@ -731,6 +731,22 @@ def test_siae_filter(api_response_tester):
     api_response_tester.test_field_value(path, 0, "complements.est_siae", True)
 
 
+def test_patrimoine_vivant(api_response_tester):
+    path = "/search?est_patrimoine_vivant=true"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_patrimoine_vivant", True
+    )
+    api_response_tester.test_number_of_results(path, 1000)
+
+    path = "/search?est_patrimoine_vivant=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+
+    path = "/search?q=397743634"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_achats_responsables", True
+    )
+
+
 def test_immatriculation(api_response_tester):
     """
     Test immatriculation object.

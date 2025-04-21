@@ -78,6 +78,7 @@ def build_es_search_text_query(es_search_builder):
                 "est_ess",
                 "est_finess",
                 "est_organisme_formation",
+                "est_patrimoine_vivant",
                 "est_qualiopi",
                 "est_rge",
                 "est_service_public",

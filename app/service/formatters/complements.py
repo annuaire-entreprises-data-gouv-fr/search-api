@@ -29,6 +29,7 @@ def format_complements(result_unite_legale):
     est_ess = get_field("est_ess")
     est_finess = get_field("est_finess")
     est_organisme_formation = get_field("est_organisme_formation")
+    est_patrimoine_vivant = get_field("est_patrimoine_vivant")
     est_qualiopi = get_field("est_qualiopi")
     liste_id_organisme_formation = get_field("liste_id_organisme_formation")
     est_rge = get_field("est_rge")
@@ -55,6 +56,7 @@ def format_complements(result_unite_legale):
         est_ess=est_ess,
         est_finess=est_finess,
         est_organisme_formation=est_organisme_formation,
+        est_patrimoine_vivant=est_patrimoine_vivant,
         est_qualiopi=est_qualiopi,
         liste_id_organisme_formation=liste_id_organisme_formation,
         est_rge=est_rge,

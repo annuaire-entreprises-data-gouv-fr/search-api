@@ -743,7 +743,7 @@ def test_patrimoine_vivant(api_response_tester):
 
     path = "/search?q=397743634"
     api_response_tester.test_field_value(
-        path, 0, "complements.est_achats_responsables", True
+        path, 0, "complements.est_patrimoine_vivant", True
     )
 
 

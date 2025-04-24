@@ -48,6 +48,7 @@ class SearchParams(BaseModel):
     est_uai: bool | None = None
     est_collectivite_territoriale: bool | None = None
     est_entrepreneur_spectacle: bool | None = None
+    est_patrimoine_vivant: bool | None = None
     est_association: bool | None = None
     est_ess: bool | None = None
     est_organisme_formation: bool | None = None
@@ -223,6 +224,7 @@ class SearchParams(BaseModel):
         "est_ess",
         "est_association",
         "est_organisme_formation",
+        "est_patrimoine_vivant",
         "est_qualiopi",
         "est_rge",
         "est_service_public",

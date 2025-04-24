@@ -294,6 +294,16 @@ paths:
             enum:
               - true
               - false
+        - name: est_patrimoine_vivant
+          in: query
+          description: >-
+            Uniquement les entreprises ayant le label Entreprise du Patrimoine Vivant (EPV)
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_qualiopi
           in: query
           description: >-
@@ -1356,6 +1366,10 @@ paths:
                               description: >-
                                 Entreprise ayant au moins un établissement organisme de
                                 formation (source : Ministère du Travail)
+                            est_patrimoine_vivant:
+                              type: boolean
+                              description: >-
+                                Entreprise du Patrimoine Vivant (EPV)
                             est_qualiopi:
                               type: boolean
                               description: >-
@@ -2364,6 +2378,10 @@ paths:
                               description: >-
                                 Entreprise ayant au moins un établissement organisme de
                                 formation (source: Ministère du Travail)
+                            est_patrimoine_vivant:
+                              type: boolean
+                              description: >-
+                                Entreprise du Patrimoine Vivant (EPV)
                             est_qualiopi:
                               type: boolean
                               description: >-

@@ -109,6 +109,7 @@ class Complements(BaseModel):
     liste_idcc: list | None = None
     egapro_renseignee: bool = False
     est_achats_responsables: bool = False
+    est_alim_confiance: bool = False
     est_association: bool = False
     est_bio: bool = False
     est_entrepreneur_individuel: bool = False

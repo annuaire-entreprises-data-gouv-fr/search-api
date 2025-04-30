@@ -71,6 +71,7 @@ def build_es_search_text_query(es_search_builder):
                 "convention_collective_renseignee",
                 "egapro_renseignee",
                 "est_achats_responsables",
+                "est_alim_confiance",
                 "est_association",
                 "est_bio",
                 "est_entrepreneur_individuel",

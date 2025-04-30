@@ -355,9 +355,25 @@ def test_achats_responsables(api_response_tester):
     path = "/search?est_achats_responsables=false"
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
-    path = "/search?q=356000000"
+    path = "/search?q=356000000"  # La Poste
     api_response_tester.test_field_value(
         path, 0, "complements.est_achats_responsables", True
+    )
+
+
+def test_alim_confiance(api_response_tester):
+    path = "/search?est_alim_confiance=true"
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_alim_confiance", True
+    )
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+
+    path = "/search?est_alim_confiance=false"
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+
+    path = "/search?q=343262622"  # LIDL
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_alim_confiance", True
     )
 
 

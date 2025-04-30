@@ -8,7 +8,7 @@ assignees: HAEKADI
 
 ## ❗ Sujet du problème
 
-Décrivez clairement le problème rencontré avec l'API.  
+Décrivez clairement le problème rencontré avec l'API.
 Exemple : *« L'endpoint `/search` renvoie une erreur 500 au lieu d'une réponse 200. »*
 
 ---

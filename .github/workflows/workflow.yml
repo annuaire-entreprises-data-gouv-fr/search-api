@@ -95,6 +95,14 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('app/requirements.txt') }}
+      - name: Set es endpoint based on PR label
+        id: set-es-url
+        run: |
+          if [[ "${{ contains(github.event.pull_request.labels.*.name, 'test_on_dev_2') }}" == "true" ]]; then
+            echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_DEV_2 }}" >> $GITHUB_ENV
+          else
+            echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_DEV_1 }}" >> $GITHUB_ENV
+          fi
       - name: Run app
         run: |
           cd app
@@ -103,7 +111,7 @@ jobs:
           sleep 10
           pytest tests/e2e_tests -v
         env:
-          ELASTIC__URL: ${{secrets.ELASTIC_URL_DEV}}
+          ELASTIC__URL: ${{env.ELASTIC__URL}}
           ELASTIC__USER: ${{ secrets.ELASTIC_USER_DEV }}
           ELASTIC__PASSWORD: ${{ secrets.ELASTIC_PASSWORD_DEV }}
           ENV: ${{ secrets.ENV_DEV }}

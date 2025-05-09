@@ -42,6 +42,7 @@ class SearchParams(BaseModel):
     convention_collective_renseignee: bool | None = None
     egapro_renseignee: bool | None = None
     est_achats_responsables: bool | None = None
+    est_alim_confiance: bool | None = None
     epci: list | None = None
     est_bio: bool | None = None
     est_finess: bool | None = None
@@ -216,6 +217,7 @@ class SearchParams(BaseModel):
         "convention_collective_renseignee",
         "egapro_renseignee",
         "est_achats_responsables",
+        "est_alim_confiance",
         "est_bio",
         "est_finess",
         "est_uai",

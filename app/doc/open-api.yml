@@ -211,6 +211,17 @@ paths:
             enum:
               - true
               - false
+        - name: est_alim_confiance
+          in: query
+          description: >-
+            Uniquement les entreprises ayant au moins un établissement avec un
+            résultat de contrôle sanitaire Alim'Confiance.
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
         - name: est_association
           in: query
           description: >-
@@ -1314,11 +1325,11 @@ paths:
                                 convention collective renseignée
                             liste_idcc:
                               type: array
-                              items:
-                                  type: string
                               description: >-
                                 Liste des conventions collectives de l'unité légale
                                 (source : Ministère du travail)
+                              items:
+                                  type: string
                             egapro_renseignee:
                               type: boolean
                               description: >-
@@ -1329,6 +1340,11 @@ paths:
                               description: >-
                                 Indique si l'entreprise est labelisée
                                 Relations fournisseurs et achats responsables (RFAR)
+                            est_alim_confiance:
+                              type: boolean
+                              description: >-
+                                Indique si l'entreprise a au moins un établissement avec un
+                                résultat de contrôle sanitaire Alim'Confiance.
                             est_association:
                               type: boolean
                               example: false
@@ -2341,11 +2357,16 @@ paths:
                               description: >-
                                 Indique si l'entreprise est labelisée
                                 Relations fournisseurs et achats responsables (RFAR)
+                            est_alim_confiance:
+                              type: boolean
+                              description: >-
+                                Indique si l'entreprise a au moins un établissement avec un
+                                résultat de contrôle sanitaire Alim'Confiance.
                             est_association:
                               type: boolean
                               example: false
                               description: >-
-                                Association (source: INSEE)
+                                Association (source : INSEE)
                             est_bio:
                               type: boolean
                               description: >-

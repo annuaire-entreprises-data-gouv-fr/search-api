@@ -28,7 +28,7 @@ jobs:
           version: "main"
           environment: "staging"
           ssh-key: ${{ secrets.SSH_MACHINE_USER_PRIVATE_KEY }}
-          ssh-host: ${{ secret[matrix.host] }}
+          ssh-host: ${{ secrets[matrix.host] }}
           notify-on-failure: true
           notify-on-success: true
           notify-webhook: ${{ secrets.DEV_EVENT_HOOK }}

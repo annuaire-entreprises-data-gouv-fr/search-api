@@ -821,6 +821,14 @@ def test_ul_sans_siege(api_response_tester):
     api_response_tester.test_field_value(path, 0, "siege", {})
 
 
+def test_bilan_ges_renseigne(api_response_tester):
+    path = "search?q=775618622"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(
+        path, 0, "complements.bilan_ges_renseigne", True
+    )
+
+
 def test_search_type_validation(api_response_tester):
     """Test validation rules for different search types"""
     # Test GEO search requires lat/lon

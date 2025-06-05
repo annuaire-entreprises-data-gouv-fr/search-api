@@ -1445,6 +1445,12 @@ paths:
                                 (source : Ministère de l'enseignement supérieur et de
                                 la recherche)
                               example: false
+                            bilan_ges_renseigne:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant un bilan ges publié
+                                (source : ADEME)
+                              example: false
                             identifiant_association:
                               type: string
                               nullable: true
@@ -2454,6 +2460,12 @@ paths:
                                 Entreprise ayant au moins un établissement UAI
                                 (source : Ministère de l'enseignement supérieur et de
                                 la recherche)
+                              example: false
+                            bilan_ges_renseigne:
+                              type: boolean
+                              description: >-
+                                Entreprise ayant un bilan ges publié
+                                (source : ADEME)
                               example: false
                             identifiant_association:
                               type: string

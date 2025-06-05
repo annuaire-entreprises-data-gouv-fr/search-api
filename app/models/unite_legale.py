@@ -126,6 +126,7 @@ class Complements(BaseModel):
     est_societe_mission: bool = False
     est_uai: bool = False
     est_patrimoine_vivant: bool = False
+    bilan_ges_renseigne: bool = False
     identifiant_association: str | None = None
     statut_entrepreneur_spectacle: str | None = None
     type_siae: str | None = None

@@ -39,6 +39,7 @@ def format_complements(result_unite_legale):
     est_siae = get_field("est_siae")
     est_societe_mission = format_insee_bool(get_field("est_societe_mission"))
     est_uai = get_field("est_uai")
+    bilan_ges_renseigne = get_field("bilan_ges_renseigne")
     identifiant_association = get_field("identifiant_association_unite_legale")
     statut_entrepreneur_spectacle = get_field(
         "statut_entrepreneur_spectacle",
@@ -67,6 +68,7 @@ def format_complements(result_unite_legale):
         est_l100_3=est_l100_3,
         est_societe_mission=est_societe_mission,
         est_uai=est_uai,
+        bilan_ges_renseigne=bilan_ges_renseigne,
         identifiant_association=identifiant_association,
         statut_entrepreneur_spectacle=statut_entrepreneur_spectacle,
         type_siae=type_siae,

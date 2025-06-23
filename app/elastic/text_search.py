@@ -262,6 +262,17 @@ def build_es_search_text_query(es_search_builder):
                 ],
             )
 
+        # Search 'dénomination' only
+        denomination = es_search_builder.search_params.denomination
+        if denomination:
+            logging.info("++++++++++++++GOT YOUUU!")
+            denomination_query = search_by_denomination_query(
+                denomination=denomination,
+            )
+            es_search_builder.es_search_client = (
+                es_search_builder.es_search_client.query(Q(denomination_query))
+            )
+
         # Sorting is only applied for text queries and not filters
         for item in [
             "terms",

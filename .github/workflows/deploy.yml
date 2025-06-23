@@ -1,5 +1,6 @@
 name: Deploy cluster
-
+permissions:
+    contents: read
 on:
   push:
     branches: [main]
@@ -28,7 +29,7 @@ jobs:
           version: "main"
           environment: "staging"
           ssh-key: ${{ secrets.SSH_MACHINE_USER_PRIVATE_KEY }}
-          ssh-host: ${{ secrets[matrix.host] }}
+          ssh-host: ${{ secrets.SSH_HOST_STAGING_01 }}
           notify-on-failure: true
           notify-on-success: true
           notify-webhook: ${{ secrets.DEV_EVENT_HOOK }}
@@ -45,11 +46,11 @@ jobs:
       matrix:
         include:
           - environment: production-01
-            host: SSH_HOST_PRODUCTION_01
+            host: ${{ secrets.SSH_HOST_PRODUCTION_01 }}
           - environment: production-02
-            host: SSH_HOST_PRODUCTION_02
+            host: ${{ secrets.SSH_HOST_PRODUCTION_02 }}
           - environment: production-03
-            host: SSH_HOST_PRODUCTION_03
+            host: ${{ secrets.SSH_HOST_PRODUCTION_03 }}
     steps:
       - uses: actions/checkout@v4
       - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v1
@@ -60,7 +61,7 @@ jobs:
           version: "main"
           environment: "production"
           ssh-key: ${{ secrets.SSH_MACHINE_USER_PRIVATE_KEY }}
-          ssh-host: ${{ secrets[matrix.host] }}
+          ssh-host: ${{ matrix.host }}
           notify-on-failure: true
           notify-on-success: true
           notify-webhook: ${{ secrets.DEV_EVENT_HOOK }}

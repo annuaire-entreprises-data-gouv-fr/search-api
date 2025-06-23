@@ -1,7 +1,5 @@
 ---
 name: Test Search API
-permissions:
-  contents: read
 on:
   pull_request:
   push:

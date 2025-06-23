@@ -1,4 +1,5 @@
 from elasticsearch_dsl import Q
+import logging
 
 from app.elastic.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
@@ -26,6 +27,7 @@ from app.elastic.helpers.helpers import (
     should_get_doc_by_id,
     sort_search_by_company_size,
 )
+from app.elastic.queries.denomination import search_by_denomination_query
 from app.elastic.parsers.siren import is_siren
 from app.elastic.parsers.siret import is_siret
 from app.elastic.queries.bilan import search_bilan

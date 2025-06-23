@@ -33,6 +33,7 @@ class SearchParams(BaseModel):
     code_postal: list | None = None
     commune: list | None = None
     convention_collective_renseignee: bool | None = None
+    denomination: str | None = None
     departement: list | None = None
     egapro_renseignee: bool | None = None
     epci: list | None = None
@@ -142,6 +143,7 @@ class SearchParams(BaseModel):
         "terms",
         "type_personne",
         "etat_administratif_unite_legale",
+        "denomination",
         mode="before",
     )
     def make_uppercase(cls, value: str) -> str:

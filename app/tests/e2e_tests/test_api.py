@@ -250,7 +250,6 @@ def test_est_service_public(api_response_tester):
         path, 0, "complements.est_service_public", True
     )
 
-
 def test_est_l100_3(api_response_tester):
     """
     test `est_l100_3` filter.
@@ -276,17 +275,16 @@ def test_est_l100_3(api_response_tester):
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_max_number_of_results(path, 0)
 
-
-# def test_est_societe_a_mission(api_response_tester):
-#    """
-#    test est_societe_mission
-#    """
-#    path = "search?est_societe_mission=true"
-#    api_response_tester.assert_api_response_code_200(path)
-#    api_response_tester.test_number_of_results(path, 500)
-#    api_response_tester.test_field_value(
-#        path, 0, "complements.est_societe_mission", True
-#    )
+def test_est_societe_a_mission(api_response_tester):
+    """
+    test est_societe_mission
+    """
+    path = "search?est_societe_mission=true"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_number_of_results(path, 500)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_societe_mission", True
+    )
 
 
 def test_commune_filter(api_response_tester):

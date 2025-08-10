@@ -4,6 +4,7 @@ from datetime import timedelta
 from app.elastic.es_index import StructureMapping
 from app.elastic.geo_search import build_es_search_geo_query
 from app.elastic.helpers.helpers import (
+    agg_identifiant_cardinality,
     execute_and_agg_total_results_by_identifiant,
     extract_ul_and_etab_from_es_response,
     page_through_results,
@@ -17,6 +18,7 @@ from app.utils.helpers import is_dev_env
 
 MIN_EXECUTION_TIME = 400
 MAX_TOTAL_RESULTS = 10000
+IDENTIFIANT_SAMPLER_SIZE = 100
 
 
 class ElasticSearchRunner:
@@ -52,6 +54,20 @@ class ElasticSearchRunner:
 
     def execute_and_format_es_search(self):
         self.es_search_client = page_through_results(self)
+
+        if not is_siren(self.search_params.terms) and not is_siret(
+            self.search_params.terms
+        ):
+            # Quickly aggregate over the first IDENTIFIANT_SAMPLER_SIZE matching documents
+            # to estimate the total number of results (i.e. the disting number of identifiant)
+            #
+            # When the number of sampled documents is less than IDENTIFIANT_SAMPLER_SIZE
+            # Then the by_cluster sub-aggregation return the exact number of identifiant
+            # and we don't need to dispatch a second query
+            agg_identifiant_cardinality(
+                self.es_search_client, sample=True, size=IDENTIFIANT_SAMPLER_SIZE
+            )
+
         es_response = self.es_search_client.execute()
         self.total_results = es_response.hits.total.value
         self.execution_time = es_response.took
@@ -61,7 +77,18 @@ class ElasticSearchRunner:
         # 10 000 results. If total_results is higher than 10 000 results,
         # the aggregation causes timeouts on API. We return by default 10 000 results.
         max_results_exceeded = self.total_results >= MAX_TOTAL_RESULTS
-        if not max_results_exceeded:
+        total_value_is_accurate = False
+
+        if is_siret(self.search_params.terms):
+            total_value_is_accurate = True
+        elif is_siren(self.search_params.terms):
+            total_value_is_accurate = True
+            self.total_results = min(1, self.total_results)
+        elif es_response.aggregations.sample.doc_count < IDENTIFIANT_SAMPLER_SIZE:
+            total_value_is_accurate = True
+            self.total_results = es_response.aggregations.sample.by_cluster.value
+
+        if not max_results_exceeded and not total_value_is_accurate:
             execute_and_agg_total_results_by_identifiant(self)
 
         self.es_search_results = []

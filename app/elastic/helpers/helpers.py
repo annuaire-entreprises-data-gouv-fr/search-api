@@ -1,3 +1,5 @@
+from elasticsearch_dsl import A
+
 from app.elastic.parsers.siren import is_siren
 
 
@@ -22,11 +24,23 @@ def extract_ul_and_etab_from_es_response(structure):
 
 def execute_and_agg_total_results_by_identifiant(es_search_builder):
     es_search_client = es_search_builder.es_search_client
-    es_search_client.aggs.metric("by_cluster", "cardinality", field="identifiant")
-    es_search_client = page_through_results(es_search_builder)
+    agg_identifiant_cardinality(es_search_client)
+    es_search_client = es_search_client.extra(
+        size=0, track_scores=False, track_total_hits=False
+    )
     es_search_client = es_search_client.execute()
     es_search_builder.total_results = es_search_client.aggregations.by_cluster.value
-    es_search_builder.execution_time = es_search_client.took
+    es_search_builder.execution_time += es_search_client.took
+
+
+def agg_identifiant_cardinality(es_search_builder, sample=False, size=100):
+    agg = A("cardinality", field="identifiant")
+
+    if sample:
+        sampler = A("sampler", shard_size=size, aggs={"by_cluster": agg})
+        es_search_builder.aggs.bucket("sample", sampler)
+    else:
+        es_search_builder.aggs.metric("by_cluster", agg)
 
 
 def page_through_results(es_search_builder):

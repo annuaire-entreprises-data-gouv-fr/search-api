@@ -6,7 +6,7 @@ requests==2.32.4
 sentry-sdk==2.34.1
 python-dotenv==1.1.1
 pytest==8.4.0
-redis==6.2.0
+redis==6.4.0
 httpx==0.28.1
 pydantic==2.11.3
 fastapi[standard]==0.116.1

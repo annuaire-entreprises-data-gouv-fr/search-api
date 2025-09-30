@@ -3,13 +3,13 @@ elasticsearch==8.13.1
 elasticsearch_dsl==8.13.1
 elastic-apm==6.24.0
 requests==2.32.4
-sentry-sdk==2.35.0
+sentry-sdk==2.39.0
 python-dotenv==1.1.1
 pytest==8.4.0
 redis==6.4.0
 httpx==0.28.1
 pydantic==2.11.3
-fastapi[standard]==0.116.1
-uvicorn==0.35.0
+fastapi[standard]==0.118.0
+uvicorn==0.37.0
 orjson==3.11.1
 pydantic-settings==2.10.0

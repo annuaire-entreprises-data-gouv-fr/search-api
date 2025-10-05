@@ -30,6 +30,7 @@ _DIRIGEANT_PP_FIELDS_TO_MASK = [
     "nom",
     "prenoms",
     "annee_de_naissance",
+    "date_de_naissance",
 ]
 
 

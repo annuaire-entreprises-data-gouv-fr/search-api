@@ -22,8 +22,10 @@ _ETABLISSEMENT_FIELDS_TO_MASK = [
     "latitude",
     "libelle_cedex",
     "libelle_voie",
+    "numero_voie",
     "type_voie",
 ]
+
 
 # Dirigeant fields to hide for personne physique
 _DIRIGEANT_PP_FIELDS_TO_MASK = [

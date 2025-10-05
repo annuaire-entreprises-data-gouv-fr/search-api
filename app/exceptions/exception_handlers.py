@@ -25,10 +25,12 @@ def create_exception_handler(
             "message": exc.message or initial_detail,
         }
 
+        # Intentionally do not push invalid parameter errors to Sentry;
+        # they are client-side issues and should only be logged as info.
         if isinstance(exc, InvalidParamError):
-            with push_scope() as scope:
-                scope.fingerprint = ["InvalidParamError"]
-                logging.warning(f"Bad Request: {exc.message}")
+            # with push_scope() as scope:
+            #     scope.fingerprint = ["InvalidParamError"]
+            logging.info(f"Bad Request: {exc.message}")
 
         return ORJSONResponse(
             status_code=detail["status_code"],

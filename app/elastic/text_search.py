@@ -59,9 +59,15 @@ def build_es_search_text_query(es_search_builder):
 
     else:
         # Always apply this filter for text search to prevent displaying
-        # non-diffusible data
+        # non-diffusible data: allow when statut is "O" OR when the entity
+        # is a legal person (est_personne_morale_insee == True) because for ND PM, nom raison social is not hidden
         es_search_builder.es_search_client = es_search_builder.es_search_client.filter(
-            "term", **{"unite_legale.statut_diffusion_unite_legale": "O"}
+            "bool",
+            should=[
+                Q("term", **{"unite_legale.statut_diffusion_unite_legale": "O"}),
+                Q("exists", field="unite_legale.est_personne_morale_insee"),
+            ],
+            minimum_should_match=1,
         )
         # Filter results by term using 'unité légale' related filters in the request
         es_search_builder.es_search_client = filter_term_search_unite_legale(

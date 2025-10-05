@@ -67,15 +67,6 @@ def format_etablissement(source_etablissement):
         "type_voie": get_field("type_voie"),
     }
 
-    is_non_diffusible = (
-        True if get_field("statut_diffusion_etablissement") == "P" else False
-    )
-
-    if is_non_diffusible:
-        formatted_etablissement = hide_non_diffusible_etablissement_fields(
-            formatted_etablissement
-        )
-
     return Etablissement(**formatted_etablissement)
 
 

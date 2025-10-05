@@ -1,5 +1,5 @@
 def get_nom_commercial(siege):
-    return siege.get("nom_commercial", None) if siege else None
+    return siege.get("nom_commercial") if siege else None
 
 
 def format_nom_complet(
@@ -9,32 +9,38 @@ def format_nom_complet(
     denomination_usuelle_1=None,
     denomination_usuelle_2=None,
     denomination_usuelle_3=None,
+    is_personne_morale_insee=False,
+    is_non_diffusible=False,
 ):
-    """Add `denomination usuelle` fields and `sigle` to `nom_complet`."""
+    """Add `denomination usuelle` fields and `sigle` to `nom_complet`.
+
+    Returns None if nom_complet is empty.
+    """
     if not nom_complet:
         return None
 
-    # Handle denomination usuelle
+    # Build denomination from available sources
+    denomination = None
     if nom_commercial_siege:
         denomination = nom_commercial_siege
     else:
-        denomination = " ".join(
-            filter(
-                lambda x: x and x.upper() != "SUPPRESSION DU NOM COMMERCIAL",
-                [
-                    denomination_usuelle_1,
-                    denomination_usuelle_2,
-                    denomination_usuelle_3,
-                ],
-            )
-        )
+        parts = [
+            d
+            for d in [
+                denomination_usuelle_1,
+                denomination_usuelle_2,
+                denomination_usuelle_3,
+            ]
+            if d and d.upper() != "SUPPRESSION DU NOM COMMERCIAL"
+        ]
+        if parts:
+            denomination = " ".join(parts)
 
-    # Add denomination to nom_complet if it exists
+    # Build final name with parenthetical additions
+    result = nom_complet
     if denomination:
-        nom_complet += f" ({denomination.strip()})"
+        result += f" ({denomination.strip()})"
+    if sigle and not (is_personne_morale_insee and is_non_diffusible):
+        result += f" ({sigle})"
 
-    # Add sigle if it exists
-    if sigle:
-        nom_complet += f" ({sigle})"
-
-    return nom_complet.upper()
+    return result.upper()

@@ -33,6 +33,12 @@ def format_single_unite_legale(result, search_params):
             return default
         return value
 
+    is_non_diffusible = (
+        True
+        if result_unite_legale.get("statut_diffusion_unite_legale") == "P"
+        else False
+    )
+
     unite_legale_fields = {
         "siren": get_field("siren"),
         "nom_complet": format_nom_complet(
@@ -42,6 +48,8 @@ def format_single_unite_legale(result, search_params):
             get_field("denomination_usuelle_1_unite_legale"),
             get_field("denomination_usuelle_2_unite_legale"),
             get_field("denomination_usuelle_3_unite_legale"),
+            get_field("est_personne_morale_insee"),
+            is_non_diffusible,
         ),
         "nom_raison_sociale": get_field("nom_raison_sociale"),
         "sigle": get_field("sigle"),
@@ -114,14 +122,10 @@ def format_single_unite_legale(result, search_params):
         formatted_unite_legale.meta = json.loads(json.dumps(meta, default=str))
 
     # Hide most fields if unité légale is non-diffusible
-    is_non_diffusible = (
-        True
-        if result_unite_legale.get("statut_diffusion_unite_legale") == "P"
-        else False
-    )
     if is_non_diffusible:
         formatted_unite_legale = hide_non_diffusible_fields(
-            formatted_unite_legale.dict(exclude_unset=True)
+            formatted_unite_legale.dict(exclude_unset=True),
+            result_unite_legale.get("est_personne_morale_insee"),
         )
         return formatted_unite_legale
 

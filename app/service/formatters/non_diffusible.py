@@ -15,11 +15,13 @@ _ETABLISSEMENT_FIELDS_TO_MASK = [
     "cedex",
     "code_postal",
     "complement_adresse",
+    "coordonnees",
     "distribution_speciale",
     "indice_repetition",
+    "longitude",
+    "latitude",
     "libelle_cedex",
     "libelle_voie",
-    "numero_voie",
     "type_voie",
 ]
 

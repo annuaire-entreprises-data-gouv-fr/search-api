@@ -9,7 +9,7 @@ _UL_PP_FIELDS_TO_MASK = [
     "sigle",
 ]
 
-# fields that must be masked for établissements
+# Fields that must be masked for établissements
 _ETABLISSEMENT_FIELDS_TO_MASK = [
     "adresse",
     "cedex",
@@ -101,7 +101,7 @@ def hide_non_diffusible_etablissement_fields(etablissement, hide_denomination):
         etablissement: The établissement dict to modify in-place
         hide_denomination: If True, also mask nom_commercial and liste_enseignes
     """
-    # Mask denomination fields if requested
+    # Mask denomination fields
     if hide_denomination:
         liste_enseignes = etablissement.get("liste_enseignes")
         if liste_enseignes:
@@ -111,6 +111,6 @@ def hide_non_diffusible_etablissement_fields(etablissement, hide_denomination):
 
         _mask_fields(etablissement, ["nom_commercial"])
 
-    # Mask address fields
+    # Mask ND fields
     _mask_fields(etablissement, _ETABLISSEMENT_FIELDS_TO_MASK)
     return etablissement

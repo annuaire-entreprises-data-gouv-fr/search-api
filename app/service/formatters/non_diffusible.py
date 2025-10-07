@@ -71,6 +71,7 @@ def hide_non_diffusible_unite_legale(result_formatted, est_personne_morale_insee
     # Handle all other établissements (always hide denomination)
     for etab_list_key in ("matching_etablissements", "etablissements"):
         for etablissement in result_formatted.get(etab_list_key, []):
+            # For all pther etablissements, we mask denomination fields
             hide_non_diffusible_etablissement_fields(
                 etablissement, hide_denomination=True
             )
@@ -90,7 +91,6 @@ def hide_non_diffusible_dirigeants_fields(dirigeants):
         if dirigeant.get("type_dirigeant") == "personne physique":
             _mask_fields(dirigeant, _DIRIGEANT_PP_FIELDS_TO_MASK)
     return dirigeants
-
 
 
 def hide_non_diffusible_etablissement_fields(etablissement, hide_denomination):

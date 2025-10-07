@@ -1,8 +1,5 @@
 from app.models.unite_legale import Etablissement
 from app.service.formatters.enseignes import format_enseignes
-from app.service.formatters.non_diffusible import (
-    hide_non_diffusible_etablissement_fields,
-)
 from app.utils.helpers import get_value
 
 
@@ -66,15 +63,6 @@ def format_etablissement(source_etablissement):
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
         "type_voie": get_field("type_voie"),
     }
-
-    is_non_diffusible = (
-        True if get_field("statut_diffusion_etablissement") == "P" else False
-    )
-
-    if is_non_diffusible:
-        formatted_etablissement = hide_non_diffusible_etablissement_fields(
-            formatted_etablissement
-        )
 
     return Etablissement(**formatted_etablissement)
 

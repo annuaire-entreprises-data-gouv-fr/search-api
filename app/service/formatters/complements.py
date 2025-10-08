@@ -35,9 +35,6 @@ def format_complements(result_unite_legale):
     liste_id_organisme_formation = get_field("liste_id_organisme_formation")
     est_rge = get_field("est_rge")
     est_service_public = get_field("est_service_public")
-    # TMP Exception for hospital access to ProConnect
-    if get_field("siren") == "263500126":
-        est_service_public = True
     est_l100_3 = get_field("est_l100_3")
     est_siae = get_field("est_siae")
     est_societe_mission = format_insee_bool(get_field("est_societe_mission"))

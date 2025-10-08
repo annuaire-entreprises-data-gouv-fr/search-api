@@ -73,7 +73,7 @@ def hide_non_diffusible_unite_legale(result_formatted, est_personne_morale_insee
         for etablissement in result_formatted.get(etab_list_key, []):
             # For all pther etablissements, we mask denomination fields
             hide_non_diffusible_etablissement_fields(
-                etablissement, hide_denomination=True
+                etablissement, hide_denomination=not est_personne_morale_insee
             )
 
     return result_formatted

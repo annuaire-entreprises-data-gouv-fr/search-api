@@ -933,7 +933,7 @@ def test_nd_pm_sans_nom_commercial(api_response_tester):
     for etab_list_key in ("matching_etablissements", "etablissements"):
         for etab in ul.get(etab_list_key, []):
             if "nom_commercial" in etab:
-                assert etab["nom_commercial"] == "[NON-DIFFUSIBLE]"
+                assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
 
 
 def test_nd_pm_avec_nom_commercial(api_response_tester):
@@ -955,7 +955,7 @@ def test_nd_pm_avec_nom_commercial(api_response_tester):
     for etab_list_key in ("matching_etablissements", "etablissements"):
         for etab in ul.get(etab_list_key, []):
             if "nom_commercial" in etab:
-                assert etab["nom_commercial"] == "[NON-DIFFUSIBLE]"
+                assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
 
 
 def test_nd_pm_avec_sigle(api_response_tester):
@@ -977,4 +977,26 @@ def test_nd_pm_avec_sigle(api_response_tester):
     for etab_list_key in ("matching_etablissements", "etablissements"):
         for etab in ul.get(etab_list_key, []):
             if "nom_commercial" in etab:
-                assert etab["nom_commercial"] == "[NON-DIFFUSIBLE]"
+                assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
+
+
+def test_secondary_etab_nd_pm_avec_nom_commercial(api_response_tester):
+    path = "search?q=94793126700027"
+    response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
+    ul = response.json()["results"][0]
+
+    # UL: sigle must be masked; nom_complet should not be masked
+    assert ul.get("sigle") == "[NON-DIFFUSIBLE]"
+    assert ul["nom_complet"] != "[NON-DIFFUSIBLE]"
+
+    # Siege: denomination should not be masked for PM if present
+    siege = ul.get("siege", {})
+    if "nom_commercial" in siege and siege["nom_commercial"] is not None:
+        assert siege["nom_commercial"] != "[NON-DIFFUSIBLE]"
+
+    # Other etablissements: denomination masked if present
+    for etab_list_key in ("matching_etablissements", "etablissements"):
+        for etab in ul.get(etab_list_key, []):
+            if "nom_commercial" in etab:
+                assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"

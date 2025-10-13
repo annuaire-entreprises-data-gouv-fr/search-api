@@ -9,7 +9,7 @@ pytest==8.4.0
 redis==6.4.0
 httpx==0.28.1
 pydantic==2.11.3
-fastapi[standard]==0.118.0
+fastapi[standard]==0.119.0
 uvicorn==0.37.0
 orjson==3.11.1
 pydantic-settings==2.11.0

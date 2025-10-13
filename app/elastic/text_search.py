@@ -65,7 +65,7 @@ def build_es_search_text_query(es_search_builder):
             "bool",
             should=[
                 Q("term", **{"unite_legale.statut_diffusion_unite_legale": "O"}),
-                Q("exists", field="unite_legale.est_personne_morale_insee"),
+                Q("term", **{"unite_legale.est_personne_morale_insee": True}),
             ],
             minimum_should_match=1,
         )

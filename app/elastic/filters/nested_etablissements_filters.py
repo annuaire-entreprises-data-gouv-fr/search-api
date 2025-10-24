@@ -10,7 +10,6 @@ def build_etablissements_filters(search_params):
     2. Filter search by matching an id in an array of ids,
         e.g. ids : "id_convention_collective",
                   "id_uai",
-                  "id_finess",
                   "id_rge",
 
     3. Filter search by bool parameters,
@@ -24,7 +23,7 @@ def build_etablissements_filters(search_params):
     """
 
     # Id filters are used in the `should` clause
-    id_filters = ["id_finess", "id_rge", "id_uai", "id_convention_collective"]
+    id_filters = ["id_rge", "id_uai", "id_convention_collective"]
     # Text filters are used in the `must` clause
     text_filters = ["departement", "code_postal", "commune", "epci", "region"]
     # Bool filters are used in both `must` and `must_not` clauses depending on the

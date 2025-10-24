@@ -11,7 +11,6 @@ def is_any_etablissement_filter_used(search_params) -> bool:
         "est_rge",
         "id_convention_collective",
         "id_uai",
-        "id_finess",
         "id_rge",
         "region",
     ]

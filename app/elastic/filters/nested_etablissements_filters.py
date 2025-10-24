@@ -18,7 +18,6 @@ def build_etablissements_filters(search_params):
     indexed in `unité légale` and a list of values indexed in `établissements`
     e.g "convention_collective_renseignee" -> "liste_idcc",
         "est_bio" -> "liste_id_bio",
-        "est_finess" -> "liste_finess",
         "est_uai" -> "liste_uai",
         "est_entrepreneur_spectacle" -> "est_entrepreneur_spectacle",
         "est_rge" -> "est_rge",
@@ -32,7 +31,6 @@ def build_etablissements_filters(search_params):
     # filter value
     bool_filters = [
         "convention_collective_renseignee",
-        "est_finess",
         "est_bio",
         "est_uai",
         "est_rge",

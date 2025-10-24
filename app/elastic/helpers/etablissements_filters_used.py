@@ -6,7 +6,6 @@ def is_any_etablissement_filter_used(search_params) -> bool:
         "departement",
         "epci",
         "est_bio",
-        "est_finess",
         "est_organisme_formation",
         "est_uai",
         "est_rge",

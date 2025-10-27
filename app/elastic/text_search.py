@@ -1,4 +1,5 @@
 from elasticsearch_dsl import Q
+import logging
 
 from app.elastic.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
@@ -26,6 +27,7 @@ from app.elastic.helpers.helpers import (
     should_get_doc_by_id,
     sort_search_by_company_size,
 )
+from app.elastic.queries.denomination import search_by_denomination_query
 from app.elastic.parsers.siren import is_siren
 from app.elastic.parsers.siret import is_siret
 from app.elastic.queries.bilan import search_bilan
@@ -264,6 +266,17 @@ def build_es_search_text_query(es_search_builder):
                         "match_date": "date_naissance",
                     },
                 ],
+            )
+
+        # Search 'dénomination' only
+        denomination = es_search_builder.search_params.denomination
+        if denomination:
+            logging.info("++++++++++++++GOT YOUUU!")
+            denomination_query = search_by_denomination_query(
+                denomination=denomination,
+            )
+            es_search_builder.es_search_client = (
+                es_search_builder.es_search_client.query(Q(denomination_query))
             )
 
         # Sorting is only applied for text queries and not filters

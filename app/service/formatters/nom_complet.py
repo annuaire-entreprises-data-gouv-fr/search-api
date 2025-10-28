@@ -6,9 +6,6 @@ def format_nom_complet(
     nom_complet,
     sigle=None,
     nom_commercial_siege=None,
-    denomination_usuelle_1=None,
-    denomination_usuelle_2=None,
-    denomination_usuelle_3=None,
     is_personne_morale_insee=False,
     is_non_diffusible=False,
 ):
@@ -23,18 +20,6 @@ def format_nom_complet(
     denomination = None
     if nom_commercial_siege:
         denomination = nom_commercial_siege
-    else:
-        parts = [
-            d
-            for d in [
-                denomination_usuelle_1,
-                denomination_usuelle_2,
-                denomination_usuelle_3,
-            ]
-            if d and d.upper() != "SUPPRESSION DU NOM COMMERCIAL"
-        ]
-        if parts:
-            denomination = " ".join(parts)
 
     # Build final name with parenthetical additions
     result = nom_complet

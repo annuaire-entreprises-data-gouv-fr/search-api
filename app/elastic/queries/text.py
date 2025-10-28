@@ -92,9 +92,6 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                 "query": terms,
                                 "fields": [
                                     "unite_legale.nom_raison_sociale",
-                                    "unite_legale.denomination_usuelle_1_unite_legale",
-                                    "unite_legale.denomination_usuelle_2_unite_legale",
-                                    "unite_legale.denomination_usuelle_3_unite_legale",
                                     "unite_legale.sigle",
                                     "unite_legale.nom",
                                     "unite_legale.prenom",
@@ -367,9 +364,6 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                 "query": terms,
                                 "fields": [
                                     "unite_legale.nom_raison_sociale",
-                                    "unite_legale.denomination_usuelle_1_unite_legale",
-                                    "unite_legale.denomination_usuelle_2_unite_legale",
-                                    "unite_legale.denomination_usuelle_3_unite_legale",
                                     "unite_legale.sigle",
                                     "unite_legale.nom",
                                     "unite_legale.prenom",

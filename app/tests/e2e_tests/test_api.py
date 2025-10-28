@@ -439,16 +439,6 @@ def test_est_rge(api_response_tester):
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
 
-def test_est_finess(api_response_tester):
-    path = "search?est_finess=true"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_field_value(path, 0, "complements.est_finess", True)
-    api_response_tester.test_number_of_results(path, min_total_results_filters)
-    path = "search?est_finess=false"
-    api_response_tester.test_field_value(path, 0, "complements.est_finess", False)
-    api_response_tester.test_number_of_results(path, min_total_results_filters)
-
-
 def test_est_ess(api_response_tester):
     path = "search?est_ess=true"
     api_response_tester.assert_api_response_code_200(path)
@@ -512,14 +502,48 @@ def test_id_convention_collective(api_response_tester):
     assert "1090" in liste_idcc
 
 
+def test_est_finess(api_response_tester):
+    path = "search?est_finess=true"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "complements.est_finess", True)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+
+    path = "search?est_finess=false"
+    api_response_tester.test_field_value(path, 0, "complements.est_finess", False)
+    api_response_tester.test_number_of_results(path, min_total_results_filters)
+
+
 def test_id_finess(api_response_tester):
+    # Finess Géographique
     path = "search?id_finess=010003853"
     api_response_tester.assert_api_response_code_200(path)
     response = api_response_tester.get_api_response(path)
-    liste_finess = response.json()["results"][0]["matching_etablissements"][0][
-        "liste_finess"
-    ]
-    assert "010003853" in liste_finess
+    assert (
+        "010003853"
+        in response.json()["results"][0]["matching_etablissements"][0]["liste_finess"]
+    )
+
+    # Finess Juridique
+    path = "search?id_finess=010003846"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    # liste_finess_juridique is at the complements level, not in matching_etablissements
+    assert (
+        "010003846"
+        in response.json()["results"][0]["complements"]["liste_finess_juridique"]
+    )
+
+
+def test_est_finess_matching_id_finess(api_response_tester):
+    # Siren with a Finess Géographique
+    path = "search?id_finess=940008048&est_finess=true"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siren", "490414091")
+
+    # Siren with a Finess Juridique ID but no Finess Géographique
+    path = "search?id_finess=590800553&est_finess=true"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siren", "783833957")
 
 
 def test_id_rge(api_response_tester):

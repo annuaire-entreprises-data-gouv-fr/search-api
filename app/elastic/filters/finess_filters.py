@@ -7,9 +7,9 @@ def build_id_finess_filter(id_finess, with_inner_hits=False, matching_size=10):
         path="unite_legale.etablissements",
         query=Q(
             "match",
-            unite_legale__etablissements__liste_finess={
+            unite_legale__etablissements__liste_finess_geographique={
                 "query": id_finess,
-                "_name": "Filter id:liste_finess",
+                "_name": "Filter id:liste_finess_geographique",
             },
         ),
     )
@@ -20,9 +20,9 @@ def build_id_finess_filter(id_finess, with_inner_hits=False, matching_size=10):
             path="unite_legale.etablissements",
             query=Q(
                 "match",
-                unite_legale__etablissements__liste_finess={
+                unite_legale__etablissements__liste_finess_geographique={
                     "query": id_finess,
-                    "_name": "Filter id:liste_finess",
+                    "_name": "Filter id:liste_finess_geographique",
                 },
             ),
             inner_hits={

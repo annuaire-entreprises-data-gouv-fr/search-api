@@ -36,7 +36,7 @@ class Etablissement(BaseModel):
     libelle_pays_etranger: str | None = None
     libelle_voie: str | None = None
     liste_enseignes: list | None = None
-    liste_finess: list | None = None
+    liste_finess_geographique: list | None = None
     liste_id_bio: list | None = None
     liste_idcc: list | None = None
     liste_id_organisme_formation: list | None = None

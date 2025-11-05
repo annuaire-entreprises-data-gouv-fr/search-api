@@ -541,9 +541,9 @@ def test_est_finess_matching_id_finess(api_response_tester):
     api_response_tester.test_field_value(path, 0, "siren", "490414091")
 
     # Siren with a Finess Juridique ID but no Finess Géographique
-    path = "search?id_finess=590800553&est_finess=true"
+    path = "search?id_finess=850031444&est_finess=true"
     api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_field_value(path, 0, "siren", "783833957")
+    api_response_tester.test_field_value(path, 0, "siren", "786446260")
 
 
 def test_id_rge(api_response_tester):

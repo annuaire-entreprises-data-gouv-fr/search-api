@@ -3,6 +3,7 @@ from elasticsearch_dsl import Q
 from app.elastic.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
 )
+from app.elastic.filters.finess_filters import build_id_finess_filter
 from app.elastic.filters.id import filter_by_id
 from app.elastic.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
@@ -120,6 +121,16 @@ def build_es_search_text_query(es_search_builder):
                 "est_collectivite_territoriale",
             ],
         )
+
+        if es_search_builder.search_params.id_finess is not None:
+            finess_filter = build_id_finess_filter(
+                es_search_builder.search_params.id_finess,
+                with_inner_hits=(query_terms is None),
+                matching_size=es_search_builder.search_params.matching_size,
+            )
+            es_search_builder.es_search_client = (
+                es_search_builder.es_search_client.query(finess_filter)
+            )
 
         # Check if any etablissements filters are used
         etablissement_filter_used = is_any_etablissement_filter_used(

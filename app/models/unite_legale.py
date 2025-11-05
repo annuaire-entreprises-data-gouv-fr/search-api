@@ -1,9 +1,11 @@
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Etablissement(BaseModel):
+    model_config = {"populate_by_name": True}
+
     activite_principale: str | None = None
     activite_principale_registre_metier: str | None = None
     ancien_siege: bool | None = None
@@ -36,7 +38,9 @@ class Etablissement(BaseModel):
     libelle_pays_etranger: str | None = None
     libelle_voie: str | None = None
     liste_enseignes: list | None = None
-    liste_finess_geographique: list | None = None
+    liste_finess_geographique: list | None = Field(
+        None, alias="liste_finess", serialization_alias="liste_finess"
+    )
     liste_id_bio: list | None = None
     liste_idcc: list | None = None
     liste_id_organisme_formation: list | None = None

@@ -288,8 +288,8 @@ paths:
           in: query
           description: >-
             Uniquement les entreprises du domaine sanitaire et social (FINESS).
-            Recherche à la fois dans les identifiants FINESS Géographique
-            des établissements et FINESS Juridique des entreprises.
+            Recherche à la fois dans les identifiants FINESS Géographiques
+            des établissements et FINESS Juridiques des entreprises.
           required: false
           schema:
             type: boolean
@@ -420,10 +420,8 @@ paths:
         - name: id_finess
           in: query
           description: >-
-            Identifiant FINESS d'un établissement ou d'une entreprise (9 chiffres).
-            Cette recherche interroge à la fois les FINESS Géographique (établissements
-            sanitaires, médico-sociaux, sociaux ou d'enseignement) et les FINESS Juridique
-            (personnes morales gestionnaires)
+            Identifiant FINESS Géographique d'un établissement (9 chiffres).
+            Cette recherche interroge uniquement les FINESS Géographiques des établissements.
           example: '010003853'
           schema:
             type: string
@@ -1242,10 +1240,10 @@ paths:
                                 description: >-
                                   Liste des identifiants FINESS Juridiques de l'entreprise
                                   et de ses établissements.
-                                (source : Ministère des Solidarités et de la Santé ).
+                                  (source : Ministère des Solidarités et de la Santé ).
                                 items:
                                   type: string
-                                example: [ "010003846" ]
+                                example: [ "750100042" ]
                               liste_id_organisme_formation:
                                 type: array
                                 items:
@@ -1974,7 +1972,7 @@ paths:
                                 (source : Ministère des Solidarités et de la Santé ).
                               items:
                                 type: string
-                              example: [ "010003846" ]
+                              example: [ "750100042" ]
                             liste_id_bio:
                               type: array
                               description: >-

@@ -523,27 +523,12 @@ def test_id_finess(api_response_tester):
         in response.json()["results"][0]["matching_etablissements"][0]["liste_finess"]
     )
 
-    # Finess Juridique
-    path = "search?id_finess=010003846"
-    api_response_tester.assert_api_response_code_200(path)
-    response = api_response_tester.get_api_response(path)
-    # liste_finess_juridique is at the complements level, not in matching_etablissements
-    assert (
-        "010003846"
-        in response.json()["results"][0]["complements"]["liste_finess_juridique"]
-    )
-
 
 def test_est_finess_matching_id_finess(api_response_tester):
     # Siren with a Finess Géographique
     path = "search?id_finess=940008048&est_finess=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "siren", "490414091")
-
-    # Siren with a Finess Juridique ID but no Finess Géographique
-    path = "search?id_finess=850031444&est_finess=true"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_field_value(path, 0, "siren", "786446260")
 
 
 def test_id_rge(api_response_tester):

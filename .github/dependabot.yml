@@ -10,7 +10,7 @@ updates:
     cooldown:
       semver-major-days: 5
       semver-minor-days: 3
-      semver-patch-days: 0
+      semver-patch-days: 1
     schedule:
       interval: "weekly"
     ignore:

@@ -21,7 +21,7 @@ class ResponseBuilder:
         )
         if is_dev_env():
             response.execution_time = es_search_results.execution_time
-        self.response = response.dict(exclude_unset=True)
+        self.response = response.dict(exclude_unset=True, by_alias=True)
 
     def calculate_total_pages(self):
         quotient, remainder = divmod(

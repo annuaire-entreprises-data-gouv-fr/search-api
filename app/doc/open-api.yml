@@ -287,8 +287,9 @@ paths:
         - name: est_finess
           in: query
           description: >-
-            Uniquement les entreprises ayant un établissement du domaine du sanitaire
-            et social (FINESS)
+            Uniquement les entreprises du domaine sanitaire et social (FINESS).
+            Recherche à la fois dans les identifiants FINESS Géographiques
+            des établissements et FINESS Juridiques des entreprises.
           required: false
           schema:
             type: boolean
@@ -418,7 +419,9 @@ paths:
             type: string
         - name: id_finess
           in: query
-          description: Identifiant FINESS d'un établissement d'une entreprise.
+          description: >-
+            Identifiant FINESS Géographique d'un établissement (9 chiffres).
+            Cette recherche interroge uniquement les FINESS Géographiques des établissements.
           example: '010003853'
           schema:
             type: string
@@ -899,7 +902,7 @@ paths:
                               type: array
                               nullable: true
                               description: >-
-                                Liste des identifiants FINESS de l'établissement
+                                Liste des identifiants FINESS Géographiques de l'établissement
                                 (source : Ministère des Solidarités et de la Santé ).
                               items:
                                 type: string
@@ -913,6 +916,15 @@ paths:
                               items:
                                 type: string
                               example: ["0923"]
+                            liste_finess_juridique:
+                              type: array
+                              description: >-
+                                Liste des identifiants FINESS Juridiques de l'entreprise
+                                et de ses établissements.
+                                (source : Ministère des Solidarités et de la Santé ).
+                              items:
+                                type: string
+                              example: ["010003846"]
                             liste_id_bio:
                               type: array
                               description: >-
@@ -1209,7 +1221,7 @@ paths:
                                 type: array
                                 nullable: true
                                 description: >-
-                                  Liste des identifiants FINESS de l'établissement
+                                  Liste des identifiants FINESS Géographiques de l'établissement
                                   (source : Ministère des Solidarités et de la Santé ).
                                 items:
                                   type: string
@@ -1223,6 +1235,15 @@ paths:
                                 items:
                                   type: string
                                 example: [ "0923" ]
+                              liste_finess_juridique:
+                                type: array
+                                description: >-
+                                  Liste des identifiants FINESS Juridiques de l'entreprise
+                                  et de ses établissements.
+                                  (source : Ministère des Solidarités et de la Santé ).
+                                items:
+                                  type: string
+                                example: [ "750100042" ]
                               liste_id_organisme_formation:
                                 type: array
                                 items:
@@ -1328,6 +1349,14 @@ paths:
                               description: >-
                                 Liste des conventions collectives de l'unité légale
                                 (source : Ministère du travail)
+                              items:
+                                  type: string
+                            liste_finess_juridique:
+                              type: array
+                              description: >-
+                                Liste des identifiants FINESS Juridiques de l'entreprise
+                                et de ses établissements.
+                                (source : Ministère des Solidarités et de la Santé ).
                               items:
                                   type: string
                             egapro_renseignee:
@@ -1921,7 +1950,7 @@ paths:
                               type: array
                               nullable: true
                               description: >-
-                                Liste des identifiants FINESS de l'établissement
+                                Liste des identifiants FINESS Géographiques de l'établissement
                                 (source : Ministère des Solidarités et de la Santé ).
                               items:
                                 type: string
@@ -1935,6 +1964,15 @@ paths:
                               items:
                                 type: string
                               example: [ "0923" ]
+                            liste_finess_juridique:
+                              type: array
+                              description: >-
+                                Liste des identifiants FINESS Juridiques de l'entreprise
+                                et de ses établissements.
+                                (source : Ministère des Solidarités et de la Santé ).
+                              items:
+                                type: string
+                              example: [ "750100042" ]
                             liste_id_bio:
                               type: array
                               description: >-
@@ -2232,7 +2270,7 @@ paths:
                                 type: array
                                 nullable: true
                                 description: >-
-                                  Liste des identifiants FINESS de l'établissement
+                                  Liste des identifiants FINESS Géographiques de l'établissement
                                   (source : Ministère des Solidarités et de la Santé ).
                                 items:
                                   type: string
@@ -2251,6 +2289,14 @@ paths:
                                 description: >-
                                   Liste des conventions collectives de l'établissement
                                   (source : Ministère du travail).
+                                items:
+                                  type: string
+                              liste_finess_juridique:
+                                type: array
+                                description: >-
+                                  Liste des identifiants FINESS Juridiques de l'entreprise
+                                  et de ses établissements.
+                                  (source : Ministère des Solidarités et de la Santé ).
                                 items:
                                   type: string
                               liste_id_organisme_formation:
@@ -2351,6 +2397,14 @@ paths:
                               description: >-
                                 Liste des conventions collectives de l'unité légale
                                 (source : Ministère du travail).
+                              items:
+                                  type: string
+                            liste_finess_juridique:
+                              type: array
+                              description: >-
+                                Liste des identifiants FINESS Juridiques de l'entreprise
+                                et de ses établissements.
+                                (source : Ministère des Solidarités et de la Santé ).
                               items:
                                   type: string
                             egapro_renseignee:

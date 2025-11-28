@@ -21,11 +21,11 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
         corresponding_es_field = {
             "convention_collective_renseignee": "liste_idcc",
             "est_bio": "liste_id_bio",
-            "est_finess": "liste_finess",
+            "est_finess": "liste_finess_geographique",
             "est_rge": "liste_rge",
             "est_uai": "liste_uai",
             "id_convention_collective": "liste_idcc",
-            "id_finess": "liste_finess",
+            "id_finess": "liste_finess_geographique",
             "id_rge": "liste_rge",
             "id_uai": "liste_uai",
         }

@@ -130,7 +130,7 @@ class SearchParams(BaseModel):
     # Apply after first validator and Pydantic internal validation
     def check_if_number_in_range(cls, value, info):
         limits = NUMERIC_FIELD_LIMITS.get(info.field_name)
-        if value < limits.get("min") or value > limits.get("max"):
+        if limits and (value < limits.get("min") or value > limits.get("max")):
             raise InvalidParamError(
                 f"Veuillez indiquer un paramètre `{info.field_name}` entre "
                 f"`{limits.get('min')}` et `{limits.get('max')}`, "

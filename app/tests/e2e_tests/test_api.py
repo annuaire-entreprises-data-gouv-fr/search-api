@@ -508,6 +508,22 @@ def test_est_finess(api_response_tester):
     api_response_tester.test_field_value(path, 0, "complements.est_finess", True)
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
+    # Verify all matching_etablissements have liste_finess populated (not null)
+    response = api_response_tester.get_api_response(path)
+    results = response.json()["results"]
+    is_matching_etablissements_populated = False
+    for result in results:
+        if result["matching_etablissements"] != []:
+            is_matching_etablissements_populated = True
+        for etab in result["matching_etablissements"]:
+            assert len(etab["liste_finess"]) > 0, (
+                "liste_finess should not be empty when filtering by est_finess=true"
+            )
+    assert is_matching_etablissements_populated is True, (
+        "matching_etablissements should be populated "
+        "when est_finess=True and an établissement has a liste_finess populated"
+    )
+
     path = "search?est_finess=false"
     api_response_tester.test_field_value(path, 0, "complements.est_finess", False)
     api_response_tester.test_number_of_results(path, min_total_results_filters)

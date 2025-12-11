@@ -1,0 +1,34 @@
+name: Stale Branches
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  stale_branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stale Branches
+        uses: crs-k/stale-branches@v8.2.2
+        id: "get-branches"
+        with:
+          days-before-stale: 120
+          dry-run: true
+          ignore-issue-interaction: true
+      - name: Format output
+        id: format-message
+        run: |
+          RAW_JSON='${{ steps.get-branches.outputs.stale-branches }}'
+          FORMATTED_BRANCHES=$(echo "$RAW_JSON" | jq -r '.[]' | paste -sd ', ' -)
+          MESSAGE="**⚠️ Stale branches in the search-api repository :** \`${FORMATTED_BRANCHES}\`"
+          echo "mattermost-message=${MESSAGE}" >> "$GITHUB_OUTPUT"
+      - name: Notify Stale Branches
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/notify@v1
+        with:
+          hook: "${{ secrets.MATTERMOST_STALE_BRANCHES_HOOK }}"
+          message: "${{ steps.format-message.outputs.mattermost-message }}"

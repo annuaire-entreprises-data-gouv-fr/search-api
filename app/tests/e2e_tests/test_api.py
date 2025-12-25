@@ -801,7 +801,7 @@ def test_immatriculation(api_response_tester):
         "duree_personne_morale": 99,
         "date_immatriculation": "1992-03-19",
         "date_debut_activite": "1991-01-01",
-        "date_fin_existence": "2091-03-19",
+        # "date_fin_existence": "2091-03-19", # can't find data in flux or stock
         "capital_variable": False,
         "devise_capital": "EUR",
         "indicateur_associe_unique": False,

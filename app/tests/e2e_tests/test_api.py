@@ -806,7 +806,11 @@ def test_immatriculation(api_response_tester):
         "devise_capital": "EUR",
         "indicateur_associe_unique": False,
         "capital_social": 5857785892,
-        "nature_entreprise": ["Commerciale"],
+        "nature_entreprise": [
+            "Libérale non réglementée",
+            "Gestion de biens",
+            "Commerciale",
+        ],
         "date_cloture_exercice": "3112",
         "date_radiation": None,
     }

@@ -18,6 +18,7 @@ def format_immatriculation(immatriculation):
             date_immatriculation=convert_date_to_iso(get_field("date_immatriculation")),
             date_radiation=convert_date_to_iso(get_field("date_radiation")),
             duree_personne_morale=get_field("duree_personne_morale"),
+            date_fin_existence=convert_date_to_iso(get_field("date_fin_existence")),
             nature_entreprise=format_nature_entreprise(get_field("nature_entreprise")),
             date_cloture_exercice=(get_field("date_cloture_exercice")),
             capital_social=get_field("capital_social"),

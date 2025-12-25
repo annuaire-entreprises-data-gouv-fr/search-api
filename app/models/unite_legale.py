@@ -99,6 +99,7 @@ class Immatriculation(BaseModel):
     date_immatriculation: str | None = None
     date_radiation: str | None = None
     duree_personne_morale: int | None = None
+    date_fin_existence: str | None = None
     nature_entreprise: list | None = None
     date_cloture_exercice: str | None = None
     capital_social: float | None = None

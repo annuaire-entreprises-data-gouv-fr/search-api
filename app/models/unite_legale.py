@@ -7,7 +7,7 @@ class Etablissement(BaseModel):
     model_config = {"populate_by_name": True}
 
     activite_principale: str | None = None
-    activite_principale_naf_25: str | None = None
+    activite_principale_naf25: str | None = None
     activite_principale_registre_metier: str | None = None
     ancien_siege: bool | None = None
     annee_tranche_effectif_salarie: str | None = None
@@ -148,7 +148,7 @@ class UniteLegaleResponse(BaseModel):
     nombre_etablissements_ouverts: int | None = None
     siege: Etablissement | None = None
     activite_principale: str | None = None
-    activite_principale_naf_25: str | None = None
+    activite_principale_naf25: str | None = None
     categorie_entreprise: str | None = None
     caractere_employeur: str | None = None
     annee_categorie_entreprise: str | None = None

@@ -55,8 +55,8 @@ def format_single_unite_legale(result, search_params):
             get_field("nombre_etablissements_ouverts", default=0)
         ),
         "activite_principale": get_field("activite_principale_unite_legale"),
-        "activite_principale_naf_25": get_field(
-            "activite_principale_naf_25_unite_legale"
+        "activite_principale_naf25": get_field(
+            "activite_principale_naf25_unite_legale"
         ),
         "categorie_entreprise": get_field("categorie_entreprise"),
         "caractere_employeur": get_field("caractere_employeur"),

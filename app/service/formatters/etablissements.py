@@ -9,7 +9,7 @@ def format_etablissement(source_etablissement):
 
     formatted_etablissement = {
         "activite_principale": get_field("activite_principale"),
-        "activite_principale_naf_25": get_field("activite_principale_naf_25"),
+        "activite_principale_naf25": get_field("activite_principale_naf25"),
         "activite_principale_registre_metier": get_field(
             "activite_principale_registre_metier"
         ),

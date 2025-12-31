@@ -807,10 +807,10 @@ def test_immatriculation(api_response_tester):
         "capital_social": 2084365041,
         "nature_entreprise": [
             "Agent commercial",
-            "Libérale réglementée",
-            "Libérale non réglementée",
-            "Gestion de biens",
             "Commerciale",
+            "Gestion de biens",
+            "Libérale non réglementée",
+            "Libérale réglementée",
         ],
         "date_cloture_exercice": "3112",
         "date_radiation": None,

@@ -805,6 +805,7 @@ def test_immatriculation(api_response_tester):
         "devise_capital": "EUR",
         "indicateur_associe_unique": False,
         "capital_social": 2084365041,
+        # Sorted alphabetically
         "nature_entreprise": [
             "Agent commercial",
             "Commerciale",

@@ -701,6 +701,12 @@ paths:
                               description: >-
                                 Activité principale de l'établissement (source : base
                                 SIRENE).
+                            activite_principale_naf25:
+                              type: string
+                              example: "53.10A"
+                              description: >-
+                                Activité principale de l'établissement selon la nomenclature NAF 2025
+                                (source : base SIRENE). Champ temporaire, supprimé à compter du 1er janvier 2027.
                             activite_principale_registre_metier:
                               type: string
                               nullable: true
@@ -1077,6 +1083,12 @@ paths:
                           description: >-
                             Code de l'activité principale exercée (APE) par l'unité
                             légale (source : base SIRENE).
+                        activite_principale_naf25:
+                          type: string
+                          example: "53.10A"
+                          description: >-
+                            Activité principale de l'unité légale selon la nomenclature NAF 2025
+                            (source : base SIRENE). Champ temporaire, supprimé à compter du 1er janvier 2027.
                         section_activite_principale:
                           type: string
                           example: "H"
@@ -1099,6 +1111,12 @@ paths:
                                 description: >-
                                   Activité principale de l'établissement (source :
                                   base SIRENE).
+                              activite_principale_naf25:
+                                type: string
+                                example: "53.10A"
+                                description: >-
+                                  Activité principale de l'établissement selon la nomenclature NAF 2025
+                                  (source : base SIRENE). Champ temporaire, supprimé à compter du 1er janvier 2027.
                               adresse:
                                 type: string
                                 example: >-
@@ -1751,6 +1769,12 @@ paths:
                               description: >-
                                 Activité principale de l'établissement (source : base
                                 SIRENE).
+                            activite_principale_naf25:
+                              type: string
+                              example: "53.10A"
+                              description: >-
+                                Activité principale de l'établissement selon la nomenclature NAF 2025
+                                (source : base SIRENE). Champ temporaire, supprimé à compter du 1er janvier 2027.
                             activite_principale_registre_metier:
                               type: string
                               nullable: true
@@ -2126,6 +2150,12 @@ paths:
                           description: >-
                             Code de l'activité principale exercée (APE) par l'unité
                             légale (source : base SIRENE).
+                        activite_principale_naf25:
+                          type: string
+                          example: "53.10A"
+                          description: >-
+                            Activité principale de l'unité légale selon la nomenclature NAF 2025
+                            (source : base SIRENE). Champ temporaire, supprimé à compter du 1er janvier 2027.
                         section_activite_principale:
                           type: string
                           example: "H"
@@ -2148,6 +2178,12 @@ paths:
                                 description: >-
                                   Activité principale de l'établissement (source :
                                   base SIRENE)
+                              activite_principale_naf25:
+                                type: string
+                                example: "53.10A"
+                                description: >-
+                                  Activité principale de l'établissement selon la nomenclature NAF 2025
+                                  (source : base SIRENE). Champ temporaire, supprimé à compter du 1er janvier 2027.
                               adresse:
                                 type: string
                                 example: >-

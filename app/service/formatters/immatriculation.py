@@ -43,4 +43,5 @@ def format_nature_entreprise(nature_entreprise):
         else:
             mapped_nature_entreprise.append(code)  # return nature as is if not found
 
-    return mapped_nature_entreprise
+    # Sort alphabetically to ensure consistent ordering for e2e testing
+    return sorted(mapped_nature_entreprise)

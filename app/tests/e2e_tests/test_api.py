@@ -301,6 +301,7 @@ def test_activite_principale_filter(api_response_tester):
     path = "search?activite_principale=01.12Z"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "activite_principale", "01.12Z")
+    api_response_tester.test_field_value(path, 0, "activite_principale_naf25", "01.12Y")
 
 
 def test_categorie_entreprise(api_response_tester):

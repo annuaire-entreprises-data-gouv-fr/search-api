@@ -7,7 +7,7 @@ from app.service.search_type import SearchType
 router = APIRouter()
 
 
-@router.get("/search")
+@router.api_route("/search", methods=["GET", "HEAD"])
 async def search_text_endpoint(request: Request):
     return build_api_response(
         request,
@@ -15,7 +15,7 @@ async def search_text_endpoint(request: Request):
     )
 
 
-@router.get("/near_point")
+@router.api_route("/near_point", methods=["GET", "HEAD"])
 async def near_point_endpoint(request: Request):
     return build_api_response(
         request,

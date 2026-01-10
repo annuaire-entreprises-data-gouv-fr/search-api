@@ -213,6 +213,7 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                                         "unite_legale.etablissements.enseigne_2",
                                                         "unite_legale.etablissements.enseigne_3",
                                                         "unite_legale.etablissements.nom_commercial",
+                                                        "unite_legale.etablissements.sigle",
                                                         "unite_legale.etablissements.adresse",
                                                         "unite_legale.etablissements.commune",
                                                         "unite_legale.etablissements.concat_"
@@ -485,6 +486,7 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                                         "unite_legale.etablissements.enseigne_2",
                                                         "unite_legale.etablissements.enseigne_3",
                                                         "unite_legale.etablissements.nom_commercial",
+                                                        "unite_legale.etablissements.sigle",
                                                         "unite_legale.etablissements.adresse",
                                                         "unite_legale.etablissements.commune",
                                                         "unite_legale.etablissements.concat_"

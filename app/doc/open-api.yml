@@ -5,7 +5,7 @@ info:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 
-  description: >
+  description: |
     # Bienvenue sur la documentation interactive d'API Recherche d’entreprises !
 
     L’API Recherche d’Entreprises permet à tout le monde retrouver une entreprise,
@@ -37,20 +37,33 @@ info:
     L'API est accessible à partir de cette adresse : [https://recherche-entreprises.api.gouv.fr](https://recherche-entreprises.api.gouv.fr)
 
 
-    **Attention :** Vous devez rajouter votre requête sur l’adresse.
+    **Attention :** Vous devez rajouter votre requête sur l'adresse.
 
     ## Limite des requêtes
 
-    Le serveur accepte un maximum de 7 requêtes par seconde. Au delà, un code 429
-    est renvoyé indiquant que la volumétrie d'appels a été dépassée.
+    L'API accepte **au maximum 7 requêtes par seconde** par utilisateur.
+    Cette valeur correspond à une **limite maximale** et ne constitue pas un débit garanti.
 
 
+    En cas d'usage excessif, notamment en période de forte activité, l'accès à l'API
+    peut être temporairement restreint afin d'assurer un accès équitable à l'ensemble
+    des utilisateurs. La priorité est alors donnée aux systèmes internes et aux
+    services publics.
+
+
+    Lorsque la limite est dépassée, le serveur renvoie une réponse
+    **HTTP 429 – Too Many Requests**.
+    L'en-tête **`Retry-After`** indique le délai à respecter avant d'effectuer
+    une nouvelle requête.
+
+
+    Il est recommandé d'inclure un en-tête **`User-Agent`** explicite et descriptif
+    dans toutes les requêtes.
 
     ## Monitoring de l'API
 
     Une supervision du service en temps réel est
     disponible [ici](https://annuaire-entreprises.data.gouv.fr/donnees/api#recherche-entreprise).
-
 
 
     ## Données disponibles sur data.gouv

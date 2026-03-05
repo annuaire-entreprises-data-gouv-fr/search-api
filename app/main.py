@@ -57,6 +57,12 @@ app.include_router(admin.router)
 add_exception_handlers(app)
 
 
+# Healthcheck endpoint
+@app.get("/health")
+async def healthcheck():
+    return {"status": "ok"}
+
+
 # Redirect /docs to /docs/
 @app.get("/docs", include_in_schema=False)
 async def docs_redirect():

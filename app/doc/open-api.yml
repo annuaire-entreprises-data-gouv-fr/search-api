@@ -902,23 +902,23 @@ components:
   schemas:
     finances:
       type: object
-      properties:
-        2021:
-          $ref: '#/components/schemas/annee_cloture_exercice'
-    annee_cloture_exercice:
-      type: object
-      properties:
-        ca:
-          type: integer
-          format: int64
-          example: 26617000000
-        resultat_net:
-          type: integer
-          format: int64
-          example: 2597000000
-      required:
-        - ca
-        - resultat_net
+      description: Bilans financiers par année
+      additionalProperties:
+        x-additionalPropertiesName: annee_existence
+        description: Année du bilan (format AAAA)
+        type: object
+        properties:
+          ca:
+            type: integer
+            description: Chiffre d'affaires
+            format: int64
+          resultat_net:
+            type: integer
+            description: Résultat net
+            format: int64
+        required:
+          - ca
+          - resultat_net
     dirigeant_pp:
       type: object
       description: >-

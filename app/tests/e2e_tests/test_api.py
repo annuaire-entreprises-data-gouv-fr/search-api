@@ -356,7 +356,8 @@ def test_achats_responsables(api_response_tester):
     path = "/search?est_achats_responsables=false"
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
-    path = "/search?q=356000000"  # La Poste
+    # Michelin
+    path = "/search?q=855200507"
     api_response_tester.test_field_value(
         path, 0, "complements.est_achats_responsables", True
     )

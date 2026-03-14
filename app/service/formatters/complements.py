@@ -20,6 +20,7 @@ def format_complements(result_unite_legale):
     liste_idcc = get_field("liste_idcc_unite_legale")
     liste_finess_juridique = get_field("liste_finess_juridique")
     egapro_renseignee = get_field("egapro_renseignee")
+    aide_minimis_renseignee = get_field("aide_minimis_renseignee")
     est_achats_responsables = get_field("est_achats_responsables")
     est_alim_confiance = get_field("est_alim_confiance")
     est_association = get_field("est_association")
@@ -52,6 +53,7 @@ def format_complements(result_unite_legale):
         liste_idcc=liste_idcc,
         liste_finess_juridique=liste_finess_juridique,
         egapro_renseignee=egapro_renseignee,
+        aide_minimis_renseignee=aide_minimis_renseignee,
         est_achats_responsables=est_achats_responsables,
         est_alim_confiance=est_alim_confiance,
         est_association=est_association,

@@ -46,6 +46,9 @@ def format_complements(result_unite_legale):
         "statut_entrepreneur_spectacle",
     )
     type_siae = string_list_to_string(get_field("type_siae"))
+    procedure_collective_nature = get_field("procedure_collective_nature")
+    procedure_collective_date = get_field("procedure_collective_date")
+    radiation_rcs_date = get_field("radiation_date")
     return Complements(
         collectivite_territoriale=collectivite_territoriale,
         convention_collective_renseignee=convention_collective_renseignee,
@@ -74,4 +77,7 @@ def format_complements(result_unite_legale):
         identifiant_association=identifiant_association,
         statut_entrepreneur_spectacle=statut_entrepreneur_spectacle,
         type_siae=type_siae,
+        procedure_collective_nature=procedure_collective_nature,
+        procedure_collective_date=procedure_collective_date,
+        radiation_rcs_date=radiation_rcs_date,
     )

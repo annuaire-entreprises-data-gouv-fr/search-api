@@ -1918,6 +1918,27 @@ components:
               description: >-
                 Type de structure de l'inclusion
                 (source : Marché de l'Inclusion)
+            procedure_collective_nature:
+              type: string
+              nullable: true
+              description: >-
+                Nature du jugement de la procédure collective en cours
+                (ex: "Jugement d'ouverture de liquidation judiciaire")
+                (source : BODACC)
+            procedure_collective_date:
+              type: string
+              nullable: true
+              description: >-
+                Date du jugement de la procédure collective en cours
+                (format : YYYY-MM-DD)
+                (source : BODACC)
+            radiation_rcs_date:
+              type: string
+              nullable: true
+              description: >-
+                Date de radiation du RCS
+                (format : YYYY-MM-DD)
+                (source : BODACC)
 
     # Root level of the payload
     payload:

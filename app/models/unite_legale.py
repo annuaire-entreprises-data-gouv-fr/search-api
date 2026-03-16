@@ -137,6 +137,9 @@ class Complements(BaseModel):
     identifiant_association: str | None = None
     statut_entrepreneur_spectacle: str | None = None
     type_siae: str | None = None
+    procedure_collective_nature: str | None = None
+    procedure_collective_date: str | None = None
+    radiation_rcs_date: str | None = None
 
 
 class UniteLegaleResponse(BaseModel):

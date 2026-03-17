@@ -102,6 +102,11 @@ Les commits mergés sur la branche `main` sont automatiquement déployés sur l'
 Les déploiements en production nécessitent une approbation manuelle de la part des
 maintainers du dépôt depuis la page actions.
 
+## CI/CD
+
+Par défaut les tests E2E visent l'index Elasticsearch siren-reader sur le serveur dev-01.
+Afin de viser dev-02 il faut ajouter le label `test_on_dev_2` sur la PR avant de pousser les commits à tester.
+
 
 ## Contact
 

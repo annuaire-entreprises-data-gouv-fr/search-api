@@ -64,50 +64,6 @@ Ce dépôt fait partie [d'un ensemble de services qui constituent l'Annuaire des
 Plus d'informations sur les sources de données [par
 ici 👉](https://annuaire-entreprises.data.gouv.fr/donnees/sources).
 
-
-## Tester en local
-
-### Installer l'environment
-
-1. Installer `mise`: [documentation](https://mise.jdx.dev/installing-mise.html).
-
-2. Copier et compléter le fichier de variables d'environnements :
-```bash
-cp mise.local.toml.example mise.local.toml
-```
-
-3. Initialiser l'environnement :
-```bash
-mise install
-uv sync --extra dev
-```
-
-### Lancer le service
-
-```bash
-uv run fastapi dev main.py
-```
-
-### Exécuter les tests
-
-```bash
-pytest app/tests/e2e_tests -v
-```
-
-
-## Déploiement
-
-Les commits mergés sur la branche `main` sont automatiquement déployés sur l'environnement de staging.
-
-Les déploiements en production nécessitent une approbation manuelle de la part des
-maintainers du dépôt depuis la page actions.
-
-## CI/CD
-
-Par défaut les tests E2E visent l'index Elasticsearch siren-reader sur le serveur dev-01.
-Afin de viser dev-02 il faut ajouter le label `test_on_dev_2` sur la PR avant de pousser les commits à tester.
-
-
 ## Contact
 
 Channel Tchap : `https://tchap.gouv.fr/#/room/#annuaire-entreprises:agent.dinum.tchap.gouv.fr`

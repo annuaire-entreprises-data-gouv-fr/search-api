@@ -105,16 +105,19 @@ jobs:
             echo "ELASTIC__USER=${{ secrets.ELASTIC_USER_DEV }}" >> $GITHUB_ENV
             echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_DEV_2 }}" >> $GITHUB_ENV
             echo "ELASTIC__PASSWORD=${{ secrets.ELASTIC_PASSWORD_DEV }}" >> $GITHUB_ENV
+            echo "ENV=${{ secrets.ENV_DEV }}" >> $GITHUB_ENV
           elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'test_on_dev_1') }}" == "true" ]]; then
             echo "Targetting Dev 01"
             echo "ELASTIC__USER=${{ secrets.ELASTIC_USER_DEV }}" >> $GITHUB_ENV
             echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_DEV_1 }}" >> $GITHUB_ENV
             echo "ELASTIC__PASSWORD=${{ secrets.ELASTIC_PASSWORD_DEV }}" >> $GITHUB_ENV
+            echo "ENV=${{ secrets.ENV_DEV }}" >> $GITHUB_ENV
           else
             echo "Targetting Staging"
             echo "ELASTIC__USER=${{ secrets.ELASTIC_USER_STAGING }}" >> $GITHUB_ENV
             echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_STAGING }}" >> $GITHUB_ENV
             echo "ELASTIC__PASSWORD=${{ secrets.ELASTIC_PASSWORD_STAGING }}" >> $GITHUB_ENV
+            echo "ENV=${{ secrets.ENV_STAGING }}" >> $GITHUB_ENV
           fi
       - name: Run app
         run: |
@@ -127,7 +130,7 @@ jobs:
           ELASTIC__URL: ${{env.ELASTIC__URL}}
           ELASTIC__USER: ${{ env.ELASTIC__USER }}
           ELASTIC__PASSWORD: ${{ env.ELASTIC__PASSWORD }}
-          ENV: ${{ secrets.ENV_DEV }}
+          ENV: ${{ env.ENV }}
           SENTRY__DSN: ${{ secrets.DSN_SENTRY }}
           METADATA__URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
           METADATA__URL_UPDATES_JSON: ${{ secrets.METADATA_URL_UPDATES_JSON }}

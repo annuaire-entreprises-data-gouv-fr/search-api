@@ -244,13 +244,32 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
-                            "match": {
-                                "unite_legale.liste_dirigeants": {
-                                    "query": terms,
-                                    "operator": "AND",
-                                    "boost": 10,
-                                    "_name": "partial match liste dirigeants",
-                                }
+                            "bool": {
+                                "must": [
+                                    {
+                                        "match": {
+                                            "unite_legale.liste_dirigeants": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 10,
+                                                "_name": "partial match liste dirigeants",
+                                            }
+                                        }
+                                    }
+                                ],
+                                "filter": [
+                                    {
+                                        "bool": {
+                                            "must_not": [
+                                                {
+                                                    "term": {
+                                                        "unite_legale.statut_diffusion_unite_legale": "P"
+                                                    }
+                                                },
+                                            ]
+                                        }
+                                    }
+                                ],
                             }
                         },
                         "field_value_factor": min_multiplier,
@@ -517,13 +536,32 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
-                            "match": {
-                                "unite_legale.liste_dirigeants": {
-                                    "query": terms,
-                                    "operator": "AND",
-                                    "boost": 10,
-                                    "_name": "partial match liste dirigeants",
-                                }
+                            "bool": {
+                                "must": [
+                                    {
+                                        "match": {
+                                            "unite_legale.liste_dirigeants": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 10,
+                                                "_name": "partial match liste dirigeants",
+                                            }
+                                        }
+                                    }
+                                ],
+                                "filter": [
+                                    {
+                                        "bool": {
+                                            "must_not": [
+                                                {
+                                                    "term": {
+                                                        "unite_legale.statut_diffusion_unite_legale": "P"
+                                                    }
+                                                },
+                                            ]
+                                        }
+                                    }
+                                ],
                             }
                         },
                         "field_value_factor": mid_multiplier,

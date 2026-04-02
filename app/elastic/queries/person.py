@@ -151,12 +151,40 @@ def search_person(
         # score to exact
         # matches
         if person_filters or boost_queries:
-            search_options.append(
-                query.Q(
-                    "nested",
-                    path="unite_legale." + person["type_person"],
-                    query=query.Bool(must=person_filters, should=boost_queries),
-                )
+            nested_bool = query.Bool(must=person_filters, should=boost_queries)
+            nested_query = query.Q(
+                "nested",
+                path="unite_legale." + person["type_person"],
+                query=nested_bool,
             )
-    search = search.query("bool", should=search_options)
+
+            # Root-level diffusion gating for dirigeants:
+            # we must not match a document via dirigeants when diffusion is "P".
+            # (Putting this condition inside the nested query would not reliably
+            # match root fields.)
+            if person["type_person"] == "dirigeants_pp":
+                nested_query = query.Q(
+                    "bool",
+                    must=[nested_query],
+                    filter=[
+                        query.Q(
+                            "bool",
+                            must_not=[
+                                query.Q(
+                                    "term",
+                                    **{
+                                        "unite_legale.statut_diffusion_unite_legale": "P"
+                                    },
+                                ),
+                            ],
+                        )
+                    ],
+                )
+
+            search_options.append(nested_query)
+    # When there is already a filter query on the Search (which is the case in
+    # our pipeline), Elasticsearch treats `should` as optional unless
+    # `minimum_should_match` is set. We want a person search to actually require
+    # matching at least one of the nested person clauses.
+    search = search.query("bool", should=search_options, minimum_should_match=1)
     return search

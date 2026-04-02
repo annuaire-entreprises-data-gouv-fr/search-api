@@ -43,8 +43,8 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-# Sentry Integration and Elastic APM Integration for Production and Staging
-if settings.env in ["prod", "staging"]:
+# Sentry Integration and Elastic APM Integration for Production
+if settings.env == "prod":
     apm_client = make_apm_client(settings.apm_config)
     app.add_middleware(ElasticAPM, client=apm_client)
     setup_sentry()

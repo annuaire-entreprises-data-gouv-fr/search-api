@@ -259,6 +259,10 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                 ],
                                 "filter": [
                                     {
+                                        # Privacy rule:
+                                        # we allow searching `liste_dirigeants` only when diffusion
+                                        # is NOT "P". Without this, a document could match purely
+                                        # because of dirigeants data even when diffusion is "P".
                                         "bool": {
                                             "must_not": [
                                                 {
@@ -551,6 +555,7 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                 ],
                                 "filter": [
                                     {
+                                        # Same gating as above (different scoring/multiplier branch).
                                         "bool": {
                                             "must_not": [
                                                 {

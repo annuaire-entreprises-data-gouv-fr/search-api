@@ -1034,3 +1034,29 @@ def test_secondary_etab_nd_pm_avec_nom_commercial(api_response_tester):
         for etab in ul.get(etab_list_key, []):
             if "nom_commercial" in etab:
                 assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
+
+
+def test_foreign_country_fields_in_siege(api_response_tester):
+    """
+    Test that foreign country fields are present in siege.
+    """
+    path = "search?q=180006082"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    siege = response.json()["results"][0]["siege"]
+    assert "code_pays_etranger" in siege
+    assert "libelle_commune_etranger" in siege
+    assert "libelle_pays_etranger" in siege
+
+
+def test_foreign_country_fields_in_matching_etablissements(api_response_tester):
+    """
+    Test that foreign country fields in matching_etablissements are filled for a specific SIRET.
+    """
+    path = "search?q=18000608200069"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    etab = response.json()["results"][0]["matching_etablissements"][0]
+    assert etab["code_pays_etranger"] == "99350"
+    assert etab["libelle_commune_etranger"] == "RABAT"
+    assert etab["libelle_pays_etranger"] == "MAROC"

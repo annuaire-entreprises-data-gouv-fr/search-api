@@ -33,6 +33,17 @@ def search_person(
     param_date_max,
     list_persons,
 ):
+    """
+    Build a person search across nested person arrays (e.g. dirigeants, élus).
+
+    Notes:
+    - This function adds a `bool.should` query to the existing Search object.
+      Because our pipeline already adds root-level filters, Elasticsearch would
+      otherwise treat `should` clauses as optional; we explicitly require at
+      least one person clause to match (see `minimum_should_match` below).
+    - For dirigeants specifically, we must avoid matching documents when
+      `statut_diffusion_unite_legale == "P"` (privacy constraint).
+    """
     search_options = []
     for person in list_persons:
         person_filters = []
@@ -151,12 +162,49 @@ def search_person(
         # score to exact
         # matches
         if person_filters or boost_queries:
-            search_options.append(
-                query.Q(
-                    "nested",
-                    path="unite_legale." + person["type_person"],
-                    query=query.Bool(must=person_filters, should=boost_queries),
-                )
+            # Nested query matches within the person array items
+            # (`unite_legale.<type_person>`), while keeping the scoring behavior
+            # (boost exact keyword phrase matches).
+            nested_bool = query.Bool(must=person_filters, should=boost_queries)
+            nested_query = query.Q(
+                "nested",
+                path="unite_legale." + person["type_person"],
+                query=nested_bool,
             )
-    search = search.query("bool", should=search_options)
+
+            # Root-level diffusion gating for dirigeants.
+            #
+            # Why root-level? `statut_diffusion_unite_legale` is a root field on
+            # the document. Putting a root-field constraint *inside* a `nested`
+            # query is not reliable because nested queries run in the nested
+            # document scope.
+            #
+            # Business rule: never match a document via dirigeants when diffusion
+            # is "P".
+            if person["type_person"] == "dirigeants_pp":
+                nested_query = query.Q(
+                    "bool",
+                    must=[nested_query],
+                    filter=[
+                        query.Q(
+                            "bool",
+                            must_not=[
+                                query.Q(
+                                    "term",
+                                    **{
+                                        "unite_legale.statut_diffusion_unite_legale": "P"
+                                    },
+                                ),
+                            ],
+                        )
+                    ],
+                )
+
+            search_options.append(nested_query)
+    # Elasticsearch detail:
+    # If the surrounding bool query has any `must`/`filter` clauses (true in our
+    # pipeline), `should` clauses become optional unless `minimum_should_match`
+    # is set. For a person search, we want at least one person nested clause to
+    # match, otherwise we'd return documents that only satisfy the other filters.
+    search = search.query("bool", should=search_options, minimum_should_match=1)
     return search

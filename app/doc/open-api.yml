@@ -716,10 +716,10 @@ paths:
         - name: lat
           in: query
           description: >-
-            Latitude de l'établissement (source : la majorité des siret utilisent le
-            géocodage provenant de la base SIRENE géocodée par data.gouv, à l'exception
-            de ceux modifiés après le début du mois en cours, pour lesquels la
-            géolocalisation est directement extraite de la base SIRENE).
+            Latitude de l’établissement (source : la majorité des SIRET utilisent le géocodage
+            provenant de la base SIRENE géocodée par l’INSEE pour les études statistiques, à
+            l’exception des entreprises créées au cours des derniers mois, pour lesquelles
+            la géolocalisation est directement extraite de la base SIRENE).
           required: true
           schema:
             type: number
@@ -727,9 +727,9 @@ paths:
         - name: long
           in: query
           description: >-
-            Longitude de l'établissement (source : la majorité des siret utilisent
-            le géocodage provenant de la base SIRENE géocodée par data.gouv, à
-            l'exception de ceux modifiés après le début du mois en cours, pour lesquels
+            Longitude de l'établissement (source : la majorité des SIRET utilisent le géocodage
+            provenant de la base SIRENE géocodée par l’INSEE pour les études statistiques, à
+            l’exception des entreprises créées au cours des derniers mois, pour lesquelles
             la géolocalisation est directement extraite de la base SIRENE).
           required: true
           schema:
@@ -1121,22 +1121,16 @@ components:
         geo_id:
           nullable: true
           type: string
-          example: "31150_0157_00019"
           description: >-
-            Identifiant géographique de l'adresse de
-            l'établissement (source : base SIRENE géocodée par
-            data.gouv. Cet identifiant est présent uniquement si
-            la géolocalisation est issue de data.gouv).
+            Obsolète : champs toujours vide.
         latitude:
           type: string
           example: "48.83002"
           description: >-
-            Latitude de l'établissement (source : la majorité des
-            siret utilisent le géocodage provenant de la base
-            SIRENE géocodée par data.gouv, à l'exception de ceux
-            modifiés après le début du mois en cours, pour lesquels
-            la géolocalisation est directement extraite de
-            la base SIRENE).
+            Latitude de l'établissement (source : la majorité des SIRET utilisent le géocodage
+            provenant de la base SIRENE géocodée par l’INSEE pour les études statistiques, à
+            l’exception des entreprises créées au cours des derniers mois, pour lesquelles
+            la géolocalisation est directement extraite de la base SIRENE).
         libelle_commune:
           type: string
           example: "PARIS 15"
@@ -1206,12 +1200,10 @@ components:
           type: string
           example: "2.275688"
           description: >-
-            Longitude de l'établissement (source : la majorité des
-            siret utilisent le géocodage provenant de la base
-            SIRENE géocodée par data.gouv, à l'exception de ceux
-            modifiés après le début du mois en cours, pour
-            lesquels la géolocalisation est directement extraite
-            de la base SIRENE).
+            Longitude de l'établissement (source : la majorité des SIRET utilisent le géocodage
+            provenant de la base SIRENE géocodée par l’INSEE pour les études statistiques, à
+            l’exception des entreprises créées au cours des derniers mois, pour lesquelles
+            la géolocalisation est directement extraite de la base SIRENE).
         nom_commercial:
           type: string
           nullable: true
@@ -1415,20 +1407,13 @@ components:
         geo_adresse:
           nullable: true
           type: string
-          example: "58 Boulevard charles livon 13007 Marseille"
           description: >-
-            Adresse de l'établissement (source : base SIRENE géocodée par
-            data.gouv. Cet identifiant est présent uniquement si la
-            géolocalisation est issue de data.gouv).
+            Obsolète : champs toujours vide.
         geo_id:
           nullable: true
           type: string
-          example: "31150_0157_00019"
           description: >-
-            Identifiant géographique de l'adresse de
-            l'établissement (source : base SIRENE géocodée par
-            data.gouv. Cet identifiant est présent uniquement si
-            la géolocalisation est issue de data.gouv).
+            Obsolète : champs toujours vide.
         indice_repetition:
           nullable: true
           type: string
@@ -1442,12 +1427,10 @@ components:
           type: string
           example: "48.83002"
           description: >-
-            Latitude de l'établissement (source : la majorité des
-            siret utilisent le géocodage provenant de la base
-            SIRENE géocodée par data.gouv, à l'exception de ceux
-            modifiés après le début du mois en cours, pour lesquels
-            la géolocalisation est directement extraite de
-            la base SIRENE).
+            Latitude de l'établissement (source : la majorité des SIRET utilisent le géocodage
+            provenant de la base SIRENE géocodée par l’INSEE pour les études statistiques, à
+            l’exception des entreprises créées au cours des derniers mois, pour lesquelles
+            la géolocalisation est directement extraite de la base SIRENE).
         libelle_cedex:
           type: string
           nullable: true
@@ -1542,12 +1525,10 @@ components:
           type: string
           example: "2.275688"
           description: >-
-            Longitude de l'établissement (source : la majorité des
-            siret utilisent le géocodage provenant de la base
-            SIRENE géocodée par data.gouv, à l'exception de ceux
-            modifiés après le début du mois en cours, pour
-            lesquels la géolocalisation est directement extraite
-            de la base SIRENE).
+            Longitude de l'établissement (source : la majorité des SIRET utilisent le géocodage
+            provenant de la base SIRENE géocodée par l’INSEE pour les études statistiques, à
+            l’exception des entreprises créées au cours des derniers mois, pour lesquelles
+            la géolocalisation est directement extraite de la base SIRENE).
         nom_commercial:
           type: string
           nullable: true

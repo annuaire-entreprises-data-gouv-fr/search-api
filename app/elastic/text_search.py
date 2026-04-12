@@ -1,4 +1,4 @@
-from elasticsearch_dsl import Q
+from elasticsearch.dsl import Q
 
 from app.elastic.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,

@@ -1,6 +1,5 @@
 PyYAML==6.0.2
-elasticsearch==8.13.1
-elasticsearch_dsl==8.13.1
+elasticsearch==9.2.1
 elastic-apm==6.24.0
 requests==2.32.4
 sentry-sdk==2.43.0

@@ -1,4 +1,4 @@
-from elasticsearch_dsl import query
+from elasticsearch.dsl import query
 
 # List of French stop words (from Elasticsearch's _french_ list)
 STOP_WORDS = {

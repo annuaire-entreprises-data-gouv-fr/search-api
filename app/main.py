@@ -1,6 +1,6 @@
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
-from elasticsearch_dsl import connections
+from elasticsearch.dsl import connections
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 
@@ -19,7 +19,7 @@ setup_logging()
 # Connect to Elasticsearch
 connections.create_connection(
     hosts=[str(settings.elastic.url)],
-    http_auth=(settings.elastic.user, settings.elastic.password.get_secret_value()),
+    basic_auth=(settings.elastic.user, settings.elastic.password.get_secret_value()),
     retry_on_timeout=True,
 )
 

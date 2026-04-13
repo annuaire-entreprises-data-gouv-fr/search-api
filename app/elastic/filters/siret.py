@@ -1,4 +1,4 @@
-from elasticsearch_dsl import Q
+from elasticsearch.dsl import Q
 
 
 def filter_by_siret(search, siret_string):

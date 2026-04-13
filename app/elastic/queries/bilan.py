@@ -1,4 +1,4 @@
-from elasticsearch_dsl import query
+from elasticsearch.dsl import query
 
 from app.elastic.helpers.elastic_fields import get_elasticsearch_field_name
 

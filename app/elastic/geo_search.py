@@ -1,4 +1,4 @@
-from elasticsearch_dsl import Q
+from elasticsearch.dsl import Q
 
 from app.elastic.filters.term_filters import filter_term_list_search_unite_legale
 from app.elastic.helpers.exclude_etablissements import (

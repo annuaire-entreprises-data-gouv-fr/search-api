@@ -1,4 +1,4 @@
-from elasticsearch_dsl import Document
+from elasticsearch.dsl import Document
 
 
 class StructureMapping(Document):

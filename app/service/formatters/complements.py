@@ -30,6 +30,7 @@ def format_complements(result_unite_legale):
     )
     est_entrepreneur_spectacle = get_field("est_entrepreneur_spectacle")
     est_ess = get_field("est_ess")
+    est_fondation = get_field("est_fondation")
     est_finess = get_field("est_finess")
     est_organisme_formation = get_field("est_organisme_formation")
     est_patrimoine_vivant = get_field("est_patrimoine_vivant")
@@ -47,6 +48,8 @@ def format_complements(result_unite_legale):
         "statut_entrepreneur_spectacle",
     )
     type_siae = string_list_to_string(get_field("type_siae"))
+    numero_rnf = get_field("numero_rnf")
+    type_organisme_rnf = get_field("type_organisme")
     return Complements(
         collectivite_territoriale=collectivite_territoriale,
         convention_collective_renseignee=convention_collective_renseignee,
@@ -61,6 +64,7 @@ def format_complements(result_unite_legale):
         est_entrepreneur_individuel=est_entrepreneur_individuel,
         est_entrepreneur_spectacle=est_entrepreneur_spectacle,
         est_ess=est_ess,
+        est_fondation=est_fondation,
         est_finess=est_finess,
         est_organisme_formation=est_organisme_formation,
         est_patrimoine_vivant=est_patrimoine_vivant,
@@ -76,4 +80,6 @@ def format_complements(result_unite_legale):
         identifiant_association=identifiant_association,
         statut_entrepreneur_spectacle=statut_entrepreneur_spectacle,
         type_siae=type_siae,
+        numero_rnf=numero_rnf,
+        type_organisme_rnf=type_organisme_rnf,
     )

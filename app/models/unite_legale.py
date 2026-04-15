@@ -109,6 +109,13 @@ class Immatriculation(BaseModel):
     indicateur_associe_unique: bool | None = None
 
 
+class Bodacc(BaseModel):
+    est_radie_rcs: bool | None = None
+    radiation_rcs_date: str | None = None
+    procedure_collective_date: str | None = None
+    procedure_collective_nature: str | None = None
+
+
 class Complements(BaseModel):
     collectivite_territoriale: CollectiviteTerritoriale | None = None
     convention_collective_renseignee: bool = False
@@ -171,6 +178,7 @@ class UniteLegaleResponse(BaseModel):
     matching_etablissements: list[Etablissement] | None = None
     etablissements: list[Etablissement] | None = None
     immatriculation: Immatriculation | None = None
+    bodacc: Bodacc | None = None
     finances: dict[str, Finances] | None = None
     complements: Complements | None = None
     score: float | None = None

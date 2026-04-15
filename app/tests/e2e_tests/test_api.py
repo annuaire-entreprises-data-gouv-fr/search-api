@@ -1034,3 +1034,43 @@ def test_secondary_etab_nd_pm_avec_nom_commercial(api_response_tester):
         for etab in ul.get(etab_list_key, []):
             if "nom_commercial" in etab:
                 assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
+
+
+def test_bodacc(api_response_tester):
+    """
+    Test bodacc object.
+    """
+    # Test "Danone" - active company with no bodacc events
+    path = "/search?q=552032534&include_admin=bodacc"
+    api_response_tester.assert_api_response_code_200(path)
+
+    bodacc_data = {
+        "est_radie_rcs": False,
+        "radiation_rcs_date": None,
+        "procedure_collective_date": None,
+        "procedure_collective_nature": None,
+    }
+
+    for field, expected_value in bodacc_data.items():
+        api_response_tester.test_field_value(path, 0, f"bodacc.{field}", expected_value)
+
+    # Test SIREN 442750196 - company with radiation date
+    path = "/search?q=442750196&include_admin=bodacc"
+    api_response_tester.assert_api_response_code_200(path)
+
+    bodacc_data = {
+        "est_radie_rcs": True,
+        "radiation_rcs_date": "2014-06-01",
+    }
+
+    for field, expected_value in bodacc_data.items():
+        api_response_tester.test_field_value(path, 0, f"bodacc.{field}", expected_value)
+
+    # Test SIREN 909324055 - company in procédure collective
+    path = "/search?q=909324055&include_admin=bodacc"
+    api_response_tester.assert_api_response_code_200(path)
+
+    api_response_tester.test_field_not_none(path, 0, "bodacc.procedure_collective_date")
+    api_response_tester.test_field_not_none(
+        path, 0, "bodacc.procedure_collective_nature"
+    )

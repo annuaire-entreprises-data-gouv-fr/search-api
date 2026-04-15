@@ -16,6 +16,7 @@ def get_elasticsearch_field_name(param_name: str, search_unite_legale=False) -> 
             "resultat_net_max": "unite_legale.bilan_financier.resultat_net",
             "code_collectivite_territoriale": "unite_legale.colter_code",
             "est_collectivite_territoriale": "unite_legale.colter_code",
+            "est_fondation": "unite_legale.numero_rnf",  # derived from existence of numero_rnf
         }
     else:
         corresponding_es_field = {

@@ -83,7 +83,6 @@ def build_es_search_text_query(es_search_builder):
                 "est_entrepreneur_individuel",
                 "est_entrepreneur_spectacle",
                 "est_ess",
-                "est_fondation",
                 "est_finess",
                 "est_organisme_formation",
                 "est_patrimoine_vivant",

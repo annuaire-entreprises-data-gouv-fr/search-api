@@ -58,7 +58,6 @@ class SearchParams(BaseModel):
     est_service_public: bool | None = None
     est_l100_3: bool | None = None
     est_societe_mission: bool | None = None
-    est_fondation: bool | None = None
     id_convention_collective: str | None = None
     id_finess: str | None = None
     id_uai: str | None = None
@@ -225,7 +224,6 @@ class SearchParams(BaseModel):
         "est_collectivite_territoriale",
         "est_entrepreneur_spectacle",
         "est_ess",
-        "est_fondation",
         "est_association",
         "est_organisme_formation",
         "est_patrimoine_vivant",

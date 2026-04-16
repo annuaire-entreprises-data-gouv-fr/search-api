@@ -121,9 +121,8 @@ class Complements(BaseModel):
     est_bio: bool = False
     est_entrepreneur_individuel: bool = False
     est_entrepreneur_spectacle: bool = False
-    est_ess: int = False
+    est_ess: bool = False
     est_finess: bool = False
-    est_fondation: bool | None = False
     est_organisme_formation: bool = False
     est_qualiopi: bool = False
     liste_id_organisme_formation: list | None = None
@@ -139,8 +138,6 @@ class Complements(BaseModel):
     statut_entrepreneur_spectacle: str | None = None
     type_siae: str | None = None
     aide_minimis_renseignee: bool = False
-    numero_rnf: str | None = None
-    type_organisme_rnf: str | None = None
 
 
 class UniteLegaleResponse(BaseModel):

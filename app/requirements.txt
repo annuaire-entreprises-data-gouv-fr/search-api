@@ -4,7 +4,7 @@ elastic-apm==6.24.0
 requests==2.33.0
 sentry-sdk==2.43.0
 python-dotenv==1.2.1
-pytest==9.0.0
+pytest==9.0.3
 redis==7.0.1
 httpx==0.28.1
 pydantic==2.12.0

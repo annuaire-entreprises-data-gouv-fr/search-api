@@ -31,18 +31,22 @@ def execute_and_agg_total_results_by_identifiant(es_search_builder):
 
 def page_through_results(es_search_builder):
     """
+        Use from/size instead of slicing (ES9 best practice)
 
-    Args:
-        es_search_builder: ElasticSearchBuilder Instance
-
-    Returns:
-        ElasticSearchBuilder Instance with pagination
+    -    Args:
+    -        es_search_builder: ElasticSearchBuilder Instance
+    -
+    -    Returns:
+    -        ElasticSearchBuilder Instance with pagination
 
     """
+
     size = es_search_builder.search_params.per_page
     offset = (es_search_builder.search_params.page - 1) * size
-    search_client = es_search_builder.es_search_client
-    return search_client[offset : (offset + size)]
+
+    search = es_search_builder.es_search_client
+
+    return search.extra(from_=offset, size=size)
 
 
 def should_get_doc_by_id(es_search_builder):

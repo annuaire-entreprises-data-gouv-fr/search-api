@@ -2,7 +2,7 @@ PyYAML==6.0.2
 elasticsearch==9.3.0
 elastic-apm==6.25.0
 requests==2.33.0
-sentry-sdk==2.43.0
+sentry-sdk==2.58.0
 python-dotenv==1.2.1
 pytest==9.0.3
 redis==7.0.1

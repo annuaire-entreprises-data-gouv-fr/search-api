@@ -86,3 +86,13 @@ class APIResponseTester:
             assert count <= expected_max_count, (
                 f"Expected maximum {expected_max_count} results, but found {count}."
             )
+
+    def test_field_not_none(self, path, result_number, field_name):
+        response = self.get_api_response(path)
+        if response.status_code == ok_status_code:
+            response_value = get_field_value(
+                response.json()["results"][result_number], field_name
+            )
+            assert response_value is not None, (
+                f"Field '{field_name}' is None, expected a value."
+            )

@@ -138,6 +138,7 @@ class Complements(BaseModel):
     statut_entrepreneur_spectacle: str | None = None
     type_siae: str | None = None
     a_aide_minimis: bool = False
+    a_aide_ademe: bool = False
 
 
 class UniteLegaleResponse(BaseModel):

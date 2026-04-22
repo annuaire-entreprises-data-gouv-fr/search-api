@@ -1034,3 +1034,15 @@ def test_secondary_etab_nd_pm_avec_nom_commercial(api_response_tester):
         for etab in ul.get(etab_list_key, []):
             if "nom_commercial" in etab:
                 assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
+
+
+def test_a_aide_minimis(api_response_tester):
+    path = "search?q=504879842"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "complements.a_aide_minimis", True)
+
+
+def test_a_aide_ademe(api_response_tester):
+    path = "search?q=054392758"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "complements.a_aide_ademe", True)

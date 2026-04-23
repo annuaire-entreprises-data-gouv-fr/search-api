@@ -113,6 +113,7 @@ class ElasticSearchRunner:
         self.total_results = cached_search_results["total_results"]
         self.es_search_results = cached_search_results["response"]
         self.execution_time = cached_search_results["execution_time"]
+        logging.info(f"Execution time after cache: {self.execution_time}")
 
     def should_cache_for_how_long(self):
         """Determines how long to cache search results based on conditions:

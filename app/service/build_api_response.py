@@ -3,7 +3,6 @@ from fastapi.responses import ORJSONResponse
 from app.controller.search_params_builder import SearchParamsBuilder
 from app.elastic.es_search_runner import ElasticSearchRunner
 from app.models.response_builder import ResponseBuilder
-from app.utils.matomo import track_event
 
 
 def build_api_response(
@@ -19,7 +18,7 @@ def build_api_response(
         response in json format (results, total_results, page, per_page,
         total_pages)
     """
-    track_event(request)
+    # track_event(request)
     search_params = SearchParamsBuilder.extract_params(request, search_type)
     es_search_results = ElasticSearchRunner(search_params, search_type)
     formatted_response = ResponseBuilder(search_params, es_search_results)

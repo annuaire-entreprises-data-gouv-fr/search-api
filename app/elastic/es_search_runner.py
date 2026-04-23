@@ -55,6 +55,7 @@ class ElasticSearchRunner:
         es_response = self.es_search_client.execute()
         self.total_results = es_response.hits.total.value
         self.execution_time = es_response.took
+        logging.info(f"Elasticsearch execution time: {self.execution_time}")
 
         # Due to performance issues when aggregating on filter queries, we use
         # aggregation on total_results only when total_results is lower than

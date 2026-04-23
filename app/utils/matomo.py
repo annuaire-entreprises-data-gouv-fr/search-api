@@ -14,7 +14,7 @@ from app.config import settings
 TRACKING_PROBABILITY = 1 / 100
 
 
-async def track_api_call_via_matomo(request, timeout=5):
+async def track_api_call_via_matomo(request, timeout=0.5):
     """
     Track an API call via Matomo.
 

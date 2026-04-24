@@ -89,16 +89,30 @@ paths:
         - Recherche textuelle
       description: >
         Cet endpoint permet de récupérer les unités légales et les
-        établissements correspondantes à la  recherche textuelle effectuée sur la
-        dénomination, l'adresse, les dirigeants et les élus.
+        établissements correspondants à la recherche effectuée sur la
+        dénomination, l'adresse, les dirigeants et les élus. Ou bien
+        par numéro SIREN / SIRET
+
+
+        **Deux modes de recherche selon la valeur du paramètre `q` :**
+
+        - **Recherche textuelle classique** (dénomination, adresse, dirigeants, élus) : tous
+        les filtres optionnels (`code_commune`, `code_postal`, `departement`,
+        `region`, `epci`, etc.) sont appliqués en combinaison avec la recherche.
+
+        - **Recherche directe par SIREN ou SIRET** : si `q` contient exactement
+        9 chiffres (SIREN) ou 14 chiffres (SIRET), l'API effectue une recherche
+        directe et **ignore tous les autres filtres**. Combiner un SIREN ou SIRET
+        avec des filtres géographiques ou thématiques ne produira pas d'erreur,
+        mais ces filtres seront silencieusement ignorés.
 
       summary: Recherche textuelle
       parameters:
         - name: q
           in: query
           description: >-
-            Termes de la recherche (dénomination et/ou adresse, dirigeants,
-            élus)
+            Termes pour une recherche textuelle (dénomination et/ou adresse,
+            dirigeants, élus) ou recherche directe (SIREN, SIRET).
           schema:
             type: string
         - name: activite_principale

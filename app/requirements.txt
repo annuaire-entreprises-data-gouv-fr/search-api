@@ -11,4 +11,4 @@ pydantic==2.13.2
 fastapi[standard]==0.136.0
 uvicorn==0.44.0
 orjson==3.11.6
-pydantic-settings==2.13.1
+pydantic-settings==2.14.0

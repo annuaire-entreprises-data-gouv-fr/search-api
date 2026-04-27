@@ -4,6 +4,7 @@ from app.models.unite_legale import (
     UniteLegaleResponse,
 )
 from app.service.formatters.bilan_financier import format_bilan
+from app.service.formatters.bodacc import format_bodacc
 from app.service.formatters.complements import format_complements
 from app.service.formatters.dirigeants import format_dirigeants
 from app.service.formatters.etablissements import (
@@ -112,6 +113,9 @@ def format_single_unite_legale(result, search_params):
         elif field == "IMMATRICULATION":
             immatriculation = format_immatriculation(get_field("immatriculation"))
             formatted_unite_legale.immatriculation = immatriculation
+        elif field == "BODACC":
+            bodacc = format_bodacc(get_field("bodacc"))
+            formatted_unite_legale.bodacc = bodacc
         elif field == "SCORE":
             score = result.get("meta")["score"]
             formatted_unite_legale.score = score

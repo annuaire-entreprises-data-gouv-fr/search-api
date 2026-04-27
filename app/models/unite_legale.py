@@ -137,7 +137,8 @@ class Complements(BaseModel):
     identifiant_association: str | None = None
     statut_entrepreneur_spectacle: str | None = None
     type_siae: str | None = None
-    aide_minimis_renseignee: bool = False
+    a_aide_minimis: bool = False
+    a_aide_ademe: bool = False
 
 
 class UniteLegaleResponse(BaseModel):

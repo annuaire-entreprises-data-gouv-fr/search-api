@@ -9,6 +9,6 @@ redis==7.0.1
 httpx==0.28.1
 pydantic==2.13.2
 fastapi[standard]==0.136.0
-uvicorn==0.44.0
+uvicorn==0.46.0
 orjson==3.11.6
 pydantic-settings==2.13.1

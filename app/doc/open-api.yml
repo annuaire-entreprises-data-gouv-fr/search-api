@@ -1555,6 +1555,12 @@ components:
           example: "9"
           description: >-
             Numéro dans la voie (source : base SIRENE).
+        dernier_numero_voie:
+          type: string
+          example: "10"
+          description: >-
+            Dernier numéro de l'adresse lorsque que l'adresse est une plage de numéro.
+            Par exemple "9-10". (source : base SIRENE).
         region:
           type: string
           nullable: true

@@ -50,6 +50,7 @@ class Etablissement(BaseModel):
     longitude: str | None = None
     nom_commercial: str | None = None
     numero_voie: str | None = None
+    dernier_numero_voie: str | None = None
     region: str | None = None
     siret: str | None = None
     statut_diffusion_etablissement: str | None = None

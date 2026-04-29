@@ -1749,6 +1749,18 @@ components:
             diffusion partielle (source : base SIRENE).
         matching_etablissements:
           type: array
+          description: >-
+            Liste des établissements ayant contribué au résultat de la recherche :
+            ceux qui ont « matché » la recherche textuelle ou un filtre sur les
+            établissements. Ce champ ne contient **pas** la totalité des
+            établissements de l'unité légale.
+
+
+            **Attention :**
+            - Pour une recherche directe par SIREN (q=123456789),
+            ce champ est toujours vide.
+            - Pour une recherche directe par SIRET (q=12345678900001),
+            uniquement le SIRET recherché est retourné.
           items:
             $ref: '#/components/schemas/etablissement'
         finances:

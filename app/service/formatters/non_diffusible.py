@@ -23,6 +23,7 @@ _ETABLISSEMENT_FIELDS_TO_MASK = [
     "libelle_cedex",
     "libelle_voie",
     "numero_voie",
+    "dernier_numero_voie",
     "type_voie",
 ]
 

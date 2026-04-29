@@ -58,6 +58,7 @@ def format_etablissement(source_etablissement):
         "longitude": get_field("longitude"),
         "nom_commercial": get_field("nom_commercial"),
         "numero_voie": get_field("numero_voie"),
+        "dernier_numero_voie": get_field("dernier_numero_voie"),
         "region": get_field("region"),
         "siret": get_field("siret"),
         "statut_diffusion_etablissement": get_field("statut_diffusion_etablissement"),
@@ -86,6 +87,7 @@ def format_etablissements_list(etablissements=None):
         "libelle_pays_etranger",
         "libelle_voie",
         "numero_voie",
+        "dernier_numero_voie",
         "type_voie",
     ]
     etablissements_formatted = []

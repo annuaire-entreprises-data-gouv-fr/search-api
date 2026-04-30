@@ -91,7 +91,7 @@ paths:
         Cet endpoint permet de récupérer les unités légales et les
         établissements correspondants à la recherche effectuée sur la
         dénomination, l'adresse, les dirigeants et les élus. Ou bien
-        par numéro SIREN / SIRET
+        par numéro SIREN / SIRET.
 
 
         **Deux modes de recherche selon la valeur du paramètre `q` :**

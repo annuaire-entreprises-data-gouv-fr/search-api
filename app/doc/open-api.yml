@@ -1810,6 +1810,11 @@ components:
               example: false
               description: >-
                 Association (source : INSEE)
+            est_avocat:
+              type: boolean
+              description: >-
+                Entreprise présente dans l'Annuaire des avocats de France.
+                (source: Conseil national des barreaux)
             est_bio:
               type: boolean
               description: >-

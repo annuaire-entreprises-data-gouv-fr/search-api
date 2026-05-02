@@ -126,6 +126,7 @@ class Complements(BaseModel):
     est_achats_responsables: bool = False
     est_alim_confiance: bool = False
     est_association: bool = False
+    est_avocat: bool = False
     est_bio: bool = False
     est_entrepreneur_individuel: bool = False
     est_entrepreneur_spectacle: bool = False

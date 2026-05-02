@@ -25,6 +25,7 @@ def format_complements(result_unite_legale):
     est_achats_responsables = get_field("est_achats_responsables")
     est_alim_confiance = get_field("est_alim_confiance")
     est_association = get_field("est_association")
+    est_avocat = get_field("est_avocat")
     est_bio = get_field("est_bio")
     est_entrepreneur_individuel = get_field(
         "est_entrepreneur_individuel", default=False
@@ -59,6 +60,7 @@ def format_complements(result_unite_legale):
         est_achats_responsables=est_achats_responsables,
         est_alim_confiance=est_alim_confiance,
         est_association=est_association,
+        est_avocat=est_avocat,
         est_bio=est_bio,
         est_entrepreneur_individuel=est_entrepreneur_individuel,
         est_entrepreneur_spectacle=est_entrepreneur_spectacle,

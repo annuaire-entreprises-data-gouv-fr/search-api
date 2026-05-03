@@ -28,7 +28,6 @@ from app.utils.helpers import (
 # Helpers
 # -------------------------
 
-
 def is_unite_legale_non_diffusible(data):
     return data.get("statut_diffusion_unite_legale") == "P"
 

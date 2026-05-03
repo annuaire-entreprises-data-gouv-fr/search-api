@@ -168,6 +168,7 @@ def format_single_unite_legale(search_result, search_params):
     return apply_visibility_rules(enriched_unite_legale, raw_unite_legale)
 
 
+
 def format_search_results(results, search_params):
     """Main formatting function for all results."""
     formatted_results = []

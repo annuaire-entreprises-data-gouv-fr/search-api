@@ -103,6 +103,12 @@ def _mask_etablissement(etab, *, hide_denomination: bool):
     return etab
 
 
+def _mask_etablissement_if_nd(etab, *, hide_denomination: bool):
+    if etab.get("statut_diffusion_etablissement") == "P":
+        return _mask_etablissement(etab, hide_denomination=hide_denomination)
+    return etab
+
+
 # -------------------------
 # Unite légale (main entry)
 # -------------------------
@@ -145,3 +151,24 @@ def mask_unite_legale(formatted_ul, *, is_pm: bool, is_ul_nd: bool):
                 )
 
         return formatted_ul
+
+    # -----------------
+    # Case 2: UL is dffusible → mask only ND établissements
+    # -----------------
+
+    # Siege
+    if formatted_ul.get("siege"):
+        _mask_etablissement_if_nd(
+            formatted_ul["siege"],
+            hide_denomination=not is_pm,
+        )
+
+    # Lists
+    for key in _ETABLISSEMENT_LIST_FIELDS:
+        for etab in formatted_ul.get(key, []):
+            _mask_etablissement_if_nd(
+                etab,
+                hide_denomination=not is_pm,
+            )
+
+    return formatted_ul

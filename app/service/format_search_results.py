@@ -15,7 +15,7 @@ from app.service.formatters.immatriculation import format_immatriculation
 from app.service.formatters.nature_juridique import format_nature_juridique
 from app.service.formatters.nom_complet import format_nom_complet, get_nom_commercial
 from app.service.formatters.non_diffusible import (
-    hide_non_diffusible_fields,
+    mask_unite_legale,
 )
 from app.utils.helpers import (
     create_admin_fields_to_include,
@@ -128,14 +128,14 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
 # -------------------------
 
 
-def apply_visibility_rules(obj, data):
-    is_nd = is_unite_legale_non_diffusible(data)
-    is_pm = data.get("est_personne_morale_insee")
+def apply_visibility_rules(formatted_ul, raw_ul):
+    is_nd = is_unite_legale_non_diffusible(raw_ul)
+    is_pm = raw_ul.get("est_personne_morale_insee")
 
-    result_dict = obj.dict(exclude_unset=True)
+    result_dict = formatted_ul.dict(exclude_unset=True)
 
     if is_nd:
-        return hide_non_diffusible_fields(result_dict, is_pm)
+        return mask_unite_legale(result_dict, is_pm)
 
     return result_dict
 

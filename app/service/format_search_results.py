@@ -135,7 +135,7 @@ def apply_visibility_rules(formatted_ul, raw_ul):
     result_dict = formatted_ul.dict(exclude_unset=True)
 
     if is_nd:
-        return mask_unite_legale(result_dict, is_pm)
+        return mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
 
     return result_dict
 

@@ -92,35 +92,35 @@ def build_unite_legale_base(data):
 # -------------------------
 
 
-def enrich_unite_legale(obj, result, data, fields_to_include):
+def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
     handlers = {
-        "SIEGE": lambda: format_siege(get_value(data, "siege")),
+        "SIEGE": lambda: format_siege(get_value(raw_ul, "siege")),
         "DIRIGEANTS": lambda: format_dirigeants(
-            get_value(data, "dirigeants_pp"),
-            get_value(data, "dirigeants_pm"),
+            get_value(raw_ul, "dirigeants_pp"),
+            get_value(raw_ul, "dirigeants_pm"),
         ),
-        "FINANCES": lambda: format_bilan(get_value(data, "bilan_financier")),
-        "COMPLEMENTS": lambda: format_complements(data),
+        "FINANCES": lambda: format_bilan(get_value(raw_ul, "bilan_financier")),
+        "COMPLEMENTS": lambda: format_complements(raw_ul),
         "MATCHING_ETABLISSEMENTS": lambda: format_etablissements_list(
-            get_value(result, "matching_etablissements")
+            get_value(search_result, "matching_etablissements")
         ),
-        "SLUG": lambda: get_value(data, "slug"),
+        "SLUG": lambda: get_value(raw_ul, "slug"),
         "ETABLISSEMENTS": lambda: format_etablissements_list(
-            get_value(data, "etablissements")
+            get_value(raw_ul, "etablissements")
         ),
         "IMMATRICULATION": lambda: format_immatriculation(
-            get_value(data, "immatriculation")
+            get_value(raw_ul, "immatriculation")
         ),
-        "BODACC": lambda: format_bodacc(get_value(data, "bodacc")),
-        "SCORE": lambda: result.get("meta", {}).get("score"),
+        "BODACC": lambda: format_bodacc(get_value(raw_ul, "bodacc")),
+        "SCORE": lambda: search_result.get("meta", {}).get("score"),
     }
 
     for field in fields_to_include:
         handler = handlers.get(field)
         if handler:
-            setattr(obj, field.lower(), handler())
+            setattr(ul, field.lower(), handler())
 
-    return obj
+    return ul
 
 
 # -------------------------
@@ -145,34 +145,40 @@ def apply_visibility_rules(obj, data):
 # -------------------------
 
 
-def format_single_unite_legale(result, search_params):
-    data = result["unite_legale"]
+def format_single_unite_legale(search_result, search_params):
+    raw_unite_legale = search_result["unite_legale"]
 
     # 1. Build base object
-    obj = build_unite_legale_base(data)
+    formatted_unite_legale = build_unite_legale_base(raw_unite_legale)
 
     # 2. Enrich based on requested fields
     fields_to_include = create_fields_to_include(
         search_params
     ) + create_admin_fields_to_include(search_params)
 
-    obj = enrich_unite_legale(obj, result, data, fields_to_include)
+    enriched_unite_legale = enrich_unite_legale(
+        formatted_unite_legale, search_result, raw_unite_legale, fields_to_include
+    )
 
     # 3. Dev meta
     if is_dev_env():
-        obj.meta = json.loads(json.dumps(result.get("meta"), default=str))
+        enriched_unite_legale.meta = json.loads(
+            json.dumps(search_result.get("meta"), default=str)
+        )
 
     # 4. Apply ND masking rules
-    return apply_visibility_rules(obj, data)
+    return apply_visibility_rules(enriched_unite_legale, raw_unite_legale)
 
 
 def format_search_results(results, search_params):
     """Main formatting function for all results."""
     formatted_results = []
 
-    for result in results:
+    for search_result in results:
         # If structure is unite légale
-        if "unite_legale" in result:
-            formatted_results.append(format_single_unite_legale(result, search_params))
+        if "unite_legale" in search_result:
+            formatted_results.append(
+                format_single_unite_legale(search_result, search_params)
+            )
 
     return formatted_results

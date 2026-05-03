@@ -1036,6 +1036,31 @@ def test_secondary_etab_nd_pm_avec_nom_commercial(api_response_tester):
                 assert etab["nom_commercial"] != "[NON-DIFFUSIBLE]"
 
 
+def test_ul_diffusible_with_nd_etablissement(api_response_tester):
+    path = "search?q=84098192200015"
+    res = api_response_tester.get_api_response(path).json()["results"][0]
+
+    found_nd = False
+
+    for etab in res.get("matching_etablissements", []):
+        if etab.get("statut_diffusion_etablissement") == "P":
+            found_nd = True
+            assert etab["code_postal"] == "[NON-DIFFUSIBLE]"
+            assert etab["adresse"] == "[NON-DIFFUSIBLE]"
+
+    assert found_nd, "Expected at least one ND établissement"
+
+
+def test_dirigeant_pp_masking(api_response_tester):
+    path = "search?q=300210820"
+    res = api_response_tester.get_api_response(path).json()["results"][0]
+
+    for dirigeant in res.get("dirigeants", []):
+        if dirigeant.get("type_dirigeant") == "personne physique":
+            assert dirigeant["nom"] == "[NON-DIFFUSIBLE]"
+            assert dirigeant["prenoms"] == "[NON-DIFFUSIBLE]"
+
+
 def test_a_aide_minimis(api_response_tester):
     path = "search?q=504879842"
     api_response_tester.assert_api_response_code_200(path)

@@ -31,11 +31,6 @@ from app.utils.helpers import (
 ETABLISSEMENT_LIST_FIELDS = ("matching_etablissements", "etablissements")
 
 
-def get_field(data, field, default=None):
-    value = data.get(field, default)
-    return default if value is None else value
-
-
 def is_unite_legale_non_diffusible(data):
     return data.get("statut_diffusion_unite_legale") == "P"
 
@@ -49,44 +44,44 @@ def build_unite_legale_base(data):
     is_nd = is_unite_legale_non_diffusible(data)
 
     fields = {
-        "siren": get_field(data, "siren"),
+        "siren": get_value(data, "siren"),
         "nom_complet": format_nom_complet(
-            get_field(data, "nom_complet"),
-            get_field(data, "sigle"),
-            get_nom_commercial(get_field(data, "siege")),
-            get_field(data, "est_personne_morale_insee"),
+            get_value(data, "nom_complet"),
+            get_value(data, "sigle"),
+            get_nom_commercial(get_value(data, "siege")),
+            get_value(data, "est_personne_morale_insee"),
             is_nd,
         ),
-        "nom_raison_sociale": get_field(data, "nom_raison_sociale"),
-        "sigle": get_field(data, "sigle"),
-        "nombre_etablissements": int(get_field(data, "nombre_etablissements", 0)),
+        "nom_raison_sociale": get_value(data, "nom_raison_sociale"),
+        "sigle": get_value(data, "sigle"),
+        "nombre_etablissements": int(get_value(data, "nombre_etablissements", 0)),
         "nombre_etablissements_ouverts": int(
-            get_field(data, "nombre_etablissements_ouverts", 0)
+            get_value(data, "nombre_etablissements_ouverts", 0)
         ),
-        "activite_principale": get_field(data, "activite_principale_unite_legale"),
-        "activite_principale_naf25": get_field(
+        "activite_principale": get_value(data, "activite_principale_unite_legale"),
+        "activite_principale_naf25": get_value(
             data, "activite_principale_naf25_unite_legale"
         ),
-        "categorie_entreprise": get_field(data, "categorie_entreprise"),
-        "caractere_employeur": get_field(data, "caractere_employeur"),
-        "annee_categorie_entreprise": get_field(data, "annee_categorie_entreprise"),
-        "date_creation": get_field(data, "date_creation_unite_legale"),
-        "date_fermeture": get_field(data, "date_fermeture"),
-        "date_mise_a_jour": get_field(data, "date_mise_a_jour"),
-        "date_mise_a_jour_insee": get_field(data, "date_mise_a_jour_insee"),
-        "date_mise_a_jour_rne": get_field(data, "date_mise_a_jour_rne"),
-        "etat_administratif": get_field(data, "etat_administratif_unite_legale"),
+        "categorie_entreprise": get_value(data, "categorie_entreprise"),
+        "caractere_employeur": get_value(data, "caractere_employeur"),
+        "annee_categorie_entreprise": get_value(data, "annee_categorie_entreprise"),
+        "date_creation": get_value(data, "date_creation_unite_legale"),
+        "date_fermeture": get_value(data, "date_fermeture"),
+        "date_mise_a_jour": get_value(data, "date_mise_a_jour"),
+        "date_mise_a_jour_insee": get_value(data, "date_mise_a_jour_insee"),
+        "date_mise_a_jour_rne": get_value(data, "date_mise_a_jour_rne"),
+        "etat_administratif": get_value(data, "etat_administratif_unite_legale"),
         "nature_juridique": format_nature_juridique(
-            get_field(data, "nature_juridique_unite_legale")
+            get_value(data, "nature_juridique_unite_legale")
         ),
-        "section_activite_principale": get_field(data, "section_activite_principale"),
-        "tranche_effectif_salarie": get_field(
+        "section_activite_principale": get_value(data, "section_activite_principale"),
+        "tranche_effectif_salarie": get_value(
             data, "tranche_effectif_salarie_unite_legale"
         ),
-        "annee_tranche_effectif_salarie": get_field(
+        "annee_tranche_effectif_salarie": get_value(
             data, "annee_tranche_effectif_salarie"
         ),
-        "statut_diffusion": get_field(data, "statut_diffusion_unite_legale"),
+        "statut_diffusion": get_value(data, "statut_diffusion_unite_legale"),
     }
 
     return UniteLegaleResponse(**fields)
@@ -99,24 +94,24 @@ def build_unite_legale_base(data):
 
 def enrich_unite_legale(obj, result, data, fields_to_include):
     handlers = {
-        "SIEGE": lambda: format_siege(get_field(data, "siege")),
+        "SIEGE": lambda: format_siege(get_value(data, "siege")),
         "DIRIGEANTS": lambda: format_dirigeants(
-            get_field(data, "dirigeants_pp"),
-            get_field(data, "dirigeants_pm"),
+            get_value(data, "dirigeants_pp"),
+            get_value(data, "dirigeants_pm"),
         ),
-        "FINANCES": lambda: format_bilan(get_field(data, "bilan_financier")),
+        "FINANCES": lambda: format_bilan(get_value(data, "bilan_financier")),
         "COMPLEMENTS": lambda: format_complements(data),
         "MATCHING_ETABLISSEMENTS": lambda: format_etablissements_list(
             get_value(result, "matching_etablissements")
         ),
-        "SLUG": lambda: get_field(data, "slug"),
+        "SLUG": lambda: get_value(data, "slug"),
         "ETABLISSEMENTS": lambda: format_etablissements_list(
-            get_field(data, "etablissements")
+            get_value(data, "etablissements")
         ),
         "IMMATRICULATION": lambda: format_immatriculation(
-            get_field(data, "immatriculation")
+            get_value(data, "immatriculation")
         ),
-        "BODACC": lambda: format_bodacc(get_field(data, "bodacc")),
+        "BODACC": lambda: format_bodacc(get_value(data, "bodacc")),
         "SCORE": lambda: result.get("meta", {}).get("score"),
     }
 

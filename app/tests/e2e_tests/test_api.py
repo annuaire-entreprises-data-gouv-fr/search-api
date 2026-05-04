@@ -1048,6 +1048,15 @@ def test_a_aide_ademe(api_response_tester):
     api_response_tester.test_field_value(path, 0, "complements.a_aide_ademe", True)
 
 
+def test_est_avocat(api_response_tester):
+    path = "search?q=488896952"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "complements.est_avocat", True)
+    path = "search?q=552032534"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "complements.est_avocat", False)
+
+
 def test_bodacc(api_response_tester):
     # SIREN 552032534 : entreprise active sans radiation ni procédure collective
     path = "/search?q=552032534&include_admin=bodacc"

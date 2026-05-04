@@ -28,8 +28,14 @@ from app.utils.helpers import (
 # Helpers
 # -------------------------
 
-def is_unite_legale_non_diffusible(data):
+
+def is_unite_legale_non_diffusible(data) -> bool:
     return data.get("statut_diffusion_unite_legale") == "P"
+
+
+def is_siege_non_diffusible(data) -> bool:
+    siege = get_value(data, "siege")
+    return bool(siege and siege.get("statut_diffusion_etablissement") == "P")
 
 
 # -------------------------
@@ -38,7 +44,8 @@ def is_unite_legale_non_diffusible(data):
 
 
 def build_unite_legale_base(data):
-    is_nd = is_unite_legale_non_diffusible(data)
+    is_ul_nd = is_unite_legale_non_diffusible(data)
+    is_siege_nd = is_siege_non_diffusible(data)
 
     fields = {
         "siren": get_value(data, "siren"),
@@ -47,7 +54,8 @@ def build_unite_legale_base(data):
             get_value(data, "sigle"),
             get_nom_commercial(get_value(data, "siege")),
             get_value(data, "est_personne_morale_insee"),
-            is_nd,
+            is_ul_nd,
+            is_siege_nd,
         ),
         "nom_raison_sociale": get_value(data, "nom_raison_sociale"),
         "sigle": get_value(data, "sigle"),

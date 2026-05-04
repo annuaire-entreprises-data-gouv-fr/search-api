@@ -15,7 +15,7 @@ from app.service.formatters.immatriculation import format_immatriculation
 from app.service.formatters.nature_juridique import format_nature_juridique
 from app.service.formatters.nom_complet import format_nom_complet, get_nom_commercial
 from app.service.formatters.non_diffusible import (
-    hide_non_diffusible_fields,
+    mask_unite_legale,
 )
 from app.utils.helpers import (
     create_admin_fields_to_include,
@@ -24,126 +24,159 @@ from app.utils.helpers import (
     is_dev_env,
 )
 
+# -------------------------
+# Helpers
+# -------------------------
 
-def format_single_unite_legale(result, search_params):
-    result_unite_legale = result["unite_legale"]
 
-    def get_field(field, default=None):
-        value = result_unite_legale.get(field, default)
-        if value is None:
-            return default
-        return value
+def is_unite_legale_non_diffusible(data):
+    return data.get("statut_diffusion_unite_legale") == "P"
 
-    is_non_diffusible = (
-        True
-        if result_unite_legale.get("statut_diffusion_unite_legale") == "P"
-        else False
-    )
 
-    unite_legale_fields = {
-        "siren": get_field("siren"),
+# -------------------------
+# Base builder
+# -------------------------
+
+
+def build_unite_legale_base(data):
+    is_nd = is_unite_legale_non_diffusible(data)
+
+    fields = {
+        "siren": get_value(data, "siren"),
         "nom_complet": format_nom_complet(
-            get_field("nom_complet"),
-            get_field("sigle"),
-            get_nom_commercial(get_field("siege")),
-            get_field("est_personne_morale_insee"),
-            is_non_diffusible,
+            get_value(data, "nom_complet"),
+            get_value(data, "sigle"),
+            get_nom_commercial(get_value(data, "siege")),
+            get_value(data, "est_personne_morale_insee"),
+            is_nd,
         ),
-        "nom_raison_sociale": get_field("nom_raison_sociale"),
-        "sigle": get_field("sigle"),
-        "nombre_etablissements": int(get_field("nombre_etablissements", default=0)),
+        "nom_raison_sociale": get_value(data, "nom_raison_sociale"),
+        "sigle": get_value(data, "sigle"),
+        "nombre_etablissements": int(get_value(data, "nombre_etablissements", 0)),
         "nombre_etablissements_ouverts": int(
-            get_field("nombre_etablissements_ouverts", default=0)
+            get_value(data, "nombre_etablissements_ouverts", 0)
         ),
-        "activite_principale": get_field("activite_principale_unite_legale"),
-        "activite_principale_naf25": get_field(
-            "activite_principale_naf25_unite_legale"
+        "activite_principale": get_value(data, "activite_principale_unite_legale"),
+        "activite_principale_naf25": get_value(
+            data, "activite_principale_naf25_unite_legale"
         ),
-        "categorie_entreprise": get_field("categorie_entreprise"),
-        "caractere_employeur": get_field("caractere_employeur"),
-        "annee_categorie_entreprise": get_field("annee_categorie_entreprise"),
-        "date_creation": get_field("date_creation_unite_legale"),
-        "date_fermeture": get_field("date_fermeture"),
-        "date_mise_a_jour": get_field("date_mise_a_jour"),
-        "date_mise_a_jour_insee": get_field("date_mise_a_jour_insee"),
-        "date_mise_a_jour_rne": get_field("date_mise_a_jour_rne"),
-        "etat_administratif": get_field("etat_administratif_unite_legale"),
+        "categorie_entreprise": get_value(data, "categorie_entreprise"),
+        "caractere_employeur": get_value(data, "caractere_employeur"),
+        "annee_categorie_entreprise": get_value(data, "annee_categorie_entreprise"),
+        "date_creation": get_value(data, "date_creation_unite_legale"),
+        "date_fermeture": get_value(data, "date_fermeture"),
+        "date_mise_a_jour": get_value(data, "date_mise_a_jour"),
+        "date_mise_a_jour_insee": get_value(data, "date_mise_a_jour_insee"),
+        "date_mise_a_jour_rne": get_value(data, "date_mise_a_jour_rne"),
+        "etat_administratif": get_value(data, "etat_administratif_unite_legale"),
         "nature_juridique": format_nature_juridique(
-            get_field("nature_juridique_unite_legale")
+            get_value(data, "nature_juridique_unite_legale")
         ),
-        "section_activite_principale": get_field("section_activite_principale"),
-        "tranche_effectif_salarie": get_field("tranche_effectif_salarie_unite_legale"),
-        "annee_tranche_effectif_salarie": get_field("annee_tranche_effectif_salarie"),
-        "statut_diffusion": get_field("statut_diffusion_unite_legale"),
+        "section_activite_principale": get_value(data, "section_activite_principale"),
+        "tranche_effectif_salarie": get_value(
+            data, "tranche_effectif_salarie_unite_legale"
+        ),
+        "annee_tranche_effectif_salarie": get_value(
+            data, "annee_tranche_effectif_salarie"
+        ),
+        "statut_diffusion": get_value(data, "statut_diffusion_unite_legale"),
     }
-    formatted_unite_legale = UniteLegaleResponse(**unite_legale_fields)
 
-    # Some search parameters control fields included in api response
+    return UniteLegaleResponse(**fields)
+
+
+# -------------------------
+# Field enrichment (dispatch map)
+# -------------------------
+
+
+def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
+    handlers = {
+        "SIEGE": lambda: format_siege(get_value(raw_ul, "siege")),
+        "DIRIGEANTS": lambda: format_dirigeants(
+            get_value(raw_ul, "dirigeants_pp"),
+            get_value(raw_ul, "dirigeants_pm"),
+        ),
+        "FINANCES": lambda: format_bilan(get_value(raw_ul, "bilan_financier")),
+        "COMPLEMENTS": lambda: format_complements(raw_ul),
+        "MATCHING_ETABLISSEMENTS": lambda: format_etablissements_list(
+            get_value(search_result, "matching_etablissements")
+        ),
+        "SLUG": lambda: get_value(raw_ul, "slug"),
+        "ETABLISSEMENTS": lambda: format_etablissements_list(
+            get_value(raw_ul, "etablissements")
+        ),
+        "IMMATRICULATION": lambda: format_immatriculation(
+            get_value(raw_ul, "immatriculation")
+        ),
+        "BODACC": lambda: format_bodacc(get_value(raw_ul, "bodacc")),
+        "SCORE": lambda: search_result.get("meta", {}).get("score"),
+    }
+
+    for field in fields_to_include:
+        handler = handlers.get(field)
+        if handler:
+            setattr(ul, field.lower(), handler())
+
+    return ul
+
+
+# -------------------------
+# Visibility / ND rules
+# -------------------------
+
+
+def apply_visibility_rules(formatted_ul, raw_ul):
+    is_nd = is_unite_legale_non_diffusible(raw_ul)
+    is_pm = raw_ul.get("est_personne_morale_insee")
+
+    result_dict = formatted_ul.dict(exclude_unset=True)
+
+    if is_nd:
+        return mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
+
+    return result_dict
+
+
+# -------------------------
+# Main formatter
+# -------------------------
+
+
+def format_single_unite_legale(search_result, search_params):
+    raw_unite_legale = search_result["unite_legale"]
+
+    # 1. Build base object
+    formatted_unite_legale = build_unite_legale_base(raw_unite_legale)
+
+    # 2. Enrich based on requested fields
     fields_to_include = create_fields_to_include(
         search_params
     ) + create_admin_fields_to_include(search_params)
 
-    for field in fields_to_include:
-        if field == "SIEGE":
-            siege = format_siege(get_field("siege"))
-            formatted_unite_legale.siege = siege
-        elif field == "DIRIGEANTS":
-            dirigeants = format_dirigeants(
-                get_field("dirigeants_pp"),
-                get_field("dirigeants_pm"),
-            )
-            formatted_unite_legale.dirigeants = dirigeants
-        elif field == "FINANCES":
-            finances = format_bilan(get_field("bilan_financier"))
-            formatted_unite_legale.finances = finances
-        elif field == "COMPLEMENTS":
-            complements = format_complements(result_unite_legale)
-            formatted_unite_legale.complements = complements
-        elif field == "MATCHING_ETABLISSEMENTS":
-            matching_etablissements = format_etablissements_list(
-                get_value(result, "matching_etablissements")
-            )
-            formatted_unite_legale.matching_etablissements = matching_etablissements
-        elif field == "SLUG":
-            slug = get_field("slug")
-            formatted_unite_legale.slug = slug
-        elif field == "ETABLISSEMENTS":
-            etablissements = format_etablissements_list(get_field("etablissements"))
-            formatted_unite_legale.etablissements = etablissements
-        elif field == "IMMATRICULATION":
-            immatriculation = format_immatriculation(get_field("immatriculation"))
-            formatted_unite_legale.immatriculation = immatriculation
-        elif field == "BODACC":
-            bodacc = format_bodacc(get_field("bodacc"))
-            formatted_unite_legale.bodacc = bodacc
-        elif field == "SCORE":
-            score = result.get("meta")["score"]
-            formatted_unite_legale.score = score
+    enriched_unite_legale = enrich_unite_legale(
+        formatted_unite_legale, search_result, raw_unite_legale, fields_to_include
+    )
 
-    # Include search score and tree field for dev environment
+    # 3. Dev meta
     if is_dev_env():
-        meta = result.get("meta")
-        formatted_unite_legale.meta = json.loads(json.dumps(meta, default=str))
-
-    # Hide most fields if unité légale is non-diffusible
-    if is_non_diffusible:
-        formatted_unite_legale = hide_non_diffusible_fields(
-            formatted_unite_legale.dict(exclude_unset=True),
-            result_unite_legale.get("est_personne_morale_insee"),
+        enriched_unite_legale.meta = json.loads(
+            json.dumps(search_result.get("meta"), default=str)
         )
-        return formatted_unite_legale
 
-    # `exclude_unset`` option hides fields which were not
-    # explicitly set when creating response object
-    return formatted_unite_legale
+    # 4. Apply ND masking rules
+    return apply_visibility_rules(enriched_unite_legale, raw_unite_legale)
 
 
 def format_search_results(results, search_params):
     """Main formatting function for all results."""
     formatted_results = []
-    for result in results:
+
+    for search_result in results:
         # If structure is unite légale
-        if "unite_legale" in result:
-            formatted_result = format_single_unite_legale(result, search_params)
-            formatted_results.append(formatted_result)
+        if "unite_legale" in search_result:
+            formatted_results.append(
+                format_single_unite_legale(search_result, search_params)
+            )
+
     return formatted_results

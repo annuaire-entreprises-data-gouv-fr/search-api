@@ -76,7 +76,8 @@ def get_value(data_dict, key, default=None):
     """
     if not data_dict:
         return default
-    return data_dict.get(key, default)
+    value = data_dict.get(key, default)
+    return default if value is None else value
 
 
 def hash_string(string: str):

@@ -41,7 +41,7 @@ info:
 
     ## Limite des requêtes
 
-    L'API accepte **au maximum 7 requêtes par seconde** par adresse IP. Une limite de 30 requête par seconde par ASN est aussi en place. Il est donc probable de faire face à cette limite sur les cloud publiques.
+    L'API accepte **au maximum 7 requêtes par seconde** par adresse IP. Une limite de 30 requêtes par seconde par ASN est aussi en place. Il est donc probable de faire face à cette limite sur les cloud publics.
     Cette valeur correspond à une **limite maximale** et ne constitue pas un débit garanti.
 
 

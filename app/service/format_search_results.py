@@ -28,7 +28,6 @@ from app.utils.helpers import (
 # Helpers
 # -------------------------
 
-
 def is_unite_legale_non_diffusible(data):
     return data.get("statut_diffusion_unite_legale") == "P"
 
@@ -132,10 +131,7 @@ def apply_visibility_rules(formatted_ul, raw_ul):
 
     result_dict = formatted_ul.dict(exclude_unset=True)
 
-    if is_nd:
-        return mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
-
-    return result_dict
+    return mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
 
 
 # -------------------------

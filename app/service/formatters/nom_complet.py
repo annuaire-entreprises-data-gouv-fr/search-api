@@ -1,31 +1,28 @@
-def get_nom_commercial(siege):
+def get_nom_commercial(siege: dict | None) -> str | None:
     return siege.get("nom_commercial") if siege else None
 
 
 def format_nom_complet(
-    nom_complet,
-    sigle=None,
-    nom_commercial_siege=None,
-    is_personne_morale_insee=False,
-    is_non_diffusible=False,
-):
-    """Add `denomination usuelle` fields and `sigle` to `nom_complet`.
+    nom_complet: str | None,
+    sigle: str | None = None,
+    nom_commercial_siege: str | None = None,
+    is_personne_morale_insee: bool = False,
+    is_ul_non_diffusible: bool = False,
+    is_siege_non_diffusible: bool = False,
+) -> str | None:
+    """Add `denomination usuelle` fields (if diffusible) and `sigle` to `nom_complet`.
 
     Returns None if nom_complet is empty.
     """
     if not nom_complet:
         return None
 
-    # Build denomination from available sources
-    denomination = None
-    if nom_commercial_siege:
-        denomination = nom_commercial_siege
+    parts = [nom_complet]
 
-    # Build final name with parenthetical additions
-    result = nom_complet
-    if denomination:
-        result += f" ({denomination.strip()})"
-    if sigle and not (is_personne_morale_insee and is_non_diffusible):
-        result += f" ({sigle})"
+    if nom_commercial_siege and not is_siege_non_diffusible:
+        parts.append(f"({nom_commercial_siege.strip()})")
 
-    return result.upper()
+    if sigle and not (is_personne_morale_insee and is_ul_non_diffusible):
+        parts.append(f"({sigle})")
+
+    return " ".join(parts).upper()

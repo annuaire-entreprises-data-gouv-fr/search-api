@@ -28,8 +28,6 @@ from app.utils.helpers import (
 # Helpers
 # -------------------------
 
-ETABLISSEMENT_LIST_FIELDS = ("matching_etablissements", "etablissements")
-
 
 def is_unite_legale_non_diffusible(data):
     return data.get("statut_diffusion_unite_legale") == "P"

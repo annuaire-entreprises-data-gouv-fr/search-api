@@ -118,7 +118,7 @@ paths:
         - name: activite_principale
           in: query
           description: >-
-            <a href=https://www.sirene.fr/static-resources/documentation/v_sommaire_311.htm#2>Le
+            <a href=https://www.insee.fr/fr/information/2406147>Le
             code NAF ou code APE, un code d'activité suivant la nomenclature de
             l'INSEE</a>. Ce paramètre accepte une valeur unique ou une liste de
             valeurs séparées par des virgules.
@@ -130,8 +130,10 @@ paths:
         - name: categorie_entreprise
           in: query
           description: >-
-            Catégorie d'entreprise de l'unité légale. Ce paramètre accepte une valeur
-            unique ou une liste de valeurs séparées par des virgules.
+            <a href=https://www.insee.fr/fr/metadonnees/definition/c1057>Catégorie
+             d'entreprise de l'unité légale</a>.
+            Ce paramètre accepte une valeur unique ou une liste de valeurs
+             séparées par des virgules.
           required: false
           example: "PME"
           schema:
@@ -164,8 +166,7 @@ paths:
         - name: code_postal
           in: query
           description: >-
-            <a href=https://www.sirene.fr/static-resources/documentation/v_sommaire_311.htm#43>Code
-            postal en 5 chiffres</a>. Ce paramètre filtre sur les établissements
+            Code postal en 5 chiffres. Ce paramètre filtre sur les établissements
             et accepte une valeur unique ou une liste de valeurs séparées par
             des virgules.
           required: false
@@ -175,7 +176,7 @@ paths:
         - name: code_commune
           in: query
           description: >-
-            <a href=https://www.sirene.fr/static-resources/documentation/v_sommaire_311.htm#39>Code commune
+            <a href=https://www.insee.fr/fr/information/8377162>Code commune
             (INSEE) en 5 caractères</a>. Ce paramètre filtre sur les
             établissements et accepte une valeur unique ou une liste de valeurs
             séparées par des virgules.
@@ -518,7 +519,7 @@ paths:
         - name: tranche_effectif_salarie
           in: query
           description: >-
-            <a href=https://sirene.fr/static-resources/htm/v_sommaire_311.htm#27>Tranche
+            <a href=https://github.com/annuaire-entreprises-data-gouv-fr/search-api/blob/main/app/labels/tranches-effectifs.json>Tranche
             d'effectif salarié de l'entreprise</a>. Ce paramètre accepte une
             valeur unique ou une liste de valeurs séparées par des virgules.
           required: false
@@ -760,7 +761,7 @@ paths:
         - name: activite_principale
           in: query
           description: >-
-            <a href=https://www.sirene.fr/sirene/public/variable/apet700-rev2>Le
+            <a https://www.insee.fr/fr/information/2406147>Le
             code NAF ou code APE, un code d'activité suivant la nomenclature de
             l'INSEE</a>. Ce paramètre accepte une valeur unique ou une liste de
             valeurs séparées par des virgules.

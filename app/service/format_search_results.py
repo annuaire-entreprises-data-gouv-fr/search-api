@@ -117,6 +117,7 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
             get_value(raw_ul, "immatriculation")
         ),
         "BODACC": lambda: format_bodacc(get_value(raw_ul, "bodacc")),
+        "TVA": lambda: get_value(raw_ul, "liste_tva"),
         "SCORE": lambda: search_result.get("meta", {}).get("score"),
     }
 

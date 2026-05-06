@@ -18,11 +18,10 @@ dependencies = [
     "fastapi[standard]==0.136.0",
     "orjson==3.11.6",
     "pydantic-settings==2.13.1",
-
 ]
 
 [project.optional-dependencies]
-dev = ["PyYAML==6.0.2", "pytest==9.0.0"]
+dev = ["PyYAML==6.0.2", "pytest==9.0.3"]
 
 [project.urls]
 API = "https://recherche-entreprises.api.gouv.fr/"

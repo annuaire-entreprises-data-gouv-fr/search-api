@@ -181,6 +181,7 @@ class UniteLegaleResponse(BaseModel):
     bodacc: Bodacc | None = None
     finances: dict[str, Finances] | None = None
     complements: Complements | None = None
+    tva: list | None = None
     score: float | None = None
     slug: str | None = None
     meta: dict | None = None

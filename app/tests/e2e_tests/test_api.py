@@ -1121,3 +1121,14 @@ def test_bodacc(api_response_tester):
     api_response_tester.test_field_not_none(
         path, 0, "bodacc.procedure_collective_nature"
     )
+
+
+def test_tva(api_response_tester):
+    path = "search?q=979925039&include_admin=tva"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    results = response.json()["results"]
+    for result in results:
+        assert len(result["tva"]) > 1, (
+            "tva should not be empty when filtering by include_admin=tva"
+        )

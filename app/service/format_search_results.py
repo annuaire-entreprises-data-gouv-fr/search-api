@@ -4,7 +4,6 @@ from app.models.unite_legale import (
     UniteLegaleResponse,
 )
 from app.service.formatters.bilan_financier import format_bilan
-from app.service.formatters.bodacc import format_bodacc
 from app.service.formatters.complements import format_complements
 from app.service.formatters.dirigeants import format_dirigeants
 from app.service.formatters.etablissements import (
@@ -116,7 +115,6 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
         "IMMATRICULATION": lambda: format_immatriculation(
             get_value(raw_ul, "immatriculation")
         ),
-        "BODACC": lambda: format_bodacc(get_value(raw_ul, "bodacc")),
         "TVA": lambda: get_value(raw_ul, "liste_tva"),
         "SCORE": lambda: search_result.get("meta", {}).get("score"),
     }

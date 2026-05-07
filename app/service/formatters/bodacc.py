@@ -2,6 +2,9 @@ from app.models.unite_legale import Bodacc, BodaccProcedureCollective, BodaccRad
 
 
 def format_bodacc(bodacc):
+    if not isinstance(bodacc, dict):
+        return None
+
     radiation_fields = bodacc.get("radiation")
     procedure_fields = bodacc.get("procedure_collective")
 

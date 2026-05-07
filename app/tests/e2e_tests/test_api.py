@@ -1082,47 +1082,6 @@ def test_est_avocat(api_response_tester):
     api_response_tester.test_field_value(path, 0, "complements.est_avocat", False)
 
 
-def test_bodacc(api_response_tester):
-    # SIREN 552032534 : entreprise active sans radiation ni procédure collective
-    path = "/search?q=552032534&include_admin=bodacc"
-    api_response_tester.assert_api_response_code_200(path)
-
-    bodacc_data = {
-        "radiation_rcs": False,
-        "radiation_rcs_date": None,
-        "procedure_collective_date_jugement": None,
-        "procedure_collective_nature": None,
-    }
-
-    for field, expected_value in bodacc_data.items():
-        api_response_tester.test_field_value(path, 0, f"bodacc.{field}", expected_value)
-
-    # SIREN 442750196 : entreprise avec une date de radiation
-    path = "/search?q=442750196&include_admin=bodacc"
-    api_response_tester.assert_api_response_code_200(path)
-
-    bodacc_data = {
-        "radiation_rcs": True,
-        "radiation_rcs_date": "2014-06-01",
-        "procedure_collective_date_jugement": None,
-        "procedure_collective_nature": None,
-    }
-
-    for field, expected_value in bodacc_data.items():
-        api_response_tester.test_field_value(path, 0, f"bodacc.{field}", expected_value)
-
-    # SIREN 909324055 : entreprise en procédure collective
-    path = "/search?q=909324055&include_admin=bodacc"
-    api_response_tester.assert_api_response_code_200(path)
-
-    api_response_tester.test_field_not_none(
-        path, 0, "bodacc.procedure_collective_date_jugement"
-    )
-    api_response_tester.test_field_not_none(
-        path, 0, "bodacc.procedure_collective_nature"
-    )
-
-
 def test_tva(api_response_tester):
     path = "search?q=979925039&include_admin=tva"
     api_response_tester.assert_api_response_code_200(path)

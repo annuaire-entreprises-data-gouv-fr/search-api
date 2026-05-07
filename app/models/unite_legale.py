@@ -110,11 +110,21 @@ class Immatriculation(BaseModel):
     indicateur_associe_unique: bool | None = None
 
 
+class BodaccRadiation(BaseModel):
+    est_radie: bool = False
+    id_annonce: str | None = None
+    date: str | None = None
+
+
+class BodaccProcedureCollective(BaseModel):
+    statut: str | None = None
+    id_annonce: str | None = None
+    date: str | None = None
+
+
 class Bodacc(BaseModel):
-    radiation_rcs: bool = False
-    radiation_rcs_date: str | None = None
-    procedure_collective_date_jugement: str | None = None
-    procedure_collective_nature: str | None = None
+    radiation: BodaccRadiation | None = None
+    procedure_collective: BodaccProcedureCollective | None = None
 
 
 class Complements(BaseModel):

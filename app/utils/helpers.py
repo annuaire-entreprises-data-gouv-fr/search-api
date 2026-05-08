@@ -19,13 +19,15 @@ def fetch_json_from_url(url):
 
 
 def convert_to_year_month(date_string):
-    try:
-        date_object = datetime.strptime(date_string, "%d/%m/%Y")
-        formatted_date = date_object.strftime("%Y-%m")
-        return formatted_date
-    except ValueError:
-        logging.warning(f"Invalid date of birth for `élus` : {date_string}")
-        return None
+    formats = ["%d/%m/%Y", "%Y-%m-%d"]
+    for fmt in formats:
+        try:
+            date_object = datetime.strptime(date_string, fmt)
+            return date_object.strftime("%Y-%m")
+        except ValueError:
+            continue
+    logging.warning(f"Invalid date of birth for `élus` : {date_string}")
+    return None
 
 
 def match_bool_to_insee_value(bool_value: bool) -> str:

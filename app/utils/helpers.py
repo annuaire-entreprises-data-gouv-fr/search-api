@@ -19,11 +19,10 @@ def fetch_json_from_url(url):
 
 
 def convert_to_year_month(date_string):
-    formats = ["%d/%m/%Y", "%Y-%m-%d"]
+    formats = ["%d/%m/%Y", "%Y-%m-%d", "%d-%m-%Y"]
     for fmt in formats:
         try:
-            date_object = datetime.strptime(date_string, fmt)
-            return date_object.strftime("%Y-%m")
+            return datetime.strptime(date_string, fmt).strftime("%Y-%m")
         except ValueError:
             continue
     logging.warning(f"Invalid date of birth for `élus` : {date_string}")

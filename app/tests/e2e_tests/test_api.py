@@ -235,46 +235,20 @@ def test_min_per_page(api_response_tester):
     )
 
 
-def test_est_service_public(api_response_tester):
+def test_est_administration(api_response_tester):
     """
-    test if `est_service_public`  filter returns results with and without text search.
+    test if `est_administration`  filter returns results with and without text search.
     """
-    path = "search?est_service_public=true"
+    path = "search?est_administration=true"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_number_of_results(path, min_total_results_filters)
     api_response_tester.test_field_value(
-        path, 0, "complements.est_service_public", True
+        path, 0, "complements.est_administration", True
     )
-    path = "search?est_service_public=true&q=ministere"
+    path = "search?est_administration=true&q=ministere"
     api_response_tester.test_field_value(
-        path, 0, "complements.est_service_public", True
+        path, 0, "complements.est_administration", True
     )
-
-
-def test_est_l100_3(api_response_tester):
-    """
-    test `est_l100_3` filter.
-    """
-    path = "search?est_l100_3=true"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_number_of_results(path, min_total_results_filters)
-    api_response_tester.test_field_value(
-        path, 0, "complements.est_service_public", True
-    )
-    api_response_tester.test_field_value(path, 0, "complements.est_l100_3", True)
-    path = "search?est_l100_3=true&q=ministere"
-    api_response_tester.test_field_value(
-        path, 0, "complements.est_service_public", True
-    )
-    path = "search?q=180089476"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_field_value(
-        path, 0, "complements.est_service_public", True
-    )
-    api_response_tester.test_field_value(path, 0, "complements.est_l100_3", False)
-    path = "search?est_service_public=false&est_l100_3=true"
-    api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_max_number_of_results(path, 0)
 
 
 def test_est_societe_a_mission(api_response_tester):
@@ -1132,3 +1106,39 @@ def test_tva(api_response_tester):
         assert len(result["tva"]) > 1, (
             "tva should not be empty when filtering by include_admin=tva"
         )
+
+
+def test_acces_espace_agent(api_response_tester):
+    # Ademe exception pour les accès : pas SPA mais accès à l'espace agent
+    path = "search?q=385290309&include_admin=admin"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(
+        path, 0, "admin.a_acces_espace_agent", False
+    )  # Make True after indexation
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_administration", True
+    )
+
+    # SPA (Service public admnistratif)
+    path = "search?q=197833601&include_admin=admin"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "admin.a_acces_espace_agent", True)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_administration", True
+    )
+
+    # GIP : admnistration mais pas d'accès à l'espace agent
+    path = "search?q=187609094&include_admin=admin"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "admin.a_acces_espace_agent", False)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_administration", True
+    )
+
+    # Ni administration ni accès à l'espace agent
+    path = "search?q=552032534&include_admin=admin"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "admin.a_acces_espace_agent", False)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_administration", False
+    )

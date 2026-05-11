@@ -390,21 +390,6 @@ paths:
             enum:
               - true
               - false
-        - name: est_l100_3
-          in: query
-          description: >-
-            Uniquement les administrations au sens de l'article L. 100-3 du code des relations entre le public et l'administration (CRPA)
-
-            Attention : Ce filtre se base sur cette liste
-            <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/>ici</a>.
-
-            Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
-          required: false
-          schema:
-            type: boolean
-            enum:
-              - true
-              - false
         - name: est_societe_mission
           in: query
           description: >-

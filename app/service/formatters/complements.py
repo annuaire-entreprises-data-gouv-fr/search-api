@@ -23,6 +23,7 @@ def format_complements(result_unite_legale):
     a_aide_minimis = get_field("aide_minimis_renseignee")
     a_aide_ademe = get_field("aide_ademe_renseignee")
     est_achats_responsables = get_field("est_achats_responsables")
+    est_administration = get_field("est_administration")  # Support for deprecated field
     est_alim_confiance = get_field("est_alim_confiance")
     est_association = get_field("est_association")
     est_avocat = get_field("est_avocat")
@@ -38,8 +39,9 @@ def format_complements(result_unite_legale):
     est_qualiopi = get_field("est_qualiopi")
     liste_id_organisme_formation = get_field("liste_id_organisme_formation")
     est_rge = get_field("est_rge")
-    est_service_public = get_field("est_service_public")
-    est_l100_3 = get_field("est_l100_3")
+    est_l100_3 = get_field(
+        "a_acces_espace_agent"
+    )  # Deprecated field, use new field to maintain backward compatibility and delete after website migration
     est_siae = get_field("est_siae")
     est_societe_mission = format_insee_bool(get_field("est_societe_mission"))
     est_uai = get_field("est_uai")
@@ -58,6 +60,7 @@ def format_complements(result_unite_legale):
         a_aide_minimis=a_aide_minimis,
         a_aide_ademe=a_aide_ademe,
         est_achats_responsables=est_achats_responsables,
+        est_administration=est_administration,
         est_alim_confiance=est_alim_confiance,
         est_association=est_association,
         est_avocat=est_avocat,
@@ -72,7 +75,7 @@ def format_complements(result_unite_legale):
         liste_id_organisme_formation=liste_id_organisme_formation,
         est_rge=est_rge,
         est_siae=est_siae,
-        est_service_public=est_service_public,
+        est_service_public=est_administration,  # Support for deprecated field to maintain backward compatibility
         est_l100_3=est_l100_3,
         est_societe_mission=est_societe_mission,
         est_uai=est_uai,

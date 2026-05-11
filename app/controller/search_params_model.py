@@ -31,6 +31,7 @@ class SearchParams(BaseModel):
     per_page: int = 10
     terms: str | None = None
     activite_principale_unite_legale: list | None = None
+    # a_acces_espace_agent: bool | None = None # not needed for now
     categorie_entreprise: list | None = None
     commune: list | None = None
     code_postal: list | None = None
@@ -55,8 +56,7 @@ class SearchParams(BaseModel):
     est_organisme_formation: bool | None = None
     est_qualiopi: bool | None = None
     est_rge: bool | None = None
-    est_service_public: bool | None = None
-    est_l100_3: bool | None = None
+    est_administration: bool | None = None
     est_societe_mission: bool | None = None
     id_convention_collective: str | None = None
     id_finess: str | None = None
@@ -229,8 +229,7 @@ class SearchParams(BaseModel):
         "est_patrimoine_vivant",
         "est_qualiopi",
         "est_rge",
-        "est_service_public",
-        "est_l100_3",
+        "est_administration",
         "minimal",
         "est_societe_mission",
         "est_siae",

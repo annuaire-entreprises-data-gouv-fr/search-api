@@ -375,28 +375,13 @@ paths:
             enum:
               - true
               - false
-        - name: est_service_public
+        - name: est_administration
           in: query
           description: >-
             Uniquement les structures reconnues comme administration.
 
             Attention : Ce filtre se base sur cette liste
-            <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/>ici</a>.
-
-            Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
-          required: false
-          schema:
-            type: boolean
-            enum:
-              - true
-              - false
-        - name: est_l100_3
-          in: query
-          description: >-
-            Uniquement les administrations au sens de l'article L. 100-3 du code des relations entre le public et l'administration (CRPA)
-
-            Attention : Ce filtre se base sur cette liste
-            <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/>ici</a>.
+            <a href=https://www.data.gouv.fr/datasets/liste-des-administrations-ayant-acces-a-lespace-agent-de-lannuaire-des-entreprises/>ici</a>.
 
             Ce filtre n'est pas exhaustif et peut retourner des faux positifs.
           required: false
@@ -1870,24 +1855,26 @@ components:
               example: false
             est_service_public:
               type: boolean
+              deprecated: true
+              description: >-
+                ⚠️ Déprécié : utiliser le champ est_administration à la place.
+              nullable: true
+              example: null
+            est_administration:
+              type: boolean
               description: >-
                 Uniquement les structures reconnues comme administration.
 
                 Attention : Ce champ se base sur cette liste
-                <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/ici</a>.
+                <a href=https://www.data.gouv.fr/datasets/liste-des-administrations-ayant-acces-a-lespace-agent-de-lannuaire-des-entreprises/>ici</a>.
 
                 Ce champ n'est pas exhaustif et peut retourner des faux positifs.
               example: false
             est_l100_3:
               type: boolean
-              description: >-
-                Uniquement les structures reconnues comme administration au sens de l'artcile L.100-3.
-
-                Attention : Ce champ se base sur cette liste
-                <a href=https://www.data.gouv.fr/fr/datasets/liste-des-administrations-francaises/ici</a>.
-
-                Ce champ n'est pas exhaustif et peut retourner des faux positifs.
-              example: false
+              deprecated: true
+              nullable: true
+              example: null
             est_siae:
               type: boolean
               description: >-

@@ -3,6 +3,7 @@ import json
 from app.models.unite_legale import (
     UniteLegaleResponse,
 )
+from .formatters.admin import format_admin
 from app.service.formatters.bilan_financier import format_bilan
 from app.service.formatters.bodacc import format_bodacc
 from app.service.formatters.complements import format_complements
@@ -109,7 +110,6 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
         "MATCHING_ETABLISSEMENTS": lambda: format_etablissements_list(
             get_value(search_result, "matching_etablissements")
         ),
-        "SLUG": lambda: get_value(raw_ul, "slug"),
         "ETABLISSEMENTS": lambda: format_etablissements_list(
             get_value(raw_ul, "etablissements")
         ),
@@ -118,6 +118,8 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
         ),
         "BODACC": lambda: format_bodacc(get_value(raw_ul, "bodacc")),
         "TVA": lambda: get_value(raw_ul, "liste_tva"),
+        "SLUG": lambda: get_value(raw_ul, "slug"),
+        "ADMIN": lambda: format_admin(raw_ul),
         "SCORE": lambda: search_result.get("meta", {}).get("score"),
     }
 

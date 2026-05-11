@@ -136,8 +136,6 @@ class Complements(BaseModel):
     est_qualiopi: bool = False
     liste_id_organisme_formation: list | None = None
     est_rge: bool = False
-    est_service_public: bool = False
-    est_l100_3: bool = False
     est_siae: bool = False
     est_societe_mission: bool = False
     est_uai: bool = False
@@ -148,6 +146,26 @@ class Complements(BaseModel):
     type_siae: str | None = None
     a_aide_minimis: bool = False
     a_aide_ademe: bool = False
+    est_administration: bool = Field(
+        default=False,
+        description="Replaces the deprecated `est_service_public` field.",
+    )
+    # Deprecated fields
+    est_service_public: bool | None = Field(
+        default=None,
+        deprecated=True,
+        description="Deprecated: This field is no longer used and will be removed in a future version.",
+    )
+    est_l100_3: bool | None = Field(
+        default=None,
+        deprecated=True,
+        description="Deprecated: This field is no longer used and will be removed in a future version.",
+    )
+
+
+class Admin(BaseModel):
+    slug: str | None = None
+    a_acces_espace_agent: bool = False
 
 
 class UniteLegaleResponse(BaseModel):
@@ -183,5 +201,6 @@ class UniteLegaleResponse(BaseModel):
     complements: Complements | None = None
     tva: list | None = None
     score: float | None = None
-    slug: str | None = None
+    slug: str | None = None  # to delete after website migration to new field
+    admin: Admin | None = None
     meta: dict | None = None

@@ -1113,7 +1113,7 @@ def test_acces_espace_agent(api_response_tester):
     path = "search?q=385290309&include_admin=admin"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(
-        path, 0, "admin.a_acces_espace_agent", False
+        path, 0, "admin.a_acces_espace_agent", True
     )  # Make True after indexation
     api_response_tester.test_field_value(
         path, 0, "complements.est_administration", True

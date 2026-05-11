@@ -3,7 +3,6 @@ import json
 from app.models.unite_legale import (
     UniteLegaleResponse,
 )
-from .formatters.admin import format_admin
 from app.service.formatters.bilan_financier import format_bilan
 from app.service.formatters.bodacc import format_bodacc
 from app.service.formatters.complements import format_complements
@@ -24,6 +23,8 @@ from app.utils.helpers import (
     get_value,
     is_dev_env,
 )
+
+from .formatters.admin import format_admin
 
 # -------------------------
 # Helpers

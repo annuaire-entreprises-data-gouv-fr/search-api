@@ -1,19 +1,16 @@
-from app.models.unite_legale import Bodacc
-from app.utils.helpers import convert_date_to_iso
+from app.models.unite_legale import Bodacc, BodaccProcedureCollective, BodaccRadiation
 
 
 def format_bodacc(bodacc):
-    if not bodacc:
-        bodacc = {}
+    if not isinstance(bodacc, dict):
+        return None
 
-    def get_field(field, default=None):
-        return bodacc.get(field, default)
+    radiation_fields = bodacc.get("radiation")
+    procedure_fields = bodacc.get("procedure_collective")
 
     return Bodacc(
-        radiation_rcs=get_field("radiation_rcs") or False,
-        radiation_rcs_date=convert_date_to_iso(get_field("radiation_rcs_date")),
-        procedure_collective_date_jugement=convert_date_to_iso(
-            get_field("procedure_collective_date_jugement")
-        ),
-        procedure_collective_nature=get_field("procedure_collective_nature"),
+        radiation=BodaccRadiation(**radiation_fields) if radiation_fields else None,
+        procedure_collective=BodaccProcedureCollective(**procedure_fields)
+        if procedure_fields
+        else None,
     )

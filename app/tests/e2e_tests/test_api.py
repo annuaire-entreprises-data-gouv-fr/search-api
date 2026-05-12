@@ -1064,19 +1064,48 @@ def test_bodacc(api_response_tester):
     api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
-    # SIREN 442750196 : entreprise avec une date de radiation
+    # SIREN 442750196 : entreprise PP EI, radiée au RCS, SIRENE et RNE
     path = "/search?q=442750196&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation.est_radie", True)
+    api_response_tester.test_field_value(
+        path, 0, "bodacc.radiation.id_annonce", "B201401431107"
+    )
     api_response_tester.test_field_value(path, 0, "bodacc.radiation.date", "2014-06-01")
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
-    # SIREN 909324055 : entreprise en procédure collective
-    path = "/search?q=909324055&include_admin=bodacc"
+    # SIREN 776326126 : entreprise PP non EI, nature juridique 2110, radiée RCS mais active SIRENE et RNE
+    path = "/search?q=776326126&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation.est_radie", True)
+    api_response_tester.test_field_value(
+        path, 0, "bodacc.radiation.id_annonce", "B200901761209"
+    )
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation.date", "1993-03-19")
+    api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
+
+    # SIREN : entreprise PM, donc sans date de radiation, radiée RCS mais active SIRENE et RNE
+    path = "/search?q=414787754&include_admin=bodacc"
+    api_response_tester.assert_api_response_code_200(path)
+
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation.est_radie", True)
+    api_response_tester.test_field_value(
+        path, 0, "bodacc.radiation.id_annonce", "B202000031704"
+    )
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation.date", None)
+    api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
+
+    # SIREN 909324055 : entreprise en procédure collective
+    path = "/search?q=480526862&include_admin=bodacc"
+    api_response_tester.assert_api_response_code_200(path)
+
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
     api_response_tester.test_field_not_none(path, 0, "bodacc.procedure_collective.date")
+    api_response_tester.test_field_not_none(
+        path, 0, "bodacc.procedure_collective.id_annonce"
+    )
     api_response_tester.test_field_not_none(
         path, 0, "bodacc.procedure_collective.statut"
     )

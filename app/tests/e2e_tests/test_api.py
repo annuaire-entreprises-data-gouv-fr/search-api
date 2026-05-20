@@ -1064,15 +1064,20 @@ def test_bodacc(api_response_tester):
     api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
-    # SIREN 442750196 : entreprise PP EI, radiée au RCS, SIRENE et RNE
+    # SIREN 442750196 : entreprise PP EI, radiée au RCS le 1er juin 2024
+    # Mais nouveau établissement avec date de début d'activité au 2016-09-15
+    # Donc on considère la date de radiation comme obsolète et doit être masquée
     path = "/search?q=442750196&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
-    api_response_tester.test_field_value(path, 0, "bodacc.radiation.est_radie", True)
-    api_response_tester.test_field_value(
-        path, 0, "bodacc.radiation.id_annonce", "B201401431107"
-    )
-    api_response_tester.test_field_value(path, 0, "bodacc.radiation.date", "2014-06-01")
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
+    api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
+
+    # SIREN 448900399 : cas particulier dont les radiations sont masquées par précaution pour le moment
+    path = "/search?q=448900399&include_admin=bodacc"
+    api_response_tester.assert_api_response_code_200(path)
+
+    api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
     # SIREN 776326126 : entreprise PP non EI, nature juridique 2110, radiée RCS mais active SIRENE et RNE

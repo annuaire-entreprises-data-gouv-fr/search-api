@@ -25,7 +25,7 @@ def format_immatriculation(immatriculation):
             capital_variable=get_field("capital_variable"),
             devise_capital=get_field("devise_capital"),
             indicateur_associe_unique=get_field("indicateur_associe_unique"),
-        ).dict()
+        )
 
 
 def format_nature_entreprise(nature_entreprise):

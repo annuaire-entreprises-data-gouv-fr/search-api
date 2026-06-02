@@ -39,9 +39,7 @@ def format_complements(result_unite_legale):
     est_qualiopi = get_field("est_qualiopi")
     liste_id_organisme_formation = get_field("liste_id_organisme_formation")
     est_rge = get_field("est_rge")
-    est_l100_3 = get_field(
-        "a_acces_espace_agent"
-    )  # Deprecated field, use new field to maintain backward compatibility and delete after website migration
+    est_l100_3 = None  # deprecated field, no longer populated in the source data, set to None to maintain backward compatibility
     est_siae = get_field("est_siae")
     est_societe_mission = format_insee_bool(get_field("est_societe_mission"))
     est_uai = get_field("est_uai")
@@ -75,7 +73,7 @@ def format_complements(result_unite_legale):
         liste_id_organisme_formation=liste_id_organisme_formation,
         est_rge=est_rge,
         est_siae=est_siae,
-        est_service_public=est_administration,  # Support for deprecated field to maintain backward compatibility
+        est_service_public=None,  # Support for deprecated field to maintain backward compatibility
         est_l100_3=est_l100_3,
         est_societe_mission=est_societe_mission,
         est_uai=est_uai,

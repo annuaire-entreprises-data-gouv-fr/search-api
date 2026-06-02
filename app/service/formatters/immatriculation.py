@@ -6,6 +6,7 @@ from app.utils.helpers import convert_date_to_iso
 
 
 def format_immatriculation(immatriculation):
+    ### comment
     def get_field(field, default=None):
         return immatriculation.get(field, default)
 

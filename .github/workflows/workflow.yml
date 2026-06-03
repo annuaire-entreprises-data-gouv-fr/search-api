@@ -97,6 +97,17 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('app/requirements.txt') }}
+      - name: Setup Wireguard
+        uses: niklaskeerl/easy-wireguard-action@v2
+        with:
+          WG_CONFIG_FILE: ${{ secrets.WG_CONFIG_FILE }}
+      - name: Setup /etc/hosts
+        run: |
+          sudo bash -c 'cat >> /etc/hosts << EOF
+          10.0.1.11 ${{ secrets.ELASTIC_URL_DEV_1 }}
+          10.0.1.12 ${{ secrets.ELASTIC_URL_DEV_2 }}
+          10.0.1.16 ${{ secrets.ELASTIC_URL_STAGING }}
+          EOF'
       - name: Set es endpoint based on PR label
         id: set-es-url
         run: |

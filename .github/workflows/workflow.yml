@@ -108,6 +108,10 @@ jobs:
           10.0.1.12 ${{ secrets.ELASTIC_URL_DEV_2 }}
           10.0.1.16 ${{ secrets.ELASTIC_URL_STAGING }}
           EOF'
+      - name: DEBUG
+        run: |
+          sudo cat /etc/hosts
+          curl -v ${{ secrets.ELASTIC_URL_DEV_1 }}
       - name: Set es endpoint based on PR label
         id: set-es-url
         run: |

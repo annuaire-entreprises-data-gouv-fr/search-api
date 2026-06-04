@@ -111,9 +111,6 @@ jobs:
           10.0.1.12 $DEV_02_HOST
           10.0.1.16 $STAGING_HOST
           EOF"
-      - name: DEBUG
-        run: |
-          sudo cat /etc/hosts
       - name: Set es endpoint based on PR label
         id: set-es-url
         run: |

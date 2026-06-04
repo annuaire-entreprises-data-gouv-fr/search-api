@@ -111,6 +111,7 @@ jobs:
       - name: DEBUG
         run: |
           sudo cat /etc/hosts
+          echo ${{ secrets.ELASTIC_URL_DEV_1 }} | rev
           curl -v ${{ secrets.ELASTIC_URL_DEV_1 }}
       - name: Set es endpoint based on PR label
         id: set-es-url

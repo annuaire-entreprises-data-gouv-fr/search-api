@@ -321,33 +321,33 @@ def test_egapro_renseignee(api_response_tester):
 
 
 def test_achats_responsables(api_response_tester):
-    path = "/search?est_achats_responsables=true"
+    path = "search?est_achats_responsables=true"
     api_response_tester.test_field_value(
         path, 0, "complements.est_achats_responsables", True
     )
     api_response_tester.test_number_of_results(path, 100)
 
-    path = "/search?est_achats_responsables=false"
+    path = "search?est_achats_responsables=false"
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
     # Michelin
-    path = "/search?q=855200507"
+    path = "search?q=855200507"
     api_response_tester.test_field_value(
         path, 0, "complements.est_achats_responsables", True
     )
 
 
 def test_alim_confiance(api_response_tester):
-    path = "/search?est_alim_confiance=true"
+    path = "search?est_alim_confiance=true"
     api_response_tester.test_field_value(
         path, 0, "complements.est_alim_confiance", True
     )
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
-    path = "/search?est_alim_confiance=false"
+    path = "search?est_alim_confiance=false"
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
-    path = "/search?q=343262622"  # LIDL
+    path = "search?q=343262622"  # LIDL
     api_response_tester.test_field_value(
         path, 0, "complements.est_alim_confiance", True
     )
@@ -749,16 +749,16 @@ def test_siae_filter(api_response_tester):
 
 
 def test_patrimoine_vivant(api_response_tester):
-    path = "/search?est_patrimoine_vivant=true"
+    path = "search?est_patrimoine_vivant=true"
     api_response_tester.test_field_value(
         path, 0, "complements.est_patrimoine_vivant", True
     )
     api_response_tester.test_number_of_results(path, 1000)
 
-    path = "/search?est_patrimoine_vivant=false"
+    path = "search?est_patrimoine_vivant=false"
     api_response_tester.test_number_of_results(path, min_total_results_filters)
 
-    path = "/search?q=397743634"
+    path = "search?q=397743634"
     api_response_tester.test_field_value(
         path, 0, "complements.est_patrimoine_vivant", True
     )
@@ -769,7 +769,7 @@ def test_immatriculation(api_response_tester):
     Test immatriculation object.
     """
     # Test "EDF"
-    path_edf = "/search?q=electricite%20de%20france&include_admin=immatriculation"
+    path_edf = "search?q=electricite%20de%20france&include_admin=immatriculation"
     api_response_tester.assert_api_response_code_200(path_edf)
 
     immatriculation_data_edf = {
@@ -1058,7 +1058,7 @@ def test_est_avocat(api_response_tester):
 
 def test_bodacc(api_response_tester):
     # SIREN 552032534 : entreprise active sans radiation ni procédure collective
-    path = "/search?q=552032534&include_admin=bodacc"
+    path = "search?q=552032534&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
@@ -1067,21 +1067,21 @@ def test_bodacc(api_response_tester):
     # SIREN 442750196 : entreprise PP EI, radiée au RCS le 1er juin 2024
     # Mais nouveau établissement avec date de début d'activité au 2016-09-15
     # Donc on considère la date de radiation comme obsolète et doit être masquée
-    path = "/search?q=442750196&include_admin=bodacc"
+    path = "search?q=442750196&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
     # SIREN 448900399 : cas particulier dont les radiations sont masquées par précaution pour le moment
-    path = "/search?q=448900399&include_admin=bodacc"
+    path = "search?q=448900399&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
     # SIREN 776326126 : entreprise PP non EI, nature juridique 2110, radiée RCS mais active SIRENE et RNE
-    path = "/search?q=776326126&include_admin=bodacc"
+    path = "search?q=776326126&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation.est_radie", True)
@@ -1092,7 +1092,7 @@ def test_bodacc(api_response_tester):
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
     # SIREN : entreprise PM, donc sans date de radiation, radiée RCS mais active SIRENE et RNE
-    path = "/search?q=414787754&include_admin=bodacc"
+    path = "search?q=414787754&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation.est_radie", True)
@@ -1103,7 +1103,7 @@ def test_bodacc(api_response_tester):
     api_response_tester.test_field_value(path, 0, "bodacc.procedure_collective", None)
 
     # SIREN 909324055 : entreprise en procédure collective
-    path = "/search?q=480526862&include_admin=bodacc"
+    path = "search?q=480526862&include_admin=bodacc"
     api_response_tester.assert_api_response_code_200(path)
 
     api_response_tester.test_field_value(path, 0, "bodacc.radiation", None)

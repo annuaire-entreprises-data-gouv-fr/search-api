@@ -27,7 +27,7 @@ def get_field_value(results, field_name):
 
 class APIResponseTester:
     def __init__(self, api_url):
-        self.api_url = api_url
+        self.api_url = api_url.rstrip("/")
 
     def get_api_response(self, path):
         session = requests.Session()
@@ -35,7 +35,7 @@ class APIResponseTester:
         adapter = HTTPAdapter(max_retries=retry)
         session.mount("http://", adapter)
         session.mount("https://", adapter)
-        response = session.get(url=self.api_url + path)
+        response = session.get(url=f"{self.api_url}/{path.lstrip('/')}")
         return response
 
     def get_api_response_code(self, path):

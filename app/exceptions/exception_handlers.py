@@ -2,7 +2,7 @@ import logging
 from collections.abc import Callable
 
 from fastapi import FastAPI, Request
-from fastapi.responses import ORJSONResponse
+from fastapi.responses import JSONResponse
 from sentry_sdk import capture_exception, push_scope
 
 from app.exceptions.exceptions import (
@@ -16,10 +16,8 @@ from app.exceptions.exceptions import (
 
 def create_exception_handler(
     status_code: int = 500, initial_detail: str = "Service is unavailable"
-) -> Callable[[Request, SearchApiError], ORJSONResponse]:
-    async def exception_handler(
-        request: Request, exc: SearchApiError
-    ) -> ORJSONResponse:
+) -> Callable[[Request, SearchApiError], JSONResponse]:
+    async def exception_handler(request: Request, exc: SearchApiError) -> JSONResponse:
         detail = {
             "status_code": exc.status_code or status_code,
             "message": exc.message or initial_detail,
@@ -32,7 +30,7 @@ def create_exception_handler(
             #     scope.fingerprint = ["InvalidParamError"]
             logging.info(f"Bad Request: {exc.message}")
 
-        return ORJSONResponse(
+        return JSONResponse(
             status_code=detail["status_code"],
             content={"erreur": detail["message"]},
         )
@@ -40,9 +38,7 @@ def create_exception_handler(
     return exception_handler
 
 
-async def unhandled_exception_handler(
-    request: Request, exc: Exception
-) -> ORJSONResponse:
+async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     logging.error(f"Unhandled exception occurred: {exc}", exc_info=True)
 
     with push_scope() as scope:

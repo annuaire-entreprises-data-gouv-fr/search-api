@@ -26,6 +26,7 @@ jobs:
         with:
           context: .
           push: true
+          target: release
           tags: |
             ${{ secrets.GITLAB_REGISTRY_URL }}/etalab/data.gouv.fr/infra/ade-api:${{ github.sha }}
             ${{ secrets.GITLAB_REGISTRY_URL }}/etalab/data.gouv.fr/infra/ade-api:${{ steps.sanitize.outputs.branch_name }}

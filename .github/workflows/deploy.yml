@@ -59,7 +59,6 @@ jobs:
           tchap-url: ${{ secrets.TCHAP_URL }}
           tchap-token: ${{ secrets.TCHAP_TOKEN }}
 
-jobs:
   deploy-staging:
     name: Deploy on staging
     runs-on: ubuntu-latest

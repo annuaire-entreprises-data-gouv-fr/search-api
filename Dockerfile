@@ -15,7 +15,7 @@ LABEL org.opencontainers.image.vendor="annuaire-entreprises-data-gouv-fr"
 LABEL org.opencontainers.image.licenses="MIT License"
 LABEL org.opencontainers.image.title="API Recherche Annuaire des Entreprises"
 LABEL org.opencontainers.image.description="Image Docker de l'API de recherche de l'Annuaire des Entreprises"
-LABEL org.opencontainers.image.base.name="node:20"
+LABEL org.opencontainers.image.base.name="python:3.12.8-alpine"
 LABEL org.opencontainers.image.base.digest=""
 RUN pip install --upgrade pip
 WORKDIR /app

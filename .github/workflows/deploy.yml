@@ -87,7 +87,7 @@ jobs:
           notify-on-success: true
           tchap-url: ${{ secrets.TCHAP_URL }}
           tchap-token: ${{ secrets.TCHAP_TOKEN }}
-deploy-production:
+  deploy-production:
     name: Deploy on production
     runs-on: ubuntu-latest
     needs: [deploy-staging]

@@ -1,4 +1,3 @@
-ARG ENVIRONMENT=production
 ARG BUILD_DATE
 ARG BUILD_VERSION=main
 ARG BUILD_REVISION
@@ -23,7 +22,7 @@ COPY ./app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 FROM base AS release
-COPY . .
+COPY ./app ./app
 EXPOSE 8000
 
 FROM base AS dev

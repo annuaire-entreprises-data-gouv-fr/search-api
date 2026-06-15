@@ -25,7 +25,7 @@ jobs:
         run: |
           RAW_JSON='${{ steps.get-branches.outputs.stale-branches }}'
           FORMATTED_BRANCHES=$(echo "$RAW_JSON" | jq -r '.[]' | paste -sd ', ' -)
-          MESSAGE="**⚠️ Stale branches in the search-api repository :** \`${FORMATTED_BRANCHES}\`"
+          MESSAGE="<strong>⚠️ Stale branches in the search-api repository :</strong> ${FORMATTED_BRANCHES}"
           echo "mattermost-message=${MESSAGE}" >> "$GITHUB_OUTPUT"
       - name: Notify Stale Branches
         uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/notify@v2.0

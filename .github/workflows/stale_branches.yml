@@ -28,7 +28,8 @@ jobs:
           MESSAGE="**⚠️ Stale branches in the search-api repository :** \`${FORMATTED_BRANCHES}\`"
           echo "mattermost-message=${MESSAGE}" >> "$GITHUB_OUTPUT"
       - name: Notify Stale Branches
-        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/notify@v1
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/notify@v2.0
         with:
-          hook: "${{ secrets.MATTERMOST_STALE_BRANCHES_HOOK }}"
+          tchap-url: "${{ secrets.TCHAP_URL_STALE_BRANCHES }}"
+          tchap-token: "${{ secrets.TCHAP_TOKEN }}"
           message: "${{ steps.format-message.outputs.mattermost-message }}"

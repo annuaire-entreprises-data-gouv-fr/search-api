@@ -3,6 +3,18 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
+class SuccessionEntry(BaseModel):
+    siret: str | None = None
+    date_lien_succession: str | None = None
+    transfert_siege: bool | None = None
+    continuite_economique: bool | None = None
+
+
+class Succession(BaseModel):
+    predecesseurs: list[SuccessionEntry] | None = None
+    successeurs: list[SuccessionEntry] | None = None
+
+
 class Etablissement(BaseModel):
     model_config = {"populate_by_name": True}
 
@@ -54,6 +66,7 @@ class Etablissement(BaseModel):
     region: str | None = None
     siret: str | None = None
     statut_diffusion_etablissement: str | None = None
+    successions: Succession | None = None
     tranche_effectif_salarie: str | None = None
     type_voie: str | None = None
 

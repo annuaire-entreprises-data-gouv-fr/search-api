@@ -96,6 +96,7 @@ def create_fields_to_include(search_params):
         return [
             "SIEGE",
             "FINANCES",
+            "TVA",
             "COMPLEMENTS",
             "DIRIGEANTS",
             "MATCHING_ETABLISSEMENTS",

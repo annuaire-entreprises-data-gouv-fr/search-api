@@ -623,6 +623,7 @@ paths:
               * matching_etablissements
               * siege
               * score
+              * tva
 
 
             Par défaut tous les champs sont inclus sauf le score.
@@ -897,7 +898,7 @@ components:
   schemas:
     finances:
       type: object
-      description: Bilans financiers par année
+      description: Bilans financiers par année.
       additionalProperties:
         x-additionalPropertiesName: annee_existence
         description: Année du bilan (format AAAA)
@@ -1919,7 +1920,13 @@ components:
               description: >-
                 Type de structure de l'inclusion
                 (source : Marché de l'Inclusion)
-
+        tva:
+          type: array
+          description: >-
+            Liste des numéros de TVA intracommunautaire français actifs
+            (source : DGFiP).
+          items:
+            type: string
     # Root level of the payload
     payload:
       type: object

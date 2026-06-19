@@ -125,6 +125,10 @@ class SearchParams(BaseModel):
         "radius",
         "lat",
         "lon",
+        "ca_min",
+        "ca_max",
+        "resultat_net_min",
+        "resultat_net_max",
         mode="after",
     )
     # Apply after first validator and Pydantic internal validation

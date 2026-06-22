@@ -1129,9 +1129,7 @@ def test_acces_espace_agent(api_response_tester):
     # Ademe exception pour les accès : pas SPA mais accès à l'espace agent
     path = "search?q=385290309&include_admin=admin"
     api_response_tester.assert_api_response_code_200(path)
-    api_response_tester.test_field_value(
-        path, 0, "admin.a_acces_espace_agent", True
-    )  # Make True after indexation
+    api_response_tester.test_field_value(path, 0, "admin.a_acces_espace_agent", True)
     api_response_tester.test_field_value(
         path, 0, "complements.est_administration", True
     )
@@ -1166,6 +1164,18 @@ def test_acces_espace_agent(api_response_tester):
     api_response_tester.test_field_value(path, 0, "admin.a_acces_espace_agent", False)
     api_response_tester.test_field_value(
         path, 0, "complements.est_administration", False
+    )
+
+
+def test_admin_object(api_response_tester):
+    path = "search?q=110014016&include_admin=admin"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "admin.a_acces_espace_agent", True)
+    api_response_tester.test_field_value(
+        path, 0, "complements.est_administration", True
+    )
+    api_response_tester.test_field_value(
+        path, 0, "admin.slug", "ministere-de-l-interieur-110014016"
     )
 
 

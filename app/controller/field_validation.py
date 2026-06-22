@@ -22,7 +22,6 @@ VALID_ADMIN_FIELDS_TO_SELECT = [
     "BODACC",
     "TVA",
     "ADMIN",
-    "SLUG",
 ]
 
 NUMERIC_FIELD_LIMITS = {

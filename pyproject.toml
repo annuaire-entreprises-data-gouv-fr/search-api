@@ -17,7 +17,7 @@ dependencies = [
     "pydantic==2.13.2",
     "fastapi[standard]==0.136.0",
     "orjson==3.11.6",
-    "pydantic-settings==2.14.1",
+    "pydantic-settings==2.14.2",
 ]
 
 [project.optional-dependencies]

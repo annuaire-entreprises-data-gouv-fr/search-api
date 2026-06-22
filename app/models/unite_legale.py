@@ -6,8 +6,6 @@ from pydantic import BaseModel, Field
 class SuccessionEntry(BaseModel):
     siret: str | None = None
     date_lien_succession: str | None = None
-    transfert_siege: bool | None = None
-    continuite_economique: bool | None = None
 
 
 class Succession(BaseModel):

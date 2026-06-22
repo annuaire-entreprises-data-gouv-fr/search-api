@@ -1023,18 +1023,6 @@ components:
           example: "2020-01-01"
           description: >-
             Date du lien de succession (source : base SIRENE).
-        transfert_siege:
-          type: boolean
-          nullable: true
-          example: false
-          description: >-
-            Indique si la succession s'accompagne d'un transfert de siège (source : base SIRENE).
-        continuite_economique:
-          type: boolean
-          nullable: true
-          example: true
-          description: >-
-            Indique s'il y a continuité économique entre les deux établissements (source : base SIRENE).
 
     succession:
       type: object

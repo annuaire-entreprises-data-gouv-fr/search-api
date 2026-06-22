@@ -8,8 +8,6 @@ def format_succession_entries(entries):
         SuccessionEntry(
             siret=entry.get("siret"),
             date_lien_succession=entry.get("date_lien_succession"),
-            transfert_siege=entry.get("transfert_siege"),
-            continuite_economique=entry.get("continuite_economique"),
         )
         for entry in entries
     ]

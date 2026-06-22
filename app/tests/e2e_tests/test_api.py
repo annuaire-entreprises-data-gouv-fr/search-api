@@ -1175,3 +1175,37 @@ def test_acces_espace_agent(api_response_tester):
     api_response_tester.test_field_value(
         path, 0, "complements.est_administration", False
     )
+
+
+def test_ca_max_out_of_range_returns_400(api_response_tester):
+    """
+    Test that providing a ca_max value exceeding the long integer range returns a 400 error.
+    """
+    path = "search?ca_max=1000000000000000000000"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == (
+        "Veuillez indiquer un paramètre `ca_max` entre `-9223372036854775295` et "
+        "`9223372036854775295`, par défaut `None`."
+    )
+
+
+def test_ca_min_out_of_range_returns_400(api_response_tester):
+    """
+    Test that providing a ca_min value exceeding the long integer range returns a 400 error.
+    """
+    path = "search?ca_min=1000000000000000000000"
+    api_response_tester.assert_api_response_code_400(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["erreur"] == (
+        "Veuillez indiquer un paramètre `ca_min` entre `-9223372036854775295` et "
+        "`9223372036854775295`, par défaut `None`."
+    )
+
+
+def test_ca_valid_values_return_200(api_response_tester):
+    """
+    Test that valid ca_min / ca_max values within long range return 200.
+    """
+    path = "search?ca_min=0&ca_max=1000000"
+    api_response_tester.assert_api_response_code_200(path)

@@ -1,5 +1,6 @@
 from app.models.unite_legale import Etablissement
 from app.service.formatters.enseignes import format_enseignes
+from app.service.formatters.successions import format_successions
 from app.utils.helpers import get_value
 
 
@@ -62,6 +63,7 @@ def format_etablissement(source_etablissement):
         "region": get_field("region"),
         "siret": get_field("siret"),
         "statut_diffusion_etablissement": get_field("statut_diffusion_etablissement"),
+        "successions": format_successions(get_field("successions")),
         "tranche_effectif_salarie": get_field("tranche_effectif_salarie"),
         "type_voie": get_field("type_voie"),
     }

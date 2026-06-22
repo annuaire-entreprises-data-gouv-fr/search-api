@@ -47,6 +47,10 @@ jobs:
             host: SSH_HOST_STAGING_04
     steps:
       - uses: actions/checkout@v6
+      - name: Setup Wireguard
+        uses: niklaskeerl/easy-wireguard-action@v2
+        with:
+          WG_CONFIG_FILE: ${{ secrets.WG_CONFIG_FILE }}
       - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v2.0
         with:
           app: "api"
@@ -62,6 +66,7 @@ jobs:
   deploy-staging:
     name: Deploy on staging
     runs-on: ubuntu-latest
+    needs: [deploy-staging-new]
     environment:
       name: staging
 
@@ -73,6 +78,10 @@ jobs:
             host: SSH_HOST_STAGING_03
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Wireguard
+        uses: niklaskeerl/easy-wireguard-action@v2
+        with:
+          WG_CONFIG_FILE: ${{ secrets.WG_CONFIG_FILE }}
       - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v1.1
         with:
           app-to-deploy: "annuaire-entreprises-search-api"
@@ -95,6 +104,7 @@ jobs:
 
     timeout-minutes: 15
     strategy:
+      max-parallel: 1
       matrix:
         include:
           - environment: production-01
@@ -105,6 +115,10 @@ jobs:
             host: SSH_HOST_PRODUCTION_03
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Wireguard
+        uses: niklaskeerl/easy-wireguard-action@v2
+        with:
+          WG_CONFIG_FILE: ${{ secrets.WG_CONFIG_FILE }}
       - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v1.1
         with:
           app-to-deploy: "annuaire-entreprises-search-api"

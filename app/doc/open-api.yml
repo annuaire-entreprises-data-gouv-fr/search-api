@@ -1009,40 +1009,6 @@ components:
           description: Sexe de l'élu
           example: "F"
 
-    succession_entry:
-      type: object
-      properties:
-        siret:
-          type: string
-          example: "35600000000048"
-          description: >-
-            SIRET de l'établissement lié par la succession (source : base SIRENE).
-        date_lien_succession:
-          type: string
-          nullable: true
-          example: "2020-01-01"
-          description: >-
-            Date du lien de succession (source : base SIRENE).
-
-    succession:
-      type: object
-      nullable: true
-      description: >-
-        Liens de succession de l'établissement (source : base SIRENE).
-      properties:
-        predecesseurs:
-          type: array
-          nullable: true
-          description: Établissements prédécesseurs de l'établissement.
-          items:
-            $ref: '#/components/schemas/succession_entry'
-        successeurs:
-          type: array
-          nullable: true
-          description: Établissements successeurs de l'établissement.
-          items:
-            $ref: '#/components/schemas/succession_entry'
-
     # Champs affichés pour les établissements
     # Certains champs sont en communs avec établissements
     # et doivent être maintenus dans les deux components
@@ -1260,8 +1226,6 @@ components:
             l'objet d'une demande d'opposition ont le statut de
             diffusion à "P" pour diffusion partielle
             (source : base SIRENE).
-        successions:
-          $ref: '#/components/schemas/succession'
         tranche_effectif_salarie:
           type: string
           nullable: true
@@ -1598,8 +1562,6 @@ components:
             l'objet d'une demande d'opposition ont le statut de
             diffusion à "P" pour diffusion partielle
             (source : base SIRENE).
-        successions:
-          $ref: '#/components/schemas/succession'
         tranche_effectif_salarie:
           type: string
           nullable: true

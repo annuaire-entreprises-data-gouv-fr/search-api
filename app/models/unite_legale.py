@@ -222,6 +222,5 @@ class UniteLegaleResponse(BaseModel):
     complements: Complements | None = None
     tva: list | None = None
     score: float | None = None
-    slug: str | None = None  # to delete after website migration to new field
     admin: Admin | None = None
     meta: dict | None = None

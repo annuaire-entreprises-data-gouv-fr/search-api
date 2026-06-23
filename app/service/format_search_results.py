@@ -109,10 +109,12 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
         "FINANCES": lambda: format_bilan(get_value(raw_ul, "bilan_financier")),
         "COMPLEMENTS": lambda: format_complements(raw_ul),
         "MATCHING_ETABLISSEMENTS": lambda: format_etablissements_list(
-            get_value(search_result, "matching_etablissements")
+            context="matching_etablissements",
+            etablissements=get_value(search_result, "matching_etablissements"),
         ),
         "ETABLISSEMENTS": lambda: format_etablissements_list(
-            get_value(raw_ul, "etablissements")
+            context="etablissements",
+            etablissements=get_value(raw_ul, "etablissements"),
         ),
         "IMMATRICULATION": lambda: format_immatriculation(
             get_value(raw_ul, "immatriculation")

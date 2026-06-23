@@ -1,3 +1,5 @@
+from typing import Literal
+
 from app.models.unite_legale import Etablissement
 from app.service.formatters.enseignes import format_enseignes
 from app.service.formatters.successions import format_successions
@@ -71,7 +73,9 @@ def format_etablissement(source_etablissement):
     return Etablissement(**formatted_etablissement)
 
 
-def format_etablissements_list(etablissements=None):
+def format_etablissements_list(
+    context: Literal["etablissements", "matching_etablissements"], etablissements=None
+):
     hidden_fields = [
         "activite_principale_registre_metier",
         "coordonnees",
@@ -92,6 +96,11 @@ def format_etablissements_list(etablissements=None):
         "dernier_numero_voie",
         "type_voie",
     ]
+    hidden_matching_etablissements_fields = [
+        "successions",
+    ]
+    if context == "matching_etablissements":
+        hidden_fields.extend(hidden_matching_etablissements_fields)
     etablissements_formatted = []
     if etablissements:
         for etablissement in etablissements:
@@ -108,4 +117,6 @@ def format_siege(siege=None):
         return {}
     siege_formatted = format_etablissement(siege).dict()
     del siege_formatted["ancien_siege"]
+    # successions are not displayed for siege, same as matching_etablissements
+    del siege_formatted["successions"]
     return Etablissement(**siege_formatted)

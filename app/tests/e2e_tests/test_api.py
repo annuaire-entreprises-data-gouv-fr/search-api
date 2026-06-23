@@ -1211,3 +1211,36 @@ def test_ca_valid_values_return_200(api_response_tester):
     """
     path = "search?ca_min=0&ca_max=1000000"
     api_response_tester.assert_api_response_code_200(path)
+
+
+def test_successions(api_response_tester):
+    """
+    Test that successions predecesseurs and successeurs are only exposed on the
+    établissements when `include_admin=etablissements` is requested.
+    """
+    path = "search?q=381194299&include_admin=etablissements"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    ul = response.json()["results"][0]
+
+    etablissements = {etab["siret"]: etab for etab in ul.get("etablissements", [])}
+
+    # Établissement with multiple successions
+    successions = etablissements["38119429900016"]["successions"]
+    assert len(successions["predecesseurs"]) > 1
+    assert len(successions["successeurs"]) > 1
+    for entry in successions["predecesseurs"] + successions["successeurs"]:
+        assert entry["siret"] is not None
+        assert entry["date_lien_succession"] is not None
+        assert isinstance(entry["transfert_siege"], bool)
+        assert isinstance(entry["continuite_economique"], bool)
+
+    path = "search?q=NATHALIE PINAUD&include_admin=etablissements"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    ul = next(ul for ul in response.json()["results"] if ul["siren"] == "381194299")
+
+    # Successions should not be exposed on the siege nor matching_etablissements fields
+    assert "successions" not in ul.get("siege", {})
+    assert "successions" not in ul.get("matching_etablissements", {})[0]
+    assert "successions" in ul.get("etablissements", {})[0]

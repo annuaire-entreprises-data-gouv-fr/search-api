@@ -33,7 +33,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
   
-  deploy-staging-new:
+  deploy-staging:
     name: Deploy - staging
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -41,10 +41,13 @@ jobs:
     environment:
       name: staging
     strategy:
+      max-parallel: 1
       matrix:
         include:
           - environment: staging-04
             host: SSH_HOST_STAGING_04
+          - environment: staging-03
+            host: SSH_HOST_STAGING_03
     steps:
       - uses: actions/checkout@v6
       - name: Setup Wireguard
@@ -60,39 +63,6 @@ jobs:
           ssh-host: ${{ secrets[matrix.host] }}
           notify-on-failure: false
           notify-on-success: false
-          tchap-url: ${{ secrets.TCHAP_URL }}
-          tchap-token: ${{ secrets.TCHAP_TOKEN }}
-
-  deploy-staging:
-    name: Deploy on staging
-    runs-on: ubuntu-latest
-    needs: [deploy-staging-new]
-    environment:
-      name: staging
-
-    timeout-minutes: 15
-    strategy:
-      matrix:
-        include:
-          - environment: staging-03
-            host: SSH_HOST_STAGING_03
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Wireguard
-        uses: niklaskeerl/easy-wireguard-action@v2
-        with:
-          WG_CONFIG_FILE: ${{ secrets.WG_CONFIG_FILE }}
-      - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v1.1
-        with:
-          app-to-deploy: "annuaire-entreprises-search-api"
-          app-repository: "https://github.com/annuaire-entreprises-data-gouv-fr/search-api.git"
-          app-shortname: "api"
-          version: "main"
-          environment: "${{ matrix.environment }}"
-          ssh-key: ${{ secrets.SSH_MACHINE_USER_PRIVATE_KEY }}
-          ssh-host: ${{ secrets[matrix.host] }}
-          notify-on-failure: true
-          notify-on-success: true
           tchap-url: ${{ secrets.TCHAP_URL }}
           tchap-token: ${{ secrets.TCHAP_TOKEN }}
 

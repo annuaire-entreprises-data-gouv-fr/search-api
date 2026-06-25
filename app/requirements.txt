@@ -4,7 +4,7 @@ elastic-apm==6.25.0
 requests==2.34.1
 sentry-sdk==2.60.0
 pytest==9.0.3
-redis==7.0.1
+redis==7.4.1
 pydantic==2.13.2
 fastapi[standard]==0.136.0
 orjson==3.11.6

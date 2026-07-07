@@ -1,6 +1,6 @@
 elastic-apm==6.25.0
 elasticsearch==9.3.0
-fastapi[standard]==0.137.2
+fastapi[standard]==0.136.0
 orjson==3.11.6
 pydantic==2.13.2
 pydantic-settings==2.14.2

@@ -6,6 +6,6 @@ pydantic==2.13.2
 pydantic-settings==2.14.2
 pytest==9.0.3
 PyYAML==6.0.2
-redis==7.0.1
+redis==7.4.1
 requests==2.34.1
 sentry-sdk==2.63.0

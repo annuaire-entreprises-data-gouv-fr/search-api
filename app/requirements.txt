@@ -1,4 +1,4 @@
-elastic-apm==6.25.0
+elastic-apm==6.26.2
 elasticsearch==9.3.0
 fastapi[standard]==0.136.0
 orjson==3.11.6

@@ -4,7 +4,7 @@ fastapi[standard]==0.136.0
 orjson==3.11.6
 pydantic==2.13.2
 pydantic-settings==2.14.2
-pytest==9.0.3
+pytest==9.1.1
 PyYAML==6.0.2
 redis==7.0.1
 requests==2.34.1

@@ -1,15 +1,24 @@
+from typing import Generic, TypeVar
+
 from pydantic import BaseModel, RootModel
 
+from app.models.fondation import FondationResponse
 from app.models.unite_legale import UniteLegaleResponse
 
+ResultType = TypeVar("ResultType")
 
-class ResponseModel(BaseModel):
-    results: list[UniteLegaleResponse] | None = None
+
+class PaginatedResponseModel(BaseModel, Generic[ResultType]):
+    results: list[ResultType] | None = None
     total_results: int | None = None
     page: int | None = None
     per_page: int | None = None
     total_pages: int | None = None
     execution_time: int | None = None
+
+
+ResponseModel = PaginatedResponseModel[UniteLegaleResponse]
+FondationResponseModel = PaginatedResponseModel[FondationResponse]
 
 
 class CcResponseModel(RootModel):

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import Response
 
 from app.service.build_api_response import build_api_response
+from app.service.build_api_response_fondation import build_api_response_fondation
 from app.service.search_type import SearchType
 
 router = APIRouter()
@@ -21,6 +22,11 @@ async def near_point_endpoint(request: Request):
         request,
         search_type=SearchType.GEO,
     )
+
+
+@router.api_route("/fondation", methods=["GET", "HEAD"])
+async def search_fondation_endpoint(request: Request):
+    return build_api_response_fondation(request)
 
 
 # Handle browser favicon requests to prevent 404 errors in logs

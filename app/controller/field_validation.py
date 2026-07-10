@@ -1,3 +1,5 @@
+from typing import Any
+
 from app.labels.helpers import (
     CODES_NAF,
     DEPARTEMENTS,
@@ -23,7 +25,7 @@ VALID_ADMIN_FIELDS_TO_SELECT = [
     "ADMIN",
 ]
 
-NUMERIC_FIELD_LIMITS = {
+NUMERIC_FIELD_LIMITS: dict[str, dict[str, Any]] = {
     "page": {"min": 1, "max": 1000, "default": 1, "alias": "page"},
     "page_etablissements": {
         "min": 1,

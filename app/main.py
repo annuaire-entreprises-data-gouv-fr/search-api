@@ -1,13 +1,11 @@
-from curses import error
-
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch.dsl import connections
 from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse, JSONResponse
-from app.elastic.helpers.health import is_elasticsearch_available
+from fastapi.responses import JSONResponse, RedirectResponse
 
 from app.config import settings
+from app.elastic.helpers.health import is_elasticsearch_available
 from app.exceptions.exception_handlers import add_exception_handlers
 from app.exceptions.exceptions import (
     NotFoundError,

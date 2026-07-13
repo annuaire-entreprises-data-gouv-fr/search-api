@@ -1244,3 +1244,8 @@ def test_successions(api_response_tester):
     assert "successions" not in ul.get("siege", {})
     assert "successions" not in ul.get("matching_etablissements", {})[0]
     assert "successions" in ul.get("etablissements", {})[0]
+
+
+def test_health_elastic_ok(api_response_tester):
+    path = "health/elastic"
+    api_response_tester.assert_api_response_code_200(path)

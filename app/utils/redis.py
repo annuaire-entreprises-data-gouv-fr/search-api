@@ -2,6 +2,8 @@
 import logging
 
 import redis
+from redis.backoff import NoBackoff
+from redis.retry import Retry
 
 from app.config import settings
 
@@ -20,7 +22,6 @@ class RedisClient(metaclass=Singleton):
         host = settings.redis.host
         port = settings.redis.port
         db = settings.redis.database
-
         # Connecting to redis client
         try:
             self.server = redis.Redis(
@@ -29,6 +30,11 @@ class RedisClient(metaclass=Singleton):
                 db=db,
                 decode_responses=True,
                 health_check_interval=30,
+                socket_connect_timeout=1,
+                socket_timeout=1,
+                # Retry transient connection errors up to 2 times with no backoff to
+                # recover from brief network hiccups while keeping latency low.
+                retry=Retry(NoBackoff(), retries=2),  # belt-and-suspenders: 2 retries
             )
             ping = self.server.ping()
             if not ping:
@@ -43,12 +49,7 @@ class RedisClient(metaclass=Singleton):
         except redis.RedisError as error:
             logging.info(f"Error while getting value using key: {error}")
 
-    def set(
-        self,
-        key,
-        value,
-        expire,
-    ):
+    def set(self, key, value, expire):
         try:
             self.server.set(key, value, ex=expire)
         except redis.RedisError as error:

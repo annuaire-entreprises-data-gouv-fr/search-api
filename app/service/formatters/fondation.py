@@ -7,7 +7,7 @@ from app.utils.helpers import convert_date_to_iso, get_value, is_dev_env
 def format_fondation(fondation, meta=None):
     formatted_fondation = FondationResponse(
         numero_rnf=get_value(fondation, "numero_rnf"),
-        titre=get_value(fondation, "titre"),
+        denomination=get_value(fondation, "denomination"),
         type_organisme=get_value(fondation, "type_organisme"),
         date_creation=convert_date_to_iso(get_value(fondation, "date_creation")),
         adresse=get_value(fondation, "adresse"),

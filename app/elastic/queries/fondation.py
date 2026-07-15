@@ -12,7 +12,7 @@ def build_fondation_text_query(terms: str):
     """We want to be able to search on fields located in the unité légale object.
     But fondations have their own fields that sometime conflict with unité légale.
     So the Fondation fields boosts outweigh the ones of the unité légale.
-    This way a fondation whose `titre` matches has a better result than one matching
+    This way a fondation whose `denomination` matches has a better result than one matching
     on the unité légale.
     We also never return matching établissements when searching for fondations (inner hits size at 0).
     """
@@ -40,31 +40,31 @@ def build_fondation_fields_query(terms: str):
         },
         {
             "match_phrase": {
-                f"{FONDATION_PATH}.titre": {
+                f"{FONDATION_PATH}.denomination": {
                     "query": terms,
                     "boost": 600,
-                    "_name": "exact match titre",
+                    "_name": "exact match denomination",
                 }
             }
         },
         {
             "match": {
-                f"{FONDATION_PATH}.titre": {
+                f"{FONDATION_PATH}.denomination": {
                     "query": terms,
                     "operator": "and",
                     "boost": 100,
-                    "_name": "all terms in titre",
+                    "_name": "all terms in denomination",
                 }
             }
         },
         {
             "match": {
-                f"{FONDATION_PATH}.titre": {
+                f"{FONDATION_PATH}.denomination": {
                     "query": terms,
                     "operator": "and",
                     "fuzziness": "AUTO",
                     "boost": 30,
-                    "_name": "fuzzy match titre",
+                    "_name": "fuzzy match denomination",
                 }
             }
         },

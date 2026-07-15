@@ -2,7 +2,7 @@ from app.service.formatters.fondation import format_fondation
 
 FONDATION_WITH_SIRET = {
     "numero_rnf": "092-FDD-00061-08",
-    "titre": "FONDS DE DOTATION PRO BONO LAB",
+    "denomination": "FONDS DE DOTATION PRO BONO LAB",
     "type_organisme": "FDD",
     "date_creation": "2015-02-04",
     "siren": "812333425",
@@ -14,7 +14,7 @@ FONDATION_WITH_SIRET = {
 
 FONDATION_WITHOUT_SIRET = {
     "numero_rnf": "073-FDD-00072-04",
-    "titre": "FONDS DE DOTATION SAVOIE MONT-BLANC BIODIVERSITÉ",
+    "denomination": "FONDS DE DOTATION SAVOIE MONT-BLANC BIODIVERSITÉ",
     "type_organisme": "FDD",
     "date_creation": "2023-03-21",
     "adresse": "165 Route de chambéry",
@@ -26,7 +26,7 @@ FONDATION_WITHOUT_SIRET = {
 def test_format_fondation_attached_to_an_unite_legale():
     assert format_fondation(FONDATION_WITH_SIRET) == {
         "numero_rnf": "092-FDD-00061-08",
-        "titre": "FONDS DE DOTATION PRO BONO LAB",
+        "denomination": "FONDS DE DOTATION PRO BONO LAB",
         "type_organisme": "FDD",
         "date_creation": "2015-02-04",
         "adresse": "132 Rue Martre",

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class FondationResponse(BaseModel):
     numero_rnf: str | None = None
-    titre: str | None = None
+    denomination: str | None = None
     type_organisme: str | None = None
     date_creation: str | None = None
     adresse: str | None = None

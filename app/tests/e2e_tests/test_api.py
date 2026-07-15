@@ -1271,7 +1271,7 @@ def test_search_fondation_by_numero_rnf(api_response_tester):
     assert response.json()["total_results"] == 1
     fondation = response.json()["results"][0]
     assert fondation["numero_rnf"] == "092-FDD-00061-08"
-    assert fondation["titre"] == "FONDS DE DOTATION PRO BONO LAB"
+    assert fondation["denomination"] == "FONDS DE DOTATION PRO BONO LAB"
     assert fondation["type_organisme"] == "FDD"
     assert fondation["date_creation"] == "2015-02-04"
     assert fondation["siret"] == "81233342500013"

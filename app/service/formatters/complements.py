@@ -19,6 +19,7 @@ def format_complements(result_unite_legale):
     convention_collective_renseignee = get_field("convention_collective_renseignee")
     liste_idcc = get_field("liste_idcc_unite_legale")
     liste_finess_juridique = get_field("liste_finess_juridique")
+    numero_rnf = get_field("numero_rnf")
     egapro_renseignee = get_field("egapro_renseignee")
     a_aide_minimis = get_field("aide_minimis_renseignee")
     a_aide_ademe = get_field("aide_ademe_renseignee")
@@ -54,6 +55,7 @@ def format_complements(result_unite_legale):
         convention_collective_renseignee=convention_collective_renseignee,
         liste_idcc=liste_idcc,
         liste_finess_juridique=liste_finess_juridique,
+        numero_rnf=numero_rnf,
         egapro_renseignee=egapro_renseignee,
         a_aide_minimis=a_aide_minimis,
         a_aide_ademe=a_aide_ademe,

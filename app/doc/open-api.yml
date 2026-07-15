@@ -1770,6 +1770,11 @@ components:
                 (source : Ministère des Solidarités et de la Santé ).
               items:
                 type: string
+            numero_rnf:
+              type: string
+              description: >-
+                Numéro du Répertoire National des Fondation quand disponible.
+                (source : DLPAJ et Ministère de l'Intérieur ).
             egapro_renseignee:
               type: boolean
               description: >-

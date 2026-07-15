@@ -145,6 +145,7 @@ class Complements(BaseModel):
     convention_collective_renseignee: bool = False
     liste_idcc: list | None = None
     liste_finess_juridique: list | None = None
+    numero_rnf: str | None = None
     egapro_renseignee: bool = False
     est_achats_responsables: bool = False
     est_alim_confiance: bool = False

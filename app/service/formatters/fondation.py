@@ -4,7 +4,7 @@ from app.models.fondation import FondationResponse
 from app.utils.helpers import convert_date_to_iso, get_value, is_dev_env
 
 
-def format_fondation(fondation, meta=None):
+def format_fondation(fondation, meta=None, fields_to_include: list[str] | None = None):
     formatted_fondation = FondationResponse(
         numero_rnf=get_value(fondation, "numero_rnf"),
         denomination=get_value(fondation, "denomination"),
@@ -17,8 +17,10 @@ def format_fondation(fondation, meta=None):
         siret=get_value(fondation, "siret"),
     )
 
-    if meta and is_dev_env():
+    if meta and fields_to_include and "SCORE" in fields_to_include:
         formatted_fondation.score = meta.get("score")
+
+    if meta and is_dev_env():
         formatted_fondation.meta = json.loads(json.dumps(meta, default=str))
 
     return formatted_fondation.dict(exclude_unset=True)
@@ -32,7 +34,11 @@ def format_fondation_results(results, search_params):
         # If structure is fondation
         if "fondation" in search_result:
             formatted_results.append(
-                format_fondation(search_result["fondation"], search_result.get("meta"))
+                format_fondation(
+                    search_result["fondation"],
+                    search_result.get("meta"),
+                    search_params.include,
+                )
             )
 
     return formatted_results

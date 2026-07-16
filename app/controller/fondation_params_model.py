@@ -1,7 +1,12 @@
 from pydantic import BaseModel, field_validator, model_validator
 
-from app.controller.field_validation import FIELD_LENGTHS, NUMERIC_FIELD_LIMITS
+from app.controller.field_validation import (
+    FIELD_LENGTHS,
+    NUMERIC_FIELD_LIMITS,
+    VALID_FONDATION_FIELDS_TO_SELECT,
+)
 from app.exceptions.exceptions import InvalidParamError
+from app.utils.helpers import str_to_list
 
 
 class FondationParams(BaseModel):
@@ -10,6 +15,7 @@ class FondationParams(BaseModel):
     terms: str | None = None
     page: int = 1
     per_page: int = 10
+    include: list | None = None
 
     @field_validator("page", "per_page", mode="before")
     def cast_as_integer(cls, value: str, info) -> int:
@@ -34,6 +40,23 @@ class FondationParams(BaseModel):
     @field_validator("terms", mode="before")
     def make_uppercase(cls, value: str) -> str:
         return value.upper()
+
+    @field_validator("include", mode="before")
+    def convert_str_to_list(cls, str_of_values: str) -> list[str]:
+        return str_to_list(str_of_values.upper())
+
+    @field_validator("include", mode="after")
+    def validate_include(cls, list_fields: list[str]) -> list[str]:
+        for field in list_fields:
+            if field not in VALID_FONDATION_FIELDS_TO_SELECT:
+                valid_fields_lowercase = [
+                    field.lower() for field in VALID_FONDATION_FIELDS_TO_SELECT
+                ]
+                raise InvalidParamError(
+                    "Au moins un champ à inclure est non valide. "
+                    f"Les champs valides : {valid_fields_lowercase}."
+                )
+        return list_fields
 
     @model_validator(mode="after")
     def check_if_all_empty_params(self):

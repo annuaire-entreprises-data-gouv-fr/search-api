@@ -2,9 +2,10 @@ import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch.dsl import connections
 from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 
 from app.config import settings
+from app.elastic.helpers.health import is_elasticsearch_available
 from app.exceptions.exception_handlers import add_exception_handlers
 from app.exceptions.exceptions import (
     NotFoundError,
@@ -61,6 +62,17 @@ add_exception_handlers(app)
 @app.get("/health")
 async def healthcheck():
     return {"status": "ok"}
+
+
+# Elasticsearch healthcheck endpoint
+@app.get("/health/elastic")
+async def healthcheck_elastic():
+    if is_elasticsearch_available():
+        return {"status": "ok"}
+    return JSONResponse(
+        status_code=503,
+        content={"status": "error", "detail": "Elasticsearch unreachable"},
+    )
 
 
 # Redirect /docs to /docs/

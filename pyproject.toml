@@ -12,10 +12,10 @@ dependencies = [
     "elasticsearch==9.3.0",
     "requests==2.34.1",
     "elastic-apm==6.26.2",
-    "sentry-sdk==2.63.0",
+    "sentry-sdk==2.64.0",
     "redis==7.4.1",
     "pydantic==2.13.2",
-    "fastapi[standard]==0.138.1",
+    "fastapi[standard]==0.139.0",
     "orjson==3.11.6",
     "pydantic-settings==2.14.2",
 ]

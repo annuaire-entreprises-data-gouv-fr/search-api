@@ -127,12 +127,10 @@ def search_person(
             person_filters.append(
                 {
                     "range": {
-                        **{
-                            "unite_legale."
-                            + person["type_person"]
-                            + "."
-                            + person["match_date"]: {"gte": min_date_naiss_person}
-                        }
+                        "unite_legale."
+                        + person["type_person"]
+                        + "."
+                        + person["match_date"]: {"gte": min_date_naiss_person}
                     }
                 }
             )
@@ -142,12 +140,10 @@ def search_person(
             person_filters.append(
                 {
                     "range": {
-                        **{
-                            "unite_legale."
-                            + person["type_person"]
-                            + "."
-                            + person["match_date"]: {"lte": max_date_naiss_person}
-                        }
+                        "unite_legale."
+                        + person["type_person"]
+                        + "."
+                        + person["match_date"]: {"lte": max_date_naiss_person}
                     }
                 }
             )

@@ -15,7 +15,7 @@ def fetch_json_from_url(url):
         return json_content
     except requests.RequestException as e:
         # Handle exceptions (e.g., network issues, invalid JSON, etc.)
-        raise RuntimeError(f"Error fetching JSON from {url}: {str(e)}")
+        raise RuntimeError(f"Error fetching JSON from {url}: {e!s}")
 
 
 def convert_to_year_month(date_string):
@@ -111,9 +111,7 @@ def create_admin_fields_to_include(search_params):
 
 
 def string_list_to_string(string_list):
-    if string_list is None:
-        return None
-    elif string_list.strip("[]") == "nan":
+    if string_list is None or string_list.strip("[]") == "nan":
         return None
     else:
         elements = string_list.strip("[]").split(", ")

@@ -20,11 +20,9 @@ def search_bilan(
             bilan_filters.append(
                 {
                     "range": {
-                        **{
-                            get_elasticsearch_field_name(
-                                filter, search_unite_legale=True
-                            ): {operator: filter_value}
-                        }
+                        get_elasticsearch_field_name(
+                            filter, search_unite_legale=True
+                        ): {operator: filter_value}
                     }
                 }
             )

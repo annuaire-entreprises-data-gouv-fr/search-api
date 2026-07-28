@@ -32,7 +32,7 @@ async def track_api_call_via_matomo(request, timeout=0.5):
     try:
         rec = 1  # Required for tracking
         relative_url = request.url.path + "?" + request.url.query
-        url = f"https://recherche-entreprises.api.gouv.fr{str(relative_url)}"
+        url = f"https://recherche-entreprises.api.gouv.fr{relative_url!s}"
         action_name = "Recherche API"
         _id = generate_unique_visitor_id(request)
 

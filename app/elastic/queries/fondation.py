@@ -10,11 +10,10 @@ FONDATION_STRUCTURE_TYPE = "fondation"
 
 def build_fondation_text_query(terms: str):
     """We want to be able to search on fields located in the unité légale object.
-    But fondations have their own fields that sometime conflict with unité légale.
-    So the Fondation fields boosts outweigh the ones of the unité légale.
-    This way a fondation whose `denomination` matches has a better result than one matching
-    on the unité légale.
-    We also never return matching établissements when searching for fondations (inner hits size at 0).
+    But fondations have their own fields that sometimes conflict with unité légale.
+    So the fondation fields boosts outweigh the ones of the unité légale.
+    This way a fondation whose `denomination` matches has a better result than one matching unité légale.
+    We also never return matching_etablissements when searching for fondations (inner hits size at 0).
     """
     return {
         "bool": {

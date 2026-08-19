@@ -13,7 +13,7 @@ dependencies = [
     "requests==2.34.1",
     "elastic-apm==6.26.2",
     "sentry-sdk==2.66.0",
-    "redis==8.0.0",
+    "redis==8.1.0",
     "pydantic==2.13.2",
     "fastapi[standard]==0.141.1",
     "orjson==3.11.6",

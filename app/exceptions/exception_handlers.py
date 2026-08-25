@@ -13,6 +13,8 @@ from app.exceptions.exceptions import (
     SearchApiError,
 )
 
+logger = logging.getLogger(__name__)
+
 
 def create_exception_handler(
     status_code: int = 500, initial_detail: str = "Service is unavailable"
@@ -28,7 +30,7 @@ def create_exception_handler(
         if isinstance(exc, InvalidParamError):
             # with push_scope() as scope:
             #     scope.fingerprint = ["InvalidParamError"]
-            logging.info(f"Bad Request: {exc.message}")
+            logger.info(f"Bad Request: {exc.message}")
 
         return JSONResponse(
             status_code=detail["status_code"],
@@ -39,7 +41,7 @@ def create_exception_handler(
 
 
 async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
-    logging.error(f"Unhandled exception occurred: {exc}", exc_info=True)
+    logger.error(f"Unhandled exception occurred: {exc}", exc_info=exc)
 
     with push_scope() as scope:
         scope.set_context(

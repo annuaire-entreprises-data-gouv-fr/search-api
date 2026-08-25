@@ -28,8 +28,9 @@ API = "https://recherche-entreprises.api.gouv.fr/"
 Repository = "https://github.com/annuaire-entreprises-data-gouv-fr/search-api"
 Website = "https://annuaire-entreprises.data.gouv.fr/"
 
-[tool.ruff]
-lint.extend-select = ["I"]
+[tool.ruff.lint]
+ignore = ["TRY002", "BLE001", "RUF012"]
+extend-select = ["I"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

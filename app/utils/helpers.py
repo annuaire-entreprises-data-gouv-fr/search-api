@@ -1,10 +1,12 @@
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 from hashlib import sha256
 
 import requests
 
 from app.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_json_from_url(url):
@@ -22,10 +24,14 @@ def convert_to_year_month(date_string):
     formats = ["%d/%m/%Y", "%Y-%m-%d", "%d-%m-%Y"]
     for fmt in formats:
         try:
-            return datetime.strptime(date_string, fmt).strftime("%Y-%m")
+            return (
+                datetime.strptime(date_string, fmt)
+                .replace(tzinfo=UTC)
+                .strftime("%Y-%m")
+            )
         except ValueError:
             continue
-    logging.warning(f"Invalid date of birth for `élus` : {date_string}")
+    logger.warning(f"Invalid date of birth for `élus` : {date_string}")
     return None
 
 

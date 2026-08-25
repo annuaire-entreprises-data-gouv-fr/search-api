@@ -1,17 +1,35 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: detect-private-key
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: debug-statements
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.11.2'
+      - id: check-ast
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.16.0'
     hooks:
+      - id: ruff-check
+        args: [--fix]
       - id: ruff-format
+
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.15.0'
+    rev: 'v1.19.1'
     hooks:
       - id: mypy
-        additional_dependencies: [tokenize-rt==3.2.0]
+        args:
+          - --no-strict-optional
+          - --ignore-missing-imports
+          - --install-types
+          - --non-interactive
+          - --explicit-package-bases
+        additional_dependencies:
+          - tokenize-rt==3.2.0
+          - types-requests
+          - types-psutil
+          - types-redis

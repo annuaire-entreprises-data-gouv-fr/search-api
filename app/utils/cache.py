@@ -6,6 +6,8 @@ from datetime import timedelta
 from app.utils.helpers import hash_string
 from app.utils.redis import RedisClient
 
+logger = logging.getLogger(__name__)
+
 
 def build_key(key):
     if isinstance(key, str):
@@ -23,7 +25,7 @@ def set_cache_value(cache_client, key, value, time_to_live):
             time_to_live,
         )
     except Exception as error:
-        logging.info(f"Error while setting value for cache: {error}")
+        logger.info(f"Error while setting value for cache: {error}")
 
 
 def cache_strategy(
@@ -35,7 +37,7 @@ def cache_strategy(
         redis_client_cache = RedisClient()
         # Serialize key object before hashing it
         request_cache_key = build_key(key)
-        logging.info(f"Request cache key: {request_cache_key}")
+        logger.info(f"Request cache key: {request_cache_key}")
         cached_value = redis_client_cache.get(request_cache_key)
         if cached_value:
             return json.loads(cached_value)
@@ -50,5 +52,5 @@ def cache_strategy(
             )
         return value_to_cache
     except Exception as error:
-        logging.info(f"Error while trying to cache: {error}")
+        logger.info(f"Error while trying to cache: {error}")
         return get_value()

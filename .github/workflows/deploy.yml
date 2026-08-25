@@ -32,7 +32,7 @@ jobs:
             ${{ secrets.GITLAB_REGISTRY_URL }}/etalab/data.gouv.fr/infra/ade-api:${{ steps.sanitize.outputs.branch_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-  
+
   deploy-staging:
     name: Deploy - staging
     runs-on: ubuntu-latest

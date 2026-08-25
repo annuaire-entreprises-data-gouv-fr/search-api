@@ -1,5 +1,6 @@
 from app.elastic.queries.fondation import (
     FONDATION_NUMERO_RNF,
+    FONDATION_SIREN,
     FONDATION_STRUCTURE_TYPE,
 )
 
@@ -12,3 +13,8 @@ def filter_fondations(search):
 def filter_by_numero_rnf(search, numero_rnf: str):
     """Filter by numéro RNF."""
     return search.filter("term", **{FONDATION_NUMERO_RNF: numero_rnf})
+
+
+def filter_by_siren(search, siren: str):
+    """Filter by the SIREN if it exists."""
+    return search.filter("term", **{FONDATION_SIREN: siren})

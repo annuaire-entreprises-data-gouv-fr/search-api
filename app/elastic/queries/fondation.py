@@ -2,6 +2,7 @@ from app.elastic.queries.text import build_text_query
 
 FONDATION_PATH = "fondation"
 FONDATION_NUMERO_RNF = f"{FONDATION_PATH}.numero_rnf"
+FONDATION_SIREN = f"{FONDATION_PATH}.siren"
 
 # Value of the `type_structure` list carried by every fondation document, whether
 # it is an unité légale with a `numéro RNF` or a fondation without a SIRET.

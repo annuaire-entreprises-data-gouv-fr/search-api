@@ -216,8 +216,7 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                                         "unite_legale.etablissements.sigle",
                                                         "unite_legale.etablissements.adresse",
                                                         "unite_legale.etablissements.commune",
-                                                        "unite_legale.etablissements.concat_"
-                                                        "unite_legale.enseigne_adresse_siren_siret",
+                                                        "unite_legale.etablissements.concat_unite_legale.enseigne_adresse_siren_siret",
                                                     ],
                                                     "type": "cross_fields",
                                                     "operator": "AND",
@@ -512,8 +511,7 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                                         "unite_legale.etablissements.sigle",
                                                         "unite_legale.etablissements.adresse",
                                                         "unite_legale.etablissements.commune",
-                                                        "unite_legale.etablissements.concat_"
-                                                        "unite_legale.enseigne_adresse_siren_siret",
+                                                        "unite_legale.etablissements.concat_unite_legale.enseigne_adresse_siren_siret",
                                                     ],
                                                     "type": "cross_fields",
                                                     "operator": "AND",

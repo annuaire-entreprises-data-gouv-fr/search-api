@@ -56,9 +56,7 @@ def should_get_doc_by_id(es_search_builder):
     page_etablissements = es_search_builder.search_params.page_etablissements
     is_siren_query = is_siren(es_search_builder.search_params.terms)
 
-    if is_siren_query and page_etablissements:
-        return True
-    return False
+    return bool(is_siren_query and page_etablissements)
 
 
 def get_doc_id_from_page(es_search_builder):

@@ -7,6 +7,8 @@ from redis.retry import Retry
 
 from app.config import settings
 
+logger = logging.getLogger(__name__)
+
 
 class Singleton(type):
     _instances: dict[type, type] = {}
@@ -38,19 +40,19 @@ class RedisClient(metaclass=Singleton):
             )
             ping = self.server.ping()
             if not ping:
-                logging.error(f"**************Could not ping Redis: {ping}")
+                logger.error(f"**************Could not ping Redis: {ping}")
         except redis.exceptions.RedisError as error:
-            logging.info(f"Redis error while connecting: {error}")
+            logger.info(f"Redis error while connecting: {error}")
 
     def get(self, key):
         try:
             cached_value = self.server.get(key)
             return cached_value
         except redis.RedisError as error:
-            logging.info(f"Error while getting value using key: {error}")
+            logger.info(f"Error while getting value using key: {error}")
 
     def set(self, key, value, expire):
         try:
             self.server.set(key, value, ex=expire)
         except redis.RedisError as error:
-            logging.info(f"Error while saving value: {error}")
+            logger.info(f"Error while saving value: {error}")

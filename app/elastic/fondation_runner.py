@@ -4,12 +4,17 @@ from datetime import timedelta
 from elasticsearch.dsl import Q
 
 from app.elastic.es_index import StructureMapping
-from app.elastic.filters.fondation import filter_by_numero_rnf, filter_fondations
+from app.elastic.filters.fondation import (
+    filter_by_numero_rnf,
+    filter_by_siren,
+    filter_fondations,
+)
 from app.elastic.helpers.helpers import (
     execute_and_agg_total_results_by_identifiant,
     page_through_results,
 )
 from app.elastic.parsers.numero_rnf import is_numero_rnf
+from app.elastic.parsers.siren import is_siren
 from app.elastic.queries.fondation import FONDATION_PATH, build_fondation_text_query
 from app.utils.cache import cache_strategy
 
@@ -35,10 +40,12 @@ class FondationRunner:
         search = filter_fondations(search)
 
         query_terms = self.search_params.terms
-        # Filter by `numéro RNF` first (if the query is a `numéro RNF`), and return
-        # the fondation directly without text search.
+        # Filter by ID first (if the query is a numéro RNF or a SIREN)
+        # and return the fondation directly without text search.
         if is_numero_rnf(query_terms):
             search = filter_by_numero_rnf(search, query_terms.strip())
+        elif is_siren(query_terms):
+            search = filter_by_siren(search, query_terms.replace(" ", ""))
         else:
             search = search.query(Q(build_fondation_text_query(query_terms)))
 
@@ -73,14 +80,19 @@ class FondationRunner:
             for matching_structure in es_response.hits
         ]
 
+    def is_unique_id(self):
+        """Check if the query targets a unique fondation ID: numero_rnf or siren."""
+        query_terms = self.search_params.terms
+        return is_numero_rnf(query_terms) or is_siren(query_terms)
+
     def should_cache_for_how_long(self):
         """Determines how long to cache search results based on conditions:
         - 24 hours if execution time > MIN_EXECUTION_TIME
-        - 30 minutes if searching by Numéro RNF
+        - 30 minutes if searching by Numéro RNF or SIREN
         - No caching (0 minutes) otherwise or on error"""
         if self.execution_time and self.execution_time > self.MIN_EXECUTION_TIME:
             return timedelta(hours=24)
-        if is_numero_rnf(self.search_params.terms):
+        if self.is_unique_id():
             return timedelta(minutes=30)
         return timedelta(minutes=0)
 

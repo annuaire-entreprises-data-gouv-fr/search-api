@@ -1,3 +1,6 @@
+from elasticsearch.dsl import Search
+
+from app.elastic.filters.fondation import filter_by_siren
 from app.service.formatters.fondation import format_fondation
 
 FONDATION_WITH_SIRET = {
@@ -52,3 +55,10 @@ def test_format_fondation_converts_date_creation_to_iso():
 
 def test_format_fondation_without_score_when_no_meta():
     assert "score" not in format_fondation(FONDATION_WITH_SIRET)
+
+
+def test_filter_by_fondation_siren():
+    search = filter_by_siren(Search(), "812333425")
+    assert search.to_dict() == {
+        "query": {"bool": {"filter": [{"term": {"fondation.siren": "812333425"}}]}}
+    }

@@ -1286,6 +1286,39 @@ def test_search_fondation_by_numero_rnf_is_case_insensitive(api_response_tester)
     api_response_tester.test_field_value(path, 0, "numero_rnf", "092-FDD-00061-08")
 
 
+def test_search_fondation_by_siren(api_response_tester):
+    """
+    Make sure a SIREN query returns the matching fondation directly.
+    """
+    path = "fondation?q=812333425"
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["total_results"] == 1
+    fondation = response.json()["results"][0]
+    assert fondation["numero_rnf"] == "092-FDD-00061-08"
+    assert fondation["siren"] == "812333425"
+
+
+def test_search_fondation_by_siren_with_spaces(api_response_tester):
+    """
+    Make sure if a spaced SIREN returns the matching fondation.
+    """
+    path = "fondation?q= 812 333  425 "
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "numero_rnf", "092-FDD-00061-08")
+
+
+def test_search_siren_that_is_not_a_fondation(api_response_tester):
+    """
+    Make sure an existing SIREN that is not a fondation returns an empty payload.
+    """
+    path = "fondation?q=356000000"  # La Poste
+    api_response_tester.assert_api_response_code_200(path)
+    response = api_response_tester.get_api_response(path)
+    assert response.json()["total_results"] == 0
+    assert response.json()["results"] == []
+
+
 def test_search_fondation_without_siret(api_response_tester):
     """
     test if fondations the RNF does not link to an établissement are searchable.

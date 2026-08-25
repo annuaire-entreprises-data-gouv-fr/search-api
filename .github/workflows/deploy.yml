@@ -28,8 +28,8 @@ jobs:
           push: true
           target: release
           tags: |
-            ${{ secrets.DOCKER_REGISTRY_URL }}/{{ secrets.DOCKER_REGISTRY_NAMESPACE }}/{{ secrets.DOCKER_REGISTRY_IMAGE }}:${{ github.sha }}
-            ${{ secrets.DOCKER_REGISTRY_URL }}/{{ secrets.DOCKER_REGISTRY_NAMESPACE }}/{{ secrets.DOCKER_REGISTRY_IMAGE }}:${{ steps.sanitize.outputs.branch_name }}
+            ${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.DOCKER_REGISTRY_NAMESPACE }}/${{ secrets.DOCKER_REGISTRY_IMAGE }}:${{ github.sha }}
+            ${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.DOCKER_REGISTRY_NAMESPACE }}/${{ secrets.DOCKER_REGISTRY_IMAGE }}:${{ steps.sanitize.outputs.branch_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

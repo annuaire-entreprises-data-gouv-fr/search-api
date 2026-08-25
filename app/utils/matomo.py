@@ -10,6 +10,8 @@ from fastapi import Request
 
 from app.config import settings
 
+logger = logging.getLogger(__name__)
+
 # Probability of tracking the event (1 in 100)
 TRACKING_PROBABILITY = 1 / 100
 
@@ -48,9 +50,9 @@ async def track_api_call_via_matomo(request, timeout=0.5):
 
         tracking_data = urllib.parse.urlencode(tracking_params)
         tracking_url = str(settings.matomo.tracking_url) + tracking_data
-        await requests.get(tracking_url, timeout=timeout)
+        await asyncio.to_thread(requests.get, tracking_url, timeout=timeout)
     except Exception as error:
-        logging.info(f"Matomo logging failed: {error}")
+        logger.info(f"Matomo logging failed: {error}")
 
 
 def generate_unique_visitor_id(request: Request):
@@ -77,7 +79,7 @@ def generate_unique_visitor_id(request: Request):
 
     hashed_id = hashlib.sha256(unique_id.encode("utf-8")).hexdigest()[:16]
 
-    logging.info(
+    logger.info(
         f"hashed_id: {hashed_id} - unique_id : {unique_id} - X-Real-Ip: {real_ip} "
         f"- X-Forwarded-For : {forwarded_for} - User-Agent : {user_agent}"
     )

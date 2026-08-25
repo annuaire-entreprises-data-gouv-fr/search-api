@@ -350,11 +350,10 @@ class SearchParams(BaseModel):
     def validate_date_range(self):
         min_date_naiss = self.min_date_naiss_personne
         max_date_naiss = self.max_date_naiss_personne
-        if min_date_naiss and max_date_naiss:
-            if max_date_naiss < min_date_naiss:
-                raise InvalidParamError(
-                    "Veuillez indiquer une date minimale inférieure à la date maximale."
-                )
+        if min_date_naiss and max_date_naiss and max_date_naiss < min_date_naiss:
+            raise InvalidParamError(
+                "Veuillez indiquer une date minimale inférieure à la date maximale."
+            )
         return self
 
     @model_validator(mode="after")

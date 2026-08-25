@@ -1,14 +1,10 @@
-from typing import Generic, TypeVar
-
 from pydantic import BaseModel, RootModel
 
 from app.models.fondation import FondationResponse
 from app.models.unite_legale import UniteLegaleResponse
 
-ResultType = TypeVar("ResultType")
 
-
-class PaginatedResponseModel(BaseModel, Generic[ResultType]):
+class PaginatedResponseModel[ResultType](BaseModel):
     results: list[ResultType] | None = None
     total_results: int | None = None
     page: int | None = None

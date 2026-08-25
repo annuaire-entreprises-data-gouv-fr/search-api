@@ -15,6 +15,8 @@ from app.service.search_type import SearchType
 from app.utils.cache import cache_strategy
 from app.utils.helpers import is_dev_env
 
+logger = logging.getLogger(__name__)
+
 MIN_EXECUTION_TIME = 400
 MAX_TOTAL_RESULTS = 10000
 
@@ -55,7 +57,7 @@ class ElasticSearchRunner:
         es_response = self.es_search_client.execute()
         self.total_results = es_response.hits.total.value
         self.execution_time = es_response.took
-        logging.info(f"Elasticsearch execution time: {self.execution_time}")
+        logger.info(f"Elasticsearch execution time: {self.execution_time}")
 
         # Due to performance issues when aggregating on filter queries, we use
         # aggregation on total_results only when total_results is lower than
@@ -113,7 +115,7 @@ class ElasticSearchRunner:
         self.total_results = cached_search_results["total_results"]
         self.es_search_results = cached_search_results["response"]
         self.execution_time = cached_search_results["execution_time"]
-        logging.info(f"Execution time after cache: {self.execution_time}")
+        logger.info(f"Execution time after cache: {self.execution_time}")
 
     def should_cache_for_how_long(self):
         """Determines how long to cache search results based on conditions:
@@ -128,7 +130,7 @@ class ElasticSearchRunner:
                 return timedelta(minutes=30)
             return timedelta(minutes=0)  # Default case when no conditions are met
         except KeyError as error:
-            logging.info(f"Error getting search execution time: {error}")
+            logger.info(f"Error getting search execution time: {error}")
             return timedelta(minutes=0)
 
     def run(self):

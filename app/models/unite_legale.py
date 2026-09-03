@@ -194,6 +194,7 @@ class Admin(BaseModel):
 
 class UniteLegaleResponse(BaseModel):
     siren: str
+    siren_pivot: str | None = None
     nom_complet: str | None = None
     nom_raison_sociale: str | None = None
     sigle: str | None = None

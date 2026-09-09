@@ -9,15 +9,15 @@ authors = [
 readme = "README.md"
 license-files = ["LICENSE"]
 dependencies = [
-    "elasticsearch==9.3.0",
-    "requests==2.34.1",
     "elastic-apm==6.26.2",
-    "sentry-sdk==2.66.0",
-    "redis==8.1.0",
-    "pydantic==2.13.2",
+    "elasticsearch==9.3.0",
     "fastapi[standard]==0.141.1",
     "orjson==3.11.6",
-    "pydantic-settings==2.14.2",
+    "pydantic==2.13.2",
+    "pydantic-settings==2.15.0",
+    "redis==8.1.0",
+    "requests==2.34.1",
+    "sentry-sdk==2.68.0",
 ]
 
 [project.optional-dependencies]

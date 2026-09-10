@@ -1583,6 +1583,16 @@ components:
           type: string
           example: "356000000"
           description: le numéro unique de l'entreprise
+        siren_pivot:
+          type: string
+          nullable: true
+          example: "552100554"
+          description: >-
+            Le numéro SIREN pivot, ou de référence, de l'entreprise lorsque
+            son SIREN est un doublon, c'est-à-dire lorsque plusieurs SIREN ont
+            été attribués à la même entreprise. Le SIREN pivot est alors le
+            seul qui doit encore être utilisé (source : base SIRENE, fichier
+            des SIREN doublons).
         nom_complet:
           type: string
           description: >-

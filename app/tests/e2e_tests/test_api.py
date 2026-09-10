@@ -1402,3 +1402,46 @@ def test_search_fondation_excluded_from_text_search(api_response_tester):
     api_response_tester.assert_api_response_code_200(path)
     results = api_response_tester.get_api_response(path).json()["results"]
     assert all(result.get("siren") for result in results)
+
+
+def test_siren_pivot_doublon(api_response_tester):
+    """
+    test if a SIREN doublon returns its SIREN pivot.
+    """
+    path = "search?q=106305808"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siren", "106305808")
+    api_response_tester.test_field_value(path, 0, "siren_pivot", "106106172")
+
+
+def test_siren_pivot_null_when_not_doublon(api_response_tester):
+    """
+    test if siren_pivot is present and null when the SIREN is not a doublon.
+    """
+    path = "search?q=356000000"
+    api_response_tester.assert_api_response_code_200(path)
+    unite_legale = api_response_tester.get_api_response(path).json()["results"][0]
+    assert "siren_pivot" in unite_legale
+    assert unite_legale["siren_pivot"] is None
+
+
+def test_siren_pivot_in_minimal_response(api_response_tester):
+    """
+    test if siren_pivot is returned in the minimal response.
+    """
+    path = "search?q=106305808&minimal=True"
+    api_response_tester.assert_api_response_code_200(path)
+    unite_legale = api_response_tester.get_api_response(path).json()["results"][0]
+    assert unite_legale["siren_pivot"] == "106106172"
+
+
+def test_siren_pivot_is_not_searchable(api_response_tester):
+    """
+    test if `siren_pivot` has no impact on the search. Searching for the pivot
+    SIREN returns the pivot unité légale, not the doublon pointing to it.
+    """
+    path = "search?q=106106172"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siren", "106106172")
+    results = api_response_tester.get_api_response(path).json()["results"]
+    assert "106305808" not in [result.get("siren") for result in results]

@@ -51,6 +51,7 @@ def build_unite_legale_base(data):
 
     fields = {
         "siren": get_value(data, "siren"),
+        "siren_pivot": get_value(data, "siren_pivot"),
         "nom_complet": format_nom_complet(
             get_value(data, "nom_complet"),
             get_value(data, "sigle"),

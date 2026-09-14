@@ -125,8 +125,8 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.\
-                                                     etablissements.enseigne_1": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_1": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -148,8 +148,8 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        enseigne_2": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_2": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -171,8 +171,8 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        enseigne_3": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_3": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -183,8 +183,8 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        adresse": {
+                                                    "unite_legale.etablissements."
+                                                    "adresse": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "_name": "partial match "
@@ -194,8 +194,8 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        nom_commercial": {
+                                                    "unite_legale.etablissements."
+                                                    "nom_commercial": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -420,8 +420,8 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.\
-                                                     etablissements.enseigne_1": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_1": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -443,8 +443,8 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        enseigne_2": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_2": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -466,8 +466,8 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        enseigne_3": {
+                                                    "unite_legale.etablissements."
+                                                    "enseigne_3": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,
@@ -478,8 +478,8 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        adresse": {
+                                                    "unite_legale.etablissements."
+                                                    "adresse": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "_name": "partial match "
@@ -489,8 +489,8 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                             },
                                             {
                                                 "match": {
-                                                    "unite_legale.etablissements.\
-                                                        nom_commercial": {
+                                                    "unite_legale.etablissements."
+                                                    "nom_commercial": {
                                                         "query": terms,
                                                         "operator": "AND",
                                                         "boost": 10,

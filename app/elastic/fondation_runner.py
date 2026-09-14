@@ -14,7 +14,7 @@ from app.elastic.helpers.helpers import (
     page_through_results,
 )
 from app.elastic.parsers.numero_rnf import is_numero_rnf
-from app.elastic.parsers.siren import is_siren
+from app.elastic.parsers.siren import clean_siren, is_siren
 from app.elastic.queries.fondation import FONDATION_PATH, build_fondation_text_query
 from app.utils.cache import cache_strategy
 
@@ -45,7 +45,7 @@ class FondationRunner:
         if is_numero_rnf(query_terms):
             search = filter_by_numero_rnf(search, query_terms.strip())
         elif is_siren(query_terms):
-            search = filter_by_siren(search, query_terms.replace(" ", ""))
+            search = filter_by_siren(search, clean_siren(query_terms))
         else:
             search = search.query(Q(build_fondation_text_query(query_terms)))
 

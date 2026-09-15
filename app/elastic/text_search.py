@@ -26,8 +26,8 @@ from app.elastic.helpers.helpers import (
     should_get_doc_by_id,
     sort_search_by_company_size,
 )
-from app.elastic.parsers.siren import is_siren
-from app.elastic.parsers.siret import is_siret
+from app.elastic.parsers.siren import clean_siren, is_siren
+from app.elastic.parsers.siret import clean_siret, is_siret
 from app.elastic.queries.bilan import search_bilan
 from app.elastic.queries.person import search_person
 from app.elastic.queries.text import build_text_query
@@ -47,14 +47,13 @@ def build_es_search_text_query(es_search_builder):
     # Filter by siren/siret first (if query is a `siren` or 'siret' number),
     # and return search results directly without text search.
     elif is_siren(query_terms) or is_siret(query_terms):
-        query_terms_clean = query_terms.replace(" ", "")
         if is_siren(query_terms):
             es_search_builder.es_search_client = filter_by_siren(
-                es_search_builder.es_search_client, query_terms_clean
+                es_search_builder.es_search_client, clean_siren(query_terms)
             )
         else:
             es_search_builder.es_search_client = filter_by_siret(
-                es_search_builder.es_search_client, query_terms_clean
+                es_search_builder.es_search_client, clean_siret(query_terms)
             )
 
     else:

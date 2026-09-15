@@ -1,4 +1,4 @@
-from app.elastic.parsers.siret import is_siret
+from app.elastic.parsers.siret import clean_siret, is_siret
 
 
 def test_valid_siret():
@@ -26,3 +26,7 @@ def test_none_and_non_string_inputs():
 def test_siret_with_spaces():
     assert is_siret("1234 5678 9012 34")  # Valid SIRET number with spaces
     assert not is_siret("1234 5678 9012 3a")  # Invalid due to letter
+
+
+def test_clean_siret_strips_spaces():
+    assert clean_siret("356 000 000 00048") == "35600000000048"

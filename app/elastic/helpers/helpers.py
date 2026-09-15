@@ -1,4 +1,4 @@
-from app.elastic.parsers.siren import is_siren
+from app.elastic.parsers.siren import clean_siren, is_siren
 
 
 def extract_ul_and_etab_from_es_response(structure):
@@ -63,7 +63,7 @@ def get_doc_id_from_page(es_search_builder):
     """
     Generates a document ID based on search parameters.
     """
-    query_terms = es_search_builder.search_params.terms
+    query_terms = clean_siren(es_search_builder.search_params.terms)
     page_etablissements = es_search_builder.search_params.page_etablissements
     return f"{query_terms}-{compute_doc_id(page_etablissements)}"
 

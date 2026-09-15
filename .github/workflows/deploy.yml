@@ -66,7 +66,7 @@ jobs:
           tchap-url: ${{ secrets.TCHAP_URL }}
           tchap-token: ${{ secrets.TCHAP_TOKEN }}
       - name: Stop Wireguard
-        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-stop@wireguard/v1
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-down@wireguard/v1
 
   trigger-production-deployment:
     name: Trigger production deployment
@@ -112,4 +112,4 @@ jobs:
           tchap-url: ${{ secrets.TCHAP_URL }}
           tchap-token: ${{ secrets.TCHAP_TOKEN }}
       - name: Stop Wireguard
-        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-stop@wireguard/v1
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-down@wireguard/v1

@@ -1445,3 +1445,12 @@ def test_siren_pivot_is_not_searchable(api_response_tester):
     api_response_tester.test_field_value(path, 0, "siren", "106106172")
     results = api_response_tester.get_api_response(path).json()["results"]
     assert "106305808" not in [result.get("siren") for result in results]
+
+
+def test_denomination_dirigeant_search(api_response_tester):
+    """
+    test if a text containing a denomination and a dirigeant's name returns result.
+    """
+    path = "search?q=ganymede jouppe"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siren", "880878145")

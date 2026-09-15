@@ -281,6 +281,26 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
+                            "multi_match": {
+                                "query": terms,
+                                "fields": [
+                                    "unite_legale.nom_raison_sociale",
+                                    "unite_legale.sigle",
+                                    "unite_legale.nom",
+                                    "unite_legale.prenom",
+                                    "unite_legale.liste_dirigeants",
+                                ],
+                                "type": "cross_fields",
+                                "operator": "AND",
+                                "_name": "match denomination et dirigeants",
+                            }
+                        },
+                        "field_value_factor": mid_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
                             "match": {
                                 "unite_legale.liste_elus": {
                                     "query": terms,
@@ -565,6 +585,26 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                         }
                                     }
                                 ],
+                            }
+                        },
+                        "field_value_factor": mid_multiplier,
+                    }
+                },
+                {
+                    "function_score": {
+                        "query": {
+                            "multi_match": {
+                                "query": terms,
+                                "fields": [
+                                    "unite_legale.nom_raison_sociale",
+                                    "unite_legale.sigle",
+                                    "unite_legale.nom",
+                                    "unite_legale.prenom",
+                                    "unite_legale.liste_dirigeants",
+                                ],
+                                "type": "cross_fields",
+                                "operator": "AND",
+                                "_name": "match denomination et dirigeants",
                             }
                         },
                         "field_value_factor": mid_multiplier,

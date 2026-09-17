@@ -1,17 +1,7 @@
 import re
 
-import pytest
-
-from app.tests.e2e_tests.response_tester import APIResponseTester
-
 min_total_results = 10
 min_total_results_filters = 1000
-
-
-@pytest.fixture
-def api_response_tester():
-    api_url = "http://localhost:8000/"
-    return APIResponseTester(api_url)
 
 
 def test_fetch_company(api_response_tester):

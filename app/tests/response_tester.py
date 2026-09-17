@@ -96,3 +96,73 @@ class APIResponseTester:
             assert response_value is not None, (
                 f"Field '{field_name}' is None, expected a value."
             )
+
+    def get_json(self, path):
+        response = self.get_api_response(path)
+        assert response.status_code == ok_status_code, (
+            f"API response code is {response.status_code}, expected 200 for `{path}`."
+        )
+        return response.json()
+
+    def get_results(self, path):
+        return self.get_json(path)["results"]
+
+    def get_total_results(self, path):
+        return self.get_json(path)["total_results"]
+
+    def get_sirens(self, path):
+        return [result["siren"] for result in self.get_results(path)]
+
+    def get_scores(self, path):
+        return [result["meta"]["score"] for result in self.get_results(path)]
+
+    def get_results_over_pages(self, path, number_of_pages):
+        """Concatenate the results of the specified number of pages, in order.
+        `path` must not already carry a `page` parameter.
+        """
+        results = []
+        for page in range(1, number_of_pages + 1):
+            separator = "&" if "?" in path else "?"
+            results += self.get_results(f"{path}{separator}page={page}")
+        return results
+
+    def get_error_message(self, path):
+        return self.get_api_response(path).json()["erreur"]
+
+    def get_score_of_siren(self, path, siren):
+        for result in self.get_results(path):
+            if result["siren"] == siren:
+                return result["meta"]["score"]
+        raise AssertionError(f"Siren {siren} is not in the results of `{path}`.")
+
+    def assert_first_siren(self, path, siren):
+        sirens = self.get_sirens(path)
+        assert sirens, f"No result at all for `{path}`."
+        assert sirens[0] == siren, (
+            f"Expected siren {siren} as first result of `{path}`, "
+            f"found {sirens[0]}. Full list: {sirens}."
+        )
+
+    def assert_siren_in_results(self, path, siren, limit=None):
+        sirens = self.get_sirens(path)
+        searched_sirens = sirens if limit is None else sirens[:limit]
+        assert siren in searched_sirens, (
+            f"Expected siren {siren} in the results of `{path}`. Got: {searched_sirens}."
+        )
+
+    def assert_siren_not_in_results(self, path, siren):
+        sirens = self.get_sirens(path)
+        assert siren not in sirens, (
+            f"Siren {siren} should not be returned by `{path}`. Got: {sirens}."
+        )
+
+    def assert_siren_ranked_before(self, path, first_siren, second_siren):
+        sirens = self.get_sirens(path)
+        for siren in (first_siren, second_siren):
+            assert siren in sirens, (
+                f"Siren {siren} is missing from the results of `{path}`. Got {sirens}."
+            )
+        assert sirens.index(first_siren) < sirens.index(second_siren), (
+            f"Expected siren {first_siren} to rank before {second_siren} "
+            f"for `{path}`. Full list ranked: {sirens}."
+        )

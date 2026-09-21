@@ -1,5 +1,6 @@
 import re
-from datetime import date
+from calendar import monthrange
+from datetime import UTC, date, datetime
 
 from pydantic import BaseModel, field_validator, model_validator
 
@@ -305,14 +306,30 @@ class SearchParams(BaseModel):
     @field_validator(
         "min_date_naiss_personne", "max_date_naiss_personne", mode="before"
     )
-    def check_date_format(cls, date_string: str) -> date:
-        try:
-            return date.fromisoformat(date_string)
-        except Exception:
+    def check_date_format(cls, date_string: str, info) -> date:
+        """
+        Parse aaaa-mm-jj or aaaa-mm and normalize to month.
+        For backward compatibility, the day when provided is ignored.
+        """
+        year_month = None
+        for date_format in ("%Y-%m-%d", "%Y-%m"):
+            try:
+                parsed_date = datetime.strptime(date_string, date_format).replace(
+                    tzinfo=UTC
+                )
+                year_month = (parsed_date.year, parsed_date.month)
+                break
+            except ValueError:
+                continue
+        if year_month is None:
             raise InvalidParamError(
                 "Veuillez indiquer une date sous "
-                "le format : aaaa-mm-jj. Exemple : '1990-01-02'"
+                "le format : aaaa-mm. Exemple : '1990-01'"
             )
+        year, month = year_month
+        if info.field_name == "min_date_naiss_personne":
+            return date(year, month, 1)
+        return date(year, month, monthrange(year, month)[1])
 
     @field_validator("include", "include_admin", mode="after")
     def validate_include(cls, list_fields: list[str], info) -> list[str]:

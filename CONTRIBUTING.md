@@ -45,6 +45,10 @@ uv run pytest app/tests/e2e_tests -v      # l'API doit tourner sur localhost:800
 uv run pytest app/tests/search_tests -v   # idem, tests de l'algorithme de recherche
 ```
 
+Les tests de `search_tests` verrouillent le classement et les champs interrogés
+sur des entités réelles de l'index (voir `BUGS.md`). Ils dépendent des données
+et peuvent casser à chaque reconstruction de l'index.
+
 ## Processus de CI/CD
 
 ### Github Actions

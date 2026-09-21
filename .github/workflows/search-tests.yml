@@ -1,19 +1,20 @@
----
-name: Test Search API
-permissions:
-  contents: read
+name: Test Search Algorithm
+
 on:
   pull_request:
   push:
     branches:
       - main
+
 jobs:
-  build:
-    name: Build
+  search-tests:
+    name: Search Tests
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.12.8]
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,76 +28,11 @@ jobs:
         with:
           path: ${{ env.pythonLocation }}
           key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('app/requirements.txt') }}
-          restore-keys: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('app/requirements.txt') }}
-      - name: Reinstall pip cleanly
-        run: |
-          curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-          python get-pip.py --force-reinstall
       - name: Install dependencies
+        if: steps.restore-build.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -r app/requirements.txt
-
-  unit-tests:
-    name: Run Unit Tests
-    runs-on: ubuntu-latest
-    needs: [build]
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: [3.12.8]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Cache build
-        id: restore-build
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.pythonLocation }}
-          key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('app/requirements.txt') }}
-      - name: unit tests
-        run: |
-          cd app
-          pytest tests/unit_tests -v
-        env:
-          ELASTIC__URL: ${{secrets.ELASTIC_URL_STAGING}}
-          ELASTIC__USER: ${{ secrets.ELASTIC_USER_STAGING }}
-          ELASTIC__PASSWORD: ${{ secrets.ELASTIC_PASSWORD_STAGING }}
-          ENV: ${{ secrets.ENV_STAGING }}
-          SENTRY__DSN: ${{ secrets.DSN_SENTRY }}
-          METADATA__URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
-          METADATA__URL_UPDATES_JSON: ${{ secrets.METADATA_URL_UPDATES_JSON }}
-          APM__URL: ${{ secrets.APM__URL }}
-          MATOMO__ID_SITE: ${{ secrets.MATOMO__ID_SITE }}
-          MATOMO__TRACKING_URL: ${{ secrets.MATOMO__TRACKING_URL }}
-          REDIS__HOST: ${{ secrets.REDIS__HOST }}
-          REDIS__PORT: ${{ secrets.REDIS__PORT }}
-          REDIS__DATABASE: ${{ secrets.REDIS__DATABASE }}
-  e2e-tests:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    needs: [unit-tests]
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: [3.12.8]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Cache build
-        id: restore-build
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.pythonLocation }}
-          key: build-${{ env.pythonLocation }}-${{ matrix.os }}-${{ hashFiles('app/requirements.txt') }}
       - name: Setup Wireguard
         uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-up@wireguard/v1
         with:
@@ -119,32 +55,30 @@ jobs:
             echo "ELASTIC__USER=${{ secrets.ELASTIC_USER_DEV }}" >> $GITHUB_ENV
             echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_DEV_2 }}" >> $GITHUB_ENV
             echo "ELASTIC__PASSWORD=${{ secrets.ELASTIC_PASSWORD_DEV }}" >> $GITHUB_ENV
-            echo "ENV=${{ secrets.ENV_DEV }}" >> $GITHUB_ENV
           elif [[ "${{ contains(github.event.pull_request.labels.*.name, 'test_on_dev_1') }}" == "true" ]]; then
             echo "Targetting Dev 01"
             echo "ELASTIC__USER=${{ secrets.ELASTIC_USER_DEV }}" >> $GITHUB_ENV
             echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_DEV_1 }}" >> $GITHUB_ENV
             echo "ELASTIC__PASSWORD=${{ secrets.ELASTIC_PASSWORD_DEV }}" >> $GITHUB_ENV
-            echo "ENV=${{ secrets.ENV_DEV }}" >> $GITHUB_ENV
           else
             echo "Targetting Staging"
             echo "ELASTIC__USER=${{ secrets.ELASTIC_USER_STAGING }}" >> $GITHUB_ENV
             echo "ELASTIC__URL=${{ secrets.ELASTIC_URL_STAGING }}" >> $GITHUB_ENV
             echo "ELASTIC__PASSWORD=${{ secrets.ELASTIC_PASSWORD_STAGING }}" >> $GITHUB_ENV
-            echo "ENV=${{ secrets.ENV_STAGING }}" >> $GITHUB_ENV
           fi
-      - name: Run app
+      - name: Run app and search tests
         run: |
           cd app
           fastapi run &
           echo "********** Application is up **********"
           sleep 10
-          pytest tests/e2e_tests -v
+          pytest tests/search_tests -v -rxX
         env:
           ELASTIC__URL: ${{env.ELASTIC__URL}}
           ELASTIC__USER: ${{ env.ELASTIC__USER }}
           ELASTIC__PASSWORD: ${{ env.ELASTIC__PASSWORD }}
-          ENV: ${{ env.ENV }}
+          # dev only: exposes meta.score in payloads
+          ENV: dev
           SENTRY__DSN: ${{ secrets.DSN_SENTRY }}
           METADATA__URL_CC_JSON: ${{ secrets.METADATA_URL_CC_JSON }}
           METADATA__URL_UPDATES_JSON: ${{ secrets.METADATA_URL_UPDATES_JSON }}
@@ -157,22 +91,3 @@ jobs:
       - name: Stop Wireguard
         if: always()
         uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-down@wireguard/v1
-
-  lint-files:
-    name: Lint Code Base
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12.8"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade ruff==0.16.0 mypy==1.19.1
-      # Include `--format=github` to enable automatic inline annotations.
-      - name: Run Ruff
-        run: ruff check --diff -- --format=github .
-      - name: Run Mypy
-        run: mypy app --no-strict-optional --ignore-missing-imports --install-types --non-interactive

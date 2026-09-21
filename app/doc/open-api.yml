@@ -526,22 +526,24 @@ paths:
           in: query
           description: >-
             Valeur minimale de la date de naissance d'une personne partie
-            prenante de l'entreprise (dirigeant ou élu).
-          example: "1960-01-01"
+            prenante de l'entreprise (dirigeant ou élu). Formats acceptés :
+            aaaa-mm-jj ou aaaa-mm. Le jour, s'il est fourni, est ignoré :
+            la recherche s'effectue au mois près.
+          example: "1960-01"
           required: false
           schema:
             type: string
-            format: date
         - name: date_naissance_personne_max
           in: query
           description: >-
             Valeur maximale de la date de naissance d'une personne partie
-            prenante de l'entreprise (dirigeant ou élu).
+            prenante de l'entreprise (dirigeant ou élu). Formats acceptés :
+            aaaa-mm-jj ou aaaa-mm. Le jour, s'il est fourni, est ignoré :
+            la recherche s'effectue au mois près.
           required: false
-          example: "1990-01-01"
+          example: "1990-01"
           schema:
             type: string
-            format: date
         - name: type_personne
           in: query
           description: Type de la partie prenante de l'entreprise, dirigeant ou élu.

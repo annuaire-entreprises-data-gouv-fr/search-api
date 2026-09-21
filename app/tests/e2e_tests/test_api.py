@@ -58,8 +58,7 @@ def test_format_date_naissance(api_response_tester):
     response = api_response_tester.get_api_response(path)
     assert (
         response.json()["erreur"]
-        == "Veuillez indiquer une date sous le format : aaaa-mm-jj. "
-        "Exemple : '1990-01-02'"
+        == "Veuillez indiquer une date sous le format : aaaa-mm. Exemple : '1990-01'"
     )
 
 

@@ -1,4 +1,4 @@
-name: Test Search Algorithm
+name: Test Search API
 
 on:
   pull_request:

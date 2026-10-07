@@ -113,8 +113,13 @@ class APIResponseTester:
     def get_sirens(self, path):
         return [result["siren"] for result in self.get_results(path)]
 
+    def get_results_with_score(self, path):
+        """Use `minimal=true&include=score` so it works on staging and prod environments"""
+        separator = "&" if "?" in path else "?"
+        return self.get_results(f"{path}{separator}minimal=true&include=score")
+
     def get_scores(self, path):
-        return [result["meta"]["score"] for result in self.get_results(path)]
+        return [result["score"] for result in self.get_results_with_score(path)]
 
     def get_results_over_pages(self, path, number_of_pages):
         """Concatenate the results of the specified number of pages, in order.
@@ -130,9 +135,9 @@ class APIResponseTester:
         return self.get_api_response(path).json()["erreur"]
 
     def get_score_of_siren(self, path, siren):
-        for result in self.get_results(path):
+        for result in self.get_results_with_score(path):
             if result["siren"] == siren:
-                return result["meta"]["score"]
+                return result["score"]
         raise AssertionError(f"Siren {siren} is not in the results of `{path}`.")
 
     def assert_first_siren(self, path, siren):

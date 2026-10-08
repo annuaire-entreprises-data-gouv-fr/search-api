@@ -40,12 +40,11 @@ uv run fastapi dev app/main.py
 ### Exécuter les tests
 
 ```bash
-uv run pytest app/tests/unit_tests -v     # rapides, sans réseau
-uv run pytest app/tests/e2e_tests -v      # l'API doit tourner sur localhost:8000
-uv run pytest app/tests/search_tests -v   # idem, tests de l'algorithme de recherche
+uv run pytest app/tests/unit_tests -v  # rapides, sans réseau
+uv run pytest app/tests/e2e_tests/ -v  # l'API doit tourner sur localhost:8000
 ```
 
-Les tests de `search_tests` verrouillent le classement et les champs interrogés
+Les tests de `e2e_tests/search_tests` verrouillent le classement et les champs interrogés
 sur des entités réelles de l'index (voir `BUGS.md`). Ils dépendent des données
 et peuvent casser à chaque reconstruction de l'index.
 

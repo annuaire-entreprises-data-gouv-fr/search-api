@@ -1,0 +1,27 @@
+name: Lint
+permissions:
+  contents: read
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade ruff==0.16.0 mypy==1.19.1
+      # Include `--format=github` to enable automatic inline annotations.
+      - name: Run Ruff
+        run: ruff check --diff -- --format=github .
+      - name: Run Mypy
+        run: mypy app --no-strict-optional --ignore-missing-imports --install-types --non-interactive

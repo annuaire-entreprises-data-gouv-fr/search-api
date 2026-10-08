@@ -1,0 +1,29 @@
+name: Docker build
+permissions:
+  contents: read
+on:
+  pull_request:
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/docker-build.yml
+jobs:
+  docker-build:
+    name: Docker build (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [release, dev]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      # Fails if the base image Python does not match requires-python
+      # (UV_PYTHON_DOWNLOADS=never) or if uv.lock is out of date (--locked).
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          target: ${{ matrix.target }}
+          cache-from: type=gha

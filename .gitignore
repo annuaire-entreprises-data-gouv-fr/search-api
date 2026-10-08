@@ -26,6 +26,3 @@ es-data/
 metricbeat/
 pg-airflow/
 metricbeat-data/
-
-# To remove if uv used in production
-uv.lock

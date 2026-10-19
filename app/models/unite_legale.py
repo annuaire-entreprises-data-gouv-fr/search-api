@@ -18,6 +18,7 @@ class Succession(BaseModel):
 class Etablissement(BaseModel):
     model_config = {"populate_by_name": True}
 
+    a_opco: bool = False
     activite_principale: str | None = None
     activite_principale_naf25: str | None = None
     activite_principale_registre_metier: str | None = None

@@ -1167,6 +1167,13 @@ components:
           items:
             type: string
           example: [ "0923" ]
+        a_opco:
+          type: boolean
+          example: true
+          description: >-
+            L'établissement est rattaché à un opérateur de compétences
+            (OPCO) d'après la table SIRET-OPCO de France compétences
+            (issue de la DSN).
         liste_id_organisme_formation:
           type: array
           items:
@@ -1492,6 +1499,13 @@ components:
           items:
             type: string
           example: [ "0923" ]
+        a_opco:
+          type: boolean
+          example: true
+          description: >-
+            L'établissement est rattaché à un opérateur de compétences
+            (OPCO) d'après la table SIRET-OPCO de France compétences
+            (issue de la DSN).
         liste_id_organisme_formation:
           type: array
           items:

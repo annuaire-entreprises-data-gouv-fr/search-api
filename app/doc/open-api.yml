@@ -896,6 +896,27 @@ paths:
             curl -X GET "https://recherche-entreprises.api.gouv.fr/near_point?lat=45.0428&long=-0.679&radius=5&page=1&per_page=10" -H  "accept: application/json"
 components:
   schemas:
+    opco:
+      type: object
+      nullable: true
+      description: >-
+        Opérateur de compétences (OPCO) de rattachement de l'établissement
+        (source : France compétences, à partir de la déclaration sociale
+        nominative). Un établissement ne peut avoir qu'un seul OPCO. La donnée
+        est publiée environ deux mois après la déclaration.
+      properties:
+        nom:
+          type: string
+          description: Nom de l'OPCO de rattachement.
+          example: "OPCO EP"
+        nom_gestion:
+          type: string
+          nullable: true
+          description: >-
+            OPCO délégataire de gestion, renseigné uniquement en Outre-mer
+            lorsque l'OPCO de rattachement n'y est pas présent : il gère les
+            demandes de prise en charge pour son compte.
+          example: "AKTO"
     finances:
       type: object
       description: Bilans financiers par année.
@@ -1167,6 +1188,8 @@ components:
           items:
             type: string
           example: [ "0923" ]
+        opco:
+          $ref: '#/components/schemas/opco'
         liste_id_organisme_formation:
           type: array
           items:
@@ -1492,6 +1515,8 @@ components:
           items:
             type: string
           example: [ "0923" ]
+        opco:
+          $ref: '#/components/schemas/opco'
         liste_id_organisme_formation:
           type: array
           items:
@@ -1774,6 +1799,16 @@ components:
                 (source : Ministère du travail)
               items:
                 type: string
+            liste_opco:
+              type: array
+              description: >-
+                Liste des opérateurs de compétences (OPCO) de rattachement des
+                établissements de l'unité légale (source : France compétences).
+                Une entreprise peut relever de plusieurs OPCO si ses
+                établissements relèvent de branches professionnelles différentes.
+              items:
+                type: string
+              example: [ "ATLAS", "OPCO SANTE" ]
             liste_finess_juridique:
               type: array
               description: >-

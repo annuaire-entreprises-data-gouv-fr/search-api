@@ -15,6 +15,11 @@ class Succession(BaseModel):
     successeurs: list[SuccessionEntry] | None = None
 
 
+class Opco(BaseModel):
+    nom: str
+    nom_gestion: str | None = None
+
+
 class Etablissement(BaseModel):
     model_config = {"populate_by_name": True}
 
@@ -63,6 +68,7 @@ class Etablissement(BaseModel):
     nom_commercial: str | None = None
     numero_voie: str | None = None
     dernier_numero_voie: str | None = None
+    opco: Opco | None = None
     region: str | None = None
     siret: str | None = None
     statut_diffusion_etablissement: str | None = None
@@ -144,6 +150,7 @@ class Complements(BaseModel):
     collectivite_territoriale: CollectiviteTerritoriale | None = None
     convention_collective_renseignee: bool = False
     liste_idcc: list | None = None
+    liste_opco: list | None = None
     liste_finess_juridique: list | None = None
     numero_rnf: str | None = None
     egapro_renseignee: bool = False

@@ -18,6 +18,7 @@ def format_complements(result_unite_legale):
     )
     convention_collective_renseignee = get_field("convention_collective_renseignee")
     liste_idcc = get_field("liste_idcc_unite_legale")
+    liste_opco = get_field("liste_opco")
     liste_finess_juridique = get_field("liste_finess_juridique")
     numero_rnf = get_field("numero_rnf")
     egapro_renseignee = get_field("egapro_renseignee")
@@ -54,6 +55,7 @@ def format_complements(result_unite_legale):
         collectivite_territoriale=collectivite_territoriale,
         convention_collective_renseignee=convention_collective_renseignee,
         liste_idcc=liste_idcc,
+        liste_opco=liste_opco,
         liste_finess_juridique=liste_finess_juridique,
         numero_rnf=numero_rnf,
         egapro_renseignee=egapro_renseignee,

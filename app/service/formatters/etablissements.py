@@ -2,6 +2,7 @@ from typing import Literal
 
 from app.models.unite_legale import Etablissement
 from app.service.formatters.enseignes import format_enseignes
+from app.service.formatters.opco import format_opco
 from app.service.formatters.successions import format_successions
 from app.utils.helpers import get_value
 
@@ -62,6 +63,7 @@ def format_etablissement(source_etablissement):
         "nom_commercial": get_field("nom_commercial"),
         "numero_voie": get_field("numero_voie"),
         "dernier_numero_voie": get_field("dernier_numero_voie"),
+        "opco": format_opco(get_field("opco"), get_field("opco_gestion")),
         "region": get_field("region"),
         "siret": get_field("siret"),
         "statut_diffusion_etablissement": get_field("statut_diffusion_etablissement"),

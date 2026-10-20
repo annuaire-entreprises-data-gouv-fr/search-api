@@ -94,6 +94,10 @@ jobs:
             host: SSH_HOST_PRODUCTION_02
           - environment: production-03
             host: SSH_HOST_PRODUCTION_03
+          - environment: production-api-01
+            host: SSH_HOST_PRODUCTION_API_01
+          - environment: production-api-02
+            host: SSH_HOST_PRODUCTION_API_02
     steps:
       - uses: actions/checkout@v6
       - name: Setup Wireguard

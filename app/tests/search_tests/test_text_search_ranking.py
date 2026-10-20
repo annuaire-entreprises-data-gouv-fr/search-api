@@ -138,9 +138,11 @@ def test_exact_denomination_beats_larger_network_when_sizes_are_close(
     api_response_tester,
 ):
     api_response_tester.assert_first_siren("search?q=la poste", LA_POSTE)
-    results = api_response_tester.get_results("search?q=la poste&per_page=25")
+    results = api_response_tester.get_results_with_score(
+        "search?q=la poste&per_page=25"
+    )
     assert results[0]["nom_complet"] == "LA POSTE"
-    assert results[0]["meta"]["score"] > results[1]["meta"]["score"]
+    assert results[0]["score"] > results[1]["score"]
 
 
 def test_sort_by_size_changes_the_ranking(api_response_tester):

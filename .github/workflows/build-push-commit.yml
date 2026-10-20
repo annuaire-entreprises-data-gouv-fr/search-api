@@ -41,3 +41,54 @@ jobs:
             ${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.DOCKER_REGISTRY_NAMESPACE }}/${{ secrets.DOCKER_REGISTRY_IMAGE }}:${{ steps.sanitize.outputs.branch_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy-dev-01:
+    if: >
+      contains(github.event.pull_request.labels.*.name, 'test_on_dev_01') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'test_on_dev_01')
+    runs-on: ubuntu-latest
+    needs: [build-docker]
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup Wireguard
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-up@wireguard/v1
+        with:
+          wg-config-file: ${{ secrets.WG_CONFIG_FILE }}
+      - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v2.0
+        with:
+          app: "api"
+          version: "${{ github.event.pull_request.head.sha }}"
+          environment: "dev-01"
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY_GITHUB_APP_DEPLOYER }}
+          ssh-host: ${{ secrets.SSH_HOST_DEV_01 }}
+          notify-on-failure: false
+          notify-on-success: false
+          tchap-url: ${{ secrets.TCHAP_URL }}
+          tchap-token: ${{ secrets.TCHAP_TOKEN }}
+      - name: Stop Wireguard
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-down@wireguard/v1
+  deploy-dev-02:
+    if: >
+      contains(github.event.pull_request.labels.*.name, 'test_on_dev_02') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'test_on_dev_02')
+    runs-on: ubuntu-latest
+    needs: [build-docker]
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup Wireguard
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-up@wireguard/v1
+        with:
+          wg-config-file: ${{ secrets.WG_CONFIG_FILE }}
+      - uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/deploy@v2.0
+        with:
+          app: "api"
+          version: "${{ github.event.pull_request.head.sha }}"
+          environment: "dev-01"
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY_GITHUB_APP_DEPLOYER }}
+          ssh-host: ${{ secrets.SSH_HOST_DEV_02 }}
+          notify-on-failure: false
+          notify-on-success: false
+          tchap-url: ${{ secrets.TCHAP_URL }}
+          tchap-token: ${{ secrets.TCHAP_TOKEN }}
+      - name: Stop Wireguard
+        uses: annuaire-entreprises-data-gouv-fr/github-actions/.github/actions/wireguard-down@wireguard/v1

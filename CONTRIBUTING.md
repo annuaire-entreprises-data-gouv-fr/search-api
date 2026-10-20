@@ -16,7 +16,7 @@ cp .env.example .env
 
 3. Initialiser l'environnement :
 ```bash
-uv sync --extra dev
+uv sync
 ```
 
 4. Installer `pre-commit` et ses hooks git :
@@ -30,6 +30,20 @@ Pour les lancer à la main sur l'ensemble du dépôt :
 ```bash
 pre-commit run --all-files
 ```
+
+### Gérer les dépendances
+
+Les dépendances sont déclarées dans `pyproject.toml` (groupe `dev` pour les tests et le lint)
+et figées dans `uv.lock`, qui est commité. La CI et le `Dockerfile` installent avec
+`uv sync --locked` : ils échouent si `uv.lock` n'est plus à jour.
+
+```bash
+uv add <paquet>          # ou uv add --dev <paquet>, met aussi à jour uv.lock
+uv lock                  # après une modification manuelle de pyproject.toml
+```
+
+La version de Python est fixée par `requires-python` dans `pyproject.toml` et par l'image
+de base du `Dockerfile` : les deux doivent rester identiques.
 
 ### Lancer le service
 
@@ -45,7 +59,7 @@ uv run pytest app/tests/e2e_tests/ -v  # l'API doit tourner sur localhost:8000
 ```
 
 Les tests de `e2e_tests/search_tests` verrouillent le classement et les champs interrogés
-sur des entités réelles de l'index (voir `BUGS.md`). Ils dépendent des données
+sur des entités réelles de l'index (les bugs connus sont marqués `xfail`). Ils dépendent des données
 et peuvent casser à chaque reconstruction de l'index.
 
 ## Processus de CI/CD
@@ -53,9 +67,13 @@ et peuvent casser à chaque reconstruction de l'index.
 ### Github Actions
 
 La CI utilise des workflows Github Actions et doit obligatoirement réussir :
-* Tests Unitaires
-* Tests End to End
+* Tests unitaires et tests End to End (`tests.yml`)
+* Lint : ruff et mypy, avec les versions de `uv.lock` (`lint.yml`)
 * Le titre de la PR doit respecter les conventional commit
+
+Lorsqu'une PR modifie `Dockerfile`, `pyproject.toml` ou `uv.lock`, `docker-build.yml` construit
+aussi l'image : il échoue si la version de Python de l'image ne correspond pas à `requires-python`
+ou si `uv.lock` n'est pas à jour.
 
 Les tests sur la recherche ne sont pas obligatoire : un échec peut juste signaler un changement naturel des résultats sans régression. Dans ce cas mettre à jour le test en question.
 

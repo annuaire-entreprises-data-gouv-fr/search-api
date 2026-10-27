@@ -11,6 +11,7 @@ def format_etablissement(source_etablissement):
         return get_value(source_etablissement, field, default)
 
     formatted_etablissement = {
+        "a_opco": get_field("a_opco", False),
         "activite_principale": get_field("activite_principale"),
         "activite_principale_naf25": get_field("activite_principale_naf25"),
         "activite_principale_registre_metier": get_field(

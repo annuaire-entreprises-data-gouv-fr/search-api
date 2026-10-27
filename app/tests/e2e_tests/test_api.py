@@ -1443,3 +1443,9 @@ def test_denomination_dirigeant_search(api_response_tester):
     path = "search?q=ganymede jouppe"
     api_response_tester.assert_api_response_code_200(path)
     api_response_tester.test_field_value(path, 0, "siren", "880878145")
+
+
+def test_opco(api_response_tester):
+    path = "search?q=979807245"
+    api_response_tester.assert_api_response_code_200(path)
+    api_response_tester.test_field_value(path, 0, "siege.a_opco", True)

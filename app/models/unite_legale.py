@@ -219,6 +219,7 @@ class UniteLegaleResponse(BaseModel):
     tranche_effectif_salarie: str | None = None
     annee_tranche_effectif_salarie: str | None = None
     statut_diffusion: str | None = None
+    est_protege: bool = False
     matching_etablissements: list[Etablissement] | None = None
     etablissements: list[Etablissement] | None = None
     immatriculation: Immatriculation | None = None

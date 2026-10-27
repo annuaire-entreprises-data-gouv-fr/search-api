@@ -1753,6 +1753,13 @@ components:
             diffusion à "O". Les unités légales ayant fait l'objet d'une
             demande d'opposition ont le statut de diffusion à "P" pour
             diffusion partielle (source : base SIRENE).
+        est_protege:
+          type: boolean
+          example: false
+          description: >-
+            Indique si l'unité légale fait l'objet d'une protection
+            particulière. Ses données sont alors masquées comme celles d'une
+            unité légale non-diffusible, quel que soit son statut de diffusion.
         matching_etablissements:
           type: array
           description: >-

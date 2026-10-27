@@ -1,5 +1,7 @@
 from elasticsearch.dsl import query
 
+from app.elastic.filters.diffusion import build_non_diffusible_query
+
 # List of French stop words (from Elasticsearch's _french_ list)
 STOP_WORDS = {
     "de",
@@ -42,7 +44,8 @@ def search_person(
       otherwise treat `should` clauses as optional; we explicitly require at
       least one person clause to match (see `minimum_should_match` below).
     - For dirigeants specifically, we must avoid matching documents when
-      `statut_diffusion_unite_legale == "P"` (privacy constraint).
+      `statut_diffusion_unite_legale == "P"` or when the SIREN is protected
+      (privacy constraint).
     """
     search_options = []
     for person in list_persons:
@@ -176,24 +179,12 @@ def search_person(
             # document scope.
             #
             # Business rule: never match a document via dirigeants when diffusion
-            # is "P".
+            # is "P" or the SIREN is protected.
             if person["type_person"] == "dirigeants_pp":
                 nested_query = query.Q(
                     "bool",
                     must=[nested_query],
-                    filter=[
-                        query.Q(
-                            "bool",
-                            must_not=[
-                                query.Q(
-                                    "term",
-                                    **{
-                                        "unite_legale.statut_diffusion_unite_legale": "P"
-                                    },
-                                ),
-                            ],
-                        )
-                    ],
+                    filter=[query.Q("bool", must_not=[build_non_diffusible_query()])],
                 )
 
             search_options.append(nested_query)

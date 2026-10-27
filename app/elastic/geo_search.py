@@ -1,5 +1,6 @@
 from elasticsearch.dsl import Q
 
+from app.elastic.filters.diffusion import build_protege_query
 from app.elastic.filters.term_filters import filter_term_list_search_unite_legale
 from app.elastic.helpers.exclude_etablissements import (
     exclude_etablissements_from_search,
@@ -11,7 +12,7 @@ def build_es_search_geo_query(es_search_builder):
     # data
     es_search_builder.es_search_client = es_search_builder.es_search_client.filter(
         "term", **{"unite_legale.statut_diffusion_unite_legale": "O"}
-    )
+    ).exclude(build_protege_query())
 
     # Use filters to reduce search results
     es_search_builder.es_search_client = filter_term_list_search_unite_legale(

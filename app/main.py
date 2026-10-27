@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 import yaml
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from elasticsearch.dsl import connections
@@ -12,6 +14,7 @@ from app.exceptions.exceptions import (
 )
 from app.logging import setup_logging, setup_sentry
 from app.routers import admin, public
+from app.service.siren_protege import siren_protege_list
 
 # Setup logging
 setup_logging()
@@ -24,7 +27,18 @@ connections.create_connection(
     retry_on_timeout=True,
 )
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # A failed initial load does not prevent startup: protected SIREN already
+    # indexed (`est_protege`) stay masked, and the list is retried periodically
+    siren_protege_list.start()
+    yield
+    siren_protege_list.stop()
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title="API Recherche d'entreprises",
     version="1.0.0",
     docs_url=None,

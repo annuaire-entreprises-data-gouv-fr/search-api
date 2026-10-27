@@ -3,6 +3,7 @@ from elasticsearch.dsl import Q
 from app.elastic.filters.boolean import (
     filter_search_by_bool_fields_unite_legale,
 )
+from app.elastic.filters.diffusion import build_protege_query
 from app.elastic.filters.id import filter_by_id
 from app.elastic.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
@@ -58,12 +59,20 @@ def build_es_search_text_query(es_search_builder):
 
     else:
         # Always apply this filter for text search to prevent displaying
-        # non-diffusible data: allow when statut is "O" OR when the entity
-        # is a legal person (est_personne_morale_insee == True) because for ND PM, nom raison social is not hidden
+        # non-diffusible data: allow when statut is "O" and the SIREN is not
+        # protected, OR when the entity is a legal person
+        # (est_personne_morale_insee == True) because for ND PM, nom raison
+        # social is not hidden
         es_search_builder.es_search_client = es_search_builder.es_search_client.filter(
             "bool",
             should=[
-                Q("term", **{"unite_legale.statut_diffusion_unite_legale": "O"}),
+                Q(
+                    "bool",
+                    filter=[
+                        Q("term", **{"unite_legale.statut_diffusion_unite_legale": "O"})
+                    ],
+                    must_not=[build_protege_query()],
+                ),
                 Q("term", **{"unite_legale.est_personne_morale_insee": True}),
             ],
             minimum_should_match=1,

@@ -17,6 +17,7 @@ from app.service.formatters.nom_complet import format_nom_complet, get_nom_comme
 from app.service.formatters.non_diffusible import (
     mask_unite_legale,
 )
+from app.service.siren_protege import is_siren_protege
 from app.utils.helpers import (
     create_admin_fields_to_include,
     create_fields_to_include,
@@ -32,12 +33,14 @@ from .formatters.admin import format_admin
 
 
 def is_unite_legale_non_diffusible(data) -> bool:
-    return data.get("statut_diffusion_unite_legale") == "P"
+    return data.get("statut_diffusion_unite_legale") == "P" or is_siren_protege(data)
 
 
 def is_siege_non_diffusible(data) -> bool:
     siege = get_value(data, "siege")
-    return bool(siege and siege.get("statut_diffusion_etablissement") == "P")
+    return bool(siege) and (
+        siege.get("statut_diffusion_etablissement") == "P" or is_siren_protege(data)
+    )
 
 
 # -------------------------
@@ -90,6 +93,7 @@ def build_unite_legale_base(data):
             data, "annee_tranche_effectif_salarie"
         ),
         "statut_diffusion": get_value(data, "statut_diffusion_unite_legale"),
+        "est_protege": is_siren_protege(data),
     }
 
     return UniteLegaleResponse(**fields)

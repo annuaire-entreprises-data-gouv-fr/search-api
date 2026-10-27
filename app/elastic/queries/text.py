@@ -1,3 +1,6 @@
+from app.elastic.filters.diffusion import build_non_diffusible_query
+
+
 def build_text_query(terms: str, matching_size: int, sort_by_size: bool = False):
     if sort_by_size:
         return sort_by_size_text_query(terms, matching_size)
@@ -6,6 +9,7 @@ def build_text_query(terms: str, matching_size: int, sort_by_size: bool = False)
 
 
 def sort_by_size_text_query(terms: str, matching_size: int):
+    non_diffusible_query = build_non_diffusible_query().to_dict()
     multiplier = "unite_legale.facteur_taille_entreprise"
     min_multiplier = {
         "field": multiplier,
@@ -260,17 +264,10 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                     {
                                         # Privacy rule:
                                         # we allow searching `liste_dirigeants` only when diffusion
-                                        # is NOT "P". Without this, a document could match purely
-                                        # because of dirigeants data even when diffusion is "P".
-                                        "bool": {
-                                            "must_not": [
-                                                {
-                                                    "term": {
-                                                        "unite_legale.statut_diffusion_unite_legale": "P"
-                                                    }
-                                                },
-                                            ]
-                                        }
+                                        # is NOT "P" and the SIREN is not protected. Without this,
+                                        # a document could match purely because of dirigeants data
+                                        # even when diffusion is "P".
+                                        "bool": {"must_not": [non_diffusible_query]}
                                     }
                                 ],
                             }
@@ -320,6 +317,7 @@ def sort_by_size_text_query(terms: str, matching_size: int):
 
 
 def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
+    non_diffusible_query = build_non_diffusible_query().to_dict()
     multiplier = "unite_legale.nombre_etablissements_ouverts"
     min_multiplier = {
         "field": multiplier,
@@ -574,15 +572,7 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                 "filter": [
                                     {
                                         # Same gating as above (different scoring/multiplier branch).
-                                        "bool": {
-                                            "must_not": [
-                                                {
-                                                    "term": {
-                                                        "unite_legale.statut_diffusion_unite_legale": "P"
-                                                    }
-                                                },
-                                            ]
-                                        }
+                                        "bool": {"must_not": [non_diffusible_query]}
                                     }
                                 ],
                             }

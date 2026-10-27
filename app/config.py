@@ -45,6 +45,11 @@ class MetadataConfig(BaseSettings):
     url_updates_json: AnyHttpUrl = Field(...)
 
 
+class SirenProtegeConfig(BaseSettings):
+    url: AnyHttpUrl = Field(...)
+    refresh_interval_seconds: int = Field(default=600, gt=0)
+
+
 class SentryConfig(BaseSettings):
     dsn: AnyHttpUrl = Field(...)
 
@@ -72,6 +77,7 @@ class Settings(BaseSettings):
     openapi: DocsConfig = Field(default_factory=DocsConfig)
     redis: RedisConfig = Field(...)
     sentry: SentryConfig = Field(...)
+    siren_protege: SirenProtegeConfig = Field(...)
 
     @property
     def apm_config(self) -> dict[str, Any]:

@@ -90,6 +90,9 @@ def build_unite_legale_base(data):
             data, "annee_tranche_effectif_salarie"
         ),
         "statut_diffusion": get_value(data, "statut_diffusion_unite_legale"),
+        "opposition_diffusion_commerciale": get_value(
+            data, "opposition_diffusion_commerciale"
+        ),
     }
 
     return UniteLegaleResponse(**fields)

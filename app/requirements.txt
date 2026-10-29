@@ -3,7 +3,7 @@ elasticsearch==9.3.0
 fastapi[standard]==0.141.1
 orjson==3.11.6
 pydantic==2.13.2
-pydantic-settings==2.15.0
+pydantic-settings==2.16.0
 redis==8.1.0
 requests==2.34.1
 sentry-sdk==2.68.0

@@ -1,6 +1,6 @@
 import pytest
 
-from app.tests.search_tests.search_fixtures import (
+from app.tests.e2e_tests.search_tests.search_fixtures import (
     ARCTURUS,
     CNRS,
     COMMUNE_DE_LAMBESC,

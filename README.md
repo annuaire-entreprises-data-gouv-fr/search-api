@@ -4,7 +4,8 @@
 
 <a href="https://github.com/annuaire-entreprises-data-gouv-fr/search-api/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License Badge"></a>
 [![Deploy cluster](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/deploy.yml/badge.svg)](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/deploy.yml)
-[![Test Search API](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/workflow.yml/badge.svg)](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/workflow.yml)
+[![Tests](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/tests.yml/badge.svg)](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/tests.yml)
+[![Lint](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/lint.yml/badge.svg)](https://github.com/annuaire-entreprises-data-gouv-fr/search-api/actions/workflows/lint.yml)
 <a href="https://recherche-entreprises.api.gouv.fr/docs/"><img src="https://img.shields.io/badge/API-documentation-yellow.svg" alt="Documentation Badge"></a>
 
 Bienvenue sur le dépôt de données de [l’API de recherche d’Entreprises](https://recherche-entreprises.api.gouv.fr/). Cette API permet de chercher n’importe quelle entreprise de France. Elle fait partie du projet de [l'Annuaire des Entreprises](https://annuaire-entreprises.data.gouv.fr).

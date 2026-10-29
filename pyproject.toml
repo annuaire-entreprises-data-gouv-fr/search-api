@@ -1,7 +1,7 @@
 [project]
 name = "search-api"
 version = "1.0.0"
-requires-python = "==3.12.8"
+requires-python = "==3.12.16"
 description = "Codebase of the L'Annuaire des Entreprises API to search for any French company and retrieve its details."
 authors = [
     { name = "L'Annuaire des Entreprises", email = "annuaire-entreprises@data.gouv.fr" },

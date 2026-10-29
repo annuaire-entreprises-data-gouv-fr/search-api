@@ -2,7 +2,7 @@ ARG BUILD_DATE
 ARG BUILD_VERSION=main
 ARG BUILD_REVISION
 
-FROM python:3.12.8-alpine AS base
+FROM python:3.12.16-alpine AS base
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.authors="https://github.com/annuaire-entreprises-data-gouv-fr/search-api/graphs/contributors"
 LABEL org.opencontainers.image.url="https://github.com/annuaire-entreprises-data-gouv-fr/search-api"
@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.vendor="annuaire-entreprises-data-gouv-fr"
 LABEL org.opencontainers.image.licenses="MIT License"
 LABEL org.opencontainers.image.title="API Recherche Annuaire des Entreprises"
 LABEL org.opencontainers.image.description="Image Docker de l'API de recherche de l'Annuaire des Entreprises"
-LABEL org.opencontainers.image.base.name="python:3.12.8-alpine"
+LABEL org.opencontainers.image.base.name="python:3.12.16-alpine"
 LABEL org.opencontainers.image.base.digest=""
 RUN pip install --upgrade pip
 WORKDIR /app

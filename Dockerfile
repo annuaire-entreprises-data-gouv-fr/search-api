@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.description="Image Docker de l'API de recherche d
 LABEL org.opencontainers.image.base.name="python:3.12.16-alpine"
 LABEL org.opencontainers.image.base.digest=""
 # https://docs.astral.sh/uv/guides/integration/docker/
-COPY --from=ghcr.io/astral-sh/uv:0.13.4 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.13.6 /uv /uvx /bin/
 ENV UV_PYTHON_DOWNLOADS=never \
     UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \

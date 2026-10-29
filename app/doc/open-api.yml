@@ -1753,6 +1753,16 @@ components:
             diffusion à "O". Les unités légales ayant fait l'objet d'une
             demande d'opposition ont le statut de diffusion à "P" pour
             diffusion partielle (source : base SIRENE).
+        opposition_diffusion_commerciale:
+          type: boolean
+          nullable: true
+          example: false
+          description: >-
+            Opposition à la réutilisation des données de l'unité légale
+            à des fins de prospection commerciale en application du paragraphe 2
+            de l’article 21 du règlement européen 2016/679 RGPD (article R.123-320 du
+            Code de commerce). `true` : opposition, `false` : pas d'opposition,
+            `null` : unité légale absente du RNE (source : RNE).
         matching_etablissements:
           type: array
           description: >-

@@ -1,5 +1,7 @@
 import re
 
+import pytest
+
 min_total_results = 10
 min_total_results_filters = 1000
 
@@ -718,6 +720,23 @@ def test_siren_rne_and_insee(api_response_tester):
     api_response_tester.assert_api_response_code_200(path)
     assert response.json()["results"][0]["date_mise_a_jour_rne"] is not None
     assert response.json()["results"][0]["date_mise_a_jour_insee"] is not None
+
+
+@pytest.mark.parametrize(
+    "siren, expected",
+    [
+        ("552032534", True),
+        ("356000000", False),
+        ("130025265", None),
+    ],
+)
+def test_opposition_diffusion_commerciale(api_response_tester, siren, expected):
+    path = f"search?q={siren}"
+    response = api_response_tester.get_api_response(path)
+    api_response_tester.assert_api_response_code_200(path)
+    result = response.json()["results"][0]
+    assert result["siren"] == siren
+    assert result["opposition_diffusion_commerciale"] is expected
 
 
 def test_epci(api_response_tester):

@@ -42,12 +42,12 @@ def custom_openapi():
     return app.openapi_schema
 
 
-app.openapi = custom_openapi
+app.openapi = custom_openapi  # type: ignore[method-assign]
 
 # Sentry Integration and Elastic APM Integration for Production and Staging
 if settings.env in ["prod", "staging"]:
     apm_client = make_apm_client(settings.apm_config)
-    app.add_middleware(ElasticAPM, client=apm_client)
+    app.add_middleware(ElasticAPM, client=apm_client)  # type: ignore[arg-type]
     setup_sentry()
 
 # Include routers

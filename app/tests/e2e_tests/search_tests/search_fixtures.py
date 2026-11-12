@@ -53,6 +53,7 @@ DIRIGEANT_ANNEE_NAISSANCE = "1990"
 # Collectivité territoriale et une de ses élues.
 COMMUNE_DE_LAMBESC = "211300504"
 ELU_NOM = "allietta"
+ELU_PRENOM = "helene"
 
 # Homonymes « GANYMEDE » distingués uniquement par leur commune.
 GANYMEDE_LAMBESC = "940221229"

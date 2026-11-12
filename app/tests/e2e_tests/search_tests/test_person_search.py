@@ -6,6 +6,7 @@ from app.tests.e2e_tests.search_tests.search_fixtures import (
     DIRIGEANT_PRENOM_EXACT,
     DIRIGEANT_PRENOMS_PARTIELS,
     ELU_NOM,
+    ELU_PRENOM,
     GANYMEDE,
     MASQUE_NON_DIFFUSIBLE,
 )
@@ -87,10 +88,12 @@ def test_person_search_rejects_inverted_date_range(api_response_tester):
 
 
 def test_type_personne_defaults_to_dirigeants_and_elus(api_response_tester):
-    sirens = api_response_tester.get_sirens(
-        f"search?nom_personne={ELU_NOM}&per_page=25"
-    )
+    path = f"search?nom_personne={ELU_NOM}&prenoms_personne={ELU_PRENOM}&per_page=25"
+    sirens = api_response_tester.get_sirens(path)
     assert COMMUNE_DE_LAMBESC in sirens
+    assert api_response_tester.get_total_results(path) > (
+        api_response_tester.get_total_results(f"{path}&type_personne=ELU")
+    )
 
 
 def test_type_personne_dirigeant_excludes_elus(api_response_tester):
@@ -150,7 +153,7 @@ def test_person_search_never_returns_masked_dirigeants(api_response_tester):
 
 
 def test_elu_search_by_prenom_is_accent_insensitive(api_response_tester):
-    for prenom in ("helene", "hélène", "HELENE"):
+    for prenom in (ELU_PRENOM, "hélène", "HELENE"):
         path = (
             f"search?nom_personne={ELU_NOM}&prenoms_personne={prenom}&type_personne=ELU"
         )

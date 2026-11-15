@@ -59,13 +59,31 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
-                            "match": {
-                                "nom_complet": {
-                                    "query": terms,
-                                    "operator": "AND",
-                                    "boost": 50,
-                                    "_name": "partial nom_complet match with AND",
-                                }
+                            "bool": {
+                                "must": [
+                                    {
+                                        "match": {
+                                            "nom_complet": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 50,
+                                                "_name": "partial nom_complet match with AND",
+                                            }
+                                        }
+                                    }
+                                ],
+                                "should": [
+                                    {
+                                        "match": {
+                                            "nom_complet.exact": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 50,
+                                                "_name": "partial nom_complet exact words match",
+                                            }
+                                        }
+                                    }
+                                ],
                             }
                         },
                         "field_value_factor": max_multiplier,
@@ -256,6 +274,18 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                         }
                                     }
                                 ],
+                                "should": [
+                                    {
+                                        "match": {
+                                            "unite_legale.liste_dirigeants.exact": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 60,
+                                                "_name": "exact words match liste dirigeants",
+                                            }
+                                        }
+                                    }
+                                ],
                                 "filter": [
                                     {
                                         # Privacy rule:
@@ -374,13 +404,31 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
-                            "match": {
-                                "nom_complet": {
-                                    "query": terms,
-                                    "operator": "AND",
-                                    "boost": 50,
-                                    "_name": "partial nom_complet match with AND",
-                                }
+                            "bool": {
+                                "must": [
+                                    {
+                                        "match": {
+                                            "nom_complet": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 50,
+                                                "_name": "partial nom_complet match with AND",
+                                            }
+                                        }
+                                    }
+                                ],
+                                "should": [
+                                    {
+                                        "match": {
+                                            "nom_complet.exact": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 50,
+                                                "_name": "partial nom_complet exact words match",
+                                            }
+                                        }
+                                    }
+                                ],
                             }
                         },
                         "field_value_factor": mid_multiplier,
@@ -567,6 +615,18 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                                 "operator": "AND",
                                                 "boost": 10,
                                                 "_name": "partial match liste dirigeants",
+                                            }
+                                        }
+                                    }
+                                ],
+                                "should": [
+                                    {
+                                        "match": {
+                                            "unite_legale.liste_dirigeants.exact": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 60,
+                                                "_name": "exact words match liste dirigeants",
                                             }
                                         }
                                     }

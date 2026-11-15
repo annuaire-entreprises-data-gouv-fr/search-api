@@ -145,6 +145,8 @@ class SearchParams(BaseModel):
 
     @field_validator(
         "terms",
+        "nom_personne",
+        "prenoms_personne",
         "type_personne",
         "etat_administratif_unite_legale",
         mode="before",

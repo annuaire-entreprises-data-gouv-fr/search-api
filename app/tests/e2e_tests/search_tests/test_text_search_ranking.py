@@ -5,7 +5,11 @@ from app.tests.e2e_tests.search_tests.search_fixtures import (
     CNRS,
     COMMUNE_DE_LAMBESC,
     DENOMINATION_ALLIETTA,
+    DENOMINATION_PASCAL_PARIS,
+    DENOMINATION_PASCAL_PARISSE,
     DIRIGEANT_NOM,
+    DIRIGEANT_PARISSE_TERMS,
+    DIRIGEANT_PASCAL_PARISSE,
     DIRIGEANT_PRENOM_EXACT,
     EDF,
     EDF_HOMONYME,
@@ -21,6 +25,7 @@ from app.tests.e2e_tests.search_tests.search_fixtures import (
 # Et 2 pages suffisent à couvrir les résultats.
 ALLIETTA_PATH = f"search?q={ELU_NOM}&per_page=25"
 ALLIETTA_PAGES = 2
+PARISSE_PATH = f"search?q={DIRIGEANT_PARISSE_TERMS}&per_page=25"
 
 
 def test_denomination_allietta_fixture_is_reachable(api_response_tester):
@@ -196,6 +201,50 @@ def test_exact_prenoms_ranks_before_partial_prenoms(api_response_tester):
         f"search?nom_personne={DIRIGEANT_NOM}&prenoms_personne={DIRIGEANT_PRENOM_EXACT}"
     )
     api_response_tester.assert_siren_ranked_before(path, ARCTURUS, GANYMEDE)
+
+
+def test_exact_words_denomination_ranks_first_despite_stemming(api_response_tester):
+    """`nom_complet.exact` départage « PASCAL PARISSE » de « PASCAL PARIS »."""
+    api_response_tester.assert_first_siren(PARISSE_PATH, DENOMINATION_PASCAL_PARISSE)
+
+
+def test_exact_words_dirigeant_ranks_before_stemmed_denomination(
+    api_response_tester,
+):
+    """
+    `liste_dirigeants.exact` : un dirigeant PASCAL PARISSE passe devant une
+    dénomination « PASCAL PARIS » qui ne correspond qu'après stemming.
+    """
+    api_response_tester.assert_siren_ranked_before(
+        PARISSE_PATH, DIRIGEANT_PASCAL_PARISSE, DENOMINATION_PASCAL_PARIS
+    )
+
+
+def test_exact_words_results_come_first(api_response_tester):
+    """Les premiers résultats contiennent le mot exact, en dénomination ou dirigeant."""
+    for result in api_response_tester.get_results(PARISSE_PATH)[:5]:
+        noms_dirigeants = [
+            dirigeant.get("nom") or "" for dirigeant in result.get("dirigeants", [])
+        ]
+        assert "PARISSE" in (result["nom_complet"] or "") or any(
+            "PARISSE" in nom for nom in noms_dirigeants
+        ), f"{result['siren']} ({result['nom_complet']}) ne contient pas PARISSE."
+
+
+def test_stemmed_homonym_still_found_by_its_own_name(api_response_tester):
+    """Pas de régression : « pascal paris » remonte toujours les PASCAL PARIS."""
+    api_response_tester.assert_siren_in_results(
+        "search?q=pascal paris", DENOMINATION_PASCAL_PARIS, limit=10
+    )
+    for result in api_response_tester.get_results("search?q=pascal paris")[:5]:
+        assert "PASCAL PARIS" in (result["nom_complet"] or "")
+
+
+def test_denomination_and_dirigeant_combined(api_response_tester):
+    """`match denomination et dirigeants` : mots répartis entre les deux champs."""
+    api_response_tester.assert_first_siren(
+        f"search?q=ganymede {DIRIGEANT_PRENOM_EXACT} {DIRIGEANT_NOM}", GANYMEDE
+    )
 
 
 @pytest.mark.xfail(

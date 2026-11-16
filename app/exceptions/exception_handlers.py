@@ -1,5 +1,5 @@
 import logging
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -18,13 +18,8 @@ logger = logging.getLogger(__name__)
 
 def create_exception_handler(
     status_code: int = 500, initial_detail: str = "Service is unavailable"
-) -> Callable[[Request, SearchApiError], JSONResponse]:
+) -> Callable[[Request, SearchApiError], Awaitable[JSONResponse]]:
     async def exception_handler(request: Request, exc: SearchApiError) -> JSONResponse:
-        detail = {
-            "status_code": exc.status_code or status_code,
-            "message": exc.message or initial_detail,
-        }
-
         # Intentionally do not push invalid parameter errors to Sentry;
         # they are client-side issues and should only be logged as info.
         if isinstance(exc, InvalidParamError):
@@ -33,8 +28,8 @@ def create_exception_handler(
             logger.info(f"Bad Request: {exc.message}")
 
         return JSONResponse(
-            status_code=detail["status_code"],
-            content={"erreur": detail["message"]},
+            status_code=exc.status_code or status_code,
+            content={"erreur": exc.message or initial_detail},
         )
 
     return exception_handler
@@ -64,7 +59,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 
 
 def add_exception_handlers(app: FastAPI) -> None:
-    app.add_exception_handler(InvalidSirenError, create_exception_handler())
-    app.add_exception_handler(InvalidParamError, create_exception_handler())
-    app.add_exception_handler(NotFoundError, create_exception_handler())
+    # Starlette types handlers as taking any Exception, not a subclass
+    for exc_class in (InvalidSirenError, InvalidParamError, NotFoundError):
+        app.add_exception_handler(exc_class, create_exception_handler())  # type: ignore[arg-type]
     app.add_exception_handler(Exception, unhandled_exception_handler)

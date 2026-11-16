@@ -15,13 +15,21 @@ dependencies = [
     "orjson==3.11.6",
     "pydantic==2.13.2",
     "pydantic-settings==2.15.0",
+    "PyYAML==6.0.2",
     "redis==8.1.0",
     "requests==2.34.1",
     "sentry-sdk==2.69.1",
 ]
 
-[project.optional-dependencies]
-dev = ["PyYAML==6.0.2", "pytest==9.1.1"]
+[dependency-groups]
+# Used by the CI and by the pre-commit hooks through `uv run`
+dev = [
+    "mypy==1.19.1",
+    "pytest==9.1.1",
+    "ruff==0.16.0",
+    "types-PyYAML",
+    "types-requests",
+]
 
 [project.urls]
 API = "https://recherche-entreprises.api.gouv.fr/"
@@ -37,5 +45,8 @@ pythonpath = ["."]
 addopts = "-vv"
 
 [tool.mypy]
-install_types = true
-non_interactive = true
+strict_optional = false
+ignore_missing_imports = true
+explicit_package_bases = true
+plugins = ["pydantic.mypy"]
+exclude = ["^\\.venv/"]

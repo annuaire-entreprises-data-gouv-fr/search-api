@@ -59,20 +59,11 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
-                            "bool": {
-                                "must": [
-                                    {
-                                        "match": {
-                                            "nom_complet": {
-                                                "query": terms,
-                                                "operator": "AND",
-                                                "boost": 50,
-                                                "_name": "partial nom_complet match with AND",
-                                            }
-                                        }
-                                    }
-                                ],
-                                "should": [
+                            # dis_max keeps only the best clause: exact words
+                            # (unstemmed) score as before, stemmed-only matches
+                            # (e.g. "PARISSE" -> "PARIS") score lower.
+                            "dis_max": {
+                                "queries": [
                                     {
                                         "match": {
                                             "nom_complet.exact": {
@@ -82,8 +73,18 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                                 "_name": "partial nom_complet exact words match",
                                             }
                                         }
-                                    }
-                                ],
+                                    },
+                                    {
+                                        "match": {
+                                            "nom_complet": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 15,
+                                                "_name": "partial nom_complet match with AND",
+                                            }
+                                        }
+                                    },
+                                ]
                             }
                         },
                         "field_value_factor": max_multiplier,
@@ -264,25 +265,30 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                             "bool": {
                                 "must": [
                                     {
-                                        "match": {
-                                            "unite_legale.liste_dirigeants": {
-                                                "query": terms,
-                                                "operator": "AND",
-                                                "boost": 10,
-                                                "_name": "partial match liste dirigeants",
-                                            }
-                                        }
-                                    }
-                                ],
-                                "should": [
-                                    {
-                                        "match": {
-                                            "unite_legale.liste_dirigeants.exact": {
-                                                "query": terms,
-                                                "operator": "AND",
-                                                "boost": 60,
-                                                "_name": "exact words match liste dirigeants",
-                                            }
+                                        # Same dis_max logic as nom_complet.
+                                        "dis_max": {
+                                            "queries": [
+                                                {
+                                                    "match": {
+                                                        "unite_legale.liste_dirigeants.exact": {
+                                                            "query": terms,
+                                                            "operator": "AND",
+                                                            "boost": 30,
+                                                            "_name": "exact words match liste dirigeants",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "unite_legale.liste_dirigeants": {
+                                                            "query": terms,
+                                                            "operator": "AND",
+                                                            "boost": 10,
+                                                            "_name": "partial match liste dirigeants",
+                                                        }
+                                                    }
+                                                },
+                                            ]
                                         }
                                     }
                                 ],
@@ -404,20 +410,11 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                 {
                     "function_score": {
                         "query": {
-                            "bool": {
-                                "must": [
-                                    {
-                                        "match": {
-                                            "nom_complet": {
-                                                "query": terms,
-                                                "operator": "AND",
-                                                "boost": 50,
-                                                "_name": "partial nom_complet match with AND",
-                                            }
-                                        }
-                                    }
-                                ],
-                                "should": [
+                            # dis_max keeps only the best clause: exact words
+                            # (unstemmed) score as before, stemmed-only matches
+                            # (e.g. "PARISSE" -> "PARIS") score lower.
+                            "dis_max": {
+                                "queries": [
                                     {
                                         "match": {
                                             "nom_complet.exact": {
@@ -427,8 +424,18 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                                 "_name": "partial nom_complet exact words match",
                                             }
                                         }
-                                    }
-                                ],
+                                    },
+                                    {
+                                        "match": {
+                                            "nom_complet": {
+                                                "query": terms,
+                                                "operator": "AND",
+                                                "boost": 15,
+                                                "_name": "partial nom_complet match with AND",
+                                            }
+                                        }
+                                    },
+                                ]
                             }
                         },
                         "field_value_factor": mid_multiplier,
@@ -609,25 +616,30 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                             "bool": {
                                 "must": [
                                     {
-                                        "match": {
-                                            "unite_legale.liste_dirigeants": {
-                                                "query": terms,
-                                                "operator": "AND",
-                                                "boost": 10,
-                                                "_name": "partial match liste dirigeants",
-                                            }
-                                        }
-                                    }
-                                ],
-                                "should": [
-                                    {
-                                        "match": {
-                                            "unite_legale.liste_dirigeants.exact": {
-                                                "query": terms,
-                                                "operator": "AND",
-                                                "boost": 60,
-                                                "_name": "exact words match liste dirigeants",
-                                            }
+                                        # Same dis_max logic as nom_complet.
+                                        "dis_max": {
+                                            "queries": [
+                                                {
+                                                    "match": {
+                                                        "unite_legale.liste_dirigeants.exact": {
+                                                            "query": terms,
+                                                            "operator": "AND",
+                                                            "boost": 30,
+                                                            "_name": "exact words match liste dirigeants",
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "match": {
+                                                        "unite_legale.liste_dirigeants": {
+                                                            "query": terms,
+                                                            "operator": "AND",
+                                                            "boost": 10,
+                                                            "_name": "partial match liste dirigeants",
+                                                        }
+                                                    }
+                                                },
+                                            ]
                                         }
                                     }
                                 ],

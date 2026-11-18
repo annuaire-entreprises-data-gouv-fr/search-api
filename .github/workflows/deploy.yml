@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: wg-needed
-      cancel-in-progress: false
+      queue: max
     timeout-minutes: 15
     needs: [build-docker]
     environment:
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: wg-needed
-      cancel-in-progress: false
+      queue: max
     needs: [trigger-production-deployment]
     timeout-minutes: 15
     strategy:

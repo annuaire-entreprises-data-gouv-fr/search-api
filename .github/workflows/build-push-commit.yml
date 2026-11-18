@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: wg-needed
-      cancel-in-progress: false
+      queue: max
     needs: [build-docker]
     steps:
       - uses: actions/checkout@v6
@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: wg-needed
-      cancel-in-progress: false
+      queue: max
     needs: [build-docker]
     steps:
       - uses: actions/checkout@v6

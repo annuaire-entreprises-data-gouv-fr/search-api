@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: wg-needed
-      cancel-in-progress: false
+      queue: max
     needs: [build]
     strategy:
       fail-fast: true
@@ -166,7 +166,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: wg-needed
-      cancel-in-progress: false
+      queue: max
     needs: [build]
     strategy:
       matrix:

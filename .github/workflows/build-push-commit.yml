@@ -83,7 +83,7 @@ jobs:
         with:
           app: "api"
           version: "${{ github.event.pull_request.head.sha }}"
-          environment: "dev-01"
+          environment: "dev-02"
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY_GITHUB_APP_DEPLOYER }}
           ssh-host: ${{ secrets.SSH_HOST_DEV_02 }}
           notify-on-failure: false

@@ -145,6 +145,8 @@ class SearchParams(BaseModel):
 
     @field_validator(
         "terms",
+        "nom_personne",
+        "prenoms_personne",
         "type_personne",
         "etat_administratif_unite_legale",
         mode="before",
@@ -301,7 +303,7 @@ class SearchParams(BaseModel):
 
     @field_validator("nom_personne", "prenoms_personne", mode="before")
     def clean_name(cls, value: str) -> str:
-        return value.replace("-", " ").lower()
+        return value.replace("-", " ")
 
     @field_validator(
         "min_date_naiss_personne", "max_date_naiss_personne", mode="before"

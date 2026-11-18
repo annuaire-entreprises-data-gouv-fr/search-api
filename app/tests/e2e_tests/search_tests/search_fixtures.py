@@ -50,6 +50,16 @@ DIRIGEANT_PRENOM_EXACT = "xavier"
 DIRIGEANT_PRENOMS_PARTIELS = "xavier erwan"
 DIRIGEANT_ANNEE_NAISSANCE = "1990"
 
+# Le stemmer `minimal_french` réduit « PARISSE » et « PARIS » au même token :
+# les sous-champs `.exact` (sans stemming) doivent départager les deux.
+DIRIGEANT_PARISSE_TERMS = "pascal parisse"
+# Dénomination contenant les mots exacts « PASCAL PARISSE ».
+DENOMINATION_PASCAL_PARISSE = "948696323"
+# Dirigeant PASCAL PARISSE, dénomination sans rapport.
+DIRIGEANT_PASCAL_PARISSE = "942956210"
+# Dénomination « PASCAL PARIS » qui ne correspond qu'après stemming.
+DENOMINATION_PASCAL_PARIS = "530635390"
+
 # Collectivité territoriale et une de ses élues.
 COMMUNE_DE_LAMBESC = "211300504"
 ELU_NOM = "allietta"

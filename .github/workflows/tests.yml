@@ -79,6 +79,9 @@ jobs:
   e2e-tests:
     name: E2E tests
     runs-on: ubuntu-latest
+    concurrency:
+      group: wg-needed
+      queue: max
     needs: [build]
     strategy:
       fail-fast: true
@@ -161,6 +164,9 @@ jobs:
   search-tests:
     name: Search tests
     runs-on: ubuntu-latest
+    concurrency:
+      group: wg-needed
+      queue: max
     needs: [build]
     strategy:
       matrix:

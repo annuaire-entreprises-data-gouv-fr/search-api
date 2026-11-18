@@ -47,6 +47,9 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'test_on_dev_1') &&
       (github.event.action != 'labeled' || github.event.label.name == 'test_on_dev_1')
     runs-on: ubuntu-latest
+    concurrency:
+      group: wg-needed
+      queue: max
     needs: [build-docker]
     steps:
       - uses: actions/checkout@v6
@@ -72,6 +75,9 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'test_on_dev_2') &&
       (github.event.action != 'labeled' || github.event.label.name == 'test_on_dev_2')
     runs-on: ubuntu-latest
+    concurrency:
+      group: wg-needed
+      queue: max
     needs: [build-docker]
     steps:
       - uses: actions/checkout@v6

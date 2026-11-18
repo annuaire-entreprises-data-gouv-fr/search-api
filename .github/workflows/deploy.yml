@@ -36,6 +36,9 @@ jobs:
   deploy-staging:
     name: Deploy - staging
     runs-on: ubuntu-latest
+    concurrency:
+      group: wg-needed
+      cancel-in-progress: false
     timeout-minutes: 15
     needs: [build-docker]
     environment:
@@ -82,6 +85,9 @@ jobs:
   deploy-production:
     name: Deploy on production
     runs-on: ubuntu-latest
+    concurrency:
+      group: wg-needed
+      cancel-in-progress: false
     needs: [trigger-production-deployment]
     timeout-minutes: 15
     strategy:

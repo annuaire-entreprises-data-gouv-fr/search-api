@@ -17,6 +17,10 @@ from app.service.formatters.nom_complet import format_nom_complet, get_nom_comme
 from app.service.formatters.non_diffusible import (
     mask_unite_legale,
 )
+from app.service.formatters.protege import (
+    mask_adresses_protege_legacy,
+    mask_denomination_protege_legacy,
+)
 from app.utils.helpers import (
     create_admin_fields_to_include,
     create_fields_to_include,
@@ -148,7 +152,12 @@ def apply_visibility_rules(formatted_ul, raw_ul):
 
     result_dict = formatted_ul.dict(exclude_unset=True)
 
-    return mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
+    if raw_ul.get("est_protege_legacy", False):
+        mask_adresses_protege_legacy(result_dict)
+        if not is_pm:
+            mask_denomination_protege_legacy(result_dict)
+    mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
+    return result_dict
 
 
 # -------------------------

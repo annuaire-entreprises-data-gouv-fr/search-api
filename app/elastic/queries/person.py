@@ -161,7 +161,15 @@ def search_person(
             # Nested query matches within the person array items
             # (`unite_legale.<type_person>`), while keeping the scoring behavior
             # (boost exact keyword phrase matches).
-            nested_bool = query.Bool(must=person_filters, should=boost_queries)
+            # Also, a protected PP dirigeant (`est_protege`) must never make a document match.
+            must_not = (
+                [query.Q("term", **{"unite_legale.dirigeants_pp.est_protege": True})]
+                if person["type_person"] == "dirigeants_pp"
+                else []
+            )
+            nested_bool = query.Bool(
+                must=person_filters, should=boost_queries, must_not=must_not
+            )
             nested_query = query.Q(
                 "nested",
                 path="unite_legale." + person["type_person"],

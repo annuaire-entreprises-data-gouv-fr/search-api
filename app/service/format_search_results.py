@@ -148,6 +148,19 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
 
 
 def apply_visibility_rules(formatted_ul, raw_ul):
+    """
+    Mask the fields that must not be displayed and return the result as a dict.
+
+    - Protected legacy Siren: address masked everywhere. If not a PM, commune and
+      denomination are masked too.
+    - Diffusion partielle: sigle, address and PP dirigeants masked, plus the denomination
+      if not a PM.
+
+    Diffusion partielle mask is applied in a second time so it takes over in case both
+    coexist.
+    Protected PP dirigeants were already masked in with `format_dirigeants` in the
+    `enrich_unite_legale` function since they are nested.
+    """
     is_nd = is_unite_legale_non_diffusible(raw_ul)
     is_pm = raw_ul.get("est_personne_morale_insee")
 

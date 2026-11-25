@@ -21,6 +21,7 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
                 date_de_naissance=get_value(dirigeant_pp, "date_de_naissance"),
                 qualite=get_value(dirigeant_pp, "role"),
                 nationalite=get_value(dirigeant_pp, "nationalite"),
+                date_demission=get_value(dirigeant_pp, "date_demission"),
                 type_dirigeant="personne physique",
             )
             dirigeants.append(dirigeant)
@@ -30,6 +31,7 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
                 siren=get_value(dirigeant_pm, "siren"),
                 denomination=get_value(dirigeant_pm, "denomination"),
                 qualite=get_value(dirigeant_pm, "role"),
+                date_demission=get_value(dirigeant_pm, "date_demission"),
                 type_dirigeant="personne morale",
             )
             dirigeants.append(dirigeant)

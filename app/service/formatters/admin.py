@@ -8,4 +8,9 @@ def format_admin(result_unite_legale):
     slug = get_field("slug")
     a_acces_espace_agent = get_field("a_acces_espace_agent")
 
-    return Admin(slug=slug, a_acces_espace_agent=a_acces_espace_agent)
+    return Admin(
+        slug=slug,
+        a_acces_espace_agent=a_acces_espace_agent,
+        est_protege=get_field("est_protege", False),
+        est_protege_legacy=get_field("est_protege_legacy", False),
+    )

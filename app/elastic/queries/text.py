@@ -201,14 +201,27 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                                 }
                                             },
                                             {
-                                                "match": {
-                                                    "unite_legale.etablissements."
-                                                    "adresse": {
-                                                        "query": terms,
-                                                        "operator": "AND",
-                                                        "_name": "partial match "
-                                                        "adresse",
-                                                    }
+                                                "bool": {
+                                                    "must": [
+                                                        {
+                                                            "match": {
+                                                                "unite_legale.etablissements."
+                                                                "adresse": {
+                                                                    "query": terms,
+                                                                    "operator": "AND",
+                                                                    "_name": "partial match "
+                                                                    "adresse",
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "must_not": [
+                                                        {
+                                                            "term": {
+                                                                "unite_legale.etablissements.est_protege_legacy": True
+                                                            }
+                                                        }
+                                                    ],
                                                 }
                                             },
                                             {
@@ -224,23 +237,67 @@ def sort_by_size_text_query(terms: str, matching_size: int):
                                                 }
                                             },
                                             {
-                                                "multi_match": {
-                                                    "query": terms,
-                                                    "fields": [
-                                                        "unite_legale.etablissements.nom_complet^15",
-                                                        "unite_legale.etablissements.enseigne_1",
-                                                        "unite_legale.etablissements.enseigne_2",
-                                                        "unite_legale.etablissements.enseigne_3",
-                                                        "unite_legale.etablissements.nom_commercial",
-                                                        "unite_legale.etablissements.sigle",
-                                                        "unite_legale.etablissements.adresse",
-                                                        "unite_legale.etablissements.commune",
-                                                        "unite_legale.etablissements.concat_unite_legale.enseigne_adresse_siren_siret",
+                                                "bool": {
+                                                    "must": [
+                                                        {
+                                                            "multi_match": {
+                                                                "query": terms,
+                                                                "fields": [
+                                                                    "unite_legale.etablissements.nom_complet^15",
+                                                                    "unite_legale.etablissements.enseigne_1",
+                                                                    "unite_legale.etablissements.enseigne_2",
+                                                                    "unite_legale.etablissements.enseigne_3",
+                                                                    "unite_legale.etablissements.nom_commercial",
+                                                                    "unite_legale.etablissements.sigle",
+                                                                    "unite_legale.etablissements.adresse",
+                                                                    "unite_legale.etablissements.commune",
+                                                                    "unite_legale.etablissements.concat_unite_legale.enseigne_adresse_siren_siret",
+                                                                ],
+                                                                "type": "cross_fields",
+                                                                "operator": "AND",
+                                                                "_name": "match nom complet et adresse",
+                                                            }
+                                                        }
                                                     ],
-                                                    "type": "cross_fields",
-                                                    "operator": "AND",
-                                                    "_name": "match nom complet et "
-                                                    "adresse",
+                                                    "must_not": [
+                                                        {
+                                                            "term": {
+                                                                "unite_legale.etablissements.est_protege_legacy": True
+                                                            }
+                                                        }
+                                                    ],
+                                                }
+                                            },
+                                            # Same match without the address fields for protected legacy,
+                                            # commune stays public so it is kept
+                                            {
+                                                "bool": {
+                                                    "must": [
+                                                        {
+                                                            "multi_match": {
+                                                                "query": terms,
+                                                                "fields": [
+                                                                    "unite_legale.etablissements.nom_complet^15",
+                                                                    "unite_legale.etablissements.enseigne_1",
+                                                                    "unite_legale.etablissements.enseigne_2",
+                                                                    "unite_legale.etablissements.enseigne_3",
+                                                                    "unite_legale.etablissements.nom_commercial",
+                                                                    "unite_legale.etablissements.sigle",
+                                                                    "unite_legale.etablissements.commune",
+                                                                ],
+                                                                "type": "cross_fields",
+                                                                "operator": "AND",
+                                                                "_name": "match nom complet et adresse",
+                                                            }
+                                                        }
+                                                    ],
+                                                    "filter": [
+                                                        {
+                                                            "term": {
+                                                                "unite_legale.etablissements.est_protege_legacy": True
+                                                            }
+                                                        }
+                                                    ],
                                                 }
                                             },
                                         ],
@@ -552,14 +609,26 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                                 }
                                             },
                                             {
-                                                "match": {
-                                                    "unite_legale.etablissements."
-                                                    "adresse": {
-                                                        "query": terms,
-                                                        "operator": "AND",
-                                                        "_name": "partial match "
-                                                        "adresse",
-                                                    }
+                                                "bool": {
+                                                    "must": [
+                                                        {
+                                                            "match": {
+                                                                "unite_legale.etablissements."
+                                                                "adresse": {
+                                                                    "query": terms,
+                                                                    "operator": "AND",
+                                                                    "_name": "partial match adresse",
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "must_not": [
+                                                        {
+                                                            "term": {
+                                                                "unite_legale.etablissements.est_protege_legacy": True
+                                                            }
+                                                        }
+                                                    ],
                                                 }
                                             },
                                             {
@@ -575,23 +644,67 @@ def sort_by_nombre_etablissement_query(terms: str, matching_size: int):
                                                 }
                                             },
                                             {
-                                                "multi_match": {
-                                                    "query": terms,
-                                                    "fields": [
-                                                        "unite_legale.etablissements.nom_complet^15",
-                                                        "unite_legale.etablissements.enseigne_1",
-                                                        "unite_legale.etablissements.enseigne_2",
-                                                        "unite_legale.etablissements.enseigne_3",
-                                                        "unite_legale.etablissements.nom_commercial",
-                                                        "unite_legale.etablissements.sigle",
-                                                        "unite_legale.etablissements.adresse",
-                                                        "unite_legale.etablissements.commune",
-                                                        "unite_legale.etablissements.concat_unite_legale.enseigne_adresse_siren_siret",
+                                                "bool": {
+                                                    "must": [
+                                                        {
+                                                            "multi_match": {
+                                                                "query": terms,
+                                                                "fields": [
+                                                                    "unite_legale.etablissements.nom_complet^15",
+                                                                    "unite_legale.etablissements.enseigne_1",
+                                                                    "unite_legale.etablissements.enseigne_2",
+                                                                    "unite_legale.etablissements.enseigne_3",
+                                                                    "unite_legale.etablissements.nom_commercial",
+                                                                    "unite_legale.etablissements.sigle",
+                                                                    "unite_legale.etablissements.adresse",
+                                                                    "unite_legale.etablissements.commune",
+                                                                    "unite_legale.etablissements.concat_unite_legale.enseigne_adresse_siren_siret",
+                                                                ],
+                                                                "type": "cross_fields",
+                                                                "operator": "AND",
+                                                                "_name": "match nom complet et adresse",
+                                                            }
+                                                        }
                                                     ],
-                                                    "type": "cross_fields",
-                                                    "operator": "AND",
-                                                    "_name": "match nom complet et "
-                                                    "adresse",
+                                                    "must_not": [
+                                                        {
+                                                            "term": {
+                                                                "unite_legale.etablissements.est_protege_legacy": True
+                                                            }
+                                                        }
+                                                    ],
+                                                }
+                                            },
+                                            # Same match without the address fields for protected legacy SIREN,
+                                            # commune stays public so it is kept
+                                            {
+                                                "bool": {
+                                                    "must": [
+                                                        {
+                                                            "multi_match": {
+                                                                "query": terms,
+                                                                "fields": [
+                                                                    "unite_legale.etablissements.nom_complet^15",
+                                                                    "unite_legale.etablissements.enseigne_1",
+                                                                    "unite_legale.etablissements.enseigne_2",
+                                                                    "unite_legale.etablissements.enseigne_3",
+                                                                    "unite_legale.etablissements.nom_commercial",
+                                                                    "unite_legale.etablissements.sigle",
+                                                                    "unite_legale.etablissements.commune",
+                                                                ],
+                                                                "type": "cross_fields",
+                                                                "operator": "AND",
+                                                                "_name": "match nom complet et adresse",
+                                                            }
+                                                        }
+                                                    ],
+                                                    "filter": [
+                                                        {
+                                                            "term": {
+                                                                "unite_legale.etablissements.est_protege_legacy": True
+                                                            }
+                                                        }
+                                                    ],
                                                 }
                                             },
                                         ],

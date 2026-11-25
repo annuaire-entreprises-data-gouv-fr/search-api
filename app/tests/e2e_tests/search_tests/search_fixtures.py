@@ -81,3 +81,13 @@ TERMES_INEXISTANTS = "azertyuiop zzzzqqqxxxyyy"
 # remonter des réseaux nationaux (LA POSTE, EDF) sans dépasser 10 000 résultats.
 POINT_LANGEAC_LAT = "45.123"
 POINT_LANGEAC_LON = "3.456"
+
+# Unités légales protégées Legacy
+# Ne pas mettre de données masquées dans les tests
+PROTEGE_LEGACY_PM = "130586043"
+PROTEGE_LEGACY_PM_NOM = "valthera capital"
+PROTEGE_LEGACY_PM_CODE_COMMUNE = "06088"
+PROTEGE_LEGACY_EI = "303233894"
+PROTEGE_LEGACY_NON_PM = "413891425"
+PROTEGE_LEGACY_NON_PM_FILTRES = "departement=84&activite_principale=01.49Z&nature_juridique=2900&etat_administratif=A"
+MASQUE_PROTEGE = "[PROTÉGÉ]"

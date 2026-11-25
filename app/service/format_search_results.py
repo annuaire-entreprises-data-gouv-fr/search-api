@@ -17,6 +17,11 @@ from app.service.formatters.nom_complet import format_nom_complet, get_nom_comme
 from app.service.formatters.non_diffusible import (
     mask_unite_legale,
 )
+from app.service.formatters.protege import (
+    mask_adresses_protege_legacy,
+    mask_communes_protege_legacy,
+    mask_denomination_protege_legacy,
+)
 from app.utils.helpers import (
     create_admin_fields_to_include,
     create_fields_to_include,
@@ -143,12 +148,31 @@ def enrich_unite_legale(ul, search_result, raw_ul, fields_to_include):
 
 
 def apply_visibility_rules(formatted_ul, raw_ul):
+    """
+    Mask the fields that must not be displayed and return the result as a dict.
+
+    - Protected legacy Siren: address masked everywhere. If not a PM, commune and
+      denomination are masked too.
+    - Diffusion partielle: sigle, address and PP dirigeants masked, plus the denomination
+      if not a PM.
+
+    Diffusion partielle mask is applied in a second time so it takes over in case both
+    coexist.
+    Protected PP dirigeants were already masked in with `format_dirigeants` in the
+    `enrich_unite_legale` function since they are nested.
+    """
     is_nd = is_unite_legale_non_diffusible(raw_ul)
     is_pm = raw_ul.get("est_personne_morale_insee")
 
     result_dict = formatted_ul.dict(exclude_unset=True)
 
-    return mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
+    if raw_ul.get("est_protege_legacy", False):
+        mask_adresses_protege_legacy(result_dict)
+        if not is_pm:
+            mask_communes_protege_legacy(result_dict)
+            mask_denomination_protege_legacy(result_dict)
+    mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
+    return result_dict
 
 
 # -------------------------

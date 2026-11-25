@@ -191,6 +191,8 @@ class Complements(BaseModel):
 class Admin(BaseModel):
     slug: str | None = None
     a_acces_espace_agent: bool = False
+    est_protege: bool = False
+    est_protege_legacy: bool = False
 
 
 class UniteLegaleResponse(BaseModel):

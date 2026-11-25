@@ -8,6 +8,7 @@ from app.elastic.filters.nested_etablissements_filters import (
     add_nested_etablissements_filters_to_text_query,
     build_nested_etablissements_filters_query,
 )
+from app.elastic.filters.protege import exclude_protege_legacy
 from app.elastic.filters.siren import filter_by_siren
 from app.elastic.filters.siret import filter_by_siret
 from app.elastic.filters.term_filters import (
@@ -68,6 +69,24 @@ def build_es_search_text_query(es_search_builder):
             ],
             minimum_should_match=1,
         )
+        # A protected legacy Siren that is not a PM has its denomination masked,
+        # so it is only returned by siren or siret
+        es_search_builder.es_search_client = es_search_builder.es_search_client.filter(
+            "bool",
+            should=[
+                Q(
+                    "bool",
+                    must_not=[Q("term", **{"unite_legale.est_protege_legacy": True})],
+                ),
+                Q("term", **{"unite_legale.est_personne_morale_insee": True}),
+            ],
+            minimum_should_match=1,
+        )
+        # A protected legacy Siren must not be returned when filtering on postal code
+        if es_search_builder.search_params.code_postal:
+            es_search_builder.es_search_client = exclude_protege_legacy(
+                es_search_builder.es_search_client
+            )
         # Filter results by term using 'unité légale' related filters in the request
         es_search_builder.es_search_client = filter_term_search_unite_legale(
             es_search_builder.es_search_client,

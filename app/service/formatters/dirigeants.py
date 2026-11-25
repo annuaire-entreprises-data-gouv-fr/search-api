@@ -2,6 +2,7 @@ from app.models.unite_legale import (
     DirigeantsPM,
     DirigeantsPP,
 )
+from app.service.formatters.protege import mask_dirigeant_pp_protege
 from app.utils.helpers import get_value
 
 
@@ -23,6 +24,8 @@ def format_dirigeants(dirigeants_pp=None, dirigeants_pm=None):
                 nationalite=get_value(dirigeant_pp, "nationalite"),
                 type_dirigeant="personne physique",
             )
+            if get_value(dirigeant_pp, "est_protege", False):
+                mask_dirigeant_pp_protege(dirigeant)
             dirigeants.append(dirigeant)
     if dirigeants_pm:
         for dirigeant_pm in dirigeants_pm:

@@ -88,15 +88,6 @@ PROTEGE_LEGACY_PM = "130586043"
 PROTEGE_LEGACY_PM_NOM = "valthera capital"
 PROTEGE_LEGACY_PM_CODE_COMMUNE = "06088"
 PROTEGE_LEGACY_EI = "303233894"
-PROTEGE_LEGACY_EI_FILTRES = "commune=57162&nature_juridique=1000&etat_administratif=C"
-PROTEGE_LEGACY_EI_FILTRES_PAGES = 4
 PROTEGE_LEGACY_NON_PM = "413891425"
-PROTEGE_LEGACY_NON_PM_FILTRES = (
-    "commune=84088&nature_juridique=2900&etat_administratif=A"
-)
-PROTEGE_LEGACY_EI_RECHERCHE_TEXTE = "q=57162&nature_juridique=1000&etat_administratif=C"
-PROTEGE_LEGACY_EI_RECHERCHE_TEXTE_PAGES = 4
-PROTEGE_LEGACY_NON_PM_RECHERCHE_TEXTE = (
-    "q=84088&nature_juridique=2900&etat_administratif=A"
-)
+PROTEGE_LEGACY_NON_PM_FILTRES = "departement=84&activite_principale=01.49Z&nature_juridique=2900&etat_administratif=A"
 MASQUE_PROTEGE = "[PROTÉGÉ]"

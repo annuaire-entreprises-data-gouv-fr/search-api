@@ -19,6 +19,7 @@ from app.service.formatters.non_diffusible import (
 )
 from app.service.formatters.protege import (
     mask_adresses_protege_legacy,
+    mask_communes_protege_legacy,
     mask_denomination_protege_legacy,
 )
 from app.utils.helpers import (
@@ -155,6 +156,7 @@ def apply_visibility_rules(formatted_ul, raw_ul):
     if raw_ul.get("est_protege_legacy", False):
         mask_adresses_protege_legacy(result_dict)
         if not is_pm:
+            mask_communes_protege_legacy(result_dict)
             mask_denomination_protege_legacy(result_dict)
     mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
     return result_dict

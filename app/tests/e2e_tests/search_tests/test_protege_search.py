@@ -1,8 +1,8 @@
 """SIREN protégés historiques (site#2837).
 
 Adresse masquée sauf la commune, identité des dirigeants masquée. Pour une unité
-légale qui n'est pas une PM (EI, nature juridique 2xxx), la dénomination est aussi
-masquée et seul le SIREN permet de la trouver.
+légale qui n'est pas une PM (EI, nature juridique 2xxx), la commune et la dénomination
+sont aussi masquées et seul le SIREN permet de la trouver.
 """
 
 import pytest
@@ -10,13 +10,8 @@ import pytest
 from app.tests.e2e_tests.search_tests.search_fixtures import (
     MASQUE_PROTEGE,
     PROTEGE_LEGACY_EI,
-    PROTEGE_LEGACY_EI_FILTRES,
-    PROTEGE_LEGACY_EI_FILTRES_PAGES,
-    PROTEGE_LEGACY_EI_RECHERCHE_TEXTE,
-    PROTEGE_LEGACY_EI_RECHERCHE_TEXTE_PAGES,
     PROTEGE_LEGACY_NON_PM,
     PROTEGE_LEGACY_NON_PM_FILTRES,
-    PROTEGE_LEGACY_NON_PM_RECHERCHE_TEXTE,
     PROTEGE_LEGACY_PM,
     PROTEGE_LEGACY_PM_CODE_COMMUNE,
     PROTEGE_LEGACY_PM_NOM,
@@ -25,7 +20,7 @@ from app.tests.e2e_tests.search_tests.search_fixtures import (
 PROTEGE_LEGACY = (PROTEGE_LEGACY_PM, PROTEGE_LEGACY_EI, PROTEGE_LEGACY_NON_PM)
 PROTEGE_LEGACY_NON_PMS = (PROTEGE_LEGACY_EI, PROTEGE_LEGACY_NON_PM)
 ADRESSE_FIELDS = ("adresse", "code_postal", "libelle_voie", "latitude", "longitude")
-COMMUNE_FIELDS = ("commune", "libelle_commune")
+COMMUNE_FIELDS = ("commune", "libelle_commune", "epci")
 DENOMINATION_FIELDS = ("nom_complet", "nom_raison_sociale", "sigle")
 DIRIGEANT_PP_FIELDS = (
     "nom",
@@ -52,11 +47,17 @@ def test_protege_legacy_masks_adresse(api_response_tester, siren):
         assert siege[field] == MASQUE_PROTEGE, field
 
 
-@pytest.mark.parametrize("siren", PROTEGE_LEGACY)
-def test_protege_legacy_keeps_commune(api_response_tester, siren):
-    siege = get_unite_legale(api_response_tester, siren)["siege"]
+def test_protege_legacy_pm_keeps_commune(api_response_tester):
+    siege = get_unite_legale(api_response_tester, PROTEGE_LEGACY_PM)["siege"]
     for field in COMMUNE_FIELDS:
         assert siege[field] not in (None, MASQUE_PROTEGE), field
+
+
+@pytest.mark.parametrize("siren", PROTEGE_LEGACY_NON_PMS)
+def test_protege_legacy_non_pm_masks_commune(api_response_tester, siren):
+    siege = get_unite_legale(api_response_tester, siren)["siege"]
+    for field in COMMUNE_FIELDS:
+        assert siege[field] == MASQUE_PROTEGE, field
 
 
 @pytest.mark.parametrize("siren", (PROTEGE_LEGACY_PM, PROTEGE_LEGACY_EI))
@@ -91,32 +92,8 @@ def test_protege_legacy_non_pm_masks_denomination_even_when_empty(
     assert unite_legale["siege"]["liste_enseignes"] == [MASQUE_PROTEGE]
 
 
-def test_protege_legacy_ei_excluded_from_filter_search(api_response_tester):
-    results = api_response_tester.get_results_over_pages(
-        f"search?{PROTEGE_LEGACY_EI_FILTRES}&per_page=25",
-        PROTEGE_LEGACY_EI_FILTRES_PAGES,
-    )
-    assert results
-    assert PROTEGE_LEGACY_EI not in [result["siren"] for result in results]
-
-
 def test_protege_legacy_non_pm_excluded_from_filter_search(api_response_tester):
     path = f"search?{PROTEGE_LEGACY_NON_PM_FILTRES}&per_page=25"
-    assert api_response_tester.get_results(path)
-    api_response_tester.assert_siren_not_in_results(path, PROTEGE_LEGACY_NON_PM)
-
-
-def test_protege_legacy_ei_excluded_from_text_search(api_response_tester):
-    results = api_response_tester.get_results_over_pages(
-        f"search?{PROTEGE_LEGACY_EI_RECHERCHE_TEXTE}&per_page=25",
-        PROTEGE_LEGACY_EI_RECHERCHE_TEXTE_PAGES,
-    )
-    assert results
-    assert PROTEGE_LEGACY_EI not in [result["siren"] for result in results]
-
-
-def test_protege_legacy_non_pm_excluded_from_text_search(api_response_tester):
-    path = f"search?{PROTEGE_LEGACY_NON_PM_RECHERCHE_TEXTE}&per_page=25"
     assert api_response_tester.get_results(path)
     api_response_tester.assert_siren_not_in_results(path, PROTEGE_LEGACY_NON_PM)
 

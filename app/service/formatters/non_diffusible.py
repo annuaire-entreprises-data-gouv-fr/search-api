@@ -119,7 +119,8 @@ def mask_unite_legale(formatted_ul, *, is_pm: bool, is_ul_nd: bool):
     Mask non-diffusible fields on a formatted unite légale result.
 
     - Personne morale  → only 'sigle' is masked at the UL level.
-    - Personne physique → 'nom_complet', 'nom_raison_sociale', and 'sigle' are masked.
+    - Personne physique → 'nom_complet', 'nom_raison_sociale', 'sigle' and
+      'noms_de_domaine' are masked.
 
     Siege, dirigeants, and all etablissements are masked accordingly.
     """
@@ -130,6 +131,8 @@ def mask_unite_legale(formatted_ul, *, is_pm: bool, is_ul_nd: bool):
     if is_ul_nd:
         fields_to_mask = _UL_MASK_FIELDS_PM if is_pm else _UL_MASK_FIELDS_PP
         _mask_fields(formatted_ul, fields_to_mask)
+        if not is_pm and formatted_ul.get("noms_de_domaine"):
+            formatted_ul["noms_de_domaine"] = [NON_DIFFUSIBLE_MASK]
 
         # Siege
         if formatted_ul.get("siege"):

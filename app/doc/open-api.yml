@@ -58,6 +58,11 @@ info:
     Il est recommandé d'inclure un en-tête **`User-Agent`** explicite et descriptif
     dans toutes les requêtes.
 
+    ## Protection des données
+
+    La mention `[PROTÉGÉ]` indique que les dirigeant(e)s de cette structure se sont opposé(e)s à la diffusion de leurs informations personnelles.
+    En conséquence, certaines informations sont protégées et ne sont pas publiquement accessibles.
+
     ## Monitoring de l'API
 
     Une supervision du service en temps réel est

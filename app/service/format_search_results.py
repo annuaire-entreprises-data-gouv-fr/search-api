@@ -21,6 +21,7 @@ from app.service.formatters.protege import (
     mask_adresses_protege_legacy,
     mask_communes_protege_legacy,
     mask_denomination_protege_legacy,
+    mask_noms_de_domaine_protege,
 )
 from app.utils.helpers import (
     create_admin_fields_to_include,
@@ -98,6 +99,7 @@ def build_unite_legale_base(data):
         "opposition_diffusion_commerciale": get_value(
             data, "opposition_diffusion_commerciale"
         ),
+        "noms_de_domaine": get_value(data, "noms_de_domaine"),
     }
 
     return UniteLegaleResponse(**fields)
@@ -153,6 +155,7 @@ def apply_visibility_rules(formatted_ul, raw_ul):
 
     - Protected legacy Siren: address masked everywhere. If not a PM, commune and
       denomination are masked too.
+    - Protected Siren (protected PP dirigeant) that is not a PM: domain names masked.
     - Diffusion partielle: sigle, address and PP dirigeants masked, plus the denomination
       if not a PM.
 
@@ -171,6 +174,8 @@ def apply_visibility_rules(formatted_ul, raw_ul):
         if not is_pm:
             mask_communes_protege_legacy(result_dict)
             mask_denomination_protege_legacy(result_dict)
+    if raw_ul.get("est_protege", False) and not is_pm:
+        mask_noms_de_domaine_protege(result_dict)
     mask_unite_legale(result_dict, is_pm=is_pm, is_ul_nd=is_nd)
     return result_dict
 

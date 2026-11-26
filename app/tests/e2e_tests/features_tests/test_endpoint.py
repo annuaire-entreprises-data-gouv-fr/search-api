@@ -739,6 +739,20 @@ def test_opposition_diffusion_commerciale(api_response_tester, siren, expected):
     assert result["opposition_diffusion_commerciale"] is expected
 
 
+@pytest.mark.xfail(
+    reason="noms_de_domaine absent de l'index tant que le nouvel index n'est pas en ligne"
+)
+def test_noms_de_domaine(api_response_tester):
+    """Test if the RNE domain names are exposed in alphabetical order."""
+    path = "search?q=808039259"
+    api_response_tester.assert_api_response_code_200(path)
+    noms_de_domaine = api_response_tester.get_api_response(path).json()["results"][0][
+        "noms_de_domaine"
+    ]
+    assert noms_de_domaine[0] == "balneo-bien-etre.com"
+    assert "portail-cloture.com" in noms_de_domaine
+
+
 def test_epci(api_response_tester):
     path = "search?epci=248100737"
     response = api_response_tester.get_api_response(path)

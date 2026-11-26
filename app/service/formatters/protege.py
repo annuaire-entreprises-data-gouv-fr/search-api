@@ -85,10 +85,17 @@ def mask_communes_protege_legacy(formatted_ul):
 _UL_DENOMINATION_FIELDS = ("nom_complet", "nom_raison_sociale", "sigle")
 
 
+def mask_noms_de_domaine_protege(formatted_ul):
+    """Mask the domain names with a single protégé label."""
+    formatted_ul["noms_de_domaine"] = [PROTEGE_MASK]
+    return formatted_ul
+
+
 def mask_denomination_protege_legacy(formatted_ul):
     """Mask the démomination of the unité légale with the protégé label."""
     for field in _UL_DENOMINATION_FIELDS:
         formatted_ul[field] = PROTEGE_MASK
+    mask_noms_de_domaine_protege(formatted_ul)
     if formatted_ul.get("siege"):
         _mask_denomination_etablissement_protege_legacy(formatted_ul["siege"])
     for key in _ETABLISSEMENT_LIST_FIELDS:

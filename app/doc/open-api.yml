@@ -949,6 +949,13 @@ components:
           type: string
           description: Nationalité du dirigeant
           example: Française
+        date_demission:
+          type: string
+          format: date
+          description: >-
+            Date depuis laquelle le dirigeant est démissionnaire de son rôle alors
+            qu'il figure encore parmi les dirigeants ; null sinon (Source : INPI).
+          example: '2026-04-30'
         type_dirigeant:
           type: string
           description: >-
@@ -969,6 +976,13 @@ components:
           type: string
           description: Qualité du dirigeant
           example: Commissaire aux comptes titulaire
+        date_demission:
+          type: string
+          format: date
+          description: >-
+            Date depuis laquelle le dirigeant est démissionnaire de son rôle alors
+            qu'il figure encore parmi les dirigeants ; null sinon (Source : INPI).
+          example: '2026-04-30'
         type_dirigeant:
           type: string
           description: >-

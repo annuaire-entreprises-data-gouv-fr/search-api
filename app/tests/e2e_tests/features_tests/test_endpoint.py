@@ -1043,6 +1043,25 @@ def test_dirigeant_pp_masking(api_response_tester):
             assert dirigeant["prenoms"] == "[NON-DIFFUSIBLE]"
 
 
+def test_dirigeants_pp_and_pm_expose_date_demission_as_null_or_iso_date(
+    api_response_tester,
+):
+    path = "search?q=356000000"
+    dirigeants = api_response_tester.get_api_response(path).json()["results"][0][
+        "dirigeants"
+    ]
+
+    assert {d["type_dirigeant"] for d in dirigeants} == {
+        "personne physique",
+        "personne morale",
+    }
+    for dirigeant in dirigeants:
+        date_demission = dirigeant["date_demission"]
+        assert date_demission is None or re.fullmatch(
+            r"\d{4}-\d{2}-\d{2}", date_demission
+        )
+
+
 def test_a_aide_minimis(api_response_tester):
     path = "search?q=504879842"
     api_response_tester.assert_api_response_code_200(path)

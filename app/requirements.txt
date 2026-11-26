@@ -1,11 +1,11 @@
 elastic-apm==6.26.2
 elasticsearch==9.3.0
-fastapi[standard]==0.143.2
+fastapi[standard]==0.162.5
 orjson==3.13.0
 pydantic==2.14.1
 pydantic-settings==2.16.0
 redis==8.1.0
 requests==2.34.1
-sentry-sdk==2.72.0
+sentry-sdk==2.75.0
 PyYAML==6.0.2
-pytest==9.1.1
+pytest==9.2.0
